@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voltwell Energy | Refer a friend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     REBRAND SURFACE: usually the only colors you need to change.
+     ============================================================ */
+  :root{
+    --brand:#1F6F43;        /* primary: CTAs + headline accent      */
+    --brand-dark:#185A36;   /* CTA hover                            */
+    --accent:#FFC53D;       /* reward sticker                       */
+    --ink:#10261A;          /* headings + body text (brand navy)    */
+    --hero-bg:#EEF6EC;      /* soft tint behind hero / fallbacks    */
+    --grey-bg:#F5F7F0; --border:#E1E7DA; --muted:#55645A; --place:#95A193;
+    --on-brand:#FFFFFF;     /* text on --brand buttons              */
+    --on-accent:#10261A;    /* text on --accent stickers            */
+    --scrim:rgba(16,38,26,.40); /* left-side hero scrim strength     */
+    --font-head:'Fraunces',Georgia,serif;  /* headings, logo, numbers     */
+    --font-body:'DM Sans',system-ui,sans-serif;  /* body copy                   */
+    --r-card:16px;          /* hero referral card                   */
+    --r-ui:12px;            /* inputs + buttons (pill = 30px)       */
+    --r-tile:16px;          /* product tiles + rewards table        */
+    --head-weight:600;      /* heading weight                       */
+    --head-track:-.01em;    /* heading letter-spacing               */
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-body);color:var(--ink);background:#fff;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 48px;}
+
+  /* Header (logo only) */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
+  .nav{display:flex;align-items:center;padding:18px 0;}
+  .logo{display:flex;align-items:center;height:36px;color:var(--brand);} .logo svg{height:36px;width:auto;display:block;}
+  h2,h3,h4,.card-title,.sticker b,.pstick,.step .num{font-family:var(--font-head);}
+
+  /* Hero: full-bleed image + ~450px card overlaid left + reward sticker */
+  .hero{position:relative;background:var(--hero-bg);overflow:hidden;}
+  .hero-art{position:absolute;inset:0;z-index:0;} .hero-art svg{width:100%;height:100%;display:block;}
+  .hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,var(--scrim) 0%,transparent 60%);}
+  .hero-inner{position:relative;z-index:2;display:flex;align-items:center;min-height:520px;padding:56px 48px;}
+  .card{width:450px;max-width:100%;background:#fff;border-radius:var(--r-card);padding:40px;box-shadow:0 22px 60px rgba(8,12,30,.30);}
+  .card-title{font-size:32px;font-weight:var(--head-weight);color:var(--brand);line-height:1.12;letter-spacing:var(--head-track);margin-bottom:16px;}
+  .card-sub{font-size:16px;font-weight:500;color:var(--ink);line-height:1.45;margin-bottom:28px;}
+  .field{display:flex;align-items:center;gap:10px;border:1.5px solid var(--border);border-radius:var(--r-ui);padding:15px 20px;margin-bottom:14px;}
+  .field input{border:0;outline:0;font-family:inherit;font-size:15px;color:var(--ink);width:100%;background:transparent;}
+  .field input::placeholder{color:var(--place);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;width:100%;background:var(--brand);color:var(--on-brand);border:0;border-radius:var(--r-ui);padding:16px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background .2s;}
+  .btn:hover{background:var(--brand-dark);}
+  .card-divider{border:0;border-top:1px solid var(--border);margin:26px 0 16px;}
+  .legal{font-size:12px;color:#7E879B;line-height:1.5;text-align:center;margin:0;}
+  .legal.sm{margin-top:8px;} .legal a{color:#7E879B;text-decoration:underline;}
+  .powered{text-align:center;margin-top:18px;font-size:12px;color:var(--place);} .powered b{color:var(--muted);font-weight:700;}
+  .sticker{position:absolute;right:40px;top:40px;z-index:3;width:128px;height:128px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 12px 26px rgba(0,0,0,.22);}
+  .sticker small{font-size:12px;font-weight:500;line-height:1.2;} .sticker b{font-size:34px;font-weight:800;line-height:1;margin:2px 0;}
+
+  /* Sections */
+  section{padding:72px 0;}
+  .sec-head{text-align:center;margin-bottom:48px;}
+  .sec-head h2{font-size:34px;font-weight:var(--head-weight);letter-spacing:var(--head-track);}
+  .sec-head p{color:var(--muted);font-size:17px;margin-top:8px;}
+
+  /* How it works */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .step{text-align:center;}
+  .step .num{width:48px;height:48px;border-radius:50%;background:var(--brand);color:var(--on-brand);font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+  .step h4{font-size:20px;font-weight:700;margin-bottom:8px;}
+  .step p{color:var(--muted);font-size:16px;line-height:1.5;max-width:300px;margin:0 auto;}
+
+  /* Products */
+  .products{background:var(--grey-bg);}
+  .prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:760px;margin:0 auto;}
+  .prod{background:#fff;border-radius:var(--r-tile);border:1px solid var(--border);overflow:hidden;position:relative;}
+  .prod .thumb{height:180px;background:var(--hero-bg);position:relative;overflow:hidden;}
+  .prod .thumb svg{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  .prod .thumb .glow{position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,24,58,0) 55%,rgba(17,24,58,.25) 100%);}
+  .prod .pstick{position:absolute;right:16px;top:16px;width:62px;height:62px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:0 8px 18px rgba(0,0,0,.2);z-index:2;}
+  .prod{display:flex;flex-direction:column;}
+  .prod .body{padding:22px;flex:1;display:flex;flex-direction:column;}
+  .prod .body .btn{margin-top:auto;}
+  .prod h4{font-size:20px;font-weight:700;color:var(--brand);margin-bottom:8px;}
+  .prod p{color:var(--muted);font-size:15px;line-height:1.5;margin-bottom:18px;min-height:44px;}
+  .prod .btn{padding:13px;font-size:15px;}
+
+  /* Rewards table */
+  .table-wrap{max-width:820px;margin:0 auto;border-radius:var(--r-tile);box-shadow:0 0 0 1px var(--border),0 10px 30px rgba(17,24,58,.06);overflow:hidden;}
+  table{width:100%;border-collapse:collapse;}
+  thead th{background:var(--ink);color:#fff;font-weight:600;font-size:14px;text-align:left;padding:16px 24px;}
+  thead th:last-child{text-align:right;}
+  tbody td{padding:16px 24px;border-top:1px solid var(--border);font-size:15px;}
+  tbody td:last-child{text-align:right;font-weight:700;color:var(--brand);white-space:nowrap;}
+  tbody tr.extra{display:none;} tbody tr.extra.show{display:table-row;}
+  .showmore{display:block;margin:22px auto 0;background:transparent;border:0;color:var(--brand);font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;}
+  .footnote{text-align:center;color:var(--place);font-size:12px;margin-top:18px;}
+
+  /* Footer */
+  footer{background:var(--ink);font-family:var(--font-body);color:#fff;padding:48px 0;}
+  .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  .foot .pw{font-size:14px;opacity:.85;} .foot-links{display:flex;gap:22px;} .foot-links a{font-size:14px;opacity:.85;}
+
+  /* Success / share state */
+  .success{display:none;text-align:center;} .success.show{display:block;}
+  .success .check{width:54px;height:54px;border-radius:50%;background:#E9FBF1;color:#16A34A;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;}
+  .success h3{margin-bottom:6px;font-size:22px;} .success p{font-size:14px;color:var(--muted);margin-bottom:14px;}
+  .sharelink{display:flex;gap:8px;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;align-items:center;}
+  .sharelink span{font-size:13px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;text-align:left;}
+  .sharelink button{background:var(--brand);color:var(--on-brand);border:0;border-radius:calc(var(--r-ui) / 3);padding:8px 14px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+
+  @media (max-width:880px){
+    .wrap{padding:0 22px;}
+    .hero-inner{min-height:0;padding:40px 22px;} .card{width:100%;}
+    .steps{grid-template-columns:1fr;gap:36px;} .prod-grid{grid-template-columns:1fr;}
+    .sec-head h2{font-size:27px;} .sticker{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wrap nav"><div class="logo" aria-label="Voltwell Energy"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210 36" role="img" aria-label="Voltwell Energy"><defs><clipPath id="vwLogoClip"><circle cx="18" cy="18" r="16"/></clipPath></defs><circle cx="18" cy="18" r="16" fill="#1F6F43"/><g clip-path="url(#vwLogoClip)"><circle cx="18" cy="17" r="6.5" fill="#FFC53D"/><path d="M0,24 C8,19 14,20 20,23 C26,26 31,22 36,20 L36,36 L0,36 Z" fill="#3E9A63"/><path d="M0,29 C9,25 17,27 24,29 C29,30.5 33,29 36,27 L36,36 L0,36 Z" fill="#185A36"/></g><text x="43" y="25.5" fill="#1F6F43"><tspan font-family="Fraunces, Georgia, serif" font-size="23" font-weight="700" letter-spacing="-0.3">Voltwell</tspan><tspan dx="6" font-family="'DM Sans', system-ui, sans-serif" font-size="11.5" font-weight="700" letter-spacing="1.6" fill="#10261A">ENERGY</tspan></text></svg></div></div></header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-art"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 560" preserveAspectRatio="xMaxYMid slice" role="img" aria-label="Wind turbines and a solar field on rolling green hills at golden hour"><defs><linearGradient id="vwSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4F0E0"/><stop offset=".42" stop-color="#F4EFD8"/><stop offset=".68" stop-color="#FFE6AE"/><stop offset="1" stop-color="#FFD98C"/></linearGradient><radialGradient id="vwGlow" cx="1010" cy="318" r="620" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFE7A2" stop-opacity=".95"/><stop offset=".3" stop-color="#FFE3A0" stop-opacity=".5"/><stop offset="1" stop-color="#FFE3A0" stop-opacity="0"/></radialGradient><radialGradient id="vwRay" cx="1010" cy="318" r="540" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFF7D6" stop-opacity=".7"/><stop offset=".5" stop-color="#FFF7D6" stop-opacity=".22"/><stop offset="1" stop-color="#FFF7D6" stop-opacity="0"/></radialGradient><radialGradient id="vwSun" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#FFF9E0"/><stop offset=".55" stop-color="#FFDB73"/><stop offset="1" stop-color="#FFC53D"/></radialGradient><linearGradient id="vwHill0" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#DCE7CE"/><stop offset=".7" stop-color="#EDE6BC"/><stop offset="1" stop-color="#E2E4BE"/></linearGradient><linearGradient id="vwHill1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#BFD7AE"/><stop offset=".68" stop-color="#CFDC9E"/><stop offset="1" stop-color="#B9D29A"/></linearGradient><linearGradient id="vwHill2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9BC784"/><stop offset="1" stop-color="#6FA663"/></linearGradient><linearGradient id="vwHill3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4F9A62"/><stop offset="1" stop-color="#357C4C"/></linearGradient><linearGradient id="vwHill4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#236A41"/><stop offset="1" stop-color="#17512F"/></linearGradient><linearGradient id="vwPanel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4C7F93"/><stop offset="1" stop-color="#1F4254"/></linearGradient><g id="vwBlade"><path d="M0,0 C4,-8 5.5,-40 1.2,-86 C-0.8,-88.5 -1.8,-86.5 -2,-80 C-3,-50 -3.5,-14 0,0 Z"/></g><g id="vwRotor" fill="#FBF9F2"><use href="#vwBlade"/><use href="#vwBlade" transform="rotate(120)"/><use href="#vwBlade" transform="rotate(240)"/><circle r="4.2" fill="#ECE7D8"/></g><g id="vwTower"><path d="M-2.4,0 L2.4,0 L5.5,260 L-5.5,260 Z" fill="#F7F4EA"/><path d="M0,0 L2.4,0 L5.5,260 L0,260 Z" fill="#E2DCCB"/><rect x="-4" y="-4.5" width="13" height="9" rx="4.5" fill="#EFEADD"/></g></defs><rect width="1440" height="560" fill="url(#vwSky)"/><rect width="1440" height="560" fill="url(#vwGlow)"/><g fill="url(#vwRay)"><polygon points="1010,318 458.2,222.7 467.1,180.6"/><polygon points="1010,318 490,110 507.5,70.8"/><polygon points="1010,318 544.6,6.5 569.9,-28.3"/><polygon points="1010,318 619.6,-83.5 651.5,-112.2"/><polygon points="1010,318 711.6,-155.9 748.8,-177.4"/><polygon points="1010,318 816.6,-207.6 857.5,-220.8"/><polygon points="1010,318 930.1,-236.3 972.9,-240.8"/><polygon points="1010,318 1047.1,-240.8 1089.9,-236.3"/><polygon points="1010,318 1162.5,-220.8 1203.4,-207.6"/><polygon points="1010,318 1271.2,-177.4 1308.4,-155.9"/><polygon points="1010,318 1368.5,-112.2 1400.4,-83.5"/><polygon points="1010,318 1450.1,-28.3 1475.4,6.5"/><polygon points="1010,318 1512.5,70.8 1530,110"/><polygon points="1010,318 1552.9,180.6 1561.8,222.7"/></g><circle cx="1010" cy="318" r="178" fill="#FFE9A8" opacity=".22"/><circle cx="1010" cy="318" r="118" fill="#FFE39A" opacity=".35"/><circle cx="1010" cy="318" r="72" fill="url(#vwSun)"/><g fill="none" stroke="#3E4F40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".5"><path transform="translate(760,150) scale(1)" d="M0,0 q6,-6.5 12,0 q6,-6.5 12,0"/><path transform="translate(798,172) scale(0.8)" d="M0,0 q6,-6.5 12,0 q6,-6.5 12,0"/><path transform="translate(734,184) scale(0.7)" d="M0,0 q6,-6.5 12,0 q6,-6.5 12,0"/><path transform="translate(1086,196) scale(0.75)" d="M0,0 q6,-6.5 12,0 q6,-6.5 12,0"/><path transform="translate(1112,182) scale(0.6)" d="M0,0 q6,-6.5 12,0 q6,-6.5 12,0"/></g><path d="M0,360 C240,340 420,352 620,362 C820,372 980,322 1180,326 C1300,329 1380,340 1440,334 L1440,560 L0,560 Z" fill="url(#vwHill0)"/><path d="M0,392 C180,366 380,356 560,374 C740,392 880,340 1060,346 C1230,352 1330,372 1440,362 L1440,560 L0,560 Z" fill="url(#vwHill1)"/><g transform="translate(700,250) scale(0.85)" opacity="0.95"><use href="#vwTower"/><use href="#vwRotor" transform="rotate(14)"/></g><g transform="translate(852,214) scale(1.05)" opacity="1"><use href="#vwTower"/><use href="#vwRotor" transform="rotate(52)"/></g><g transform="translate(1172,262) scale(0.8)" opacity="0.9"><use href="#vwTower"/><use href="#vwRotor" transform="rotate(86)"/></g><path d="M0,436 C220,414 430,426 610,446 C800,466 960,404 1160,408 C1300,411 1380,428 1440,424 L1440,560 L0,560 Z" fill="url(#vwHill2)"/><path d="M0,436 C220,414 430,426 610,446 C800,466 960,404 1160,408 C1300,411 1380,428 1440,424" fill="none" stroke="#FFE7A0" stroke-width="2" stroke-opacity=".55"/><g transform="translate(972,420) scale(0.8)"><rect x="-1.5" y="-18" width="3" height="20" fill="#2C5E3C"/><ellipse cx="0" cy="-24" rx="9" ry="13" fill="#3C7D4E"/><ellipse cx="2.5" cy="-27" rx="5" ry="8" fill="#4E9460"/></g><g transform="translate(996,417) scale(1)"><rect x="-1.5" y="-18" width="3" height="20" fill="#2C5E3C"/><ellipse cx="0" cy="-24" rx="9" ry="13" fill="#3C7D4E"/><ellipse cx="2.5" cy="-27" rx="5" ry="8" fill="#4E9460"/></g><g transform="translate(1024,414) scale(1.15)"><rect x="-1.5" y="-18" width="3" height="20" fill="#2C5E3C"/><ellipse cx="0" cy="-24" rx="9" ry="13" fill="#3C7D4E"/><ellipse cx="2.5" cy="-27" rx="5" ry="8" fill="#4E9460"/></g><g transform="translate(1300,414) scale(0.7)"><rect x="-1.5" y="-18" width="3" height="20" fill="#2C5E3C"/><ellipse cx="0" cy="-24" rx="9" ry="13" fill="#3C7D4E"/><ellipse cx="2.5" cy="-27" rx="5" ry="8" fill="#4E9460"/></g><path d="M0,488 C250,468 470,480 700,500 C900,516 1080,462 1290,466 C1370,468 1410,474 1440,476 L1440,560 L0,560 Z" fill="url(#vwHill3)"/><path d="M0,488 C250,468 470,480 700,500 C900,516 1080,462 1290,466 C1370,468 1410,474 1440,476" fill="none" stroke="#FFE3A0" stroke-width="1.5" stroke-opacity=".35"/><g fill="url(#vwPanel)" stroke="#A9CDDB" stroke-width="1" stroke-opacity=".8"><polygon points="1030,482 1049,482 1045,489 1026,489"/><line x1="1030" y1="482" x2="1049" y2="482"/><polygon points="1056,482 1075,482 1071,489 1052,489"/><line x1="1056" y1="482" x2="1075" y2="482"/><polygon points="1082,482 1101,482 1097,489 1078,489"/><line x1="1082" y1="482" x2="1101" y2="482"/><polygon points="1108,482 1127,482 1123,489 1104,489"/><line x1="1108" y1="482" x2="1127" y2="482"/><polygon points="1134,482 1153,482 1149,489 1130,489"/><line x1="1134" y1="482" x2="1153" y2="482"/><polygon points="1160,482 1179,482 1175,489 1156,489"/><line x1="1160" y1="482" x2="1179" y2="482"/><polygon points="1186,482 1205,482 1201,489 1182,489"/><line x1="1186" y1="482" x2="1205" y2="482"/><polygon points="1212,482 1231,482 1227,489 1208,489"/><line x1="1212" y1="482" x2="1231" y2="482"/><polygon points="1238,482 1257,482 1253,489 1234,489"/><line x1="1238" y1="482" x2="1257" y2="482"/><polygon points="1264,482 1283,482 1279,489 1260,489"/><line x1="1264" y1="482" x2="1283" y2="482"/><polygon points="1016,494 1038,494 1033,502 1011,502"/><line x1="1016" y1="494" x2="1038" y2="494"/><polygon points="1045,494 1067,494 1062,502 1040,502"/><line x1="1045" y1="494" x2="1067" y2="494"/><polygon points="1074,494 1096,494 1091,502 1069,502"/><line x1="1074" y1="494" x2="1096" y2="494"/><polygon points="1103,494 1125,494 1120,502 1098,502"/><line x1="1103" y1="494" x2="1125" y2="494"/><polygon points="1132,494 1154,494 1149,502 1127,502"/><line x1="1132" y1="494" x2="1154" y2="494"/><polygon points="1161,494 1183,494 1178,502 1156,502"/><line x1="1161" y1="494" x2="1183" y2="494"/><polygon points="1190,494 1212,494 1207,502 1185,502"/><line x1="1190" y1="494" x2="1212" y2="494"/><polygon points="1219,494 1241,494 1236,502 1214,502"/><line x1="1219" y1="494" x2="1241" y2="494"/><polygon points="1248,494 1270,494 1265,502 1243,502"/><line x1="1248" y1="494" x2="1270" y2="494"/><polygon points="1277,494 1299,494 1294,502 1272,502"/><line x1="1277" y1="494" x2="1299" y2="494"/><polygon points="1000,507 1025,507 1019,516 994,516"/><line x1="1000" y1="507" x2="1025" y2="507"/><polygon points="1032,507 1057,507 1051,516 1026,516"/><line x1="1032" y1="507" x2="1057" y2="507"/><polygon points="1064,507 1089,507 1083,516 1058,516"/><line x1="1064" y1="507" x2="1089" y2="507"/><polygon points="1096,507 1121,507 1115,516 1090,516"/><line x1="1096" y1="507" x2="1121" y2="507"/><polygon points="1128,507 1153,507 1147,516 1122,516"/><line x1="1128" y1="507" x2="1153" y2="507"/><polygon points="1160,507 1185,507 1179,516 1154,516"/><line x1="1160" y1="507" x2="1185" y2="507"/><polygon points="1192,507 1217,507 1211,516 1186,516"/><line x1="1192" y1="507" x2="1217" y2="507"/><polygon points="1224,507 1249,507 1243,516 1218,516"/><line x1="1224" y1="507" x2="1249" y2="507"/><polygon points="1256,507 1281,507 1275,516 1250,516"/><line x1="1256" y1="507" x2="1281" y2="507"/><polygon points="1288,507 1313,507 1307,516 1282,516"/><line x1="1288" y1="507" x2="1313" y2="507"/></g><path d="M0,532 C300,516 600,538 900,530 C1150,524 1300,534 1440,526 L1440,560 L0,560 Z" fill="url(#vwHill4)"/></svg></div>
+  <div class="scrim"></div>
+  <div class="sticker"><small>up to</small><b>£75</b><small>bill credit each</small></div>
+  <div class="wrap hero-inner">
+    <div class="card">
+      <div id="referForm">
+        <h2 class="card-title">Refer and earn up to £75</h2>
+        <p class="card-sub">Share Voltwell with friends and you&rsquo;ll both get £75 off your energy bill when they switch to 100% renewable power.</p>
+        <div class="field">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A1B3" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          <input id="email" type="email" placeholder="Enter your email address" />
+        </div>
+        <button class="btn" onclick="refer()">Get your unique link</button>
+        <hr class="card-divider">
+        <p class="legal">The referral scheme is managed by Voltwell Energy&rsquo;s partner, Aklamio.</p>
+        <p class="legal sm">By continuing I confirm I have read and agreed with Aklamio&rsquo;s <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Accessibility Statement</a>.</p>
+        <div class="powered">powered by <b>aklamio</b></div>
+      </div>
+      <div class="success" id="successState">
+        <div class="check">&#10003;</div>
+        <h3>You&rsquo;re all set!</h3>
+        <p>Share your unique link: you both get £75 when your friend joins Voltwell Energy.</p>
+        <div class="sharelink"><span id="link">https://voltwell.link/r/AK7F2Q9</span><button onclick="copyLink(this)">Copy</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section><div class="wrap">
+  <div class="sec-head"><h2>How it works</h2></div>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><h4>Get your link</h4><p>Pop in your email and we&rsquo;ll create your personal referral link in seconds.</p></div>
+    <div class="step"><div class="num">2</div><h4>Share with friends</h4><p>Send it by message, email or social. Anyone switching their home energy can use it.</p></div>
+    <div class="step"><div class="num">3</div><h4>Both get £75</h4><p>Once your friend&rsquo;s supply goes live, we&rsquo;ll add £75 bill credit to both accounts.</p></div>
+  </div>
+</div></section>
+
+<!-- PRODUCTS -->
+<section class="products"><div class="wrap">
+  <div class="sec-head"><h2>Tariffs worth sharing</h2><p>Refer friends to any of our 100% renewable home energy tariffs</p></div>
+  <div class="prod-grid">
+    <div class="prod"><div class="thumb a"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A home with solar panels under a bright sun"><defs><linearGradient id="p1Sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4F9EF"/><stop offset="1" stop-color="#E0EED6"/></linearGradient><linearGradient id="p1Panel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4E8398"/><stop offset="1" stop-color="#1D3F52"/></linearGradient></defs><rect width="380" height="180" fill="url(#p1Sky)"/><circle cx="78" cy="60" r="40" fill="#FFE08A" opacity=".35"/><circle cx="78" cy="60" r="24" fill="#FFC53D"/><g fill="#FFFFFF" opacity=".9"><ellipse cx="140" cy="44" rx="18" ry="7"/><ellipse cx="152" cy="39" rx="11" ry="8"/></g><path d="M0,132 C90,118 170,124 250,134 C310,142 350,128 380,124 L380,180 L0,180 Z" fill="#A9CF94"/><rect x="198" y="100" width="74" height="52" fill="#EFE8D6"/><polygon points="150,100 174,72 198,100 198,152 150,152" fill="#FFFCF3"/><polygon points="174,70 252,70 274,102 196,102" fill="#1F6F43"/><g fill="url(#p1Panel)" stroke="#BFE0EA" stroke-width=".8"><polygon points="181.5,73.8 197.1,73.8 205,85.4 189.4,85.4"/><polygon points="199,73.8 214.6,73.8 222.5,85.4 206.9,85.4"/><polygon points="216.6,73.8 232.2,73.8 240.1,85.4 224.5,85.4"/><polygon points="234.1,73.8 249.7,73.8 257.6,85.4 242,85.4"/><polygon points="191.2,87.9 206.8,87.9 214.2,98.8 198.6,98.8"/><polygon points="208.7,87.9 224.3,87.9 231.8,98.8 216.2,98.8"/><polygon points="226.3,87.9 241.9,87.9 249.3,98.8 233.7,98.8"/><polygon points="243.8,87.9 259.4,87.9 266.9,98.8 251.3,98.8"/></g><polyline points="146,103.5 174,69 199,103.5" fill="none" stroke="#185A36" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="166" y="124" width="16" height="28" rx="2" fill="#1F6F43"/><circle cx="174" cy="92" r="5" fill="#FFE6A0"/><rect x="210" y="114" width="18" height="16" rx="1.5" fill="#FFE6A0"/><rect x="242" y="114" width="18" height="16" rx="1.5" fill="#FFE6A0"/><path d="M0,152 C100,144 220,150 380,146 L380,180 L0,180 Z" fill="#6FA863"/><path d="M114,153 C114,142 116,134 120,126" fill="none" stroke="#2E7447" stroke-width="2.5" stroke-linecap="round"/><path d="M120,126 C132,118 140,122 142,108 C128,106 120,113 120,126 Z" fill="#3E9A63"/><path d="M115,140 C104,136 98,130 96,120 C108,120 114,128 115,140 Z" fill="#58AE72"/></svg><div class="glow"></div><div class="pstick">£75</div></div><div class="body"><h4>Voltwell Green Fixed</h4><p>Prices fixed for 12 months, powered by British wind, solar and hydro.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+    <div class="prod"><div class="thumb b"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" role="img" aria-label="An electric car charging at home under a crescent moon"><defs><linearGradient id="p2Sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0F2A1D"/><stop offset=".65" stop-color="#1E4A33"/><stop offset="1" stop-color="#2B5D40"/></linearGradient><linearGradient id="p2Car" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3F7F0"/><stop offset="1" stop-color="#C6D6C4"/></linearGradient></defs><rect width="380" height="180" fill="url(#p2Sky)"/><g fill="#FFF3C9" opacity=".8"><circle cx="28" cy="22" r="1.2"/><circle cx="130" cy="18" r="1.4"/><circle cx="170" cy="46" r="1"/><circle cx="214" cy="24" r="1.3"/><circle cx="252" cy="56" r="1"/><circle cx="118" cy="70" r="0.9"/><circle cx="196" cy="78" r="1"/><circle cx="40" cy="78" r="1"/><circle cx="236" cy="12" r="0.9"/><circle cx="160" cy="12" r="0.8"/></g><circle cx="76" cy="50" r="40" fill="#FFE8A3" opacity=".08"/><path d="M75.32,28.01 A22,22 0 1,0 95.63,59.92 A19,19 0 0,1 75.32,28.01 Z" fill="#FFE8A3"/><path d="M0,128 C80,116 160,120 240,130 C300,137 340,126 380,122 L380,180 L0,180 Z" fill="#173A28"/><g fill="#133222"><rect x="26" y="108" width="40" height="26"/><polygon points="21,110 46,91 71,110"/></g><rect x="38" y="115" width="8" height="8" fill="#FFC53D" opacity=".9"/><rect x="51" y="115" width="8" height="8" fill="#FFC53D" opacity=".6"/><path d="M0,148 C120,142 260,146 380,144 L380,180 L0,180 Z" fill="#0E2217"/><circle cx="291" cy="112" r="28" fill="#FFC53D" opacity=".08"/><rect x="277" y="146" width="28" height="4" rx="2" fill="#C9D6C6"/><rect x="280" y="92" width="22" height="56" rx="5" fill="#EDF3EA"/><rect x="285" y="99" width="12" height="15" rx="2" fill="#1F6F43"/><path d="M292.5,101 L287.8,108.2 L291,108.2 L289.5,113 L294.6,105.6 L291.4,105.6 Z" fill="#FFC53D"/><circle cx="291" cy="122" r="2" fill="#7EE0A0"/><ellipse cx="178" cy="152" rx="84" ry="5" fill="#000000" opacity=".3"/><path d="M104,140 L104,122 C104,114 110,110 118,108 L140,104 L162,86 C166,83 171,82 176,82 L212,82 C218,82 223,85 227,89 L242,106 C248,108 252,112 252,120 L252,140 Z" fill="url(#p2Car)"/><path d="M147,104 L166,89 L190,89 L190,104 Z" fill="#1A3A2A" opacity=".85"/><path d="M196,89 L211,89 C215,89 218,91 220,94 L229,104 L196,104 Z" fill="#1A3A2A" opacity=".85"/><rect x="246" y="112" width="6" height="4" rx="2" fill="#FFE8A3"/><rect x="104" y="116" width="4" height="6" rx="1.5" fill="#E8704F"/><circle cx="132" cy="140" r="13" fill="#0B1A12"/><circle cx="132" cy="140" r="5" fill="#9FB8A6"/><circle cx="224" cy="140" r="13" fill="#0B1A12"/><circle cx="224" cy="140" r="5" fill="#9FB8A6"/><path d="M281,130 C268,160 257,146 251,124" fill="none" stroke="#FFC53D" stroke-width="3" stroke-linecap="round"/></svg><div class="glow"></div><div class="pstick">£75</div></div><div class="body"><h4>Voltwell EV Night</h4><p>Low overnight rates for charging your electric car at home, 100% renewable.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+  </div>
+</div></section>
+
+<!-- REWARDS TABLE -->
+<section class="rewards"><div class="wrap">
+  <div class="sec-head"><h2>Rewards</h2><p>per successful referral</p></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>What your friend joins</th><th>Reward for you and your friend</th></tr></thead>
+    <tbody id="rtbody">
+      <tr><td>Electricity only</td><td>£75 each</td></tr>
+      <tr><td>Dual fuel (electricity and green gas)</td><td>£75 each</td></tr>
+      <tr><td>EV Night tariff</td><td>£75 each</td></tr>
+      <tr class="extra"><td>Dual fuel with solar export</td><td>£75 each</td></tr>
+    </tbody>
+  </table></div>
+  <button class="showmore" id="showmore" onclick="toggleRows()">Show more</button>
+  <p class="footnote">Bill credit is added to both accounts 60 days after your friend&rsquo;s supply goes live, subject to programme terms.</p>
+</div></section>
+
+<!-- FOOTER -->
+<footer><div class="wrap foot">
+  <div class="pw">&copy; Voltwell Energy &middot; Referral programme powered by <b>Aklamio</b></div>
+  <div class="foot-links"><a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a><a href="#">Help</a></div>
+</div></footer>
+
+<script>
+  function refer(){var e=document.getElementById('email').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){var i=document.getElementById('email');i.focus();i.parentElement.style.borderColor='var(--accent)';return;}document.getElementById('referForm').style.display='none';document.getElementById('successState').classList.add('show');}
+  function copyLink(b){try{navigator.clipboard.writeText(document.getElementById('link').textContent);}catch(e){}b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},1600);}
+  function toggleRows(){var r=document.querySelectorAll('#rtbody .extra'),b=document.getElementById('showmore'),s=r[0].classList.contains('show');r.forEach(function(x){x.classList.toggle('show',!s);});b.textContent=s?'Show more':'Show less';}
+  function topCard(){window.scrollTo({top:0,behavior:'smooth'});document.getElementById('email').focus();}
+</script>
+
+<!-- portfolio: back button (hidden when the page is embedded as a preview) -->
+<style>
+  .pf-back{display:none;position:fixed;left:20px;bottom:20px;z-index:10000;align-items:center;gap:10px;padding:6px 16px 6px 6px;background:#fff;color:#2c2a4f;border-radius:999px;font:800 14px/1 "Nunito",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;text-decoration:none;box-shadow:0 10px 30px rgba(44,42,79,.18),0 0 0 1px #e6e1fa;}
+  html.pf-top .pf-back{display:inline-flex;}
+  .pf-back i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#efebfd;color:#5a4dbd;transition:transform .15s ease;}
+  .pf-back:hover i{transform:translateX(-2px);}
+  .pf-back:focus-visible{outline:3px solid #7466cf;outline-offset:3px;}
+  @media (max-width:880px){.pf-back{left:auto;right:12px;bottom:auto;top:12px;padding:6px;}.pf-back span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}}
+</style>
+<a class="pf-back" href="../../work/one-template-many-brands.html"><i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></i><span>Back to case study</span></a>
+<script>if(window.self===window.top)document.documentElement.classList.add('pf-top');</script>
+</body>
+</html>

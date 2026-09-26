@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One template, many brands | Camila Massa</title>
+<meta name="description" content="Case study: three refer-a-friend portals built from a single template, where only the client’s assets, copy, logo and design identity change.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235f8fe0'/%3E%3Cstop offset='1' stop-color='%237466cf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 3c7 0 13 5 13 12.5S23.5 29 16 29 3 23.5 3 16 9 3 16 3z' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<!-- brand heading fonts, used only for the type specimens below -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&amp;family=Fraunces:opsz,wght@9..144,600&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .nav-links a[aria-current="true"] { background: var(--lav); color: var(--ink); }
+  .section-head { margin-bottom: 26px; }
+  .section-head .lead { margin-top: 14px; }
+  .live-frame { aspect-ratio: 16 / 10; }
+  .ext::after { content: " \2197"; }
+
+  /* hero: three portals */
+  .brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+  .brand-tile { padding: 16px 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+  .brand-tile .frame { border-radius: 20px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
+  .brand-tile__cap { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 12px; padding: 0 6px; margin-top: auto; }
+  .brand-tile__cap h3 { font-size: 19px; }
+  .brand-tile__cap p { font-size: 14px; color: var(--muted); margin-top: 2px; }
+  .brand-tile__cap a { font-weight: 800; font-size: 15px; white-space: nowrap; }
+  .brands-fig figcaption { margin-top: 18px; }
+  .brands-fig__main { display: block; font-size: clamp(17px, 1.8vw, 20px); font-weight: 700; color: var(--ink); line-height: 1.45; }
+  .brands-fig__note { display: block; margin-top: 6px; font-size: 13px; color: var(--muted); }
+
+  /* approach flow */
+  .flow { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); margin: 30px 0 var(--gap); counter-reset: flow; }
+  .flow__step { position: relative; padding: 22px 24px; }
+  .flow__step b { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #fff; color: var(--accent-ink); font-weight: 900; font-size: 15px; margin-bottom: 10px; }
+  .flow__step h3 { font-size: 19px; }
+  .flow__step p { font-size: 15px; margin-top: 4px; }
+
+  /* token swap */
+  .tokens { padding: clamp(18px, 2.4vw, 28px); }
+  .tokens__note { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; font-weight: 800; color: var(--ink); }
+  .tokens__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+  .tcard { background: #fff; border-radius: 26px; padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 18px; }
+  .tcard:nth-child(1) { border-top-right-radius: var(--r); }
+  .tcard:nth-child(2) { border-top-left-radius: var(--r); border-bottom-right-radius: var(--r); }
+  .tcard:nth-child(3) { border-bottom-left-radius: var(--r); }
+  .tcard__head h3 { font-size: 20px; }
+  .tcard__head p { font-size: 14px; color: var(--muted); }
+  .trow__label { font-size: 12px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; list-style: none; }
+  .swatches li { font-size: 11.5px; font-weight: 700; color: var(--body); line-height: 1.3; }
+  .swatches i { display: block; aspect-ratio: 1; border-radius: 12px; box-shadow: inset 0 0 0 1px rgba(44, 42, 79, .1); margin-bottom: 6px; }
+  .swatches code { display: block; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; color: var(--muted); }
+  .specimen { display: flex; align-items: center; gap: 16px; }
+  .specimen__aa { font-size: 58px; line-height: 1; min-width: 78px; }
+  .specimen p { font-size: 14px; line-height: 1.45; }
+  .specimen p b { font-weight: 800; }
+  .radii { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+  .radii figure { margin: 0; text-align: center; font-size: 11.5px; font-weight: 700; color: var(--body); }
+  .radii span { display: block; border: 2.5px solid currentColor; margin: 0 auto 6px; }
+  .radii .r-card { width: 72px; height: 48px; }
+  .radii .r-tile { width: 48px; height: 48px; }
+  .radii .r-ui { width: 72px; height: 28px; }
+  .radii small { display: block; color: var(--muted); font-size: 11px; font-weight: 700; }
+  .sample { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .sample__btn { display: inline-block; padding: 12px 20px; font-size: 15px; line-height: 1; }
+  .sample__sticker { display: inline-block; padding: 6px 11px; font-size: 13px; line-height: 1.1; }
+  .contrast { font-size: 13px; color: var(--muted); font-weight: 700; margin-top: 8px; }
+
+  .t-nimbelo { --b: #0B7285; --a: #C6F432; --i: #0B2530; --h: #E6F6F7; --ob: #fff; --oa: #0B2530; --rc: 28px; --ru: 999px; --rt: 24px; --f: "Outfit", sans-serif; --fw: 700; --tr: -.02em; }
+  .t-voltwell { --b: #1F6F43; --a: #FFC53D; --i: #10261A; --h: #EEF6EC; --ob: #fff; --oa: #10261A; --rc: 16px; --ru: 12px; --rt: 16px; --f: "Fraunces", Georgia, serif; --fw: 600; --tr: -.01em; }
+  .t-orbeo { --b: #5B2EFF; --a: #FF6B4A; --i: #140B33; --h: #F1EDFF; --ob: #fff; --oa: #140B33; --rc: 6px; --ru: 6px; --rt: 8px; --f: "Space Grotesk", sans-serif; --fw: 700; --tr: -.03em; }
+  [class*="t-"] .specimen__aa, [class*="t-"] .tcard__head h3 { font-family: var(--f); font-weight: var(--fw); letter-spacing: var(--tr); color: var(--i); }
+  [class*="t-"] .radii { color: var(--b); }
+  [class*="t-"] .r-card { border-radius: var(--rc); }
+  [class*="t-"] .r-tile { border-radius: var(--rt); }
+  [class*="t-"] .r-ui { border-radius: var(--ru); }
+  [class*="t-"] .sample__btn { background: var(--b); color: var(--ob); border-radius: var(--ru); font-family: var(--f); font-weight: var(--fw); }
+  [class*="t-"] .sample__sticker { background: var(--a); color: var(--oa); border-radius: var(--ru); font-family: var(--f); font-weight: var(--fw); }
+
+  /* fixed vs changes, details */
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .pair h3 { margin: 12px 0 10px; }
+  .checklist { list-style: none; display: grid; gap: 8px; }
+  .checklist li { display: flex; gap: 10px; align-items: flex-start; font-weight: 700; color: var(--ink); }
+  .checklist li::before { content: ""; flex: none; width: 10px; height: 10px; margin-top: 8px; border-radius: 50%; background: var(--accent); }
+  .checklist--swap li::before { background: transparent; box-shadow: inset 0 0 0 2.5px var(--accent); }
+  .details { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+  .details .tile h3 { font-size: 20px; margin-bottom: 6px; }
+  .outcome-note { margin-top: 22px; }
+
+  /* next case study */
+  .next-card { display: grid; grid-template-columns: 2fr 3fr; align-items: stretch; }
+  .next-card .work-card__media { aspect-ratio: auto; height: 100%; min-height: 300px; }
+  .next-card .work-card__media .live-frame { position: absolute; inset: 0; aspect-ratio: auto; }
+  .next-card .work-card__body { justify-content: center; padding: 30px 34px; }
+
+  @media (max-width: 900px) {
+    .brands-grid, .flow, .tokens__grid { grid-template-columns: 1fr; }
+    .brand-tile, .tcard { border-radius: var(--R) !important; }
+    .brands-grid .brand-tile:nth-child(1) { border-bottom-left-radius: var(--r) !important; border-bottom-right-radius: var(--r) !important; }
+    .brands-grid .brand-tile:nth-child(2) { border-radius: var(--r) !important; }
+    .brands-grid .brand-tile:nth-child(3) { border-top-left-radius: var(--r) !important; border-top-right-radius: var(--r) !important; }
+    .next-card { grid-template-columns: 1fr; }
+    .next-card .work-card__media { aspect-ratio: 16 / 10; height: auto; min-height: 0; }
+  }
+  @media (max-width: 640px) {
+    .pair, .details { grid-template-columns: 1fr; }
+    .pair .tile, .details .tile { border-radius: var(--R); }
+    .swatches { gap: 6px; }
+    .specimen__aa { font-size: 48px; min-width: 64px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand__dot" aria-hidden="true"></span>Camila Massa</a>
+    <nav aria-label="Main">
+      <ul class="nav-links">
+        <li><a href="../index.html#work" aria-current="true">Selected work</a></li>
+        <li><a href="../earlier-work.html">Earlier work</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li class="hide-sm"><a class="btn btn--primary" href="../assets/Camila-Massa-CV.pdf" download>CV</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+  <!-- Hero -->
+  <section class="cs-hero"><div class="wrap">
+    <span class="eyebrow">Case study · Design systems</span>
+    <h1>One template, many brands</h1>
+    <p class="lead">Three different refer-a-friend portals, a single template. The page structure stays the same for every brand; each one brings its own assets, copy, logo and design identity. It’s how I build real portals: brand styling set in a Material UI theme and managed in a headless CMS.</p>
+    <dl class="facts">
+      <div class="fact"><dt>Role</dt><dd>Web designer, from UI design to code implementation</dd></div>
+      <div class="fact"><dt>Context</dt><dd>B2B referral portals for brands in telecom, energy, banking, insurance and more</dd></div>
+      <div class="fact"><dt>Tools</dt><dd>Contentful, Figma, Material UI theme JSON, HTML/CSS, vibe coding with Claude</dd></div>
+      <div class="fact"><dt>Note</dt><dd>Brands shown are fictional, built to show the system without exposing client work</dd></div>
+    </dl>
+  </div></section>
+
+  <!-- Three portals -->
+  <section class="block" style="padding-top:24px" aria-labelledby="portals-title"><div class="wrap">
+    <h2 id="portals-title" class="sr-only">The three brand portals</h2>
+    <figure class="shot brands-fig">
+      <div class="brands-grid">
+        <div class="tile tile--sky brand-tile c-tr">
+          <div class="frame">
+            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>nimbelo.link/refer</span></div>
+            <div class="live-frame"><iframe src="../demos/nimbelo-fibre/index.html" title="Nimbelo Fibre referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+          </div>
+          <div class="brand-tile__cap">
+            <div><h3>Nimbelo Fibre</h3><p>Full-fibre broadband</p></div>
+            <a href="../demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Nimbelo Fibre, opens in a new tab)</span></a>
+          </div>
+        </div>
+        <div class="tile tile--blue brand-tile c-tl c-br">
+          <div class="frame">
+            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>voltwell.link/refer</span></div>
+            <div class="live-frame"><iframe src="../demos/voltwell-energy/index.html" title="Voltwell Energy referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+          </div>
+          <div class="brand-tile__cap">
+            <div><h3>Voltwell Energy</h3><p>Renewable electricity and gas</p></div>
+            <a href="../demos/voltwell-energy/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Voltwell Energy, opens in a new tab)</span></a>
+          </div>
+        </div>
+        <div class="tile tile--peri brand-tile c-bl">
+          <div class="frame">
+            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>orbeo.link/refer</span></div>
+            <div class="live-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Orbeo Mobile referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+          </div>
+          <div class="brand-tile__cap">
+            <div><h3>Orbeo Mobile</h3><p>SIM-only mobile</p></div>
+            <a href="../demos/orbeo-mobile/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Orbeo Mobile, opens in a new tab)</span></a>
+          </div>
+        </div>
+      </div>
+      <figcaption><span class="brands-fig__main">Three fictional brands, one template. Each preview is the live demo page, scaled down. Open one to scroll the full portal.</span><span class="brands-fig__note">Visual assets made with AI for illustrative purposes.</span></figcaption>
+    </figure>
+  </div></section>
+
+  <!-- Challenge -->
+  <section class="block" style="padding-top:0" aria-labelledby="challenge-title"><div class="wrap">
+    <div class="prose">
+      <h2 id="challenge-title" class="h-bar">The challenge</h2>
+      <p>Every partner brand needs a referral portal that feels like their own: their styling, their assets, their tone of voice. Their customers should never feel they have left the brand.</p>
+      <p>At the same time, the platform has to ship every portal from one codebase and one content model, and it has to ship fast. A bespoke build per brand would be slow to deliver, hard to QA and impossible to maintain. So the question becomes: how much can change, and where exactly should it change?</p>
+    </div>
+  </div></section>
+
+  <!-- Approach -->
+  <section class="block" style="padding-top:0" aria-labelledby="approach-title"><div class="wrap">
+    <div class="prose">
+      <h2 id="approach-title" class="h-bar">The approach</h2>
+      <p>I treat a brand as a set of design decisions, not a set of pages. I read the brand guidelines and the assets the client provides, turn them into a small set of style elements, and let the template render the page. Layout, components and interactions are designed once, in Figma and in CSS; each brand only brings its own values.</p>
+    </div>
+
+    <ol class="flow" aria-label="From brand guidelines to rendered page">
+      <li class="tile tile--sky flow__step c-tr"><b aria-hidden="true">1</b><h3>Brand guidelines</h3><p>Colours, typefaces, CTA style, visual assets and tone of voice, taken from the brand’s own materials.</p></li>
+      <li class="tile tile--blue flow__step c-tl c-br"><b aria-hidden="true">2</b><h3>Style elements</h3><p>Those decisions become a small set of values: colours, fonts, weights and border radius, designed in CSS and set in Material UI theme JSON in production.</p></li>
+      <li class="tile tile--peri flow__step c-bl"><b aria-hidden="true">3</b><h3>Rendered page</h3><p>The shared template reads those values and renders the portal. No new markup, no new components.</p></li>
+    </ol>
+
+    <div class="tile tile--lav-soft" role="group" aria-labelledby="tokens-title">
+      <p class="tokens__note" id="tokens-title"><span class="tag">Brand elements</span> Same markup in all three portals. Only these elements change.</p>
+      <div class="tokens__grid">
+
+        <article class="tcard t-nimbelo" aria-label="Nimbelo Fibre brand elements">
+          <div class="tcard__head"><h3>Nimbelo Fibre</h3><p>Calm, airy, techy. Very round.</p></div>
+          <div>
+            <p class="trow__label">Colour</p>
+            <ul class="swatches">
+              <li><i style="background:#0B7285"></i>Brand<code>#0B7285</code></li>
+              <li><i style="background:#C6F432"></i>Accent<code>#C6F432</code></li>
+              <li><i style="background:#0B2530"></i>Ink<code>#0B2530</code></li>
+              <li><i style="background:#E6F6F7"></i>Hero bg<code>#E6F6F7</code></li>
+            </ul>
+          </div>
+          <div>
+            <p class="trow__label">Type</p>
+            <div class="specimen"><span class="specimen__aa" aria-hidden="true">Aa</span><p><b>Outfit</b> 700, headings<br>Inter, body copy</p></div>
+          </div>
+          <div>
+            <p class="trow__label">Border radius</p>
+            <div class="radii">
+              <figure><span class="r-card"></span>Card<small>28px</small></figure>
+              <figure><span class="r-tile"></span>Tile<small>24px</small></figure>
+              <figure><span class="r-ui"></span>Button<small>pill</small></figure>
+            </div>
+          </div>
+          <div>
+            <p class="trow__label">CTA and sticker</p>
+            <div class="sample"><span class="sample__btn">Get your link</span><span class="sample__sticker">£50 bill credit each</span></div>
+            <p class="contrast">Button text 5.59:1 · Sticker text 12.4:1</p>
+          </div>
+        </article>
+
+        <article class="tcard t-voltwell" aria-label="Voltwell Energy brand elements">
+          <div class="tcard__head"><h3>Voltwell Energy</h3><p>Warm, grounded, a little editorial.</p></div>
+          <div>
+            <p class="trow__label">Colour</p>
+            <ul class="swatches">
+              <li><i style="background:#1F6F43"></i>Brand<code>#1F6F43</code></li>
+              <li><i style="background:#FFC53D"></i>Accent<code>#FFC53D</code></li>
+              <li><i style="background:#10261A"></i>Ink<code>#10261A</code></li>
+              <li><i style="background:#EEF6EC"></i>Hero bg<code>#EEF6EC</code></li>
+            </ul>
+          </div>
+          <div>
+            <p class="trow__label">Type</p>
+            <div class="specimen"><span class="specimen__aa" aria-hidden="true">Aa</span><p><b>Fraunces</b> 600, headings<br>DM Sans, body copy</p></div>
+          </div>
+          <div>
+            <p class="trow__label">Border radius</p>
+            <div class="radii">
+              <figure><span class="r-card"></span>Card<small>16px</small></figure>
+              <figure><span class="r-tile"></span>Tile<small>16px</small></figure>
+              <figure><span class="r-ui"></span>Button<small>12px</small></figure>
+            </div>
+          </div>
+          <div>
+            <p class="trow__label">CTA and sticker</p>
+            <div class="sample"><span class="sample__btn">Get your link</span><span class="sample__sticker">£75 bill credit each</span></div>
+            <p class="contrast">Button text 6.15:1 · Sticker text 10.12:1</p>
+          </div>
+        </article>
+
+        <article class="tcard t-orbeo" aria-label="Orbeo Mobile brand elements">
+          <div class="tcard__head"><h3>Orbeo Mobile</h3><p>Bold, playful, digital-first. Sharp.</p></div>
+          <div>
+            <p class="trow__label">Colour</p>
+            <ul class="swatches">
+              <li><i style="background:#5B2EFF"></i>Brand<code>#5B2EFF</code></li>
+              <li><i style="background:#FF6B4A"></i>Accent<code>#FF6B4A</code></li>
+              <li><i style="background:#140B33"></i>Ink<code>#140B33</code></li>
+              <li><i style="background:#F1EDFF"></i>Hero bg<code>#F1EDFF</code></li>
+            </ul>
+          </div>
+          <div>
+            <p class="trow__label">Type</p>
+            <div class="specimen"><span class="specimen__aa" aria-hidden="true">Aa</span><p><b>Space Grotesk</b> 700, headings<br>Manrope, body copy</p></div>
+          </div>
+          <div>
+            <p class="trow__label">Border radius</p>
+            <div class="radii">
+              <figure><span class="r-card"></span>Card<small>6px</small></figure>
+              <figure><span class="r-tile"></span>Tile<small>8px</small></figure>
+              <figure><span class="r-ui"></span>Button<small>6px</small></figure>
+            </div>
+          </div>
+          <div>
+            <p class="trow__label">CTA and sticker</p>
+            <div class="sample"><span class="sample__btn">Get your link</span><span class="sample__sticker">€30 credit each</span></div>
+            <p class="contrast">Button text 6.4:1 · Sticker text 6.62:1</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Fixed vs changes -->
+  <section class="block" style="padding-top:0" aria-labelledby="fixed-title"><div class="wrap">
+    <div class="section-head"><h2 id="fixed-title" class="h-bar">What stays fixed, what changes</h2></div>
+    <div class="pair">
+      <div class="tile tile--lav-soft c-br">
+        <span class="tag">Designed once</span>
+        <h3>Stays fixed</h3>
+        <ul class="checklist">
+          <li>Page layout</li>
+          <li>Section designs: hero, how it works, products, rewards</li>
+          <li>Components: referral card, step, product tile, rewards table</li>
+          <li>Accessibility: headings, labels, focus states</li>
+          <li>Interaction: the referral widget, where users add their email and get their personal link, plus copy link and show more</li>
+        </ul>
+      </div>
+      <div class="tile tile--lav c-bl">
+        <span class="tag">Per brand</span>
+        <h3>Changes</h3>
+        <ul class="checklist checklist--swap">
+          <li>Colours</li>
+          <li>Typefaces and weights</li>
+          <li>Border radius</li>
+          <li>Copy and reward values</li>
+          <li>Order of page sections, interchangeable per brand</li>
+          <li>Logo</li>
+          <li>Assets</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Details -->
+  <section class="block" style="padding-top:0" aria-labelledby="details-title"><div class="wrap">
+    <div class="section-head"><h2 id="details-title" class="h-bar">Details that make it feel native</h2></div>
+    <div class="details">
+      <div class="tile tile--lav c-br">
+        <h3>Contrast checked per brand</h3>
+        <p>I check every brand’s button and sticker text against WCAG AA. Orbeo’s coral fails with white text, so the sticker uses the brand’s dark ink instead and the coral stays bright.</p>
+      </div>
+      <div class="tile tile--lilac c-bl">
+        <h3>Designed around client assets</h3>
+        <p>Each brand provides its own imagery and logo. I place and crop them so the brand leads and the referral widget stays clear and readable on top.</p>
+      </div>
+      <div class="tile tile--lilac c-tr">
+        <h3>Mobile first, fully responsive</h3>
+        <p>Referral links are often opened on a phone, so I design mobile first and check every layout across breakpoints, from small phones to wide desktop screens.</p>
+      </div>
+      <div class="tile tile--violet c-tl">
+        <h3>Shared template, separate campaigns</h3>
+        <p>The design template is shared, but in Contentful every portal keeps its own copy, values and settings, so each brand can run its own campaigns independently.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Outcome -->
+  <section class="block" style="padding-top:0" aria-labelledby="outcome-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="outcome-title" class="h-bar">Outcome</h2>
+      <p class="lead">The brands on this page are fictional. The numbers are from my real work at Aklamio.</p>
+    </div>
+    <div class="tile tile--violet" style="padding:clamp(14px,2vw,20px)">
+      <div class="stat-row">
+        <div class="stat"><b>40+</b><span>hosted pages delivered</span></div>
+        <div class="stat"><b>67</b><span>integration tickets</span></div>
+        <div class="stat"><b>3</b><span>brand themes in this demo, 1 template</span></div>
+      </div>
+    </div>
+    <div class="prose outcome-note">
+      <p>Designing the system instead of the page means a new brand starts from a working, tested portal on day one. The design effort goes where it matters: getting the brand right, not rebuilding the same components again.</p>
+    </div>
+  </div></section>
+
+  <!-- Next case study -->
+  <section class="block" style="padding-top:0" aria-labelledby="next-title"><div class="wrap">
+    <h2 id="next-title" class="sr-only">Next case study</h2>
+    <a class="work-card next-card" href="content-architecture.html">
+      <div class="work-card__media">
+        <div class="live-frame"><iframe src="../demos/cms-structure/xray.html" title="Preview of the CMS x-ray view" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
+      </div>
+      <div class="work-card__body">
+        <span class="tag">Next case study</span>
+        <h3 style="font-size:28px;margin-top:6px">Designing the content model</h3>
+        <p>How a portal is assembled from nested CMS entries, and why that structure is a design decision.</p>
+        <span class="work-card__cta">Read the case study →</span>
+      </div>
+    </a>
+      <p class="back-row"><a class="back-link" href="../index.html#work"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to all work</a></p>
+  </div></section>
+
+</main>
+<!-- contact band (every page, above footer) -->
+<section class="block" id="contact"><div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br">
+      <span class="eyebrow">Contact</span>
+      <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
+      <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
+    </div>
+    <div class="tile tile--violet c-bl" style="display:flex;flex-direction:column;justify-content:center;gap:14px">
+      <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+        <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email address</button>
+        <div class="mail-reveal__out" hidden></div>
+        <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+        <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+      </div>
+      <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+    </div>
+  </div>
+</div></section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+  <span><a href="https://www.linkedin.com/in/amionodera">LinkedIn</a></span>
+</div></footer>
+<script>
+  (function () {
+    var frames = document.querySelectorAll('.live-frame');
+    function fit() {
+      frames.forEach(function (el) {
+        var f = el.querySelector('iframe');
+        if (f) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
+      });
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(fit);
+      frames.forEach(function (el) { ro.observe(el); });
+    }
+  })();
+</script>
+<script src="../assets/js/contact.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designing the content model | Camila Massa</title>
+<meta name="description" content="Case study: how a referral portal is assembled from nested CMS entries, and why the content model is a design decision.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235f8fe0'/%3E%3Cstop offset='1' stop-color='%237466cf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 3c7 0 13 5 13 12.5S23.5 29 16 29 3 23.5 3 16 9 3 16 3z' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<style>
+  .nav-links a[aria-current="true"] { background: var(--lav); color: var(--ink); }
+  .section-head { margin-bottom: 26px; }
+  .section-head .lead { margin-top: 14px; }
+  .live-frame { aspect-ratio: 16 / 10; }
+
+  /* featured x-ray */
+  .feature { padding: clamp(14px, 2vw, 22px); }
+  .feature .frame { border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
+  .feature__foot { display: flex; align-items: center; justify-content: space-between; gap: 18px 28px; flex-wrap: wrap; padding: 20px 10px 6px; }
+  .feature__foot figcaption { margin: 0; font-size: 15px; color: var(--body); max-width: 62ch; }
+  .kbd { display: inline-block; min-width: 22px; padding: 1px 7px; border-radius: 6px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 2px 0 var(--line); font-size: 13px; font-weight: 800; color: var(--ink); text-align: center; }
+  .btn--big { font-size: 16px; padding: 16px 24px 17px; }
+
+  /* why it matters */
+  .why { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+  .why__list { list-style: none; display: grid; gap: var(--gap); }
+  .why__list li { padding: 20px 22px; }
+  .why__list h3 { font-size: 18px; margin-bottom: 4px; }
+  .why__list p { font-size: 15px; }
+
+  /* model diagram */
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; list-style: none; margin-bottom: 18px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .legend li { display: inline-flex; align-items: center; gap: 8px; }
+  .legend li::before { content: ""; width: 12px; height: 12px; border-radius: 4px; background: var(--c); }
+  .legend .opt::before { background: transparent; box-shadow: inset 0 0 0 2px var(--muted); border-radius: 4px; }
+  .lv-container { --c: #7466cf; }
+  .lv-section { --c: #4f86e0; }
+  .lv-item { --c: #2aa3b8; }
+  .lv-component { --c: #d9668f; }
+  .lv-theme { --c: #c98a2b; }
+
+  .model { padding: clamp(14px, 2.2vw, 26px); }
+  .model ul { list-style: none; }
+  .node { position: relative; background: #fff; border-radius: 18px; border: 2px solid var(--c); padding: 14px 16px 16px; }
+  .node + .node { margin-top: 12px; }
+  .node__name { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-weight: 900; color: var(--ink); font-size: 16px; line-height: 1.25; }
+  .node__name::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+  .node__lvl { font-size: 11px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--muted); }
+  .node__desc { font-size: 13.5px; color: var(--body); margin-top: 4px; line-height: 1.45; }
+  .node__kids { margin-top: 12px; }
+  .node--opt { border-style: dashed; background: rgba(255, 255, 255, .55); }
+  .node--sm { border-radius: 12px; padding: 8px 12px; border-width: 1.5px; }
+  .node--sm .node__name { font-size: 14px; font-weight: 800; }
+  .node--sm + .node--sm { margin-top: 6px; }
+  .count { font-weight: 800; color: var(--muted); white-space: nowrap; }
+  .node--sm .node__name { gap: 4px 7px; }
+  .n-promo { background: #fdfcff; }
+  .n-theme { background: #fdf8ef; }
+  .n-portal, .n-index { background: #faf9ff; }
+  .sections { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .sections > .node + .node { margin-top: 0; }
+  .model-actions { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; margin: 32px 0 36px; }
+  .map-preview .frame { position: relative; transition: transform .2s ease, box-shadow .2s ease; }
+  .map-preview .frame:hover { transform: translateY(-3px); box-shadow: 0 26px 56px rgba(44, 42, 79, .13), 0 0 0 2px var(--accent); }
+  .frame-link { position: absolute; inset: 0; z-index: 3; border-radius: inherit; }
+  .frame-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .map-preview .frame { border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--shadow); }
+  .map-preview .live-frame { aspect-ratio: 16 / 7; }
+
+  /* principles */
+  .principles { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
+  .principles h3 { font-size: 20px; margin-bottom: 6px; }
+  .principles .num { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #fff; color: var(--accent-ink); font-weight: 900; margin-bottom: 12px; }
+
+  /* prev case study */
+  .next-card { display: grid; grid-template-columns: 2fr 3fr; align-items: stretch; }
+  .next-card .work-card__media { aspect-ratio: auto; height: 100%; min-height: 300px; }
+  .next-card .work-card__media .live-frame { position: absolute; inset: 0; aspect-ratio: auto; }
+  .next-card .work-card__body { justify-content: center; padding: 30px 34px; }
+
+  @media (max-width: 900px) {
+    .why, .next-card { grid-template-columns: 1fr; }
+    .sections { grid-template-columns: repeat(2, 1fr); }
+    .next-card .work-card__media { aspect-ratio: 16 / 10; height: auto; min-height: 0; }
+    .map-preview .live-frame { aspect-ratio: 16 / 10; }
+  }
+  @media (max-width: 640px) {
+    .sections, .principles { grid-template-columns: 1fr; }
+    .principles .tile { border-radius: var(--R); }
+    .node { padding: 12px 12px 14px; }
+    .feature__foot .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html"><span class="brand__dot" aria-hidden="true"></span>Camila Massa</a>
+    <nav aria-label="Main">
+      <ul class="nav-links">
+        <li><a href="../index.html#work" aria-current="true">Selected work</a></li>
+        <li><a href="../earlier-work.html">Earlier work</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li class="hide-sm"><a class="btn btn--primary" href="../assets/Camila-Massa-CV.pdf" download>CV</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+  <!-- Hero -->
+  <section class="cs-hero"><div class="wrap">
+    <span class="eyebrow">Case study · CMS &amp; content modelling</span>
+    <h1>Designing the content model</h1>
+    <p class="lead">A referral portal is not one page in a CMS. It is a tree of nested entries, from the promotion at the top down to each reward row. How that tree is shaped decides what editors can change, what stays consistent, and how fast a new brand goes live.</p>
+    <dl class="facts">
+      <div class="fact"><dt>Role</dt><dd>Web designer: content structure, CMS configuration, theming and CSS styling</dd></div>
+      <div class="fact"><dt>Context</dt><dd>B2B referral portals assembled from nested CMS entries</dd></div>
+      <div class="fact"><dt>Tools</dt><dd>Contentful, JSON, HTML/CSS, vibe coding with Claude</dd></div>
+      <div class="fact"><dt>Note</dt><dd>Fictional brand. The structure mirrors production work, with readable labels instead of internal field names</dd></div>
+    </dl>
+  </div></section>
+
+  <!-- Featured x-ray -->
+  <section class="block" style="padding-top:24px" aria-labelledby="xray-title"><div class="wrap">
+    <h2 id="xray-title" class="sr-only">Interactive x-ray view</h2>
+    <figure class="shot tile tile--sky feature">
+      <div class="frame">
+        <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>nimbelo.link/refer · x-ray view</span></div>
+        <div class="live-frame"><iframe src="../demos/cms-structure/xray.html" title="Nimbelo Fibre portal with the CMS x-ray overlay, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+      </div>
+      <div class="feature__foot">
+        <figcaption>The Nimbelo Fibre portal with its CMS structure drawn on top. Hover a block to trace it in the content tree, click it to see its fields, and press <span class="kbd">X</span> to switch the x-ray on or off.</figcaption>
+        <a class="btn btn--primary btn--big" href="../demos/cms-structure/xray.html" target="_blank" rel="noopener">Open the interactive x-ray ↗<span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+    </figure>
+  </div></section>
+
+  <!-- Why it matters -->
+  <section class="block" style="padding-top:0" aria-labelledby="why-title"><div class="wrap">
+    <div class="why">
+      <div class="prose">
+        <h2 id="why-title" class="h-bar">Why it matters</h2>
+        <p>Many design decisions never show up in a Figma file. They live in the content model: what an editor can change, what is locked, what repeats, what is optional. If the model is wrong, the design breaks the first time someone edits it.</p>
+        <p>So I design the structure as carefully as the screens. A good model gives editors, developers and designers the same map of the page, and it lets one template serve many brands without special cases.</p>
+      </div>
+      <ul class="why__list">
+        <li class="tile tile--blue c-bl"><h3>One shared map</h3><p>Editors, developers and designers point at the same entries and use the same names.</p></li>
+        <li class="tile tile--peri c-tl c-bl"><h3>Reorder without code</h3><p>The index page holds an ordered list of sections, so a promotion can reorder or drop sections in the CMS.</p></li>
+        <li class="tile tile--lav-soft c-tl"><h3>One Theme entry reskins everything</h3><p>Colours, type and border radius sit in a single Theme entry. Swap it and the whole portal changes brand.</p></li>
+      </ul>
+    </div>
+  </div></section>
+
+  <!-- The model -->
+  <section class="block" style="padding-top:0" aria-labelledby="model-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="model-title" class="h-bar">The model</h2>
+      <p class="lead">A simplified view of how one portal nests, entry by entry. Colours show the level of each entry.</p>
+    </div>
+
+    <div class="tile tile--lav-soft model">
+      <ul class="legend" aria-label="Legend">
+        <li class="lv-container">Container</li>
+        <li class="lv-section">Section</li>
+        <li class="lv-item">Item</li>
+        <li class="lv-component">Component</li>
+        <li class="lv-theme">Theme</li>
+        <li class="opt">Optional (dashed)</li>
+      </ul>
+
+      <ul aria-label="Content model tree">
+        <li class="node n-promo lv-container">
+          <span class="node__name">Promotion <span class="node__lvl">Container</span></span>
+          <p class="node__desc">The top of the tree. Links one Portal and one Theme.</p>
+          <ul class="node__kids">
+            <li class="node n-theme lv-theme">
+              <span class="node__name">Theme <span class="node__lvl">Theme</span></span>
+              <p class="node__desc">Colours, typography and border radius. Applies to every entry below.</p>
+            </li>
+            <li class="node n-portal lv-container">
+              <span class="node__name">Portal <span class="node__lvl">Container</span></span>
+              <p class="node__desc">Logo, legal links, footer text.</p>
+              <ul class="node__kids">
+                <li class="node n-index lv-container">
+                  <span class="node__name">Index page <span class="node__lvl">Container</span></span>
+                  <p class="node__desc">An ordered list of sections.</p>
+                  <ul class="node__kids sections">
+                    <li class="node lv-section">
+                      <span class="node__name">Hero</span>
+                      <p class="node__desc">Background image, reward sticker.</p>
+                      <ul class="node__kids">
+                        <li class="node node--sm lv-component"><span class="node__name">Referral widget</span></li>
+                      </ul>
+                    </li>
+                    <li class="node lv-section">
+                      <span class="node__name">How it works</span>
+                      <p class="node__desc">Headline.</p>
+                      <ul class="node__kids">
+                        <li class="node node--sm lv-item"><span class="node__name">Step <span class="count">×3</span></span></li>
+                      </ul>
+                    </li>
+                    <li class="node lv-section">
+                      <span class="node__name">Product section</span>
+                      <p class="node__desc">Headline, subheadline.</p>
+                      <ul class="node__kids">
+                        <li class="node node--sm lv-item"><span class="node__name">Product item <span class="count">×2</span></span></li>
+                      </ul>
+                    </li>
+                    <li class="node lv-section">
+                      <span class="node__name">Rewards table</span>
+                      <p class="node__desc">Column labels, show more, footnote.</p>
+                      <ul class="node__kids">
+                        <li class="node node--sm lv-item"><span class="node__name">Reward row <span class="count">×4</span></span></li>
+                      </ul>
+                    </li>
+                    <li class="node node--opt lv-section">
+                      <span class="node__name">FAQ <span class="node__lvl">Optional</span></span>
+                      <p class="node__desc">Not used in this demo.</p>
+                      <ul class="node__kids">
+                        <li class="node node--sm node--opt lv-item"><span class="node__name">FAQ row</span></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="model-actions">
+      <a class="btn btn--primary" href="../demos/cms-structure/model.html" target="_blank" rel="noopener">See the full content model map ↗<span class="sr-only"> (opens in a new tab)</span></a>
+      <span class="muted">Every entry, every field and its type, plus the same model applied to three brands.</span>
+    </div>
+    <figure class="shot map-preview">
+      <div class="frame">
+        <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>content model map</span></div>
+        <div class="live-frame"><iframe src="../demos/cms-structure/model.html" title="Content model map, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+        <a class="frame-link" href="../demos/cms-structure/model.html" target="_blank" rel="noopener"><span class="sr-only">Open the full content model map (opens in a new tab)</span></a>
+      </div>
+      <figcaption>Preview of the full map. Click it to explore each entry and where it shows up on the page.</figcaption>
+    </figure>
+  </div></section>
+
+  <!-- My role -->
+  <section class="block" style="padding-top:0" aria-labelledby="role-title"><div class="wrap">
+    <div class="prose">
+      <h2 id="role-title" class="h-bar">My role in this</h2>
+      <p>At Aklamio I work hands-on in Contentful: building and wiring up entries, writing JSON configuration, theming with Material UI, styling in CSS, and running design QA before each release. I care about release readiness as much as the visuals, because a portal is only finished when the content behind it is right.</p>
+      <p>This is not new ground for me. As Project Manager at Language International I ran the website content in the CMS and a custom CRM, and supervised the translation of the full site into 27 languages. That taught me early that structure is what makes content scale.</p>
+    </div>
+  </div></section>
+
+  <!-- Principles -->
+  <section class="block" style="padding-top:0" aria-labelledby="principles-title"><div class="wrap">
+    <div class="section-head"><h2 id="principles-title" class="h-bar">Principles I design by</h2></div>
+    <div class="principles">
+      <div class="tile tile--lav c-br">
+        <span class="num" aria-hidden="true">1</span>
+        <h3>Readable labels for editors</h3>
+        <p>Fields are named for the person filling them in, not for the code. “Reward sticker” beats an internal key every time.</p>
+      </div>
+      <div class="tile tile--lilac c-bl">
+        <span class="num" aria-hidden="true">2</span>
+        <h3>One source of truth per value</h3>
+        <p>A brand colour lives in the Theme, once. Nothing is copied into sections where it can drift out of sync.</p>
+      </div>
+      <div class="tile tile--lilac c-tr">
+        <span class="num" aria-hidden="true">3</span>
+        <h3>Optional is explicit</h3>
+        <p>If a section or field can be left out, the model says so, and the page still looks finished without it.</p>
+      </div>
+      <div class="tile tile--violet c-tl">
+        <span class="num" aria-hidden="true">4</span>
+        <h3>Structure before styling</h3>
+        <p>I agree the entries and their order first. Styling then sits on a stable base instead of patching around content.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Previous case study -->
+  <section class="block" style="padding-top:0" aria-labelledby="prev-title"><div class="wrap">
+    <h2 id="prev-title" class="sr-only">Previous case study</h2>
+    <a class="work-card next-card" href="one-template-many-brands.html">
+      <div class="work-card__media">
+        <div class="live-frame"><iframe src="../demos/voltwell-energy/index.html" title="Preview of the Voltwell Energy portal" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
+      </div>
+      <div class="work-card__body">
+        <span class="tag">Previous case study</span>
+        <h3 style="font-size:28px;margin-top:6px">One template, many brands</h3>
+        <p>Three refer-a-friend portals, a single template. Only the client’s assets, copy and design identity change.</p>
+        <span class="work-card__cta">Read the case study →</span>
+      </div>
+    </a>
+      <p class="back-row"><a class="back-link" href="../index.html#work"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to all work</a></p>
+  </div></section>
+
+</main>
+<!-- contact band (every page, above footer) -->
+<section class="block" id="contact"><div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br">
+      <span class="eyebrow">Contact</span>
+      <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
+      <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
+    </div>
+    <div class="tile tile--violet c-bl" style="display:flex;flex-direction:column;justify-content:center;gap:14px">
+      <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+        <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email address</button>
+        <div class="mail-reveal__out" hidden></div>
+        <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+        <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+      </div>
+      <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+    </div>
+  </div>
+</div></section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+  <span><a href="https://www.linkedin.com/in/amionodera">LinkedIn</a></span>
+</div></footer>
+<script>
+  (function () {
+    var frames = document.querySelectorAll('.live-frame');
+    function fit() {
+      frames.forEach(function (el) {
+        var f = el.querySelector('iframe');
+        if (f) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
+      });
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(fit);
+      frames.forEach(function (el) { ro.observe(el); });
+    }
+  })();
+</script>
+<script src="../assets/js/contact.js" defer></script>
+</body>
+</html>

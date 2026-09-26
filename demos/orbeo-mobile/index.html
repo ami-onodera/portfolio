@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orbeo Mobile | Refer a friend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     REBRAND SURFACE: usually the only colors you need to change.
+     ============================================================ */
+  :root{
+    --brand:#5B2EFF;        /* primary: CTAs + headline accent      */
+    --brand-dark:#4718E0;   /* CTA hover                            */
+    --accent:#FF6B4A;       /* reward sticker                       */
+    --ink:#140B33;          /* headings + body text (brand navy)    */
+    --hero-bg:#F1EDFF;      /* soft tint behind hero / fallbacks    */
+    --grey-bg:#F7F5FF; --border:#E4DFF5; --muted:#5A5475; --place:#9A93B5;
+    --on-brand:#FFFFFF;     /* text on --brand buttons              */
+    --on-accent:#140B33;    /* text on --accent stickers            */
+    --scrim:rgba(20,11,51,.50); /* left-side hero scrim strength     */
+    --font-head:'Space Grotesk',sans-serif;  /* headings, logo, numbers     */
+    --font-body:'Manrope',sans-serif;  /* body copy                   */
+    --r-card:6px;          /* hero referral card                   */
+    --r-ui:6px;            /* inputs + buttons (pill = 30px)       */
+    --r-tile:8px;          /* product tiles + rewards table        */
+    --head-weight:700;      /* heading weight                       */
+    --head-track:-.03em;    /* heading letter-spacing               */
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-body);color:var(--ink);background:#fff;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 48px;}
+
+  /* Header (logo only) */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);}
+  .nav{display:flex;align-items:center;padding:18px 0;}
+  .logo{display:flex;align-items:center;height:36px;color:var(--brand);} .logo svg{height:36px;width:auto;display:block;}
+  h2,h3,h4,.card-title,.sticker b,.pstick,.step .num{font-family:var(--font-head);}
+
+  /* Hero: full-bleed image + ~450px card overlaid left + reward sticker */
+  .hero{position:relative;background:var(--hero-bg);overflow:hidden;}
+  .hero-art{position:absolute;inset:0;z-index:0;} .hero-art svg{width:100%;height:100%;display:block;}
+  .hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,var(--scrim) 0%,transparent 60%);}
+  .hero-inner{position:relative;z-index:2;display:flex;align-items:center;min-height:520px;padding:56px 48px;}
+  .card{width:450px;max-width:100%;background:#fff;border-radius:var(--r-card);padding:40px;box-shadow:0 22px 60px rgba(8,12,30,.30);}
+  .card-title{font-size:32px;font-weight:var(--head-weight);color:var(--brand);line-height:1.12;letter-spacing:var(--head-track);margin-bottom:16px;}
+  .card-sub{font-size:16px;font-weight:500;color:var(--ink);line-height:1.45;margin-bottom:28px;}
+  .field{display:flex;align-items:center;gap:10px;border:1.5px solid var(--border);border-radius:var(--r-ui);padding:15px 20px;margin-bottom:14px;}
+  .field input{border:0;outline:0;font-family:inherit;font-size:15px;color:var(--ink);width:100%;background:transparent;}
+  .field input::placeholder{color:var(--place);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;width:100%;background:var(--brand);color:var(--on-brand);border:0;border-radius:var(--r-ui);padding:16px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background .2s;}
+  .btn:hover{background:var(--brand-dark);}
+  .card-divider{border:0;border-top:1px solid var(--border);margin:26px 0 16px;}
+  .legal{font-size:12px;color:#7E879B;line-height:1.5;text-align:center;margin:0;}
+  .legal.sm{margin-top:8px;} .legal a{color:#7E879B;text-decoration:underline;}
+  .powered{text-align:center;margin-top:18px;font-size:12px;color:var(--place);} .powered b{color:var(--muted);font-weight:700;}
+  .sticker{position:absolute;right:40px;top:40px;z-index:3;width:128px;height:128px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 12px 26px rgba(0,0,0,.22);}
+  .sticker small{font-size:12px;font-weight:500;line-height:1.2;} .sticker b{font-size:34px;font-weight:800;line-height:1;margin:2px 0;}
+
+  /* Sections */
+  section{padding:72px 0;}
+  .sec-head{text-align:center;margin-bottom:48px;}
+  .sec-head h2{font-size:34px;font-weight:var(--head-weight);letter-spacing:var(--head-track);}
+  .sec-head p{color:var(--muted);font-size:17px;margin-top:8px;}
+
+  /* How it works */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .step{text-align:center;}
+  .step .num{width:48px;height:48px;border-radius:50%;background:var(--brand);color:var(--on-brand);font-weight:700;font-size:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+  .step h4{font-size:20px;font-weight:700;margin-bottom:8px;}
+  .step p{color:var(--muted);font-size:16px;line-height:1.5;max-width:300px;margin:0 auto;}
+
+  /* Products */
+  .products{background:var(--grey-bg);}
+  .prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:760px;margin:0 auto;}
+  .prod{background:#fff;border-radius:var(--r-tile);border:1px solid var(--border);overflow:hidden;position:relative;}
+  .prod .thumb{height:180px;background:var(--hero-bg);position:relative;overflow:hidden;}
+  .prod .thumb svg{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  .prod .thumb .glow{position:absolute;inset:0;background:linear-gradient(180deg,rgba(17,24,58,0) 55%,rgba(17,24,58,.25) 100%);}
+  .prod .pstick{position:absolute;right:16px;top:16px;width:62px;height:62px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;box-shadow:0 8px 18px rgba(0,0,0,.2);z-index:2;}
+  .prod{display:flex;flex-direction:column;}
+  .prod .body{padding:22px;flex:1;display:flex;flex-direction:column;}
+  .prod .body .btn{margin-top:auto;}
+  .prod h4{font-size:20px;font-weight:700;color:var(--brand);margin-bottom:8px;}
+  .prod p{color:var(--muted);font-size:15px;line-height:1.5;margin-bottom:18px;min-height:44px;}
+  .prod .btn{padding:13px;font-size:15px;}
+
+  /* Rewards table */
+  .table-wrap{max-width:820px;margin:0 auto;border-radius:var(--r-tile);box-shadow:0 0 0 1px var(--border),0 10px 30px rgba(17,24,58,.06);overflow:hidden;}
+  table{width:100%;border-collapse:collapse;}
+  thead th{background:var(--ink);color:#fff;font-weight:600;font-size:14px;text-align:left;padding:16px 24px;}
+  thead th:last-child{text-align:right;}
+  tbody td{padding:16px 24px;border-top:1px solid var(--border);font-size:15px;}
+  tbody td:last-child{text-align:right;font-weight:700;color:var(--brand);white-space:nowrap;}
+  tbody tr.extra{display:none;} tbody tr.extra.show{display:table-row;}
+  .showmore{display:block;margin:22px auto 0;background:transparent;border:0;color:var(--brand);font-family:inherit;font-weight:600;font-size:15px;cursor:pointer;}
+  .footnote{text-align:center;color:var(--place);font-size:12px;margin-top:18px;}
+
+  /* Footer */
+  footer{background:var(--ink);font-family:var(--font-body);color:#fff;padding:48px 0;}
+  .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+  .foot .pw{font-size:14px;opacity:.85;} .foot-links{display:flex;gap:22px;} .foot-links a{font-size:14px;opacity:.85;}
+
+  /* Success / share state */
+  .success{display:none;text-align:center;} .success.show{display:block;}
+  .success .check{width:54px;height:54px;border-radius:50%;background:#E9FBF1;color:#16A34A;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px;}
+  .success h3{margin-bottom:6px;font-size:22px;} .success p{font-size:14px;color:var(--muted);margin-bottom:14px;}
+  .sharelink{display:flex;gap:8px;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;align-items:center;}
+  .sharelink span{font-size:13px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;text-align:left;}
+  .sharelink button{background:var(--brand);color:var(--on-brand);border:0;border-radius:calc(var(--r-ui) / 3);padding:8px 14px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+
+  @media (max-width:880px){
+    .wrap{padding:0 22px;}
+    .hero-inner{min-height:0;padding:40px 22px;} .card{width:100%;}
+    .steps{grid-template-columns:1fr;gap:36px;} .prod-grid{grid-template-columns:1fr;}
+    .sec-head h2{font-size:27px;} .sticker{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header><div class="wrap nav"><div class="logo" aria-label="Orbeo Mobile"><svg viewBox="0 0 208 36" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orbeo Mobile"><defs><linearGradient id="lgP" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF6B4A"/><stop offset=".55" stop-color="#7B4DFF"/><stop offset="1" stop-color="#5B2EFF"/></linearGradient></defs><circle cx="17" cy="18" r="10.5" fill="url(#lgP)"/><ellipse cx="17" cy="18" rx="16" ry="5.2" fill="none" stroke="#140B33" stroke-width="2.4" transform="rotate(-24 17 18)"/><circle cx="30.2" cy="11.6" r="2.6" fill="#FF6B4A"/><text x="40" y="26" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="24" letter-spacing="-0.8" fill="#140B33">orbeo<tspan dx="5" font-weight="500" fill="#5B2EFF" letter-spacing="-0.4">mobile</tspan></text></svg></div></div></header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-art"><svg viewBox="0 0 1440 560" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Illustration: a violet and coral planet with a tilted orbit ring, a moon and a phone floating in orbit">
+<defs>
+<linearGradient id="hSky" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#F1EDFF"/><stop offset=".3" stop-color="#E3DAFF"/><stop offset=".5" stop-color="#9A80FF"/><stop offset=".7" stop-color="#4420CC"/><stop offset="1" stop-color="#180B4A"/></linearGradient>
+<linearGradient id="hSkyV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#140B33" stop-opacity=".28"/><stop offset=".5" stop-color="#140B33" stop-opacity="0"/><stop offset="1" stop-color="#140B33" stop-opacity=".22"/></linearGradient>
+<radialGradient id="hGlow" cx="1040" cy="300" r="430" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FF6B4A" stop-opacity=".5"/><stop offset=".42" stop-color="#8A5CFF" stop-opacity=".28"/><stop offset="1" stop-color="#5B2EFF" stop-opacity="0"/></radialGradient>
+<linearGradient id="hPlanet" x1=".1" y1="0" x2=".9" y2="1"><stop offset="0" stop-color="#FFC29E"/><stop offset=".2" stop-color="#FF6B4A"/><stop offset=".48" stop-color="#E23F93"/><stop offset=".74" stop-color="#6A34FF"/><stop offset="1" stop-color="#2A1391"/></linearGradient>
+<radialGradient id="hShade" cx=".3" cy=".26" r=".9"><stop offset=".42" stop-color="#140B33" stop-opacity="0"/><stop offset="1" stop-color="#140B33" stop-opacity=".62"/></radialGradient>
+<radialGradient id="hShine" cx=".3" cy=".24" r=".4"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".45"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+<linearGradient id="hRing" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C9B9FF"/><stop offset=".45" stop-color="#FF8A6B"/><stop offset="1" stop-color="#FFD9CC"/></linearGradient>
+<linearGradient id="hMoon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#B7A4FF"/></linearGradient>
+<linearGradient id="hPhone" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2E1A8C"/><stop offset="1" stop-color="#140B33"/></linearGradient>
+<linearGradient id="hScreen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6F4BFF"/><stop offset=".6" stop-color="#B34DD6"/><stop offset="1" stop-color="#FF6B4A"/></linearGradient>
+<radialGradient id="hHalo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#FF8A6B" stop-opacity=".55"/><stop offset="1" stop-color="#FF8A6B" stop-opacity="0"/></radialGradient>
+<clipPath id="hClip"><circle cx="1040" cy="300" r="160"/></clipPath>
+</defs>
+<rect width="1440" height="560" fill="url(#hSky)"/>
+<rect width="1440" height="560" fill="url(#hSkyV)"/>
+<circle cx="250" cy="640" r="380" fill="#FFFFFF" opacity=".28"/>
+<circle cx="120" cy="-60" r="240" fill="#FFFFFF" opacity=".22"/>
+<circle cx="1040" cy="300" r="430" fill="url(#hGlow)"/>
+<ellipse cx="1040" cy="300" rx="560" ry="240" fill="none" stroke="#FFFFFF" stroke-opacity=".12" stroke-width="1.5" transform="rotate(-16 1040 300)"/>
+<ellipse cx="1040" cy="300" rx="420" ry="180" fill="none" stroke="#FFFFFF" stroke-opacity=".22" stroke-width="1.5" stroke-dasharray="2 9" transform="rotate(-16 1040 300)"/>
+<circle cx="845" cy="95" r="0.9" fill="#FFFFFF" opacity="0.28"/><circle cx="928" cy="142.6" r="2.1" fill="#FFFFFF" opacity="0.54"/><circle cx="756.5" cy="347.5" r="0.9" fill="#FFFFFF" opacity="0.33"/><circle cx="909.1" cy="532.4" r="0.9" fill="#FFFFFF" opacity="0.57"/><circle cx="677.2" cy="237.1" r="2.1" fill="#FFFFFF" opacity="0.12"/><circle cx="831.5" cy="447.5" r="1.1" fill="#FFFFFF" opacity="0.28"/><circle cx="1062.7" cy="114.6" r="0.9" fill="#FFFFFF" opacity="0.65"/><circle cx="615.3" cy="46.6" r="1.1" fill="#FFFFFF" opacity="0.09"/><circle cx="969.7" cy="504.4" r="1.3" fill="#FFFFFF" opacity="0.51"/><circle cx="1259.1" cy="385.5" r="1.1" fill="#FFFFFF" opacity="0.4"/><circle cx="824.2" cy="277.4" r="1.3" fill="#FFFFFF" opacity="0.5"/><circle cx="813.4" cy="534.5" r="0.9" fill="#FFFFFF" opacity="0.4"/><circle cx="705.2" cy="196.3" r="1.6" fill="#FFFFFF" opacity="0.21"/><circle cx="642.4" cy="158.1" r="0.9" fill="#FFFFFF" opacity="0.08"/><circle cx="1433.9" cy="450.6" r="1.3" fill="#FFFFFF" opacity="0.74"/><circle cx="1387.8" cy="203.4" r="2.1" fill="#FFFFFF" opacity="0.41"/><circle cx="611.9" cy="422.2" r="1.1" fill="#FFFFFF" opacity="0.1"/><circle cx="910.1" cy="500.9" r="1.6" fill="#FFFFFF" opacity="0.35"/><circle cx="1337.4" cy="449.2" r="2.1" fill="#FFFFFF" opacity="0.5"/><circle cx="1338.1" cy="522.6" r="1.1" fill="#FFFFFF" opacity="0.4"/><circle cx="693.1" cy="364" r="0.9" fill="#FFFFFF" opacity="0.21"/><circle cx="840.4" cy="81.5" r="2.1" fill="#FFFFFF" opacity="0.61"/><circle cx="961.8" cy="476.6" r="2.1" fill="#FFFFFF" opacity="0.57"/><circle cx="911.1" cy="69.9" r="1.6" fill="#FFFFFF" opacity="0.34"/><circle cx="1088.6" cy="69.3" r="2.1" fill="#FFFFFF" opacity="0.43"/><circle cx="649.3" cy="207.7" r="0.9" fill="#FFFFFF" opacity="0.09"/><circle cx="743" cy="214.4" r="1.3" fill="#FFFFFF" opacity="0.4"/><circle cx="661.5" cy="273.7" r="1.6" fill="#FFFFFF" opacity="0.16"/><circle cx="834.4" cy="91.4" r="1.3" fill="#FFFFFF" opacity="0.52"/><circle cx="1397.8" cy="206.7" r="2.1" fill="#FFFFFF" opacity="0.85"/><circle cx="1227.2" cy="173" r="0.9" fill="#FFFFFF" opacity="0.73"/><circle cx="789.8" cy="209.4" r="1.1" fill="#FFFFFF" opacity="0.31"/><circle cx="756.1" cy="302" r="2.1" fill="#FFFFFF" opacity="0.26"/><circle cx="756.3" cy="445.1" r="1.1" fill="#FFFFFF" opacity="0.39"/><circle cx="1280.1" cy="407.1" r="1.1" fill="#FFFFFF" opacity="0.46"/><circle cx="1430.9" cy="433.8" r="1.6" fill="#FFFFFF" opacity="0.49"/><circle cx="1169.4" cy="522" r="1.6" fill="#FFFFFF" opacity="0.79"/><circle cx="1196.4" cy="200.2" r="1.3" fill="#FFFFFF" opacity="0.39"/><circle cx="649.9" cy="264.1" r="1.3" fill="#FFFFFF" opacity="0.1"/><circle cx="1109.2" cy="492.2" r="0.9" fill="#FFFFFF" opacity="0.61"/><circle cx="634.6" cy="365.1" r="1.6" fill="#FFFFFF" opacity="0.15"/><circle cx="717.1" cy="433.2" r="1.3" fill="#FFFFFF" opacity="0.16"/><circle cx="1392.6" cy="397.6" r="1.6" fill="#FFFFFF" opacity="0.57"/><circle cx="1393.2" cy="399.1" r="1.1" fill="#FFFFFF" opacity="0.9"/><circle cx="688.6" cy="453.1" r="1.6" fill="#FFFFFF" opacity="0.23"/><circle cx="675.3" cy="22.5" r="0.9" fill="#FFFFFF" opacity="0.18"/><circle cx="1381.6" cy="244.9" r="1.1" fill="#FFFFFF" opacity="0.8"/><circle cx="745.7" cy="148.5" r="1.3" fill="#FFFFFF" opacity="0.29"/><circle cx="1232" cy="187.8" r="2.1" fill="#FFFFFF" opacity="0.58"/><circle cx="675.3" cy="497.3" r="1.3" fill="#FFFFFF" opacity="0.24"/><circle cx="693.6" cy="285.6" r="1.6" fill="#FFFFFF" opacity="0.26"/><circle cx="691.8" cy="90" r="2.1" fill="#FFFFFF" opacity="0.25"/><circle cx="803.7" cy="424.3" r="2.1" fill="#FFFFFF" opacity="0.36"/><circle cx="980.7" cy="514" r="2.1" fill="#FFFFFF" opacity="0.83"/><circle cx="1052.4" cy="514.9" r="1.6" fill="#FFFFFF" opacity="0.43"/><circle cx="667" cy="249.3" r="0.9" fill="#FFFFFF" opacity="0.19"/><circle cx="936.9" cy="127.7" r="1.3" fill="#FFFFFF" opacity="0.74"/><circle cx="685.8" cy="482.9" r="1.6" fill="#FFFFFF" opacity="0.15"/><circle cx="1398.2" cy="226.1" r="1.6" fill="#FFFFFF" opacity="0.44"/><circle cx="1147.7" cy="133.6" r="1.6" fill="#FFFFFF" opacity="0.9"/><circle cx="873.8" cy="63.9" r="1.3" fill="#FFFFFF" opacity="0.28"/><circle cx="799.3" cy="495.1" r="1.1" fill="#FFFFFF" opacity="0.3"/><circle cx="674" cy="238.8" r="1.3" fill="#FFFFFF" opacity="0.16"/><circle cx="805.6" cy="438.8" r="1.1" fill="#FFFFFF" opacity="0.36"/><circle cx="623.7" cy="512.3" r="0.9" fill="#FFFFFF" opacity="0.13"/><circle cx="633.7" cy="468.8" r="0.9" fill="#FFFFFF" opacity="0.09"/><circle cx="667.1" cy="21.1" r="2.1" fill="#FFFFFF" opacity="0.16"/><circle cx="1365.6" cy="344.5" r="0.9" fill="#FFFFFF" opacity="0.64"/><circle cx="769.8" cy="73" r="1.1" fill="#FFFFFF" opacity="0.26"/><circle cx="719.4" cy="509.1" r="1.3" fill="#FFFFFF" opacity="0.26"/>
+<path transform="translate(1378 470) scale(1.1)" d="M0-10 L2.2-2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2-2.2Z" fill="#FFFFFF" opacity="1"/><path transform="translate(905 455) scale(0.8)" d="M0-10 L2.2-2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2-2.2Z" fill="#FFD2C2" opacity="0.9"/><path transform="translate(1215 205) scale(0.6)" d="M0-10 L2.2-2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2-2.2Z" fill="#FFFFFF" opacity="0.8"/><path transform="translate(760 120) scale(0.7)" d="M0-10 L2.2-2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2-2.2Z" fill="#FFFFFF" opacity="0.55"/><path transform="translate(1420 300) scale(0.7)" d="M0-10 L2.2-2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2-2.2Z" fill="#FFD2C2" opacity="0.8"/>
+<g transform="translate(1040 300) rotate(-16)" fill="none">
+<path d="M-290 0 A290 70 0 0 1 290 0" stroke="url(#hRing)" stroke-width="16" opacity=".55"/>
+<path d="M-262 0 A262 60 0 0 1 262 0" stroke="#FFFFFF" stroke-width="2" opacity=".35"/>
+</g>
+<circle cx="779.2" cy="344" r="7" fill="#FF6B4A"/>
+<circle cx="1040" cy="300" r="160" fill="url(#hPlanet)"/>
+<g clip-path="url(#hClip)" fill="none" stroke-linecap="round">
+<path d="M860 250 Q1040 200 1220 240" stroke="#FFFFFF" stroke-width="18" opacity=".12"/>
+<path d="M860 300 Q1040 262 1220 292" stroke="#140B33" stroke-width="10" opacity=".12"/>
+<path d="M860 350 Q1040 318 1220 342" stroke="#FFFFFF" stroke-width="26" opacity=".08"/>
+<path d="M860 410 Q1040 380 1220 398" stroke="#140B33" stroke-width="14" opacity=".14"/>
+<circle cx="1110" cy="372" r="22" fill="#140B33" opacity=".12" stroke="none"/>
+<circle cx="1146" cy="360" r="9" fill="#140B33" opacity=".1" stroke="none"/>
+</g>
+<circle cx="1040" cy="300" r="160" fill="url(#hShade)"/>
+<circle cx="1040" cy="300" r="160" fill="url(#hShine)"/>
+<g transform="translate(1040 300) rotate(-16)" fill="none">
+<path d="M-290 0 A290 70 0 0 0 290 0" stroke="url(#hRing)" stroke-width="16"/>
+<path d="M-262 0 A262 60 0 0 0 262 0" stroke="#FFFFFF" stroke-width="2" opacity=".7"/>
+<path d="M-316 0 A316 80 0 0 0 316 0" stroke="#FFFFFF" stroke-width="1.5" opacity=".35" stroke-dasharray="3 7"/>
+</g>
+<g transform="translate(1188 118)">
+<circle r="36" fill="#B7A4FF" opacity=".25"/>
+<circle r="25" fill="url(#hMoon)"/>
+<circle cx="-7" cy="-4" r="6" fill="#8F74FF" opacity=".35"/>
+<circle cx="8" cy="7" r="4" fill="#8F74FF" opacity=".3"/>
+<circle cx="6" cy="-10" r="2.5" fill="#8F74FF" opacity=".3"/>
+</g>
+<g transform="translate(868 172) rotate(-18)">
+<path d="M-23-30 H11 L23-18 V30 H-23Z" fill="#FFFFFF" opacity=".95"/>
+<rect x="-13" y="-10" width="26" height="22" rx="3" fill="#FF6B4A"/>
+<path d="M-13 1 H13 M0-10 V12 M-5-10 V-4 H5 V-10" stroke="#140B33" stroke-width="1.4" opacity=".45" fill="none"/>
+</g>
+<circle cx="1302" cy="282" r="88" fill="url(#hHalo)"/>
+<path d="M1271 212.5 A16 16 0 0 1 1283.8 202.2" fill="none" stroke="#FFD2C2" stroke-width="3.5" stroke-linecap="round" opacity="0.95"/><path d="M1259.7 208.4 A28 28 0 0 1 1282.1 190.3" fill="none" stroke="#FFD2C2" stroke-width="3.5" stroke-linecap="round" opacity="0.7"/><path d="M1248.4 204.3 A40 40 0 0 1 1280.4 178.4" fill="none" stroke="#FFD2C2" stroke-width="3.5" stroke-linecap="round" opacity="0.45"/>
+<g transform="translate(1302 282) rotate(14)">
+<rect x="-34" y="-60" width="68" height="120" rx="8" fill="#140B33" opacity=".35" transform="translate(8 10)"/>
+<rect x="-34" y="-60" width="68" height="120" rx="8" fill="url(#hPhone)" stroke="#FFFFFF" stroke-opacity=".3" stroke-width="1.5"/>
+<rect x="-28" y="-52" width="56" height="104" rx="4" fill="url(#hScreen)"/>
+<rect x="-9" y="-49" width="18" height="4" rx="2" fill="#140B33"/>
+<circle cx="0" cy="-14" r="13" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+<ellipse cx="0" cy="-14" rx="21" ry="6" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".8" transform="rotate(-20 0 -14)"/>
+<rect x="-18" y="14" width="36" height="6" rx="1.5" fill="#FFFFFF" opacity=".9"/>
+<rect x="-12" y="25" width="24" height="5" rx="1.5" fill="#FFFFFF" opacity=".55"/>
+<rect x="-15" y="36" width="30" height="9" rx="2" fill="#140B33" opacity=".8"/>
+</g>
+</svg></div>
+  <div class="scrim"></div>
+  <div class="sticker"><small>up to</small><b>&euro;30</b><small>credit each</small></div>
+  <div class="wrap hero-inner">
+    <div class="card">
+      <div id="referForm">
+        <h2 class="card-title">Refer and earn up to &euro;30</h2>
+        <p class="card-sub">Bring a friend into orbit. When they join any Orbeo SIM plan, you both get &euro;30 off your bill.</p>
+        <div class="field">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A1B3" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          <input id="email" type="email" placeholder="Enter your email address" />
+        </div>
+        <button class="btn" onclick="refer()">Get your unique link</button>
+        <hr class="card-divider">
+        <p class="legal">The referral scheme is managed by Orbeo Mobile&rsquo;s partner, Aklamio.</p>
+        <p class="legal sm">By continuing I confirm I have read and agreed with Aklamio&rsquo;s <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Accessibility Statement</a>.</p>
+        <div class="powered">powered by <b>aklamio</b></div>
+      </div>
+      <div class="success" id="successState">
+        <div class="check">&#10003;</div>
+        <h3>You&rsquo;re all set!</h3>
+        <p>Share your unique link: you both get &euro;30 when your friend joins Orbeo Mobile.</p>
+        <div class="sharelink"><span id="link">https://orbeo.link/r/AK7F2Q9</span><button onclick="copyLink(this)">Copy</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section><div class="wrap">
+  <div class="sec-head"><h2>How it works</h2></div>
+  <div class="steps">
+    <div class="step"><div class="num">1</div><h4>Grab your link</h4><p>Enter your email and get a personal link in seconds. No app download needed.</p></div>
+    <div class="step"><div class="num">2</div><h4>Send it anywhere</h4><p>Share it by WhatsApp, text or socials. Every friend who joins counts.</p></div>
+    <div class="step"><div class="num">3</div><h4>Both get &euro;30</h4><p>Once your friend&rsquo;s SIM is active, &euro;30 credit lands on both your bills.</p></div>
+  </div>
+</div></section>
+
+<!-- PRODUCTS -->
+<section class="products"><div class="wrap">
+  <div class="sec-head"><h2>Plans your friends will love</h2><p>SIM only, no contract, 5G included. Cancel any month.</p></div>
+  <div class="prod-grid">
+    <div class="prod"><div class="thumb a"><svg viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Infinity symbol made of orbit rings">
+<defs>
+<linearGradient id="p1Bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B2EFF"/><stop offset=".6" stop-color="#3517B0"/><stop offset="1" stop-color="#1A0C4A"/></linearGradient>
+<radialGradient id="p1Glow" cx="178" cy="92" r="170" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FF6B4A" stop-opacity=".45"/><stop offset="1" stop-color="#FF6B4A" stop-opacity="0"/></radialGradient>
+<linearGradient id="p1Ring" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C9B9FF"/><stop offset=".5" stop-color="#FF8A6B"/><stop offset="1" stop-color="#FFD9CC"/></linearGradient>
+<radialGradient id="p1Dot" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#FFC29E"/><stop offset="1" stop-color="#FF6B4A"/></radialGradient>
+</defs>
+<rect width="380" height="180" fill="url(#p1Bg)"/>
+<circle cx="178" cy="92" r="170" fill="url(#p1Glow)"/>
+<circle cx="-20" cy="200" r="90" fill="#FFFFFF" opacity=".06"/>
+<circle cx="302.4" cy="174.1" r="0.8" fill="#FFFFFF" opacity="0.36"/><circle cx="188.2" cy="146.9" r="1.7" fill="#FFFFFF" opacity="0.84"/><circle cx="89.9" cy="38.8" r="1" fill="#FFFFFF" opacity="0.55"/><circle cx="133.6" cy="14.2" r="1" fill="#FFFFFF" opacity="0.36"/><circle cx="236.4" cy="154.6" r="1.7" fill="#FFFFFF" opacity="0.43"/><circle cx="36.3" cy="148" r="1.3" fill="#FFFFFF" opacity="0.65"/><circle cx="261.3" cy="12.7" r="1" fill="#FFFFFF" opacity="0.43"/><circle cx="360.9" cy="170.3" r="1.3" fill="#FFFFFF" opacity="0.47"/><circle cx="136.9" cy="5.2" r="1.7" fill="#FFFFFF" opacity="0.39"/><circle cx="38.6" cy="143.9" r="1" fill="#FFFFFF" opacity="0.55"/><circle cx="20.4" cy="8.8" r="1.3" fill="#FFFFFF" opacity="0.66"/><circle cx="36.3" cy="167.8" r="1" fill="#FFFFFF" opacity="0.68"/><circle cx="269.9" cy="154.4" r="1.7" fill="#FFFFFF" opacity="0.73"/>
+<g fill="none" transform="rotate(-8 178 92)">
+<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="#FFFFFF" stroke-width="1.5" opacity=".35" stroke-dasharray="3 6" transform="translate(178 92) scale(1.22) translate(-178 -92)" vector-effect="non-scaling-stroke"/>
+<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="url(#p1Ring)" stroke-width="11" stroke-linejoin="round"/>
+<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="#FFFFFF" stroke-width="2" opacity=".8" transform="translate(178 92) scale(.8) translate(-178 -92)" vector-effect="non-scaling-stroke"/>
+<circle cx="270" cy="92" r="9" fill="url(#p1Dot)" stroke="#FFFFFF" stroke-width="2"/>
+<circle cx="116" cy="59" r="5" fill="#FFFFFF"/>
+<circle cx="138" cy="122" r="3.5" fill="#FFD2C2"/>
+</g>
+</svg><div class="glow"></div><div class="pstick">&euro;30</div></div><div class="body"><h4>Orbeo Unlimited</h4><p>Endless 5G data, calls and texts, plus free EU roaming. &euro;25 a month.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+    <div class="prod"><div class="thumb b"><svg viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data gauge at 50 GB with a small satellite">
+<defs>
+<linearGradient id="p2Bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F1EDFF"/><stop offset="1" stop-color="#D6CAFF"/></linearGradient>
+<linearGradient id="p2Arc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5B2EFF"/><stop offset=".7" stop-color="#C040C8"/><stop offset="1" stop-color="#FF6B4A"/></linearGradient>
+<linearGradient id="p2Panel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7B5CFF"/><stop offset="1" stop-color="#3517B0"/></linearGradient>
+</defs>
+<rect width="380" height="180" fill="url(#p2Bg)"/>
+<circle cx="158" cy="150" r="150" fill="#FFFFFF" opacity=".45"/>
+<circle cx="360" cy="190" r="70" fill="#5B2EFF" opacity=".08"/>
+<ellipse cx="300" cy="110" rx="120" ry="34" fill="none" stroke="#5B2EFF" stroke-opacity=".18" stroke-width="1.5" stroke-dasharray="3 6" transform="rotate(-20 300 110)"/>
+<path d="M264 150 L272 150" stroke="#5B2EFF" stroke-width="2" opacity=".45"/><path d="M249.8 97 L256.7 93" stroke="#5B2EFF" stroke-width="2" opacity=".45"/><path d="M211 58.2 L215 51.3" stroke="#5B2EFF" stroke-width="2" opacity=".45"/><path d="M158 44 L158 36" stroke="#5B2EFF" stroke-width="2" opacity=".45"/><path d="M105 58.2 L101 51.3" stroke="#5B2EFF" stroke-width="2" opacity=".45"/><path d="M66.2 97 L59.3 93" stroke="#5B2EFF" stroke-width="2" opacity=".45"/><path d="M52 150 L44 150" stroke="#5B2EFF" stroke-width="2" opacity=".45"/>
+<path d="M66 150 A92 92 0 0 1 250 150" fill="none" stroke="#CFC3FF" stroke-width="18"/>
+<path d="M66 150 A92 92 0 0 1 212.1 75.6" fill="none" stroke="url(#p2Arc)" stroke-width="18"/>
+<circle cx="212.1" cy="75.6" r="7" fill="#FFFFFF" stroke="#FF6B4A" stroke-width="3"/>
+<text x="158" y="134" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="38" letter-spacing="-1.2" fill="#140B33">50<tspan font-size="20" dx="4" fill="#5B2EFF">GB</tspan></text>
+<text x="158" y="148" text-anchor="middle" font-family="'Manrope',sans-serif" font-weight="600" font-size="11" letter-spacing="1.2" fill="#5A5475">5G DATA</text>
+<path d="M271.9 101 A14 14 0 0 0 271.9 115" fill="none" stroke="#FF6B4A" stroke-width="3" stroke-linecap="round" opacity="0.95"/><path d="M263.2 96 A24 24 0 0 0 263.2 120" fill="none" stroke="#FF6B4A" stroke-width="3" stroke-linecap="round" opacity="0.7"/><path d="M254.6 91 A34 34 0 0 0 254.6 125" fill="none" stroke="#FF6B4A" stroke-width="3" stroke-linecap="round" opacity="0.45"/>
+<g transform="translate(306 116) rotate(-28)">
+<rect x="-40" y="-8" width="24" height="16" fill="url(#p2Panel)"/>
+<path d="M-32-8 V8 M-24-8 V8 M-40 0 H-16" stroke="#FFFFFF" stroke-width="1" opacity=".5"/>
+<rect x="16" y="-8" width="24" height="16" fill="url(#p2Panel)"/>
+<path d="M24-8 V8 M32-8 V8 M16 0 H40" stroke="#FFFFFF" stroke-width="1" opacity=".5"/>
+<path d="M-16 0 H-9 M9 0 H16" stroke="#140B33" stroke-width="2"/>
+<rect x="-9" y="-10" width="18" height="20" rx="2" fill="#140B33"/>
+<rect x="-5" y="-6" width="10" height="4" fill="#FF6B4A"/>
+<path d="M0 -10 V-16" stroke="#140B33" stroke-width="2"/>
+<circle cx="0" cy="-18" r="3" fill="#FF6B4A"/>
+</g>
+</svg><div class="glow"></div><div class="pstick">&euro;30</div></div><div class="body"><h4>Orbeo 50 GB</h4><p>50 GB of 5G data, and unused gigabytes roll over. &euro;15 a month.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+  </div>
+</div></section>
+
+<!-- REWARDS TABLE -->
+<section class="rewards"><div class="wrap">
+  <div class="sec-head"><h2>Rewards</h2><p>per successful referral</p></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>What your friend joins</th><th>Reward for you and your friend</th></tr></thead>
+    <tbody id="rtbody">
+      <tr><td>Orbeo 20 GB</td><td>&euro;30 each</td></tr>
+      <tr><td>Orbeo 50 GB</td><td>&euro;30 each</td></tr>
+      <tr><td>Orbeo Unlimited</td><td>&euro;30 each</td></tr>
+      <tr class="extra"><td>Orbeo Unlimited + eSIM for watch</td><td>&euro;30 each</td></tr>
+    </tbody>
+  </table></div>
+  <button class="showmore" id="showmore" onclick="toggleRows()">Show more</button>
+  <p class="footnote">Credit is added once your friend&rsquo;s plan has been active for 30 days, for up to 10 referrals per year.</p>
+</div></section>
+
+<!-- FOOTER -->
+<footer><div class="wrap foot">
+  <div class="pw">&copy; Orbeo Mobile &middot; Referral programme powered by <b>Aklamio</b></div>
+  <div class="foot-links"><a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a><a href="#">Help</a></div>
+</div></footer>
+
+<script>
+  function refer(){var e=document.getElementById('email').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){var i=document.getElementById('email');i.focus();i.parentElement.style.borderColor='var(--accent)';return;}document.getElementById('referForm').style.display='none';document.getElementById('successState').classList.add('show');}
+  function copyLink(b){try{navigator.clipboard.writeText(document.getElementById('link').textContent);}catch(e){}b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},1600);}
+  function toggleRows(){var r=document.querySelectorAll('#rtbody .extra'),b=document.getElementById('showmore'),s=r[0].classList.contains('show');r.forEach(function(x){x.classList.toggle('show',!s);});b.textContent=s?'Show more':'Show less';}
+  function topCard(){window.scrollTo({top:0,behavior:'smooth'});document.getElementById('email').focus();}
+</script>
+
+<!-- portfolio: back button (hidden when the page is embedded as a preview) -->
+<style>
+  .pf-back{display:none;position:fixed;left:20px;bottom:20px;z-index:10000;align-items:center;gap:10px;padding:6px 16px 6px 6px;background:#fff;color:#2c2a4f;border-radius:999px;font:800 14px/1 "Nunito",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;text-decoration:none;box-shadow:0 10px 30px rgba(44,42,79,.18),0 0 0 1px #e6e1fa;}
+  html.pf-top .pf-back{display:inline-flex;}
+  .pf-back i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#efebfd;color:#5a4dbd;transition:transform .15s ease;}
+  .pf-back:hover i{transform:translateX(-2px);}
+  .pf-back:focus-visible{outline:3px solid #7466cf;outline-offset:3px;}
+  @media (max-width:880px){.pf-back{left:auto;right:12px;bottom:auto;top:12px;padding:6px;}.pf-back span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}}
+</style>
+<a class="pf-back" href="../../work/one-template-many-brands.html"><i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></i><span>Back to case study</span></a>
+<script>if(window.self===window.top)document.documentElement.classList.add('pf-top');</script>
+</body>
+</html>
