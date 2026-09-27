@@ -12,4 +12,3 @@ Plain HTML and CSS, no build step. Hosted with GitHub Pages from the `main` bran
 - `earlier-work.html`, `about.html`
 - `assets/`: CSS, JS, images and CV
 
-<!-- push test 2026-09-27T09:16:43Z -->
