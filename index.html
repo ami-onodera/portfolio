@@ -19,15 +19,16 @@
     --font-pixel:"Press Start 2P", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%}
+  html{min-height:100%; overflow-x:hidden}
   body{
     font-family:var(--font-body); color:var(--body);
-    width:100vw; height:100vh; position:relative; overflow:hidden;
+    min-height:100vh; position:relative;
     background: linear-gradient(180deg, #cfe3fb 0%, #d9d3f2 32%, #eccbe4 58%, #f6d9e4 78%, #fbe7d9 100%);
+    background-attachment:fixed;
     user-select:none;
   }
   .grid-floor{
-    position:absolute; left:0; right:0; bottom:0; height:40%; z-index:0; pointer-events:none;
+    position:fixed; left:0; right:0; bottom:0; height:40%; z-index:0; pointer-events:none;
     background-image:
       linear-gradient(rgba(255,255,255,.5) 2px, transparent 2px),
       linear-gradient(90deg, rgba(255,255,255,.5) 2px, transparent 2px);
@@ -41,7 +42,7 @@
 
   /* ================= TOP NAVBAR — vaporwave Win95 bevel (ported from the navbar artifact) ================= */
   .navbar{
-    position:absolute; top:0; left:0; right:0; height:54px; z-index:80;
+    position:sticky; top:0; left:0; right:0; height:54px; z-index:80;
     background: linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%);
     border-bottom:3px solid #4a1f70;
     box-shadow:0 4px 14px rgba(30,10,50,.35);
@@ -101,7 +102,7 @@
   .nav-util{ text-decoration:none }
 
   /* ================= DESKTOP ICONS ================= */
-  .icons{position:absolute; top:80px; left:34px; z-index:2; display:flex; flex-direction:column; gap:28px}
+  .icons{position:fixed; top:80px; left:34px; z-index:5; display:flex; flex-direction:column; gap:28px}
   .icon{display:flex; flex-direction:column; align-items:center; gap:7px; width:80px; cursor:pointer; background:none; border:0; padding:6px; border-radius:6px}
   .icon:hover{background:rgba(255,255,255,.35)}
   .icon:active{background:rgba(255,255,255,.55)}
@@ -116,7 +117,7 @@
   .icon-art{ width:72px; height:72px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(37,40,61,.35)) }
   .trash-icon .icon-art{ width:62px; height:62px }
 
-  .trash-icon{ position:absolute; right:34px; bottom:34px; z-index:2 }
+  .trash-icon{ position:fixed; right:34px; bottom:34px; z-index:5 }
 
   /* ================= WINDOW CHROME (squared) ================= */
   .win{
@@ -193,7 +194,7 @@
     box-shadow:3px 3px 0 var(--indigo); cursor:pointer; text-decoration:none;
   }
 
-  .win--dialog{ width:290px; z-index:110 }
+  .win--dialog{ position:fixed; width:290px; z-index:110 }
   .win--dialog .body{ text-align:center; padding:22px 20px }
   .win--dialog p{font-family:var(--font-head); font-weight:600; font-size:14.5px; color:var(--indigo); line-height:1.5}
   .win--dialog .row{display:flex; gap:10px; justify-content:center; margin-top:18px}
@@ -229,60 +230,100 @@
     opacity:0; pointer-events:none; transition:opacity .22s ease;
   }
   .backdrop.show{opacity:1; pointer-events:auto}
+
+  /* ================= STAGE: the desktop is drawn on a fixed design canvas and scaled to the screen width (JS sets width/height/transform) ================= */
+  .desktop{ position:relative; width:100%; height:1100px; margin-top:-54px; overflow:hidden; }
+  .stage{ position:absolute; top:0; left:0; width:1800px; height:1100px; transform-origin:0 0; }
+  .mobile-only{ display:none; }
+  .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+  /* ---- contact card + cascade (shown on mobile only) ---- */
+  .contact-wrap{ padding-right:48px; }
+  .contact-cascade{ position:relative; isolation:isolate; width:min(420px,100%); height:280px; margin:0 auto; }
+  .cascade-ghost, .cascade-front{ height:190px; }
+  .cascade-ghost{ position:absolute; width:100%; background:var(--purple-soft); }
+  .cascade-ghost--middle{ top:45px; left:24px; z-index:2; }
+  .cascade-ghost--bottom{ top:90px; left:48px; z-index:1; }
+  .cascade-front{ box-sizing:border-box; width:100%; overflow:visible; }
+  .cascade-front .body{ display:flex; flex-direction:column; gap:20px; align-items:center; text-align:center; padding:22px 12px 18px; }
+  .cascade-front__msg{ font-family:var(--font-head); font-weight:700; font-size:19px; color:var(--indigo); margin:0; }
+  .cascade-front__actions{ display:flex; gap:8px; justify-content:center; width:100%; }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px; white-space:nowrap; cursor:pointer; text-decoration:none;
+    font:9.5px var(--font-pixel); color:var(--indigo); background:var(--chrome); padding:13px 14px;
+    border:2px solid var(--indigo); border-radius:0; box-shadow:3px 3px 0 var(--indigo);
+  }
+  .btn svg{ flex:none; }
+  .btn--primary{ background:var(--pink); color:#fff; }
+  .btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--indigo); }
+  .mail-reveal{ display:flex; }
+  .mail-reveal__btn[hidden], .mail-reveal__out[hidden]{ display:none; }
+  .mail-reveal__out{
+    position:absolute; left:10px; right:10px; top:52px; z-index:20; text-align:left;
+    background:var(--chrome); border:3px double var(--indigo);
+    box-shadow:5px 6px 0 rgba(37,40,61,.18), 0 14px 24px rgba(60,40,90,.16);
+  }
+  .mail-reveal__out:not([hidden]){ display:block; }
+  .mail-popup__bar{ display:flex; align-items:center; gap:7px; padding:7px 9px; background:linear-gradient(90deg,var(--blue),var(--purple)); border-bottom:2px solid var(--indigo); }
+  .mail-popup__bar .titlewrap{ display:flex; align-items:center; gap:7px; }
+  .mail-popup__bar .title{ font-family:var(--font-pixel); font-size:8px; color:var(--indigo); }
+  .mail-reveal__out .mail-pill{
+    display:block; margin:12px 10px 10px; padding:9px 10px; background:#fff; border:1.5px solid var(--indigo);
+    font:600 13px var(--font-body); color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-decoration:none;
+  }
+  .mail-popup__row{ display:flex; gap:8px; margin:0 10px 12px; }
+  .mail-popup__row .btn{ flex:1; }
+
+  /* ================= RESPONSIVE ================= */
+  /* tablet / phone: no scaled canvas. Windows stack in normal flow: About, Selected work, Early work, then Contact. No dragging. */
+  @media (max-width:900px){
+    body{ user-select:auto; }
+
+    .navbar{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 8px; border-bottom-width:2px; }
+    .navbtn{ font-size:9px; height:24px; padding:0 8px; gap:5px; }
+    .nav-start{ width:42px; height:36px; padding:0; }
+    .nav-start img{ width:28px; height:28px; }
+    .nav-divider{ display:none; }
+    .nav-tabs{ flex:1 1 0; min-width:0; flex-wrap:wrap; overflow:visible; gap:6px; }
+    .nav-tabs .navbtn{ display:flex; }
+    .nav-right{ flex:1 1 100%; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+    .nav-clock{ height:24px; padding:0 8px; font-size:10px; }
+    .nav-more{ width:24px; height:24px; }
+
+    .desktop{ height:auto !important; margin-top:0; overflow:visible; }
+    .stage{ position:static; width:auto !important; height:auto !important; transform:none !important;
+            display:flex; flex-direction:column; gap:22px; padding:18px 14px 30px; }
+    .icons, .trash-icon, .deco, .pixel-cloud, .desktop-only{ display:none !important; }
+    .mobile-only{ display:block; }
+    .stage .win{ position:relative !important; top:auto !important; left:auto !important; z-index:auto !important;
+                 transform:none !important; width:auto !important; max-width:100%; scroll-margin-top:110px; }
+    .stage .contact-cascade .cascade-front{ z-index:3 !important; }
+    .win .bar{ cursor:default; }
+    .win .bar:active{ cursor:default; }
+    .case-thumb span{ font-size:7px; }
+  }
+  @media (max-width:560px){
+    .about-grid{ flex-direction:column; gap:14px; }
+    .about-photo{ width:110px; height:110px; }
+    .win .body{ padding:16px 14px; }
+  }
+  @media (max-width:480px){
+    .case-grid{ grid-template-columns:1fr; }
+    .case-thumb{ aspect-ratio:16/10; }
+    .case-thumb span{ font-size:8px; }
+  }
+  @media (max-width:440px){
+    .navbtn{ font-size:8px; padding:0 6px; gap:4px; }
+    .navbtn svg{ width:10px; height:10px; }
+    .btn{ font-size:8px; padding:12px 10px; }
+    .btn svg{ display:none; }
+    .cascade-front__msg{ font-size:17px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="grid-floor"></div>
-<!-- clouds: scattered, varied size/opacity, drifting behind the windows -->
-<svg class="deco" style="top:66px; right:90px; width:150px; opacity:.95" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
-<svg class="deco" style="top:200px; right:280px; width:90px; opacity:.7; z-index:1" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
-<svg class="deco" style="top:640px; left:420px; width:110px; opacity:.8" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
-<svg class="deco" style="top:78px; left:850px; width:70px; opacity:.55" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
-<svg class="deco" style="top:720px; right:60px; width:130px; opacity:.85" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
-
-<!-- pixel-art clouds: a trimmed-down mix, some tucked just behind a window corner so they peek out at the border, others drifting free in open sky for a magical retro feel -->
-<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-k-wide-white.png" style="top:34px; left:840px; width:270px; opacity:.9; z-index:2">
-<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-c-flower-white.png" style="top:104px; left:698px; width:64px; z-index:2">
-<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-h-big-pink.png" style="top:150px; left:1580px; width:190px; z-index:2">
-<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-j-wide-purple.png" style="top:985px; left:520px; width:200px; z-index:2">
-<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-a-puff-pink.png" style="top:60px; left:160px; width:180px; z-index:2" title="peeking behind About">
-<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-n-twin-blue.png" style="top:1000px; left:1120px; width:160px; z-index:2" title="peeking behind Early work's bottom-left corner">
-<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-l-twin-pinkpurple.png" style="top:596px; left:4px; width:130px; z-index:2" title="peeking behind the notice stack">
-
-<!-- star trail: a small milky-way-ish drift of stars from upper-left to lower-right, mixing tiny dots, small twinkles and a couple of bigger anchor stars -->
-<svg class="deco star-trail" style="top:66px; left:602px; width:15px; opacity:0.86" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:87px; left:680px; width:9px; opacity:0.76" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:115px; left:757px; width:12px; opacity:0.84" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:163px; left:835px; width:6px; opacity:0.61" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:198px; left:893px; width:13px; opacity:0.82" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:238px; left:988px; width:15px; opacity:0.79" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:258px; left:1048px; width:9px; opacity:0.78" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:344px; left:1188px; width:13px; opacity:0.72" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:380px; left:1244px; width:7px; opacity:0.68" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:416px; left:1310px; width:14px; opacity:0.90" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:466px; left:1332px; width:14px; opacity:0.72" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:507px; left:1372px; width:9px; opacity:0.88" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:563px; left:1434px; width:12px; opacity:0.88" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:604px; left:1512px; width:21px; opacity:0.94" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:648px; left:1548px; width:6px; opacity:0.67" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:757px; left:1672px; width:5px; opacity:0.63" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:804px; left:1689px; width:13px; opacity:0.95" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco star-trail" style="top:896px; left:1808px; width:4px; opacity:0.60" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
-
-<!-- stars / sparkles: four-point twinkles at a few sizes -->
-<svg class="deco" style="top:60%; left:82%; width:24px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco" style="top:140px; left:780px; width:16px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco" style="top:610px; left:900px; width:20px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco" style="top:730px; left:640px; width:14px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco" style="top:96px; right:430px; width:12px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-<svg class="deco" style="top:410px; right:40px; width:18px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-
-<!-- tiny sparkle dots, for extra magic dust -->
-<svg class="deco" style="top:250px; left:770px; width:8px; opacity:.9" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
-<svg class="deco" style="top:560px; right:360px; width:6px; opacity:.8" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
-<svg class="deco" style="top:170px; left:360px; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
-<svg class="deco" style="top:690px; left:900px; width:6px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
 
 <!-- ============ TOP NAVBAR ============ -->
 <div class="navbar">
@@ -379,6 +420,58 @@
   </div>
 </div>
 
+<div class="desktop" id="desktop">
+<div class="stage" id="stage">
+<!-- clouds: scattered, varied size/opacity, drifting behind the windows -->
+<svg class="deco" style="top:66px; right:90px; width:150px; opacity:.95" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:200px; right:280px; width:90px; opacity:.7; z-index:1" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:640px; left:420px; width:110px; opacity:.8" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:78px; left:850px; width:70px; opacity:.55" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:720px; right:60px; width:130px; opacity:.85" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+
+<!-- pixel-art clouds: a trimmed-down mix, some tucked just behind a window corner so they peek out at the border, others drifting free in open sky for a magical retro feel -->
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-k-wide-white.png" style="top:34px; left:840px; width:270px; opacity:.9; z-index:2">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-c-flower-white.png" style="top:104px; left:698px; width:64px; z-index:2">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-h-big-pink.png" style="top:150px; left:1580px; width:190px; z-index:2">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-j-wide-purple.png" style="top:985px; left:520px; width:200px; z-index:2">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-a-puff-pink.png" style="top:60px; left:160px; width:180px; z-index:2" title="peeking behind About">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-n-twin-blue.png" style="top:1000px; left:1120px; width:160px; z-index:2" title="peeking behind Early work's bottom-left corner">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-l-twin-pinkpurple.png" style="top:596px; left:4px; width:130px; z-index:2" title="peeking behind the notice stack">
+
+<!-- star trail: a small milky-way-ish drift of stars from upper-left to lower-right, mixing tiny dots, small twinkles and a couple of bigger anchor stars -->
+<svg class="deco star-trail" style="top:66px; left:602px; width:15px; opacity:0.86" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:87px; left:680px; width:9px; opacity:0.76" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:115px; left:757px; width:12px; opacity:0.84" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:163px; left:835px; width:6px; opacity:0.61" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:198px; left:893px; width:13px; opacity:0.82" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:238px; left:988px; width:15px; opacity:0.79" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:258px; left:1048px; width:9px; opacity:0.78" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:344px; left:1188px; width:13px; opacity:0.72" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:380px; left:1244px; width:7px; opacity:0.68" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:416px; left:1310px; width:14px; opacity:0.90" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:466px; left:1332px; width:14px; opacity:0.72" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:507px; left:1372px; width:9px; opacity:0.88" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:563px; left:1434px; width:12px; opacity:0.88" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:604px; left:1512px; width:21px; opacity:0.94" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:648px; left:1548px; width:6px; opacity:0.67" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:757px; left:1672px; width:5px; opacity:0.63" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:804px; left:1689px; width:13px; opacity:0.95" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:896px; left:1808px; width:4px; opacity:0.60" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+
+<!-- stars / sparkles: four-point twinkles at a few sizes -->
+<svg class="deco" style="top:60%; left:82%; width:24px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:140px; left:780px; width:16px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:610px; left:900px; width:20px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:730px; left:640px; width:14px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:96px; right:430px; width:12px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:410px; right:40px; width:18px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+
+<!-- tiny sparkle dots, for extra magic dust -->
+<svg class="deco" style="top:250px; left:770px; width:8px; opacity:.9" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco" style="top:560px; right:360px; width:6px; opacity:.8" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco" style="top:170px; left:360px; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco" style="top:690px; left:900px; width:6px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+
 <!-- ============ THE HOME DESKTOP: a cascade of windows, About in back-left, biggest window (Selected work) overlapping its bottom-right corner, Early work tucked further behind that ============ -->
 <div class="win win--about open" data-window="about" style="top:148px; left:272px; z-index:11; transform:rotate(-.5deg)">
   <div class="bar">
@@ -433,31 +526,14 @@
   </div>
 </div>
 
-<!-- ============ MODAL: the "are you sure" confirm dialog, appears once on load then vanishes ============ -->
-<div class="backdrop" id="backdrop"></div>
-
-<div class="win win--dialog" data-window="dialog" style="top:120px; left:820px; z-index:110">
-  <div class="bar">
-    <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">confirm.exe</span></span>
-    <span class="btns"><i data-modal-close>x</i></span>
-  </div>
-  <div class="body">
-    <p>Are you sure you want to<br>view this portfolio?</p>
-    <div class="row">
-      <span class="dbtn dbtn--yes" data-modal-close>YES</span>
-      <span class="dbtn" data-modal-close>NO</span>
-    </div>
-  </div>
-</div>
-
 <!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
-<div class="ghost-bar" style="top:666px; left:60px; z-index:14; width:360px; height:143px">
+<div class="ghost-bar desktop-only" style="top:666px; left:60px; z-index:14; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="ghost-bar" style="top:684px; left:78px; z-index:15; width:360px; height:143px">
+<div class="ghost-bar desktop-only" style="top:684px; left:78px; z-index:15; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="win win--notice open" data-window="notice" style="top:702px; left:96px; z-index:16; width:360px">
+<div class="win win--notice open desktop-only" data-window="notice" style="top:702px; left:96px; z-index:16; width:360px">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span>
     <span class="btns"><i>_</i><i>▢</i><i>x</i></span>
@@ -478,7 +554,89 @@
   </div>
 </div>
 
+<!-- ============ MOBILE ONLY: contact card (email + CV) replaces the content-model notice on small screens ============ -->
+<div class="contact-wrap mobile-only" id="contact-mobile">
+  <div class="contact-cascade">
+    <div class="ghost-bar cascade-ghost cascade-ghost--bottom">
+      <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+    </div>
+    <div class="ghost-bar cascade-ghost cascade-ghost--middle">
+      <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+    </div>
+    <div class="win open cascade-front" data-window="contact">
+      <div class="bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="body">
+        <p class="cascade-front__msg">Contact Me</p>
+        <div class="cascade-front__actions">
+          <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+            <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+            <div class="mail-reveal__out" hidden>
+              <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+              <div class="mail-popup__row">
+                <button type="button" class="btn mail-reveal__back">Back</button>
+              </div>
+            </div>
+            <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+            <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+          </div>
+          <a class="btn" href="assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- ============ MODAL: the "are you sure" confirm dialog, appears once on load then vanishes ============ -->
+<div class="backdrop" id="backdrop"></div>
+
+<div class="win win--dialog" data-window="dialog" style="top:120px; left:820px; z-index:110">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">confirm.exe</span></span>
+    <span class="btns"><i data-modal-close>x</i></span>
+  </div>
+  <div class="body">
+    <p>Are you sure you want to<br>view this portfolio?</p>
+    <div class="row">
+      <span class="dbtn dbtn--yes" data-modal-close>YES</span>
+      <span class="dbtn" data-modal-close>NO</span>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/contact.js" defer></script>
 <script>
+  /* ---- responsive: scale the desktop canvas to the screen width; stack windows on small screens ---- */
+  var MOBILE_MQ = window.matchMedia('(max-width: 900px)');
+  function isMobile(){ return MOBILE_MQ.matches; }
+  var DESIGN_W = 1800, DESIGN_H = 1100, stageScale = 1;
+  function layoutStage(){
+    var stage = document.getElementById('stage'), desk = document.getElementById('desktop');
+    if (!stage || !desk) return;
+    if (isMobile()){
+      stageScale = 1;
+      stage.style.width = ''; stage.style.height = ''; stage.style.transform = ''; desk.style.height = '';
+      return;
+    }
+    var vw = document.documentElement.clientWidth;
+    stageScale = Math.min(1, vw / DESIGN_W);
+    stage.style.width = (vw / stageScale) + 'px';
+    stage.style.height = DESIGN_H + 'px';
+    stage.style.transform = 'scale(' + stageScale + ')';
+    desk.style.height = Math.round(DESIGN_H * stageScale) + 'px';
+  }
+  window.addEventListener('resize', layoutStage);
+  layoutStage();
+  function scrollToWindow(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    var nav = document.querySelector('.navbar');
+    if (!el) return;
+    var y = el.getBoundingClientRect().top + window.pageYOffset - (nav ? nav.offsetHeight : 0) - 12;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }
+
   var zTop = 20; /* above the hand-placed cascade z-indexes (11-13) baked into the markup */
   var zModalTop = 65; /* modal windows must render above the backdrop (z-index 60) */
   function bringToFront(el){ zTop += 1; el.style.zIndex = zTop; }
@@ -565,7 +723,8 @@
   document.querySelectorAll('.nav-tabs .navbtn').forEach(function(tab){
     tab.addEventListener('click', function(){
       var id = tab.getAttribute('data-target');
-      toggleBaseTab(id);
+      if (isMobile()){ openBase(id); scrollToWindow(id); }
+      else toggleBaseTab(id);
     });
   });
 
@@ -576,17 +735,17 @@
     var isModal = win.classList.contains('win--dialog');
     var dragging = false, startX, startY, startLeft, startTop;
     bar.addEventListener('pointerdown', function(e){
-      if (e.target.closest('.btns')) return;
+      if (e.target.closest('.btns') || isMobile()) return;
       dragging = true; if (isModal) bringModalToFront(win); else bringToFront(win);
-      var rect = win.getBoundingClientRect();
-      startX = e.clientX; startY = e.clientY; startLeft = rect.left; startTop = rect.top;
+      startX = e.clientX; startY = e.clientY; startLeft = win.offsetLeft; startTop = win.offsetTop;
       win.style.right = 'auto';
       bar.setPointerCapture(e.pointerId);
     });
     bar.addEventListener('pointermove', function(e){
       if (!dragging) return;
       var dx = e.clientX - startX, dy = e.clientY - startY;
-      win.style.left = (startLeft + dx) + 'px'; win.style.top = (startTop + dy) + 'px';
+      var k = isModal ? 1 : stageScale; /* window coordinates live inside the scaled stage */
+      win.style.left = (startLeft + dx / k) + 'px'; win.style.top = (startTop + dy / k) + 'px';
     });
     bar.addEventListener('pointerup', function(){ dragging = false; });
     bar.addEventListener('pointercancel', function(){ dragging = false; });
@@ -616,6 +775,7 @@
   /* start button (shiba icon): close whatever's open and return to the initial home cascade */
   function goHome(){
     closeModalById('dialog');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     HOME_WINDOWS.forEach(function(id){
       var el = document.querySelector('.win[data-window="'+id+'"]');
       if (el){ el.classList.add('open'); bringToFront(el); }
