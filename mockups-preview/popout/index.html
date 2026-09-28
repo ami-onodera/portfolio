@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept I — one book, a work chapter with pop-out demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe8d9; --paper-2:#e6ddc9;
+    --ink:#2a2420; --ink-soft:#4a4238; --muted:#847a68; --rust:#a8452e;
+    --serif-display:"Fraunces", serif; --serif-body:"EB Garamond", serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--serif-body); background:#d8d2c4; color:var(--ink-soft);
+    display:flex; align-items:center; justify-content:center; min-height:100vh;
+  }
+  .stage{width:100%;max-width:1040px;padding:40px;display:flex;flex-direction:column;align-items:center;gap:22px}
+
+  .book{
+    position:relative; width:100%; aspect-ratio:1040/620;
+    filter:drop-shadow(0 30px 50px rgba(0,0,0,.28));
+  }
+  .cover-back{ position:absolute; inset:0; background:var(--paper-2); border-radius:6px; }
+  .spine-shadow{
+    position:absolute; top:0; bottom:0; left:50%; width:60px; margin-left:-30px; z-index:3; pointer-events:none;
+    background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.14) 50%, rgba(0,0,0,0) 100%);
+  }
+  .page{ position:absolute; top:0; bottom:0; width:50%; background:var(--paper); padding:44px 40px; overflow:hidden; }
+  .page--left{ left:0; border-radius:6px 0 0 6px; box-shadow:inset -10px 0 24px -18px rgba(0,0,0,.35); }
+  .page--right{ right:0; border-radius:0 6px 6px 0; box-shadow:inset 10px 0 24px -18px rgba(0,0,0,.35); display:flex; flex-direction:column; }
+
+  .kicker{font-family:var(--serif-display);font-style:italic;color:var(--rust);font-size:13px;letter-spacing:.06em}
+  .page h2{font-family:var(--serif-display);font-weight:600;font-size:29px;color:var(--ink);margin-top:6px;line-height:1.08}
+  .page p{font-size:14.5px;margin-top:14px;line-height:1.6;color:var(--ink-soft)}
+  .facts{margin-top:20px;display:grid;gap:8px}
+  .facts div{display:flex;gap:8px;font-size:13px}
+  .facts dt{color:var(--muted);width:70px;flex:none}
+  .facts dd{color:var(--ink)}
+  .tags{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px}
+  .tags span{font-size:11.5px;font-family:var(--serif-display);font-style:italic;color:var(--rust);border:1px solid rgba(168,69,46,.4);padding:3px 10px;border-radius:99px}
+  .hint{margin-top:auto;padding-top:16px;font-family:var(--serif-display);font-style:italic;font-size:12.5px;color:var(--muted)}
+
+  /* ---------- the tipped-in plate (preview) ---------- */
+  .plate-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding-top:10px}
+  .plate{
+    position:relative; width:100%; aspect-ratio:16/10; background:#fff;
+    border:10px solid var(--paper-2); box-shadow:0 0 0 1px rgba(42,36,32,.3), 0 14px 30px rgba(0,0,0,.22);
+    cursor:pointer; overflow:hidden; transform:rotate(-1.2deg);
+  }
+  .plate .frame-inner{position:absolute;inset:0;overflow:hidden}
+  .plate iframe{width:1440px;height:900px;border:0;transform-origin:0 0;pointer-events:none}
+  .plate .veil{
+    position:absolute;inset:0;background:rgba(42,36,32,0);display:flex;align-items:center;justify-content:center;
+    transition:background .2s ease;
+  }
+  .plate:hover .veil{background:rgba(42,36,32,.12)}
+  .plate .play{
+    width:56px;height:56px;border-radius:50%;background:var(--paper);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 18px rgba(0,0,0,.3);
+    transform:scale(.9);opacity:0;transition:opacity .2s ease, transform .2s ease;
+  }
+  .plate:hover .play{opacity:1;transform:scale(1)}
+  .plate figcaption{position:absolute;bottom:8px;left:14px;font-family:var(--serif-display);font-style:italic;font-size:11.5px;color:var(--muted);background:rgba(255,255,255,.75);padding:2px 8px;border-radius:4px}
+
+  .controls{display:flex;align-items:center;gap:22px}
+  .arrow{
+    width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(42,36,32,.3);background:var(--paper);
+    color:var(--ink);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  }
+  .progress{font-family:var(--serif-display);font-style:italic;font-size:13px;color:var(--muted)}
+
+  /* ---------- pop-out overlay ---------- */
+  .scrim{
+    position:fixed;inset:0;background:rgba(20,17,12,0);z-index:50;pointer-events:none;
+    transition:background .45s ease;
+  }
+  .scrim.show{background:rgba(20,17,12,.55);pointer-events:auto}
+
+  .popframe{
+    position:fixed; z-index:60; background:#fff; overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.4);
+    transition:top .5s cubic-bezier(.2,.8,.2,1), left .5s cubic-bezier(.2,.8,.2,1),
+               width .5s cubic-bezier(.2,.8,.2,1), height .5s cubic-bezier(.2,.8,.2,1),
+               border-radius .5s ease;
+  }
+  .popframe .frame-inner{position:absolute;inset:0;overflow:hidden}
+  .popframe iframe{
+    width:1440px;height:900px;border:0;transform-origin:0 0;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1);
+  }
+  .popframe.live iframe{pointer-events:auto}
+
+  .pop-close{
+    position:fixed; z-index:61; top:26px; right:26px; width:44px;height:44px;border-radius:50%;
+    background:var(--paper); color:var(--ink); border:1px solid rgba(42,36,32,.25); font-size:18px;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    opacity:0; pointer-events:none; transition:opacity .25s ease; font-family:var(--serif-display);
+  }
+  .pop-close.show{opacity:1;pointer-events:auto}
+
+  @media(max-width:720px){
+    .book{aspect-ratio:auto;height:auto;display:flex;flex-direction:column}
+    .page{position:static;width:100%;border-radius:0}
+  }
+</style>
+</head>
+<body>
+<div class="scrim" id="scrim"></div>
+<button class="pop-close" id="popClose">✕ close</button>
+
+<div class="stage">
+  <div class="book" id="book">
+    <div class="cover-back"></div>
+    <div class="spine-shadow"></div>
+
+    <div class="page page--left">
+      <span class="kicker">Chapter V</span>
+      <h2>One template,<br>many brands.</h2>
+      <p>Three refer-a-friend portals, a single template: only the client's assets, copy, logo and design identity change.</p>
+      <p style="font-size:13px;color:var(--muted);font-style:italic">Fictional brands, built to show the system without exposing client work.</p>
+      <dl class="facts">
+        <div><dt>Role</dt><dd>UI design → code</dd></div>
+        <div><dt>Tools</dt><dd>Figma, Contentful, Claude</dd></div>
+      </dl>
+      <div class="tags"><span>Design systems</span><span>Theming</span><span>Material UI</span></div>
+      <p class="hint">Tap the plate to explore the live portal →</p>
+    </div>
+
+    <div class="page page--right">
+      <span class="kicker" style="visibility:hidden">.</span>
+      <div class="plate-wrap">
+        <figure class="plate" id="plateBtn">
+          <div class="frame-inner"><iframe src="../demos/nimbelo-fibre/index.html" tabindex="-1" style="transform:scale(.278)"></iframe></div>
+          <div class="veil"><span class="play">▶</span></div>
+          <figcaption>Fig. 5 — Nimbelo Fibre, live portal</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="arrow" id="prevBtn">‹</button>
+    <span class="progress">chapter v — work</span>
+    <button class="arrow" id="nextBtn">›</button>
+  </div>
+</div>
+
+<script>
+  var plateBtn = document.getElementById('plateBtn');
+  var scrim = document.getElementById('scrim');
+  var popClose = document.getElementById('popClose');
+  var popframe = null;
+
+  plateBtn.addEventListener('click', function(){
+    var rect = plateBtn.getBoundingClientRect();
+
+    popframe = document.createElement('div');
+    popframe.className = 'popframe';
+    popframe.style.top = rect.top + 'px';
+    popframe.style.left = rect.left + 'px';
+    popframe.style.width = rect.width + 'px';
+    popframe.style.height = rect.height + 'px';
+    popframe.style.borderRadius = '2px';
+    popframe.innerHTML = '<div class="frame-inner"><iframe src="../demos/nimbelo-fibre/index.html" style="transform:scale(' + (rect.width/1440) + ')"></iframe></div>';
+    document.body.appendChild(popframe);
+
+    scrim.classList.add('show');
+    plateBtn.style.visibility = 'hidden';
+
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        var margin = 40;
+        var targetW = Math.min(window.innerWidth - margin*2, 1400);
+        var targetH = targetW * 9/16;
+        if (targetH > window.innerHeight - margin*2){
+          targetH = window.innerHeight - margin*2;
+          targetW = targetH * 16/9;
+        }
+        var targetTop = (window.innerHeight - targetH)/2;
+        var targetLeft = (window.innerWidth - targetW)/2;
+
+        popframe.style.top = targetTop + 'px';
+        popframe.style.left = targetLeft + 'px';
+        popframe.style.width = targetW + 'px';
+        popframe.style.height = targetH + 'px';
+        popframe.style.borderRadius = '10px';
+
+        var iframe = popframe.querySelector('iframe');
+        iframe.style.transform = 'scale(' + (targetW/1440) + ')';
+
+        popframe.addEventListener('transitionend', function grow(e){
+          if (e.propertyName !== 'width') return;
+          popframe.removeEventListener('transitionend', grow);
+          popframe.classList.add('live');
+          popClose.classList.add('show');
+        });
+      });
+    });
+  });
+
+  function closePop(){
+    if (!popframe) return;
+    var rect = plateBtn.getBoundingClientRect();
+    popClose.classList.remove('show');
+    scrim.classList.remove('show');
+    popframe.classList.remove('live');
+    popframe.style.top = rect.top + 'px';
+    popframe.style.left = rect.left + 'px';
+    popframe.style.width = rect.width + 'px';
+    popframe.style.height = rect.height + 'px';
+    popframe.style.borderRadius = '2px';
+    popframe.querySelector('iframe').style.transform = 'scale(' + (rect.width/1440) + ')';
+
+    popframe.addEventListener('transitionend', function shrink(e){
+      if (e.propertyName !== 'width') return;
+      popframe.removeEventListener('transitionend', shrink);
+      popframe.remove();
+      popframe = null;
+      plateBtn.style.visibility = 'visible';
+    });
+  }
+  popClose.addEventListener('click', closePop);
+  scrim.addEventListener('click', closePop);
+</script>
+</body>
+</html>

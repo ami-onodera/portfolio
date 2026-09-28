@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept L — Y2K desktop, working navigation prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#adcfed; --blue-soft:#cfe3f5; --purple:#d7bce8; --purple-soft:#e9dcf3;
+    --indigo:#25283d; --pink:#ef798a; --yellow:#f4eea9;
+    --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
+    --chrome:#f4f1fb;
+    --font-pixel:"Press Start 2P", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--font-body); color:var(--body);
+    width:100vw; height:100vh; position:relative; overflow:hidden;
+    background: linear-gradient(180deg, #cfe3fb 0%, #d9d3f2 32%, #eccbe4 58%, #f6d9e4 78%, #fbe7d9 100%);
+    user-select:none;
+  }
+  .grid-floor{
+    position:absolute; left:0; right:0; bottom:0; height:40%; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.5) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255,255,255,.5) 2px, transparent 2px);
+    background-size: 64px 64px;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%);
+    mask-image: linear-gradient(180deg, transparent, #000 30%);
+    opacity:.5;
+  }
+  .deco{position:absolute; z-index:1; pointer-events:none; filter:drop-shadow(0 6px 10px rgba(80,60,110,.18))}
+
+  /* ---------- desktop icons ---------- */
+  .icons{position:absolute; top:36px; left:36px; z-index:2; display:flex; flex-direction:column; gap:26px}
+  .icon{display:flex; flex-direction:column; align-items:center; gap:7px; width:76px; cursor:pointer; background:none; border:0; padding:4px; border-radius:8px}
+  .icon:hover{background:rgba(255,255,255,.35)}
+  .icon:active{background:rgba(255,255,255,.55)}
+  .icon .glyph{width:48px;height:48px;display:flex;align-items:center;justify-content:center}
+  .icon span{font-family:var(--font-pixel); font-size:8px; color:var(--indigo); text-align:center; background:rgba(255,255,255,.55); padding:3px 5px; border-radius:3px}
+
+  /* ---------- window chrome ---------- */
+  .win{
+    position:absolute; z-index:4; background:var(--chrome); display:none;
+    border:2px solid var(--indigo); border-radius:10px;
+    box-shadow:6px 8px 0 rgba(37,40,61,.18), 0 24px 40px rgba(60,40,90,.18);
+  }
+  .win.open{display:block}
+  .win .bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:grab;
+    padding:8px 12px; border-radius:8px 8px 0 0; border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .win .bar:active{cursor:grabbing}
+  .win .bar .title{font-family:var(--font-pixel); font-size:10px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .win .bar .btns{display:flex; gap:6px; flex:none}
+  .win .bar .btns i{
+    width:16px;height:16px;border-radius:4px;background:var(--chrome);border:1.5px solid var(--indigo);
+    display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--font-pixel);font-size:8px;color:var(--indigo);
+    cursor:pointer;
+  }
+  .win .bar .btns i:hover{background:var(--pink); color:#fff}
+  .win .body{padding:18px 20px}
+
+  .win--about{ width:560px }
+  .about-grid{display:flex; gap:20px; align-items:flex-start}
+  .about-photo{
+    flex:none; width:150px; height:150px; border-radius:10px; overflow:hidden;
+    border:2px solid var(--indigo); box-shadow:3px 4px 0 rgba(37,40,61,.25);
+    background:linear-gradient(160deg, var(--blue), var(--purple));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .about-photo svg{width:78%}
+  .about-text h1{font-family:var(--font-head); font-weight:800; font-size:26px; color:var(--indigo); line-height:1.1}
+  .about-text p{font-size:14.5px; margin-top:10px; line-height:1.55}
+  .chip-row{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap}
+  .chip{font-family:var(--font-pixel); font-size:8.5px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:5px 9px; border-radius:5px}
+  .chip--pink{background:var(--pink); color:#fff}
+  .chip--blue{background:var(--blue)}
+
+  .win--player{ width:320px }
+  .player-art{height:150px;border-radius:6px;border:2px solid var(--indigo);overflow:hidden;position:relative;background:linear-gradient(200deg, var(--blue-soft), var(--purple))}
+  .player-art .glyph2{position:absolute; inset:0; display:flex; align-items:center; justify-content:center}
+  .player-title{font-family:var(--font-pixel); font-size:9.5px; color:var(--indigo); margin-top:12px; text-align:center; line-height:1.6}
+  .player-bar{margin-top:10px; height:6px; border-radius:4px; background:rgba(37,40,61,.15); overflow:hidden}
+  .player-bar i{display:block; width:38%; height:100%; background:var(--pink)}
+  .player-controls{display:flex; justify-content:center; gap:14px; margin-top:12px; font-family:var(--font-pixel); font-size:12px; color:var(--indigo)}
+
+  .win--skills{ width:260px }
+  .skills-list{font-family:var(--font-pixel); font-size:9px; line-height:2.4; color:var(--indigo)}
+  .skills-list b{color:var(--pink)}
+
+  .win--contact{ width:280px }
+  .contact-list{font-family:var(--font-pixel); font-size:9px; line-height:2.6; color:var(--indigo)}
+  .contact-list a{color:var(--indigo)}
+
+  .win--work{ width:380px }
+  .work-preview{position:relative;height:200px;border-radius:6px;overflow:hidden;border:2px solid var(--indigo);background:linear-gradient(200deg,#1c2b4a,#3a2f63 60%, #6a3f74);cursor:pointer}
+  .work-preview .glyph3{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; transition:transform .15s ease}
+  .work-preview:hover .glyph3{transform:scale(1.08)}
+  .work-hint{margin-top:12px; font-family:var(--font-pixel); font-size:9px; color:var(--indigo); text-align:center}
+
+  .win--dialog .body{ text-align:center; padding:22px 20px }
+  .win--dialog p{font-family:var(--font-head); font-weight:600; font-size:14.5px; color:var(--indigo); line-height:1.5}
+  .win--dialog .row{display:flex; gap:10px; justify-content:center; margin-top:18px}
+  .dbtn{font-family:var(--font-pixel); font-size:9px; color:var(--indigo); background:var(--chrome); border:2px solid var(--indigo); border-radius:6px; padding:8px 16px; box-shadow:2px 2px 0 rgba(37,40,61,.3); cursor:pointer}
+  .dbtn--yes{background:var(--pink); color:#fff}
+
+  /* ---------- taskbar ---------- */
+  .taskbar{
+    position:absolute; left:0; right:0; bottom:0; height:60px; z-index:50;
+    background:linear-gradient(90deg, var(--purple), var(--blue)); border-top:2px solid var(--indigo);
+    display:flex; align-items:center; justify-content:space-between; padding:0 20px;
+  }
+  .start{display:flex; align-items:center; gap:8px; background:var(--chrome); border:2px solid var(--indigo); border-radius:8px; padding:8px 16px; font-family:var(--font-pixel); font-size:10px; color:var(--indigo); box-shadow:2px 2px 0 rgba(37,40,61,.25); cursor:pointer}
+  .start:active{box-shadow:none; transform:translate(2px,2px)}
+  .tabs{display:flex; gap:8px; flex-wrap:wrap}
+  .tabs span{font-family:var(--font-pixel); font-size:8.5px; color:var(--indigo); background:rgba(255,255,255,.55); border:1.5px solid var(--indigo); border-radius:6px; padding:7px 11px; cursor:pointer; display:none}
+  .tabs span.shown{display:inline-block}
+  .tabs span.active{background:#fff; box-shadow:0 0 0 2px var(--pink) inset}
+  .clock{font-family:var(--font-pixel); font-size:11px; color:var(--indigo); background:var(--chrome); border:2px solid var(--indigo); border-radius:6px; padding:8px 12px}
+
+  /* start menu */
+  .start-menu{
+    position:absolute; z-index:60; left:20px; bottom:70px; width:200px; display:none;
+    background:var(--chrome); border:2px solid var(--indigo); border-radius:8px; overflow:hidden;
+    box-shadow:4px 6px 0 rgba(37,40,61,.2), 0 20px 30px rgba(60,40,90,.25);
+  }
+  .start-menu.open{display:block}
+  .start-menu button{
+    display:block; width:100%; text-align:left; background:none; border:0; border-bottom:1.5px solid rgba(37,40,61,.12);
+    font-family:var(--font-pixel); font-size:9px; color:var(--indigo); padding:12px 14px; cursor:pointer;
+  }
+  .start-menu button:last-child{border-bottom:0}
+  .start-menu button:hover{background:var(--purple-soft)}
+
+  /* ---------- maximized case study app ---------- */
+  .win-app{
+    position:absolute; top:60px; left:60px; right:60px; bottom:80px; z-index:70; display:none;
+    background:var(--chrome); border:2px solid var(--indigo); border-radius:12px;
+    box-shadow:8px 10px 0 rgba(37,40,61,.18), 0 40px 70px rgba(60,40,90,.25);
+    flex-direction:column; overflow:hidden;
+  }
+  .win-app.open{display:flex}
+  .win-app .bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; flex:none;
+    padding:10px 16px; border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .win-app .bar .crumb{font-family:var(--font-pixel); font-size:10px; color:var(--indigo)}
+  .win-app .bar .crumb .dim{opacity:.55}
+  .win-app .bar .btns{display:flex; gap:6px}
+  .win-app .bar .btns i{width:18px;height:18px;border-radius:4px;background:var(--chrome);border:1.5px solid var(--indigo);display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--font-pixel);font-size:9px;color:var(--indigo); cursor:pointer}
+  .win-app .bar .btns i:hover{background:var(--pink); color:#fff}
+  .win-app .content{flex:1; display:flex; min-height:0}
+  .sidebar{width:300px; flex:none; background:var(--chrome); border-right:2px solid var(--indigo); padding:24px 22px; overflow:auto}
+  .back-link{font-family:var(--font-pixel); font-size:8.5px; color:var(--muted); display:inline-block; margin-bottom:16px; cursor:pointer}
+  .back-link:hover{color:var(--pink)}
+  .sidebar .kicker{font-family:var(--font-pixel); font-size:9px; color:var(--pink)}
+  .sidebar h1{font-family:var(--font-head); font-weight:800; font-size:22px; color:var(--indigo); margin-top:8px; line-height:1.15}
+  .sidebar p{font-size:13.5px; margin-top:12px; line-height:1.6}
+  .facts{margin-top:18px; display:grid; gap:8px; font-family:var(--font-pixel); font-size:8.5px}
+  .facts div{display:flex; gap:8px}
+  .facts dt{color:var(--muted); width:60px; flex:none}
+  .facts dd{color:var(--indigo)}
+  .tags{margin-top:16px; display:flex; flex-wrap:wrap; gap:6px}
+  .tags span{font-family:var(--font-pixel); font-size:8px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:5px 8px; border-radius:5px}
+  .preview-pane{flex:1; display:flex; flex-direction:column; min-width:0; background:#dcd3ee}
+  .browser-bar{flex:none; display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--purple-soft); border-bottom:2px solid var(--indigo)}
+  .browser-bar .dots{display:flex; gap:5px}
+  .browser-bar .dots i{width:10px;height:10px;border-radius:50%;background:#fff;border:1.5px solid var(--indigo)}
+  .browser-bar .url{flex:1; font-family:var(--font-pixel); font-size:8.5px; color:var(--indigo); background:#fff; border:1.5px solid var(--indigo); border-radius:5px; padding:7px 10px}
+  .frame-wrap{flex:1; position:relative; overflow:auto; background:#fff}
+  .frame-wrap iframe{position:absolute; top:0; left:0; width:1440px; height:1400px; border:0; transform-origin:0 0}
+</style>
+</head>
+<body>
+
+<div class="grid-floor"></div>
+<svg class="deco" style="top:50px; right:110px; width:140px" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:60%; left:80%; width:26px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:75%; left:8%; width:18px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+
+<!-- desktop icons -->
+<div class="icons">
+  <button class="icon" data-open="work">
+    <div class="glyph"><svg width="46" height="40" viewBox="0 0 52 46" xmlns="http://www.w3.org/2000/svg"><path d="M2 10c0-2 2-4 4-4h14l4 5h22c2 0 4 2 4 4v25c0 2-2 4-4 4H6c-2 0-4-2-4-4V10Z" fill="var(--blue)" stroke="var(--indigo)" stroke-width="2"/></svg></div>
+    <span>WORK</span>
+  </button>
+  <button class="icon" data-open="about">
+    <div class="glyph"><svg width="40" height="40" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg"><circle cx="23" cy="23" r="21" fill="#fff" stroke="var(--indigo)" stroke-width="2"/><circle cx="23" cy="23" r="7" fill="var(--pink)" stroke="var(--indigo)" stroke-width="2"/></svg></div>
+    <span>ABOUT</span>
+  </button>
+  <button class="icon" data-open="skills">
+    <div class="glyph"><svg width="36" height="40" viewBox="0 0 42 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h34v40H4z" fill="#fff" stroke="var(--indigo)" stroke-width="2"/><path d="M9 14h24M9 22h24M9 30h16" stroke="var(--purple)" stroke-width="3" stroke-linecap="round"/></svg></div>
+    <span>SKILLS</span>
+  </button>
+  <button class="icon" data-open="contact">
+    <div class="glyph"><svg width="40" height="40" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg"><circle cx="19" cy="19" r="14" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2"/><line x1="29" y1="29" x2="41" y2="41" stroke="var(--indigo)" stroke-width="4" stroke-linecap="round"/></svg></div>
+    <span>CONTACT</span>
+  </button>
+</div>
+
+<!-- About window -->
+<div class="win win--about open" data-window="about" style="top:130px; left:210px; transform:rotate(-.6deg)">
+  <div class="bar"><span class="title">camila.exe — About</span><span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span></div>
+  <div class="body about-grid">
+    <div class="about-photo"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="38" r="20" fill="var(--indigo)" opacity=".85"/><path d="M18 90c2-20 15-32 32-32s30 12 32 32Z" fill="var(--indigo)" opacity=".85"/></svg></div>
+    <div class="about-text">
+      <h1>Hi, I'm Camila.</h1>
+      <p>Product &amp; UI designer, based in Berlin. I turn fuzzy briefs into interfaces people enjoy using — then build them myself.</p>
+      <div class="chip-row">
+        <span class="chip chip--blue">BERLIN</span>
+        <span class="chip">FIGMA</span>
+        <span class="chip chip--pink">VIBE CODING</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Now playing window -->
+<div class="win win--player open" data-window="player" style="top:390px; left:120px; transform:rotate(1.1deg)">
+  <div class="bar"><span class="title">now-building.mp3</span><span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span></div>
+  <div class="body">
+    <div class="player-art"><div class="glyph2"><svg width="80" height="80" viewBox="0 0 86 86" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="30" width="74" height="46" rx="4" fill="#fff" stroke="var(--indigo)" stroke-width="2"/><path d="M14 40l18-16 14 12 12-10 14 16" stroke="var(--indigo)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="66" cy="18" r="8" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2"/></svg></div></div>
+    <div class="player-title">Y2K DESKTOP PROTOTYPE</div>
+    <div class="player-bar"><i></i></div>
+    <div class="player-controls"><span>⏮</span><span>⏸</span><span>⏭</span></div>
+  </div>
+</div>
+
+<!-- Skills window -->
+<div class="win win--skills" data-window="skills" style="top:150px; right:60px; transform:rotate(1.4deg)">
+  <div class="bar"><span class="title">skills.txt</span><span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span></div>
+  <div class="body">
+    <div class="skills-list">
+      &gt; <b>UI</b> design<br>
+      &gt; <b>Brand</b> systems<br>
+      &gt; Figma / Photoshop<br>
+      &gt; HTML · CSS · JS<br>
+      &gt; <b>Vibe</b> coding ✦
+    </div>
+  </div>
+</div>
+
+<!-- Contact window -->
+<div class="win win--contact" data-window="contact" style="top:400px; right:90px; transform:rotate(-1.2deg)">
+  <div class="bar"><span class="title">contact.exe</span><span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span></div>
+  <div class="body">
+    <div class="contact-list">
+      &gt; EMAIL: hi@camila.com<br>
+      &gt; LINKEDIN ↗<br>
+      &gt; RESUME.PDF ↓
+    </div>
+  </div>
+</div>
+
+<!-- Selected work preview window -->
+<div class="win win--work" data-window="work" style="top:560px; left:520px; transform:rotate(-.8deg)">
+  <div class="bar"><span class="title">selected-work / nimbelo-fibre.png</span><span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span></div>
+  <div class="body">
+    <div class="work-preview" id="openCaseStudy">
+      <div class="glyph3"><svg width="90" height="90" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="30" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/><path d="M42 36 L68 50 L42 64 Z" fill="#fff"/></svg></div>
+    </div>
+    <div class="work-hint">CLICK TO OPEN →</div>
+  </div>
+</div>
+
+<!-- confirm dialog -->
+<div class="win win--dialog open" data-window="dialog" style="top:700px; left:430px; transform:rotate(-1deg); width:290px">
+  <div class="bar"><span class="title">⚠ confirm.exe</span><span class="btns"><i data-close>x</i></span></div>
+  <div class="body">
+    <p>Are you sure you want to<br>view this portfolio?</p>
+    <div class="row">
+      <span class="dbtn dbtn--yes" data-close-dialog>YES</span>
+      <span class="dbtn" data-close-dialog>NO</span>
+    </div>
+  </div>
+</div>
+
+<!-- taskbar -->
+<div class="taskbar">
+  <button class="start" id="startBtn">♥ START</button>
+  <div class="tabs" id="tabs">
+    <span data-target="about">about.exe</span>
+    <span data-target="player">now-building.mp3</span>
+    <span data-target="skills">skills.txt</span>
+    <span data-target="contact">contact.exe</span>
+    <span data-target="work">selected-work</span>
+    <span data-target="casestudy">nimbelo-fibre.exe</span>
+  </div>
+  <div class="clock" id="clock">20:19</div>
+</div>
+
+<div class="start-menu" id="startMenu">
+  <button data-open="about">Open About</button>
+  <button data-open="work">Open Selected Work</button>
+  <button data-open="skills">Open Skills</button>
+  <button data-open="contact">Open Contact</button>
+</div>
+
+<!-- maximized case study app -->
+<div class="win-app" id="caseStudy">
+  <div class="bar">
+    <span class="crumb"><span class="dim">DESKTOP / WORK /</span> NIMBELO-FIBRE.EXE</span>
+    <span class="btns"><i id="csClose">x</i></span>
+  </div>
+  <div class="content">
+    <div class="sidebar">
+      <span class="back-link" id="csBack">← BACK TO DESKTOP</span>
+      <div class="kicker">SELECTED WORK — 01</div>
+      <h1>One template,<br>many brands.</h1>
+      <p>Three refer-a-friend portals, a single template: only the client's assets, copy, logo and design identity change.</p>
+      <p style="font-size:12px;opacity:.75;font-style:italic">Fictional brand shown — built to demo the system without exposing client work.</p>
+      <dl class="facts">
+        <div><dt>ROLE</dt><dd>UI design → code</dd></div>
+        <div><dt>TOOLS</dt><dd>Figma, Contentful</dd></div>
+      </dl>
+      <div class="tags"><span>DESIGN SYSTEMS</span><span>THEMING</span><span>MATERIAL UI</span></div>
+    </div>
+    <div class="preview-pane">
+      <div class="browser-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">https://nimbelo-fibre.demo/refer</div></div>
+      <div class="frame-wrap"><iframe src="../demos/nimbelo-fibre/index.html" tabindex="-1"></iframe></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var zTop = 10;
+  var openSet = {}; // window id -> bool open (shown, not minimized)
+
+  function bringToFront(el){ zTop += 1; el.style.zIndex = zTop; }
+
+  function tabFor(id){ return document.querySelector('.tabs span[data-target="'+id+'"]'); }
+
+  function setTabState(id, shown, active){
+    var tab = tabFor(id);
+    if (!tab) return;
+    tab.classList.toggle('shown', shown);
+    tab.classList.toggle('active', !!active);
+  }
+
+  function clearActiveTabs(){
+    document.querySelectorAll('.tabs span').forEach(function(t){ t.classList.remove('active'); });
+  }
+
+  function openWindow(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.add('open');
+    bringToFront(el);
+    clearActiveTabs();
+    openSet[id] = true;
+    setTabState(id, true, true);
+  }
+
+  function closeWindow(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.remove('open');
+    openSet[id] = false;
+    setTabState(id, false, false);
+  }
+
+  function minimizeWindow(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.remove('open');
+    // stays "open" logically (still in taskbar), just hidden
+    setTabState(id, true, false);
+  }
+
+  function toggleFromTaskbar(id){
+    if (id === 'casestudy'){
+      var cs = document.getElementById('caseStudy');
+      if (cs.classList.contains('open')){
+        cs.style.display === 'none';
+      }
+      openCaseStudy();
+      return;
+    }
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    if (el.classList.contains('open')){
+      minimizeWindow(id);
+    } else {
+      openWindow(id);
+    }
+  }
+
+  // desktop icons + start menu buttons
+  document.querySelectorAll('[data-open]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      openWindow(btn.getAttribute('data-open'));
+      closeStartMenu();
+    });
+  });
+
+  // window buttons: close / minimize / maximize(no-op) + bring to front on any click
+  document.querySelectorAll('.win').forEach(function(win){
+    win.addEventListener('mousedown', function(){ bringToFront(win); });
+    var id = win.getAttribute('data-window');
+    var closeBtn = win.querySelector('[data-close]');
+    var minBtn = win.querySelector('[data-min]');
+    if (closeBtn) closeBtn.addEventListener('click', function(e){ e.stopPropagation(); closeWindow(id); });
+    if (minBtn) minBtn.addEventListener('click', function(e){ e.stopPropagation(); minimizeWindow(id); });
+  });
+
+  // confirm dialog buttons
+  document.querySelectorAll('[data-close-dialog]').forEach(function(b){
+    b.addEventListener('click', function(){ closeWindow('dialog'); });
+  });
+
+  // taskbar tab clicks
+  document.querySelectorAll('.tabs span').forEach(function(tab){
+    tab.addEventListener('click', function(){ toggleFromTaskbar(tab.getAttribute('data-target')); });
+  });
+
+  // start menu toggle
+  var startMenu = document.getElementById('startMenu');
+  function closeStartMenu(){ startMenu.classList.remove('open'); }
+  document.getElementById('startBtn').addEventListener('click', function(e){
+    e.stopPropagation();
+    startMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', function(){ closeStartMenu(); });
+
+  // case study open/close
+  function openCaseStudy(){
+    var cs = document.getElementById('caseStudy');
+    cs.classList.add('open');
+    bringToFront(cs);
+    clearActiveTabs();
+    setTabState('casestudy', true, true);
+  }
+  function closeCaseStudy(){
+    var cs = document.getElementById('caseStudy');
+    cs.classList.remove('open');
+    setTabState('casestudy', false, false);
+  }
+  document.getElementById('openCaseStudy').addEventListener('click', openCaseStudy);
+  document.getElementById('csClose').addEventListener('click', closeCaseStudy);
+  document.getElementById('csBack').addEventListener('click', closeCaseStudy);
+
+  // dragging windows by their title bar
+  function makeDraggable(win){
+    var bar = win.querySelector('.bar');
+    if (!bar) return;
+    var dragging = false, startX, startY, startLeft, startTop;
+    bar.addEventListener('pointerdown', function(e){
+      if (e.target.closest('.btns')) return; // don't drag when clicking buttons
+      dragging = true;
+      bringToFront(win);
+      var rect = win.getBoundingClientRect();
+      startX = e.clientX; startY = e.clientY;
+      startLeft = rect.left; startTop = rect.top;
+      win.style.right = 'auto';
+      bar.setPointerCapture(e.pointerId);
+    });
+    bar.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      win.style.left = (startLeft + dx) + 'px';
+      win.style.top = (startTop + dy) + 'px';
+    });
+    bar.addEventListener('pointerup', function(){ dragging = false; });
+    bar.addEventListener('pointercancel', function(){ dragging = false; });
+  }
+  document.querySelectorAll('.win').forEach(makeDraggable);
+
+  // initial taskbar state for windows open by default
+  ['about','player'].forEach(function(id){ setTabState(id, true, false); });
+  setTabState('about', true, true);
+  ['skills','contact','work'].forEach(function(id){ setTabState(id, false, false); });
+  setTabState('dialog', false, false);
+
+  // clock
+  function tick(){
+    var d = new Date();
+    var hh = String(d.getHours()).padStart(2,'0');
+    var mm = String(d.getMinutes()).padStart(2,'0');
+    document.getElementById('clock').textContent = hh + ':' + mm;
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+</body>
+</html>

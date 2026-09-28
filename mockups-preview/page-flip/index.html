@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept H — Literal page-turn book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe8d9; --paper-2:#e6ddc9; --paper-shadow:#c9bfa8;
+    --ink:#2a2420; --ink-soft:#4a4238; --muted:#847a68; --rust:#a8452e;
+    --serif-display:"Fraunces", serif; --serif-body:"EB Garamond", serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--serif-body); background:#d8d2c4; color:var(--ink-soft);
+    display:flex; align-items:center; justify-content:center; min-height:100vh; overflow:hidden;
+  }
+  .stage{width:100%;max-width:1040px;padding:40px;display:flex;flex-direction:column;align-items:center;gap:22px}
+
+  .book{
+    position:relative; width:100%; aspect-ratio:1040/620; perspective:2800px;
+    filter:drop-shadow(0 30px 50px rgba(0,0,0,.28));
+  }
+  .cover-back{
+    position:absolute; inset:0; background:var(--paper-2); border-radius:6px;
+  }
+  .spine-shadow{
+    position:absolute; top:0; bottom:0; left:50%; width:60px; margin-left:-30px; z-index:3; pointer-events:none;
+    background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.14) 50%, rgba(0,0,0,0) 100%);
+  }
+
+  .page{
+    position:absolute; top:0; bottom:0; width:50%; background:var(--paper);
+    padding:44px 40px; overflow:hidden;
+  }
+  .page--left{ left:0; border-radius:6px 0 0 6px; box-shadow:inset -10px 0 24px -18px rgba(0,0,0,.35); }
+  .page--right{ right:0; border-radius:0 6px 6px 0; box-shadow:inset 10px 0 24px -18px rgba(0,0,0,.35); }
+
+  .page .kicker{font-family:var(--serif-display);font-style:italic;color:var(--rust);font-size:13px;letter-spacing:.06em}
+  .page h2{font-family:var(--serif-display);font-weight:600;font-size:27px;color:var(--ink);margin-top:6px}
+  .page p{font-size:14.5px;margin-top:10px;line-height:1.6;color:var(--ink-soft)}
+  .page ul{margin-top:10px;padding-left:0;list-style:none}
+  .page li{font-size:14px;padding:5px 0;border-top:1px dotted rgba(42,36,32,.3)}
+  .page .pagenum{position:absolute;bottom:16px;font-family:var(--serif-display);font-style:italic;font-size:12px;color:var(--muted)}
+  .page--left .pagenum{left:40px}
+  .page--right .pagenum{right:40px}
+  .toc-row{display:flex;gap:8px;align-items:baseline;font-family:var(--serif-display);font-size:14.5px;padding:7px 0}
+  .toc-row .dots{flex:1;border-bottom:2px dotted rgba(42,36,32,.4);transform:translateY(-4px)}
+  .photo-mini{width:90px;height:90px;float:right;margin:0 0 10px 14px;border:6px solid var(--paper-2);box-shadow:0 0 0 1px rgba(42,36,32,.25)}
+  .photo-mini img{width:100%;height:100%;object-fit:cover;filter:sepia(.3)}
+
+  /* ---------- the flipping leaf ---------- */
+  .flip-leaf{
+    position:absolute; top:0; right:0; bottom:0; width:50%;
+    transform-style:preserve-3d; transform-origin:left center; transform:rotateY(0deg);
+    z-index:5; transition:transform .9s cubic-bezier(.65,0,.35,1);
+    pointer-events:none;
+  }
+  .flip-leaf.animating{pointer-events:none}
+  .flip-face{
+    position:absolute; inset:0; backface-visibility:hidden; background:var(--paper);
+    padding:44px 40px; overflow:hidden;
+  }
+  .flip-face.front{ box-shadow:inset 10px 0 24px -18px rgba(0,0,0,.35); border-radius:0 6px 6px 0; }
+  .flip-face.back{ transform:rotateY(180deg); box-shadow:inset -10px 0 24px -18px rgba(0,0,0,.35); border-radius:6px 0 0 6px; }
+  .flip-shade{position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,.18));opacity:0;transition:opacity .9s}
+  .flip-leaf.animating .flip-shade{opacity:1}
+
+  .controls{display:flex;align-items:center;gap:22px}
+  .arrow{
+    width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(42,36,32,.3);background:var(--paper);
+    color:var(--ink);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:transform .15s ease, background .15s ease; font-family:var(--serif-display);
+  }
+  .arrow:hover{background:var(--paper-2)}
+  .arrow:active{transform:scale(.92)}
+  .arrow[disabled]{opacity:.3;cursor:default}
+  .arrow[disabled]:hover{background:var(--paper)}
+  .progress{font-family:var(--serif-display);font-style:italic;font-size:13px;color:var(--muted);letter-spacing:.04em}
+
+  @media (prefers-reduced-motion: reduce){ .flip-leaf{transition:none} }
+  @media(max-width:720px){
+    .book{aspect-ratio:auto;height:76vh}
+    .page{padding:28px 20px}
+    .page h2{font-size:21px}
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <div class="book" id="book">
+    <div class="cover-back"></div>
+    <div class="spine-shadow"></div>
+
+    <div class="page page--left" id="pageLeft"></div>
+    <div class="page page--right" id="pageRight"></div>
+
+    <div class="flip-leaf" id="flipLeaf">
+      <div class="flip-face front" id="flipFront"></div>
+      <div class="flip-face back" id="flipBack"></div>
+      <div class="flip-shade"></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="arrow" id="prevBtn" aria-label="Previous page">‹</button>
+    <span class="progress" id="progress">i / iv</span>
+    <button class="arrow" id="nextBtn" aria-label="Turn the page">›</button>
+  </div>
+</div>
+
+<script>
+  // Each item = one page's worth of content. Spread N shows pages[N] (left) + pages[N+1] (right).
+  var pages = [
+    // 0 — inside front cover / TOC
+    '<span class="kicker">Camila Massa</span><h2>Contents</h2>' +
+    '<div class="toc-row"><span>About</span><span class="dots"></span><span>I</span></div>' +
+    '<div class="toc-row"><span>Experience</span><span class="dots"></span><span>II</span></div>' +
+    '<div class="toc-row"><span>Skills &amp; toolkit</span><span class="dots"></span><span>III</span></div>' +
+    '<div class="toc-row"><span>Contact</span><span class="dots"></span><span>IV</span></div>' +
+    '<span class="pagenum">Vol. I</span>',
+
+    // 1 — About (right page of spread 0)
+    '<span class="kicker">Chapter I</span><h2>About</h2>' +
+    '<div class="photo-mini"><img src="camila.jpg" alt="Camila Massa"></div>' +
+    '<p>Senior Web &amp; Brand Designer in Berlin, with 15+ years across digital design, brand communication and web production. I design and ship B2B web experiences at Aklamio: referral pages, portals, branded widgets.</p>' +
+    '<span class="pagenum">i</span>',
+
+    // 2 — Experience (left of spread 1)
+    '<span class="kicker">Chapter II</span><h2>Experience</h2>' +
+    '<ul><li><b>Senior Web Designer</b> — Aklamio, 2026&ndash;</li>' +
+    '<li><b>Web Designer</b> — Aklamio, 2021&ndash;25</li>' +
+    '<li><b>Project Manager</b> — Language Intl., 2019&ndash;20</li>' +
+    '<li><b>Community Manager</b> — P&amp;G Brasil</li>' +
+    '<li><b>Art Director</b> — Editora Abril</li></ul>' +
+    '<span class="pagenum">ii</span>',
+
+    // 3 — Skills (right of spread 1)
+    '<span class="kicker">Chapter III</span><h2>Skills &amp; toolkit</h2>' +
+    '<ul><li>Figma &middot; Photoshop &middot; Contentful</li>' +
+    '<li>HTML5 / CSS3 &middot; Material UI</li>' +
+    '<li>Git / GitLab &middot; Claude, vibe coding</li>' +
+    '<li>Design QA &middot; Generative AI</li></ul>' +
+    '<span class="pagenum">iii</span>',
+
+    // 4 — Contact (left of spread 2)
+    '<span class="kicker">Chapter IV</span><h2>Let\'s talk</h2>' +
+    '<p>Open to Web &amp; UI Design roles in Berlin or remote.</p>' +
+    '<p style="margin-top:18px"><em>Show email address</em><br><em>Download CV</em><br><em>LinkedIn</em></p>' +
+    '<span class="pagenum">iv</span>',
+
+    // 5 — back cover (right of spread 2)
+    '<div style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center">' +
+    '<span class="kicker" style="font-size:22px">&#10086;<br><br>Printed in Berlin &middot; 2026</span></div>'
+  ];
+
+  // Explicit spread map: spreads[n].right always equals spreads[n+1].left,
+  // by construction — this is what makes "old right becomes new left" safe,
+  // instead of computing it with index arithmetic (which is where the bug was).
+  var spreads = [
+    { left: pages[0], right: pages[1] }, // TOC | About
+    { left: pages[1], right: pages[2] }, // About | Experience
+    { left: pages[2], right: pages[3] }, // Experience | Skills
+    { left: pages[3], right: pages[4] }, // Skills | Contact
+    { left: pages[4], right: pages[5] }  // Contact | back cover
+  ];
+
+  var cur = 0; // index into spreads
+  var last = spreads.length - 1;
+
+  var pageLeft = document.getElementById('pageLeft');
+  var pageRight = document.getElementById('pageRight');
+  var flipLeaf = document.getElementById('flipLeaf');
+  var flipFront = document.getElementById('flipFront');
+  var flipBack = document.getElementById('flipBack');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var progress = document.getElementById('progress');
+  var animating = false;
+
+  function render(){
+    pageLeft.innerHTML = spreads[cur].left;
+    pageRight.innerHTML = spreads[cur].right;
+    // the flip overlay rests exactly on top of the right page between turns,
+    // so it must show the same content or it just looks blank
+    flipFront.innerHTML = spreads[cur].right;
+    flipBack.innerHTML = spreads[cur].right;
+    prevBtn.disabled = cur === 0;
+    nextBtn.disabled = cur >= last;
+    progress.textContent = 'spread ' + (cur+1) + ' / ' + (last+1);
+  }
+
+  function turn(direction){
+    if (animating) return;
+    if (direction === 1 && cur >= last) return;
+    if (direction === -1 && cur === 0) return;
+    animating = true;
+
+    if (direction === 1){
+      // flipping the current right page over to the left, revealing the next spread's right page.
+      // flipFront = what's currently shown (matches the real right page exactly at rest).
+      // flipBack = what the left page will become — by construction this is the SAME
+      // content (spreads[cur].right === spreads[cur+1].left), so it lines up perfectly
+      // once the flap finishes rotating onto the left page's spot.
+      flipFront.innerHTML = spreads[cur].right;
+      flipBack.innerHTML  = spreads[cur].right;
+      flipLeaf.style.transition = 'none';
+      flipLeaf.style.transform = 'rotateY(0deg)';
+      flipLeaf.classList.add('animating');
+      // safe to update the right page now: the flap fully covers it at rotateY(0)
+      pageRight.innerHTML = spreads[cur+1].right;
+      cur += 1;
+      // pageLeft is NOT touched yet — still visible and uncovered right now.
+      // It gets swapped in transitionend, the instant the flap finishes covering that spot.
+      requestAnimationFrame(function(){
+        flipLeaf.style.transition = '';
+        flipLeaf.style.transform = 'rotateY(-180deg)';
+      });
+    } else {
+      flipFront.innerHTML = spreads[cur].left;
+      flipBack.innerHTML  = spreads[cur].left;
+      flipLeaf.style.transition = 'none';
+      flipLeaf.style.transform = 'rotateY(-180deg)';
+      flipLeaf.classList.add('animating');
+      // safe to update the left page now: the flap fully covers it at rotateY(-180deg)
+      pageLeft.innerHTML = spreads[cur-1].left;
+      cur -= 1;
+      // pageRight is NOT touched yet — swapped in transitionend instead.
+      requestAnimationFrame(function(){
+        flipLeaf.style.transition = '';
+        flipLeaf.style.transform = 'rotateY(0deg)';
+      });
+    }
+
+    flipLeaf.addEventListener('transitionend', function done(){
+      flipLeaf.removeEventListener('transitionend', done);
+      flipLeaf.classList.remove('animating');
+      flipLeaf.style.transition = 'none';
+      flipLeaf.style.transform = 'rotateY(0deg)';
+      render(); // resets both pages + flip faces to match the new resting spread
+      requestAnimationFrame(function(){ flipLeaf.style.transition = ''; });
+      animating = false;
+    }, { once:true });
+  }
+
+  nextBtn.addEventListener('click', function(){ turn(1); });
+  prevBtn.addEventListener('click', function(){ turn(-1); });
+  render();
+</script>
+</body>
+</html>

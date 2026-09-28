@@ -3,317 +3,634 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Senior Web &amp; Brand Designer | Camila Massa</title>
-<meta name="description" content="Camila Massa is a Senior Web &amp; Brand Designer in Berlin who designs and ships branded web experiences: referral landing pages, customer portals and branded widgets.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235f8fe0'/%3E%3Cstop offset='1' stop-color='%237466cf'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 3c7 0 13 5 13 12.5S23.5 29 16 29 3 23.5 3 16 9 3 16 3z' fill='url(%23g)'/%3E%3C/svg%3E">
+<title>Camila Massa | Product &amp; UI Designer</title>
+<meta name="description" content="Camila Massa, Senior Web &amp; UI Designer in Berlin. Selected work, earlier work and a full bio.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  /* ---------- hero bento ---------- */
-  .hero { padding: clamp(20px, 3.4vw, 40px) 0 0; }
-  .hero-bento {
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-areas:
-      "text text text text text text"
-      "s1   s1   s2   s2   s3    s3";
+  :root{
+    --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
+    --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
+    --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
+    --chrome:#f4f1fb;
+    --font-pixel:"Press Start 2P", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
   }
-  .hero-text { grid-area: text; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; padding: clamp(28px, 5vw, 68px); min-height: 400px; }
-  .hero-text > * { position: relative; z-index: 1; }
-  .hero-text .eyebrow, .hero-text .ai-note { align-self: flex-start; max-width: 100%; }
-  .hero-text::after { content: ""; position: absolute; z-index: 0; right: -90px; top: -110px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.75), rgba(255,255,255,0) 70%); pointer-events: none; }
-  .hero-text h1 { max-width: 18ch; margin: 20px 0 18px; }
-  .hero-text .lead { color: var(--body); max-width: 64ch; }
-  .hero-text .lead + .lead { margin-top: 12px; }
-  .ai-note { display: inline-flex; align-items: center; gap: 10px; margin-top: 18px; padding: 8px 16px 9px 10px; border-radius: var(--pill); background: rgba(255,255,255,.72); font-size: 15px; font-weight: 700; color: var(--ink); }
-  .ai-note i { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: #fff; font-style: normal; font-size: 14px; }
-  .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-  .proof { display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 22px 28px 24px; }
-  .proof b { font-size: 40px; font-weight: 900; line-height: 1; color: var(--accent-ink); letter-spacing: -.02em; }
-  .proof b.proof__word { font-size: 26px; line-height: 1.1; letter-spacing: -.01em; }
-  .proof span { font-weight: 700; color: var(--ink); line-height: 1.35; }
-  .p1 { grid-area: s1; } .p2 { grid-area: s2; } .p3 { grid-area: s3; }
-
-  .block__head > p { flex: 1 1 300px; min-width: 0; }
-
-  /* ---------- work cards: stretched link so the iframe is not inside the anchor ---------- */
-  .work-card h3 a { color: inherit; text-decoration: none; }
-  .work-card h3 a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
-  .work-card h3 a:focus-visible { outline: none; }
-  .work-card h3 a:focus-visible::after { outline: 3px solid var(--accent); outline-offset: -3px; }
-  .work-card__body p { color: var(--body); }
-  .work-card .note { font-size: 14px; color: var(--body); }
-  .work-card__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 18px; margin-top: 6px; }
-  .work-card .demo-link { position: relative; z-index: 2; font-weight: 800; font-size: 15px; }
-  .work-card .live-frame iframe { max-width: none; width: 1440px; height: 900px; }
-  .work-card .tag { background: var(--lav-soft); }
-
-  .wip-head { margin: 40px 0 14px; }
-  .wip-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
-  .wip { background: var(--lav-soft); border: 1.5px dashed #d3cbf3; padding: 24px 28px 26px; }
-  .wip h3 { font-size: 20px; margin: 12px 0 6px; }
-  .wip p { color: var(--body); }
-  .wip .tag { background: var(--card); }
-
-  /* ---------- earlier work teaser ---------- */
-  .teaser { position: relative; display: grid; grid-template-columns: 1fr 1.45fr; gap: clamp(22px, 3vw, 40px); align-items: center; transition: transform .2s ease, box-shadow .2s ease; }
-  .teaser:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-  .teaser h2 { margin: 16px 0 12px; }
-  .teaser h2 a { color: inherit; text-decoration: none; }
-  .teaser h2 a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
-  .teaser h2 a:focus-visible { outline: none; }
-  .teaser h2 a:focus-visible::after { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .teaser__cta { display: inline-block; margin-top: 16px; font-weight: 800; color: var(--accent-ink); }
-  .thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .thumb { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 20px; background: var(--peri); }
-  .thumb:nth-child(2) { background: var(--lilac); border-radius: 20px 20px 8px 8px; }
-  .thumb:nth-child(3) { background: var(--violet); }
-  .thumb:nth-child(1) { border-radius: 20px 8px 8px 20px; }
-  .thumb:nth-child(3) { border-radius: 8px 20px 20px 8px; }
-  .thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-  /* ---------- how I work ---------- */
-  .how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
-  .how-grid .tile { padding: 26px 28px 28px; }
-  .how-grid .num { font-weight: 900; font-size: 15px; color: var(--accent-ink); letter-spacing: .5px; }
-  .how-grid h3 { margin: 10px 0 8px; }
-
-  @media (max-width: 900px) {
-    .hero-bento {
-      grid-template-columns: 1fr 1fr;
-      grid-template-areas: "text text" "s1 s2" "s3 s3";
-    }
-    .hero-text { min-height: 0; border-radius: var(--R) var(--R) var(--r) var(--r); }
-    .p1 { border-radius: var(--r) var(--R) var(--R) var(--R); }
-    .p2 { border-radius: var(--R) var(--r) var(--R) var(--R); }
-    .p3 { border-radius: var(--R); }
-    .teaser { grid-template-columns: 1fr; }
-    .how-grid { grid-template-columns: 1fr; }
-    .how-grid .tile { border-radius: var(--R); }
-    .how-grid .tile:not(:last-child) { border-bottom-left-radius: var(--r); }
-    .how-grid .tile:not(:first-child) { border-top-left-radius: var(--r); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--font-body); color:var(--body);
+    width:100vw; height:100vh; position:relative; overflow:hidden;
+    background: linear-gradient(180deg, #cfe3fb 0%, #d9d3f2 32%, #eccbe4 58%, #f6d9e4 78%, #fbe7d9 100%);
+    user-select:none;
   }
-  @media (max-width: 640px) {
-    .hero-bento { grid-template-columns: 1fr; grid-template-areas: "text" "s1" "s2" "s3"; }
-    .hero-text { border-radius: var(--R) var(--R) var(--r) var(--r); }
-    .p1 { border-radius: var(--r) var(--r) var(--R) var(--R); }
-    .p2 { border-radius: var(--R); }
-    .ai-note { border-radius: 18px; align-items: flex-start; }
-    .proof b { font-size: 34px; }
-    .wip-grid { grid-template-columns: 1fr; }
-    .wip { border-radius: var(--R); }
-    .thumbs { gap: 8px; }
+  .grid-floor{
+    position:absolute; left:0; right:0; bottom:0; height:40%; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.5) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255,255,255,.5) 2px, transparent 2px);
+    background-size: 64px 64px;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%);
+    mask-image: linear-gradient(180deg, transparent, #000 30%);
+    opacity:.5;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .teaser:hover { transform: none; }
+  .deco{position:absolute; z-index:1; pointer-events:none; filter:drop-shadow(0 6px 10px rgba(80,60,110,.18))}
+  .pixel-cloud{position:absolute; z-index:3; pointer-events:none; image-rendering:pixelated; filter:drop-shadow(0 10px 16px rgba(80,60,110,.28))}
+
+  /* ================= TOP NAVBAR — vaporwave Win95 bevel (ported from the navbar artifact) ================= */
+  .navbar{
+    position:absolute; top:0; left:0; right:0; height:54px; z-index:80;
+    background: linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%);
+    border-bottom:3px solid #4a1f70;
+    box-shadow:0 4px 14px rgba(30,10,50,.35);
+    display:flex; align-items:center; gap:10px; padding:0 10px;
   }
+  .navbtn{
+    font-family:"Silkscreen", monospace; font-weight:400; font-size:11px; letter-spacing:.2px; color:#3a1660;
+    background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%);
+    border-top:2px solid #fbf3ff; border-left:2px solid #fbf3ff;
+    border-right:2px solid #5b2a86; border-bottom:2px solid #5b2a86;
+    border-radius:0; box-sizing:border-box; height:28px; padding:0 11px; cursor:pointer; user-select:none;
+    box-shadow:0 2px 0 rgba(58,22,96,.3);
+    display:flex; align-items:center; gap:7px; flex:none;
+    transition:filter .06s ease;
+  }
+  .navbtn:hover{ filter:brightness(1.06) }
+  .navbtn:active{ transform:translate(1px,1px) }
+  .navbtn.active, .navbtn.pressed{
+    background:linear-gradient(180deg, #b79bf2 0%, #a084e8 100%);
+    border-top:2px solid #5b2a86; border-left:2px solid #5b2a86;
+    border-right:2px solid #efe0ff; border-bottom:2px solid #efe0ff;
+    box-shadow:inset 2px 2px 5px rgba(42,16,70,.55);
+    color:#22103b;
+  }
+  .nav-start{
+    width:54px; height:44px; padding:0; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
+    border-top:2px solid #fff2fb; border-left:2px solid #fff2fb;
+    border-right:2px solid #7a2e86; border-bottom:2px solid #7a2e86;
+    box-shadow:0 3px 0 rgba(58,22,96,.35);
+  }
+  .nav-start img{ display:block; width:36px; height:36px; object-fit:contain; object-position:center; margin:0 auto; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)) }
+  .nav-start:active{ transform:translate(1px,1px); box-shadow:inset 2px 2px 4px rgba(58,22,96,.4) }
+  .nav-divider{ width:0; height:22px; border-left:2px solid #6b3fa0; border-right:2px solid #ffe8fb; flex:none }
+  .nav-tabs{ flex:1; display:flex; gap:8px; overflow:hidden }
+  .nav-tabs .navbtn{ display:none }
+  .nav-tabs .navbtn.shown{ display:flex }
+  .nav-tabs .navbtn svg{ flex:none }
+  .nav-right{ display:flex; align-items:center; gap:10px; flex:none }
+  .nav-clock{
+    font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.5px; color:#1c2a5e;
+    background:linear-gradient(180deg, #a8d8ff 0%, #7fb8f5 100%);
+    border-top:2px solid #5b2a86; border-left:2px solid #5b2a86;
+    border-right:2px solid #eef7ff; border-bottom:2px solid #eef7ff;
+    box-shadow:inset 2px 2px 4px rgba(30,40,90,.35);
+    height:26px; padding:0 10px; box-sizing:border-box; display:flex; align-items:center; gap:6px;
+  }
+  .nav-more{
+    width:26px; height:26px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%);
+    border-top:2px solid #fbf3ff; border-left:2px solid #fbf3ff;
+    border-right:2px solid #5b2a86; border-bottom:2px solid #5b2a86;
+    box-shadow:0 2px 0 rgba(58,22,96,.3);
+    font-family:"Silkscreen", monospace; font-size:13px; color:#3a1660; flex:none; cursor:pointer; box-sizing:border-box;
+  }
+  .nav-more:active{ transform:translate(1px,1px) }
+  .nav-util{ text-decoration:none }
+
+  /* ================= DESKTOP ICONS ================= */
+  .icons{position:absolute; top:80px; left:34px; z-index:2; display:flex; flex-direction:column; gap:28px}
+  .icon{display:flex; flex-direction:column; align-items:center; gap:7px; width:80px; cursor:pointer; background:none; border:0; padding:6px; border-radius:6px}
+  .icon:hover{background:rgba(255,255,255,.35)}
+  .icon:active{background:rgba(255,255,255,.55)}
+  .icon .glyph{width:56px;height:56px;display:flex;align-items:center;justify-content:center; position:relative}
+  .icon .glyph::before{
+    content:""; position:absolute; left:50%; bottom:-2px; width:66%; height:9px; transform:translateX(-50%);
+    background:radial-gradient(ellipse at center, rgba(37,40,61,.3), rgba(37,40,61,0) 72%); z-index:-1;
+  }
+  .icon span{font-family:var(--font-pixel); font-size:8px; color:var(--indigo); text-align:center; background:rgba(255,255,255,.6); padding:3px 5px}
+
+  /* real hand-drawn icon art — glow removed from the source art itself, sits directly on the desktop */
+  .icon-art{ width:72px; height:72px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(37,40,61,.35)) }
+  .trash-icon .icon-art{ width:62px; height:62px }
+
+  .trash-icon{ position:absolute; right:34px; bottom:34px; z-index:2 }
+
+  /* ================= WINDOW CHROME (squared) ================= */
+  .win{
+    position:absolute; z-index:10; background:var(--chrome); display:none;
+    border:5px double var(--indigo); border-radius:0;
+    box-shadow:6px 8px 0 rgba(37,40,61,.18), 0 24px 40px rgba(60,40,90,.18);
+  }
+  .win.open{display:block}
+  .win .bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:grab;
+    padding:8px 10px; border-radius:0; border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .win .bar:active{cursor:grabbing}
+  .win .bar .titlewrap{display:flex; align-items:center; gap:8px; min-width:0}
+  .win .bar .title{font-family:var(--font-pixel); font-size:9.5px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .bar-icon{width:14px;height:14px;flex:none;border:1.5px solid var(--indigo); background:var(--chrome); position:relative}
+  .bar-icon--about{background:var(--pink); border-radius:50%}
+  .bar-icon--player{background:var(--blue)}
+  .bar-icon--player::after{content:"";position:absolute;left:3px;top:2px;border-left:5px solid var(--indigo);border-top:3px solid transparent;border-bottom:3px solid transparent}
+  .bar-icon--folder{background:var(--purple)}
+  .bar-icon--folder::after{content:"";position:absolute;left:0;top:-3px;width:7px;height:3px;background:var(--purple);border:1.5px solid var(--indigo);border-bottom:0}
+  .bar-icon--warn{background:var(--yellow)}
+  .win .bar .btns{display:flex; gap:5px; flex:none}
+  .win .bar .btns i{
+    width:16px;height:16px;border-radius:0;background:var(--chrome);border:1.5px solid var(--indigo);
+    display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--font-pixel);font-size:8px;color:var(--indigo);
+    cursor:pointer;
+  }
+  .win .bar .btns i:hover{background:var(--pink); color:#fff}
+  .win .body{padding:18px 20px}
+
+  .win--about{ width:540px }
+  .about-grid{display:flex; gap:20px; align-items:flex-start}
+  .about-photo{
+    flex:none; width:140px; height:140px; overflow:hidden; border-radius:0;
+    border:2px solid var(--indigo); box-shadow:3px 4px 0 rgba(37,40,61,.25);
+    background:linear-gradient(160deg, var(--blue), var(--purple));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .about-photo svg{width:78%}
+  .about-text h1{font-family:var(--font-head); font-weight:800; font-size:25px; color:var(--indigo); line-height:1.1}
+  .about-text p{font-size:14px; margin-top:10px; line-height:1.55}
+  .chip-row{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap}
+  .chip{font-family:var(--font-pixel); font-size:8.5px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:5px 9px; border-radius:0}
+  .chip--pink{background:var(--pink); color:#fff}
+  .chip--blue{background:var(--blue)}
+
+  .win--player{ width:300px }
+  .player-art{height:140px;border-radius:0;border:2px solid var(--indigo);overflow:hidden;position:relative;background:linear-gradient(200deg, var(--blue-soft), var(--purple))}
+  .player-art .glyph2{position:absolute; inset:0; display:flex; align-items:center; justify-content:center}
+  .player-title{font-family:var(--font-pixel); font-size:9px; color:var(--indigo); margin-top:12px; text-align:center; line-height:1.6}
+  .player-bar{margin-top:10px; height:6px; border-radius:0; background:rgba(37,40,61,.15); overflow:hidden}
+  .player-bar i{display:block; width:38%; height:100%; background:var(--pink)}
+  .player-controls{display:flex; justify-content:center; gap:14px; margin-top:12px; font-family:var(--font-pixel); font-size:12px; color:var(--indigo)}
+
+  /* selected-work: the biggest window on the desktop, 3 live case-study previews */
+  .win--case{ width:640px }
+  .case-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:12px}
+  .case-thumb{aspect-ratio:4/5; border:2px solid var(--indigo); position:relative; overflow:hidden; background:var(--purple-soft)}
+  .case-thumb img{width:100%; height:100%; object-fit:cover; object-position:top; display:block}
+  .case-thumb span{position:absolute; bottom:6px; left:6px; right:6px; font-family:var(--font-pixel); font-size:6.5px; line-height:1.5; color:#fff; background:rgba(37,40,61,.7); padding:4px 6px}
+
+  /* early-work: a smaller window, tucked behind the big one */
+  .win--early{ width:320px }
+  .early-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .early-thumb{aspect-ratio:4/3; border:2px solid var(--indigo); position:relative; overflow:hidden; background:var(--blue-soft)}
+  .early-thumb img{width:100%; height:100%; object-fit:cover; display:block}
+
+  .modal-note{margin-top:16px; font-size:12.5px; line-height:1.6}
+  .modal-cta{
+    margin-top:14px; display:inline-block; font-family:var(--font-pixel); font-size:9px; color:#fff;
+    background:var(--pink); border:2px solid var(--indigo); border-radius:0; padding:9px 14px;
+    box-shadow:3px 3px 0 var(--indigo); cursor:pointer; text-decoration:none;
+  }
+
+  .win--dialog{ width:290px; z-index:110 }
+  .win--dialog .body{ text-align:center; padding:22px 20px }
+  .win--dialog p{font-family:var(--font-head); font-weight:600; font-size:14.5px; color:var(--indigo); line-height:1.5}
+  .win--dialog .row{display:flex; gap:10px; justify-content:center; margin-top:18px}
+  .dbtn{font-family:var(--font-pixel); font-size:9px; color:var(--indigo); background:var(--chrome); border:2px solid var(--indigo); border-radius:0; padding:8px 16px; box-shadow:2px 2px 0 rgba(37,40,61,.3); cursor:pointer; text-decoration:none; display:inline-block}
+  .dbtn--yes{background:var(--pink); color:#fff}
+
+  .win--notice{ font-family:var(--font-body) }
+  .win--notice p{font-family:var(--font-head); font-weight:600; font-size:13.5px; color:var(--indigo); line-height:1.5}
+
+  /* decorative title-bar-only "ghosts" behind the notice popup, purely visual (not part of the .win system, so they can't be dragged or closed) */
+  .ghost-bar{
+    position:absolute; box-sizing:border-box; pointer-events:none;
+    background:var(--chrome); border:3px solid var(--indigo);
+    box-shadow:6px 8px 0 rgba(37,40,61,.18), 0 20px 34px rgba(60,40,90,.15);
+  }
+  .ghost-bar .bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:8px 10px; border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .ghost-bar .titlewrap{display:flex; align-items:center; gap:8px; min-width:0}
+  .ghost-bar .title{font-family:var(--font-pixel); font-size:9.5px; color:var(--indigo); white-space:nowrap}
+  .ghost-bar .btns{display:flex; gap:5px; flex:none}
+  .ghost-bar .btns i{
+    width:16px;height:16px;background:var(--chrome);border:1.5px solid var(--indigo);
+    display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--font-pixel);font-size:8px;color:var(--indigo);
+  }
+
+  /* ================= BACKDROP BLUR ================= */
+  .backdrop{
+    position:fixed; inset:0; z-index:60; background:rgba(37,40,61,.22);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    opacity:0; pointer-events:none; transition:opacity .22s ease;
+  }
+  .backdrop.show{opacity:1; pointer-events:auto}
 </style>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="site-nav">
-  <div class="wrap">
-    <a class="brand" href="index.html" aria-current="page"><span class="brand__dot" aria-hidden="true"></span>Camila Massa</a>
-    <nav aria-label="Main">
-      <ul class="nav-links">
-        <li><a href="index.html#work">Selected work</a></li>
-        <li><a href="earlier-work.html">Earlier work</a></li>
-        <li><a href="about.html">About</a></li>
-        <li class="hide-sm"><a class="btn btn--primary" href="assets/Camila-Massa-CV.pdf" download>CV</a></li>
-      </ul>
-    </nav>
+
+<div class="grid-floor"></div>
+<!-- clouds: scattered, varied size/opacity, drifting behind the windows -->
+<svg class="deco" style="top:66px; right:90px; width:150px; opacity:.95" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:200px; right:280px; width:90px; opacity:.7; z-index:1" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:640px; left:420px; width:110px; opacity:.8" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:78px; left:850px; width:70px; opacity:.55" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:720px; right:60px; width:130px; opacity:.85" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+
+<!-- pixel-art clouds: a trimmed-down mix, some tucked just behind a window corner so they peek out at the border, others drifting free in open sky for a magical retro feel -->
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-k-wide-white.png" style="top:34px; left:840px; width:270px; opacity:.9; z-index:2">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-c-flower-white.png" style="top:104px; left:698px; width:64px; z-index:2">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-h-big-pink.png" style="top:150px; left:1580px; width:190px; z-index:2">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-j-wide-purple.png" style="top:985px; left:520px; width:200px; z-index:2">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-a-puff-pink.png" style="top:60px; left:160px; width:180px; z-index:2" title="peeking behind About">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-n-twin-blue.png" style="top:1000px; left:1120px; width:160px; z-index:2" title="peeking behind Early work's bottom-left corner">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-l-twin-pinkpurple.png" style="top:596px; left:4px; width:130px; z-index:2" title="peeking behind the notice stack">
+
+<!-- star trail: a small milky-way-ish drift of stars from upper-left to lower-right, mixing tiny dots, small twinkles and a couple of bigger anchor stars -->
+<svg class="deco star-trail" style="top:66px; left:602px; width:15px; opacity:0.86" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:87px; left:680px; width:9px; opacity:0.76" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:115px; left:757px; width:12px; opacity:0.84" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:163px; left:835px; width:6px; opacity:0.61" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:198px; left:893px; width:13px; opacity:0.82" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:238px; left:988px; width:15px; opacity:0.79" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:258px; left:1048px; width:9px; opacity:0.78" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:344px; left:1188px; width:13px; opacity:0.72" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:380px; left:1244px; width:7px; opacity:0.68" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:416px; left:1310px; width:14px; opacity:0.90" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:466px; left:1332px; width:14px; opacity:0.72" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:507px; left:1372px; width:9px; opacity:0.88" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:563px; left:1434px; width:12px; opacity:0.88" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:604px; left:1512px; width:21px; opacity:0.94" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:648px; left:1548px; width:6px; opacity:0.67" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:757px; left:1672px; width:5px; opacity:0.63" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:804px; left:1689px; width:13px; opacity:0.95" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco star-trail" style="top:896px; left:1808px; width:4px; opacity:0.60" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+
+<!-- stars / sparkles: four-point twinkles at a few sizes -->
+<svg class="deco" style="top:60%; left:82%; width:24px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:140px; left:780px; width:16px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:610px; left:900px; width:20px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:730px; left:640px; width:14px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:96px; right:430px; width:12px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+<svg class="deco" style="top:410px; right:40px; width:18px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+
+<!-- tiny sparkle dots, for extra magic dust -->
+<svg class="deco" style="top:250px; left:770px; width:8px; opacity:.9" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco" style="top:560px; right:360px; width:6px; opacity:.8" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco" style="top:170px; left:360px; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+<svg class="deco" style="top:690px; left:900px; width:6px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+
+<!-- ============ TOP NAVBAR ============ -->
+<div class="navbar">
+  <div class="navbtn nav-start" title="Camila Massa">
+    <img src="assets/img/y2k/shiba.png" alt="Camila's shiba icon">
   </div>
-</header>
-<main id="main">
-
-  <!-- Hero -->
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="wrap">
-      <div class="bento hero-bento">
-        <div class="tile tile--sky hero-text c-bl c-br">
-          <span class="eyebrow">Senior Web &amp; Brand Designer · Berlin</span>
-          <h1 id="hero-title">I design branded web experiences, and I ship them.</h1>
-          <p class="lead">At Aklamio I design and build referral landing pages, customer portals and branded widgets for partner brands. I bridge design and delivery: Figma, HTML/CSS, Contentful and Material UI theming, right through to release.</p>
-          <p class="ai-note"><i aria-hidden="true">✦</i>I keep up with the industry and bring generative AI and vibe coding into my everyday workflow.</p>
-          <div class="hero-actions">
-            <a class="btn btn--primary" href="#work">See my work <span class="arrow" aria-hidden="true">→</span></a>
-            <a class="btn btn--soft" href="assets/Camila-Massa-CV.pdf" download>Download CV</a>
-          </div>
-        </div>
-        <div class="tile tile--blue proof p1 c-tl">
-          <b>15+</b>
-          <span>years across digital design, brand and web production</span>
-        </div>
-        <div class="tile tile--peri proof p2">
-          <b>40+</b>
-          <span>hosted pages shipped from 67 integration tickets</span>
-        </div>
-        <div class="tile tile--lav-soft proof p3 c-tr">
-          <b class="proof__word">Contentful + CSS</b>
-          <span>hands-on CMS, Material UI, JSON configuration and theming</span>
-        </div>
-      </div>
+  <div class="nav-divider"></div>
+  <div class="nav-tabs" id="tabs">
+    <span class="navbtn" data-target="about">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="1" y="1" width="14" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+        <rect x="7" y="3" width="2" height="2" fill="#ff6fd8"/>
+        <rect x="7" y="6" width="2" height="6" fill="#5b2a86"/>
+      </svg>
+      about.exe
+    </span>
+    <span class="navbtn" data-target="work">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="1" y="4" width="6" height="2" fill="#ff9fe3"/>
+        <rect x="1" y="6" width="14" height="9" fill="#ffb3e6" stroke="#3a1660" stroke-width="1"/>
+        <rect x="1" y="6" width="14" height="2" fill="#ffd6f2"/>
+      </svg>
+      selected-work/
+    </span>
+    <span class="navbtn" data-target="early">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="2" fill="#6fe0ff" stroke="#3a1660" stroke-width="0.5"/>
+        <rect x="2" y="13" width="12" height="2" fill="#6fe0ff" stroke="#3a1660" stroke-width="0.5"/>
+        <rect x="4" y="3" width="8" height="3" fill="#eaf9ff"/>
+        <rect x="4" y="10" width="8" height="3" fill="#eaf9ff"/>
+        <rect x="6" y="6" width="4" height="1" fill="#9fc7ff"/>
+        <rect x="7" y="7" width="2" height="2" fill="#5b2a86"/>
+        <rect x="6" y="9" width="4" height="1" fill="#9fc7ff"/>
+      </svg>
+      early-work/
+    </span>
+  </div>
+  <div class="nav-right">
+    <a class="navbtn nav-util" href="assets/Camila-Massa-CV.pdf" download title="Download CV">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+        <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+        <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+        <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+        <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+      </svg>
+      curriculum.exe
+    </a>
+    <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+        <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+        <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+        <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+        <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+      </svg>
+      linkedin.mp3
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-clock" id="clock">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+        <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+        <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+      </svg>
+      <span id="clockText">10:26</span>
     </div>
-  </section>
+    <div class="nav-more">+</div>
+  </div>
+</div>
 
-  <!-- Selected work -->
-  <section class="block" id="work" aria-labelledby="work-title">
-    <div class="wrap">
-      <div class="block__head">
-        <div>
-          <span class="eyebrow">Case studies</span>
-          <h2 id="work-title" class="h-bar" style="margin-top:14px">Selected work</h2>
-        </div>
-        <p class="lead" style="max-width:44ch">Two case studies from my current practice, each with a live demo you can open and click through.</p>
-      </div>
+<!-- ============ DESKTOP ICONS ============ -->
+<div class="icons">
+  <button class="icon" data-open="about" title="About">
+    <div class="glyph"><img class="icon-art" src="assets/img/y2k/about.png" alt="About"></div>
+    <span>ABOUT</span>
+  </button>
 
-      <div class="work-grid">
-        <article class="work-card">
-          <div class="work-card__media live-frame">
-            <iframe src="demos/nimbelo-fibre/index.html" title="Live preview of the Nimbelo Fibre referral portal demo" loading="lazy" tabindex="-1" aria-hidden="true" style="transform:scale(.385)"></iframe>
-          </div>
-          <div class="work-card__body">
-            <h3><a href="work/one-template-many-brands.html">One template, many brands</a></h3>
-            <p>Three refer-a-friend portals, a single template: only the client’s assets, copy, logo and design identity change.</p>
-            <p class="note">Fictional brands, built to show the system without exposing client work.</p>
-            <div class="work-card__meta">
-              <span class="tag">Design systems</span>
-              <span class="tag">Theming</span>
-              <span class="tag">Material UI</span>
-            </div>
-            <div class="work-card__foot">
-              <span class="work-card__cta">Read the case study <span aria-hidden="true">→</span></span>
-              <a class="demo-link" href="demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗</a>
-            </div>
-          </div>
-        </article>
+  <button class="icon" data-open="work" title="Selected work">
+    <div class="glyph"><img class="icon-art" src="assets/img/y2k/selected-work.png" alt="Selected work"></div>
+    <span>SELECTED<br>WORK</span>
+  </button>
 
-        <article class="work-card">
-          <div class="work-card__media live-frame">
-            <iframe src="demos/cms-structure/xray.html" title="Live preview of the content model x-ray view" loading="lazy" tabindex="-1" aria-hidden="true" style="transform:scale(.385)"></iframe>
-          </div>
-          <div class="work-card__body">
-            <h3><a href="work/content-architecture.html">Designing the content model</a></h3>
-            <p>How a portal is assembled from nested CMS entries, shown as an interactive x-ray and a content model map.</p>
-            <p class="note">Fictional brand, built to show the structure without exposing client work.</p>
-            <div class="work-card__meta">
-              <span class="tag">CMS</span>
-              <span class="tag">Content modelling</span>
-              <span class="tag">UI structure</span>
-            </div>
-            <div class="work-card__foot">
-              <span class="work-card__cta">Read the case study <span aria-hidden="true">→</span></span>
-              <a class="demo-link" href="demos/cms-structure/xray.html" target="_blank" rel="noopener">Open live demo ↗</a>
-            </div>
-          </div>
-        </article>
-      </div>
+  <button class="icon" data-open="early" title="Early work">
+    <div class="glyph"><img class="icon-art" src="assets/img/y2k/early-work.png" alt="Early work"></div>
+    <span>EARLY<br>WORK</span>
+  </button>
+</div>
 
-      <p class="eyebrow wip-head">In progress</p>
-      <div class="wip-grid">
-        <div class="tile wip c-tr">
-          <span class="tag">Coming soon</span>
-          <h3>The referral widget, as a component</h3>
-          <p>How I design and theme the branded widget that sits inside partner pages.</p>
-        </div>
-        <div class="tile wip c-tl">
-          <span class="tag">Coming soon</span>
-          <h3>Design QA at volume: 40+ pages from 67 tickets</h3>
-          <p>How I keep quality and release readiness consistent across a steady flow of integrations.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="trash-icon">
+  <div class="icon" title="Trash (decorative)">
+    <div class="glyph"><img class="icon-art" src="assets/img/y2k/trash.png" alt="Trash"></div>
+    <span>TRASH</span>
+  </div>
+</div>
 
-  <!-- Earlier work teaser -->
-  <section class="block" style="padding-top:0" aria-labelledby="earlier-title">
-    <div class="wrap">
-      <div class="tile tile--lav teaser">
-        <div>
-          <span class="eyebrow">Earlier work</span>
-          <h2 id="earlier-title"><a href="earlier-work.html">Before web: art direction and brand work</a></h2>
-          <p>Magazines and direct marketing at Editora Abril, community and content for Procter &amp; Gamble Brasil brands, and advertising.</p>
-          <span class="teaser__cta" aria-hidden="true">See earlier work →</span>
-        </div>
-        <div class="thumbs">
-          <div class="thumb"><img src="assets/img/earlier/teaser-1.jpg" width="600" height="450" loading="lazy" alt="Earlier brand work sample" onerror="this.style.visibility='hidden'"></div>
-          <div class="thumb"><img src="assets/img/earlier/teaser-2-wella.jpg" width="600" height="450" loading="lazy" alt="Earlier brand work sample" onerror="this.style.visibility='hidden'"></div>
-          <div class="thumb"><img src="assets/img/earlier/teaser-3.jpg" width="600" height="450" loading="lazy" alt="Earlier brand work sample" onerror="this.style.visibility='hidden'"></div>
-        </div>
+<!-- ============ THE HOME DESKTOP: a cascade of windows, About in back-left, biggest window (Selected work) overlapping its bottom-right corner, Early work tucked further behind that ============ -->
+<div class="win win--about open" data-window="about" style="top:148px; left:272px; z-index:11; transform:rotate(-.5deg)">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">camila.exe — About</span></span>
+    <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
+  </div>
+  <div class="body about-grid">
+    <div class="about-photo"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="38" r="20" fill="var(--indigo)" opacity=".85"/><path d="M18 90c2-20 15-32 32-32s30 12 32 32Z" fill="var(--indigo)" opacity=".85"/></svg></div>
+    <div class="about-text">
+      <h1>Hi, I'm Camila.</h1>
+      <p>Product &amp; UI designer, based in Berlin. I turn fuzzy briefs into interfaces people enjoy using — then build them myself.</p>
+      <div class="chip-row">
+        <span class="chip chip--blue">BERLIN</span>
+        <span class="chip">FIGMA</span>
+        <span class="chip chip--pink">VIBE CODING</span>
       </div>
-    </div>
-  </section>
-
-  <!-- How I work -->
-  <section class="block" style="padding-top:0" aria-labelledby="how-title">
-    <div class="wrap">
-      <div class="block__head">
-        <h2 id="how-title" class="h-bar">How I work</h2>
-      </div>
-      <div class="how-grid">
-        <div class="tile tile--lilac c-tr">
-          <span class="num" aria-hidden="true">01</span>
-          <h3>Brand to system</h3>
-          <p>I turn brand guidelines and client assets into Material UI themes and reusable patterns, so one template can carry many brands.</p>
-        </div>
-        <div class="tile tile--lilac c-tl c-br">
-          <span class="num" aria-hidden="true">02</span>
-          <h3>Design to production</h3>
-          <p>I work hands-on in HTML/CSS, Contentful and JSON configuration, prototype with Claude, and collaborate with developers in Git/GitLab and Jira.</p>
-        </div>
-        <div class="tile tile--violet c-bl">
-          <span class="num" aria-hidden="true">03</span>
-          <h3>Quality at volume</h3>
-          <p>Design QA and release readiness are part of the job, backed by QA automation I build with Claude: 40+ hosted pages from 67 tickets and 11 offboardings, often on tight timelines.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
-<!-- contact band (every page, above footer) -->
-<section class="block" id="contact"><div class="wrap">
-  <div class="contact-band">
-    <div class="tile tile--blue c-br">
-      <span class="eyebrow">Contact</span>
-      <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
-      <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
-    </div>
-    <div class="tile tile--violet c-bl" style="display:flex;flex-direction:column;justify-content:center;gap:14px">
-      <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
-        <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email address</button>
-        <div class="mail-reveal__out" hidden></div>
-        <p class="sr-only mail-reveal__status" aria-live="polite"></p>
-        <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
-      </div>
-      <a class="btn btn--soft" href="assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+      <a class="modal-cta" href="about.html" style="margin-top:14px">SEE MORE →</a>
     </div>
   </div>
-</div></section>
-<footer class="site-footer"><div class="wrap">
-  <span>© 2026 Camila Massa · Berlin</span>
-  <span><a href="https://www.linkedin.com/in/amionodera">LinkedIn</a></span>
-</div></footer>
+</div>
+
+<div class="win win--case open" data-window="work" style="top:355px; left:603px; z-index:13; transform:rotate(.6deg)">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">selected-work/</span></span>
+    <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
+  </div>
+  <div class="body">
+    <div class="case-grid">
+      <div class="case-thumb"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" alt="Nimbelo Fibre demo"><span>NIMBELO FIBRE</span></div>
+      <div class="case-thumb"><img src="assets/img/y2k/thumb-voltwell-energy.jpg" alt="Voltwell Energy demo"><span>VOLTWELL ENERGY</span></div>
+      <div class="case-thumb"><img src="assets/img/y2k/thumb-orbeo-mobile.jpg" alt="Orbeo Mobile demo"><span>ORBEO MOBILE</span></div>
+    </div>
+    <p class="modal-note">One template, three fictional brand portals. Product &amp; UI work, from Figma to a shared Contentful-driven template.</p>
+    <a class="modal-cta" href="work/one-template-many-brands.html">SEE CASE STUDY →</a>
+  </div>
+</div>
+
+<div class="win win--early open" data-window="early" style="top:655px; left:1187px; z-index:12; transform:rotate(-.8deg)">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">early-work/</span></span>
+    <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
+  </div>
+  <div class="body">
+    <div class="early-grid">
+      <div class="early-thumb"><img src="assets/img/y2k/early-abemd-1.jpg" alt="Earlier project preview"></div>
+      <div class="early-thumb"><img src="assets/img/y2k/early-always-2.jpg" alt="Earlier project preview"></div>
+      <div class="early-thumb"><img src="assets/img/y2k/early-clairol-1.jpg" alt="Earlier project preview"></div>
+      <div class="early-thumb"><img src="assets/img/y2k/early-geekisstore-1.jpg" alt="Earlier project preview"></div>
+    </div>
+    <p class="modal-note">14 projects from earlier in my career, kept for the full story.</p>
+    <a class="modal-cta" href="earlier-work.html">SEE ALL →</a>
+  </div>
+</div>
+
+<!-- ============ MODAL: the "are you sure" confirm dialog, appears once on load then vanishes ============ -->
+<div class="backdrop" id="backdrop"></div>
+
+<div class="win win--dialog" data-window="dialog" style="top:120px; left:820px; z-index:110">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">confirm.exe</span></span>
+    <span class="btns"><i data-modal-close>x</i></span>
+  </div>
+  <div class="body">
+    <p>Are you sure you want to<br>view this portfolio?</p>
+    <div class="row">
+      <span class="dbtn dbtn--yes" data-modal-close>YES</span>
+      <span class="dbtn" data-modal-close>NO</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
+<div class="ghost-bar" style="top:666px; left:60px; z-index:14; width:360px; height:143px">
+  <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+</div>
+<div class="ghost-bar" style="top:684px; left:78px; z-index:15; width:360px; height:143px">
+  <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+</div>
+<div class="win win--notice open" data-window="notice" style="top:702px; left:96px; z-index:16; width:360px">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span>
+    <span class="btns"><i>_</i><i>▢</i><i>x</i></span>
+  </div>
+  <div class="body" style="display:flex; align-items:center; gap:16px; padding:18px 20px">
+    <svg width="32" height="32" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none">
+      <path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/>
+      <rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/>
+    </svg>
+    <div style="flex:1; text-align:left">
+      <p style="margin:0">Go to a complete content model?</p>
+      <div class="row" style="justify-content:flex-start; margin-top:12px">
+        <a class="dbtn dbtn--yes" href="work/content-architecture.html">YES</a>
+        <span class="dbtn">NO</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-  /* Scale each 1440x900 live preview to the width of its frame */
-  (function () {
-    var frames = [].slice.call(document.querySelectorAll('.live-frame'));
-    function fit() {
-      frames.forEach(function (f) {
-        var i = f.querySelector('iframe');
-        if (i && f.clientWidth) i.style.transform = 'scale(' + (f.clientWidth / 1440) + ')';
-      });
-    }
-    fit();
-    window.addEventListener('load', fit);
-    window.addEventListener('resize', fit);
-    if ('ResizeObserver' in window) {
-      var ro = new ResizeObserver(fit);
-      frames.forEach(function (f) { ro.observe(f); });
-    }
-  })();
+  var zTop = 20; /* above the hand-placed cascade z-indexes (11-13) baked into the markup */
+  var zModalTop = 65; /* modal windows must render above the backdrop (z-index 60) */
+  function bringToFront(el){ zTop += 1; el.style.zIndex = zTop; }
+  function bringModalToFront(el){ zModalTop += 1; el.style.zIndex = zModalTop; }
+  function tabFor(id){ return document.querySelector('.nav-tabs [data-target="'+id+'"]'); }
+  function setTabState(id, shown, active){
+    var tab = tabFor(id); if (!tab) return;
+    tab.classList.toggle('shown', shown);
+    tab.classList.toggle('active', !!active);
+  }
+  function clearActiveTabs(){ document.querySelectorAll('.nav-tabs .navbtn').forEach(function(t){ t.classList.remove('active'); }); }
+
+  /* ---- base (non-modal) windows: about + player ---- */
+  function openBase(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.add('open'); bringToFront(el);
+    clearActiveTabs(); setTabState(id, true, true);
+  }
+  function closeBase(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.remove('open'); setTabState(id, false, false);
+  }
+  function minimizeBase(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.remove('open'); setTabState(id, true, false);
+  }
+  function toggleBaseTab(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    if (el.classList.contains('open')) minimizeBase(id); else openBase(id);
+  }
+
+  /* ---- modal windows: work / early / dialog, with blur backdrop ---- */
+  var backdrop = document.getElementById('backdrop');
+  var openModals = 0;
+  function openModal(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    if (!el.classList.contains('open')) openModals++;
+    el.classList.add('open'); bringModalToFront(el);
+    backdrop.classList.add('show');
+    if (id !== 'dialog'){ clearActiveTabs(); setTabState(id, true, true); }
+  }
+  function closeModal(el){
+    if (!el || !el.classList.contains('open')) return;
+    var id = el.getAttribute('data-window');
+    el.classList.remove('open');
+    openModals = Math.max(0, openModals - 1);
+    if (id !== 'dialog') setTabState(id, false, false);
+    else { try { localStorage.setItem(INTRO_SEEN_KEY, '1'); } catch (e) { /* privacy mode etc: no-op */ } }
+    if (openModals <= 0) backdrop.classList.remove('show');
+  }
+  function closeModalById(id){ closeModal(document.querySelector('.win[data-window="'+id+'"]')); }
+
+  /* about / player / work / early are all base windows now, cascaded together on the home desktop.
+     only the confirm dialog is still a true blur-backdrop modal. */
+  document.querySelectorAll('[data-open]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-open');
+      openBase(id);
+    });
+  });
+
+  document.querySelectorAll('.win').forEach(function(win){
+    var isModal = win.classList.contains('win--dialog');
+    win.addEventListener('mousedown', function(){ if (isModal) bringModalToFront(win); else bringToFront(win); });
+    var id = win.getAttribute('data-window');
+    var closeBtn = win.querySelector('[data-close]');
+    var minBtn = win.querySelector('[data-min]');
+    if (closeBtn) closeBtn.addEventListener('click', function(e){ e.stopPropagation(); closeBase(id); });
+    if (minBtn) minBtn.addEventListener('click', function(e){ e.stopPropagation(); minimizeBase(id); });
+    win.querySelectorAll('[data-modal-close]').forEach(function(b){
+      b.addEventListener('click', function(e){ e.stopPropagation(); closeModal(win); });
+    });
+  });
+
+  backdrop.addEventListener('click', function(){
+    closeModalById('dialog');
+  });
+
+  document.querySelectorAll('.nav-tabs .navbtn').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var id = tab.getAttribute('data-target');
+      toggleBaseTab(id);
+    });
+  });
+
+  /* dragging for base windows only */
+  function makeDraggable(win){
+    var bar = win.querySelector('.bar');
+    if (!bar) return;
+    var isModal = win.classList.contains('win--dialog');
+    var dragging = false, startX, startY, startLeft, startTop;
+    bar.addEventListener('pointerdown', function(e){
+      if (e.target.closest('.btns')) return;
+      dragging = true; if (isModal) bringModalToFront(win); else bringToFront(win);
+      var rect = win.getBoundingClientRect();
+      startX = e.clientX; startY = e.clientY; startLeft = rect.left; startTop = rect.top;
+      win.style.right = 'auto';
+      bar.setPointerCapture(e.pointerId);
+    });
+    bar.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      win.style.left = (startLeft + dx) + 'px'; win.style.top = (startTop + dy) + 'px';
+    });
+    bar.addEventListener('pointerup', function(){ dragging = false; });
+    bar.addEventListener('pointercancel', function(){ dragging = false; });
+  }
+  document.querySelectorAll('.win').forEach(makeDraggable);
+
+  var HOME_WINDOWS = ['about', 'work', 'early'];
+  HOME_WINDOWS.forEach(function(id){ setTabState(id, true, false); });
+
+  /* confirm dialog opens on load, centered on the viewport, but only the first time
+     a visitor sees it: once dismissed, we remember that in localStorage so it doesn't
+     nag on every return trip to the home page. */
+  function centerDialog(el){
+    var w = el.offsetWidth, h = el.offsetHeight;
+    el.style.left = Math.round((window.innerWidth - w) / 2) + 'px';
+    el.style.top = Math.round((window.innerHeight - h) / 2) + 'px';
+  }
+  var INTRO_SEEN_KEY = 'portfolioIntroSeen';
+  var introAlreadySeen = false;
+  try { introAlreadySeen = !!localStorage.getItem(INTRO_SEEN_KEY); } catch (e) { /* privacy mode etc: fall through and show it */ }
+  if (!introAlreadySeen){
+    var dialogEl = document.querySelector('.win[data-window="dialog"]');
+    openModal('dialog');
+    if (dialogEl) centerDialog(dialogEl);
+  }
+
+  /* start button (shiba icon): close whatever's open and return to the initial home cascade */
+  function goHome(){
+    closeModalById('dialog');
+    HOME_WINDOWS.forEach(function(id){
+      var el = document.querySelector('.win[data-window="'+id+'"]');
+      if (el){ el.classList.add('open'); bringToFront(el); }
+    });
+    clearActiveTabs();
+    HOME_WINDOWS.forEach(function(id){ setTabState(id, true, false); });
+  }
+  document.querySelector('.nav-start').addEventListener('click', goHome);
+
+  function tick(){
+    var d = new Date();
+    document.getElementById('clockText').textContent =
+      String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
 </script>
-<script src="assets/js/contact.js" defer></script>
 </body>
 </html>

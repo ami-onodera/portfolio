@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept Q — Y2K desktop, vaporwave Win95 navbar + shiba icon</title>
+<link rel="icon" type="image/png" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
+    --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
+    --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
+    --chrome:#f4f1fb;
+    --font-pixel:"Press Start 2P", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--font-body); color:var(--body);
+    width:100vw; height:100vh; position:relative; overflow:hidden;
+    background: linear-gradient(180deg, #cfe3fb 0%, #d9d3f2 32%, #eccbe4 58%, #f6d9e4 78%, #fbe7d9 100%);
+    user-select:none;
+  }
+  .grid-floor{
+    position:absolute; left:0; right:0; bottom:0; height:40%; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.5) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255,255,255,.5) 2px, transparent 2px);
+    background-size: 64px 64px;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%);
+    mask-image: linear-gradient(180deg, transparent, #000 30%);
+    opacity:.5;
+  }
+  .deco{position:absolute; z-index:1; pointer-events:none; filter:drop-shadow(0 6px 10px rgba(80,60,110,.18))}
+
+  /* ================= TOP NAVBAR — vaporwave Win95 bevel (ported from the navbar artifact) ================= */
+  .navbar{
+    position:absolute; top:0; left:0; right:0; height:54px; z-index:80;
+    background: linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%);
+    border-bottom:3px solid #4a1f70;
+    box-shadow:0 4px 14px rgba(30,10,50,.35);
+    display:flex; align-items:center; gap:10px; padding:0 10px;
+  }
+  .navbtn{
+    font-family:"Silkscreen", monospace; font-weight:400; font-size:11px; letter-spacing:.2px; color:#3a1660;
+    background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%);
+    border-top:2px solid #fbf3ff; border-left:2px solid #fbf3ff;
+    border-right:2px solid #5b2a86; border-bottom:2px solid #5b2a86;
+    border-radius:0; box-sizing:border-box; height:28px; padding:0 11px; cursor:pointer; user-select:none;
+    box-shadow:0 2px 0 rgba(58,22,96,.3);
+    display:flex; align-items:center; gap:7px; flex:none;
+    transition:filter .06s ease;
+  }
+  .navbtn:hover{ filter:brightness(1.06) }
+  .navbtn:active{ transform:translate(1px,1px) }
+  .navbtn.active, .navbtn.pressed{
+    background:linear-gradient(180deg, #b79bf2 0%, #a084e8 100%);
+    border-top:2px solid #5b2a86; border-left:2px solid #5b2a86;
+    border-right:2px solid #efe0ff; border-bottom:2px solid #efe0ff;
+    box-shadow:inset 2px 2px 5px rgba(42,16,70,.55);
+    color:#22103b;
+  }
+  .nav-start{
+    width:48px; height:42px; padding:0; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
+    border-top:2px solid #fff2fb; border-left:2px solid #fff2fb;
+    border-right:2px solid #7a2e86; border-bottom:2px solid #7a2e86;
+    box-shadow:0 3px 0 rgba(58,22,96,.35);
+  }
+  .nav-start img{ display:block; width:38px; height:38px; object-fit:contain; margin:0 auto; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)) }
+  .nav-start:active{ transform:translate(1px,1px); box-shadow:inset 2px 2px 4px rgba(58,22,96,.4) }
+  .nav-divider{ width:0; height:22px; border-left:2px solid #6b3fa0; border-right:2px solid #ffe8fb; flex:none }
+  .nav-tabs{ flex:1; display:flex; gap:8px; overflow:hidden }
+  .nav-tabs .navbtn{ display:none }
+  .nav-tabs .navbtn.shown{ display:flex }
+  .nav-tabs .navbtn svg{ flex:none }
+  .nav-right{ display:flex; align-items:center; gap:10px; flex:none }
+  .nav-clock{
+    font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.5px; color:#1c2a5e;
+    background:linear-gradient(180deg, #a8d8ff 0%, #7fb8f5 100%);
+    border-top:2px solid #5b2a86; border-left:2px solid #5b2a86;
+    border-right:2px solid #eef7ff; border-bottom:2px solid #eef7ff;
+    box-shadow:inset 2px 2px 4px rgba(30,40,90,.35);
+    height:26px; padding:0 10px; box-sizing:border-box; display:flex; align-items:center; gap:6px;
+  }
+  .nav-more{
+    width:26px; height:26px; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%);
+    border-top:2px solid #fbf3ff; border-left:2px solid #fbf3ff;
+    border-right:2px solid #5b2a86; border-bottom:2px solid #5b2a86;
+    box-shadow:0 2px 0 rgba(58,22,96,.3);
+    font-family:"Silkscreen", monospace; font-size:13px; color:#3a1660; flex:none; cursor:pointer; box-sizing:border-box;
+  }
+  .nav-more:active{ transform:translate(1px,1px) }
+
+  /* ================= DESKTOP ICONS ================= */
+  .icons{position:absolute; top:80px; left:34px; z-index:2; display:flex; flex-direction:column; gap:28px}
+  .icon{display:flex; flex-direction:column; align-items:center; gap:7px; width:80px; cursor:pointer; background:none; border:0; padding:6px; border-radius:6px}
+  .icon:hover{background:rgba(255,255,255,.35)}
+  .icon:active{background:rgba(255,255,255,.55)}
+  .icon .glyph{width:56px;height:56px;display:flex;align-items:center;justify-content:center; position:relative}
+  .icon .glyph::before{
+    content:""; position:absolute; left:50%; bottom:-2px; width:66%; height:9px; transform:translateX(-50%);
+    background:radial-gradient(ellipse at center, rgba(37,40,61,.3), rgba(37,40,61,0) 72%); z-index:-1;
+  }
+  .icon span{font-family:var(--font-pixel); font-size:8px; color:var(--indigo); text-align:center; background:rgba(255,255,255,.6); padding:3px 5px}
+
+  /* real hand-drawn icon art — glow removed from the source art itself, sits directly on the desktop */
+  .icon-art{ width:72px; height:72px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(37,40,61,.35)) }
+  .trash-icon .icon-art{ width:62px; height:62px }
+
+  .trash-icon{ position:absolute; right:34px; bottom:34px; z-index:2 }
+
+  /* ================= WINDOW CHROME (squared) ================= */
+  .win{
+    position:absolute; z-index:10; background:var(--chrome); display:none;
+    border:5px double var(--indigo); border-radius:0;
+    box-shadow:6px 8px 0 rgba(37,40,61,.18), 0 24px 40px rgba(60,40,90,.18);
+  }
+  .win.open{display:block}
+  .win .bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:grab;
+    padding:8px 10px; border-radius:0; border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .win .bar:active{cursor:grabbing}
+  .win .bar .titlewrap{display:flex; align-items:center; gap:8px; min-width:0}
+  .win .bar .title{font-family:var(--font-pixel); font-size:9.5px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .bar-icon{width:14px;height:14px;flex:none;border:1.5px solid var(--indigo); background:var(--chrome); position:relative}
+  .bar-icon--about{background:var(--pink); border-radius:50%}
+  .bar-icon--player{background:var(--blue)}
+  .bar-icon--player::after{content:"";position:absolute;left:3px;top:2px;border-left:5px solid var(--indigo);border-top:3px solid transparent;border-bottom:3px solid transparent}
+  .bar-icon--folder{background:var(--purple)}
+  .bar-icon--folder::after{content:"";position:absolute;left:0;top:-3px;width:7px;height:3px;background:var(--purple);border:1.5px solid var(--indigo);border-bottom:0}
+  .bar-icon--warn{background:var(--yellow)}
+  .win .bar .btns{display:flex; gap:5px; flex:none}
+  .win .bar .btns i{
+    width:16px;height:16px;border-radius:0;background:var(--chrome);border:1.5px solid var(--indigo);
+    display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--font-pixel);font-size:8px;color:var(--indigo);
+    cursor:pointer;
+  }
+  .win .bar .btns i:hover{background:var(--pink); color:#fff}
+  .win .body{padding:18px 20px}
+
+  .win--about{ width:540px }
+  .about-grid{display:flex; gap:20px; align-items:flex-start}
+  .about-photo{
+    flex:none; width:140px; height:140px; overflow:hidden; border-radius:0;
+    border:2px solid var(--indigo); box-shadow:3px 4px 0 rgba(37,40,61,.25);
+    background:linear-gradient(160deg, var(--blue), var(--purple));
+    display:flex; align-items:center; justify-content:center;
+  }
+  .about-photo svg{width:78%}
+  .about-text h1{font-family:var(--font-head); font-weight:800; font-size:25px; color:var(--indigo); line-height:1.1}
+  .about-text p{font-size:14px; margin-top:10px; line-height:1.55}
+  .chip-row{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap}
+  .chip{font-family:var(--font-pixel); font-size:8.5px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:5px 9px; border-radius:0}
+  .chip--pink{background:var(--pink); color:#fff}
+  .chip--blue{background:var(--blue)}
+
+  .win--player{ width:300px }
+  .player-art{height:140px;border-radius:0;border:2px solid var(--indigo);overflow:hidden;position:relative;background:linear-gradient(200deg, var(--blue-soft), var(--purple))}
+  .player-art .glyph2{position:absolute; inset:0; display:flex; align-items:center; justify-content:center}
+  .player-title{font-family:var(--font-pixel); font-size:9px; color:var(--indigo); margin-top:12px; text-align:center; line-height:1.6}
+  .player-bar{margin-top:10px; height:6px; border-radius:0; background:rgba(37,40,61,.15); overflow:hidden}
+  .player-bar i{display:block; width:38%; height:100%; background:var(--pink)}
+  .player-controls{display:flex; justify-content:center; gap:14px; margin-top:12px; font-family:var(--font-pixel); font-size:12px; color:var(--indigo)}
+
+  /* modal folder windows */
+  .win--modal{ width:420px; z-index:100 }
+  .modal-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .modal-thumb{aspect-ratio:4/3; border:2px solid var(--indigo); background:linear-gradient(200deg,#1c2b4a,#3a2f63 60%, #6a3f74); position:relative; overflow:hidden}
+  .modal-thumb span{position:absolute; bottom:6px; left:8px; font-family:var(--font-pixel); font-size:7px; color:#fff; background:rgba(37,40,61,.55); padding:3px 5px}
+  .modal-note{margin-top:16px; font-size:12.5px; line-height:1.6}
+  .modal-cta{
+    margin-top:14px; display:inline-block; font-family:var(--font-pixel); font-size:9px; color:#fff;
+    background:var(--pink); border:2px solid var(--indigo); border-radius:0; padding:9px 14px;
+    box-shadow:3px 3px 0 var(--indigo); cursor:pointer;
+  }
+
+  .win--dialog{ width:290px; z-index:110 }
+  .win--dialog .body{ text-align:center; padding:22px 20px }
+  .win--dialog p{font-family:var(--font-head); font-weight:600; font-size:14.5px; color:var(--indigo); line-height:1.5}
+  .win--dialog .row{display:flex; gap:10px; justify-content:center; margin-top:18px}
+  .dbtn{font-family:var(--font-pixel); font-size:9px; color:var(--indigo); background:var(--chrome); border:2px solid var(--indigo); border-radius:0; padding:8px 16px; box-shadow:2px 2px 0 rgba(37,40,61,.3); cursor:pointer}
+  .dbtn--yes{background:var(--pink); color:#fff}
+
+  /* ================= BACKDROP BLUR ================= */
+  .backdrop{
+    position:fixed; inset:0; z-index:60; background:rgba(37,40,61,.22);
+    backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    opacity:0; pointer-events:none; transition:opacity .22s ease;
+  }
+  .backdrop.show{opacity:1; pointer-events:auto}
+</style>
+</head>
+<body>
+
+<div class="grid-floor"></div>
+<svg class="deco" style="top:90px; right:110px; width:130px" viewBox="0 0 200 110" xmlns="http://www.w3.org/2000/svg"><path d="M30 90c-16 0-28-11-28-26 0-13 10-24 23-26 4-15 18-26 35-26 17 0 31 12 34 27 15 2 26 14 26 29 0 14-12 26-27 26H30Z" fill="#ffffff"/></svg>
+<svg class="deco" style="top:60%; left:82%; width:24px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+
+<!-- ============ TOP NAVBAR ============ -->
+<div class="navbar">
+  <div class="navbtn nav-start" title="Camila Massa">
+    <img src="icons/shiba.png" alt="Camila's shiba icon">
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-tabs" id="tabs">
+    <span class="navbtn" data-target="about">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="1" y="1" width="14" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+        <rect x="7" y="3" width="2" height="2" fill="#ff6fd8"/>
+        <rect x="7" y="6" width="2" height="6" fill="#5b2a86"/>
+      </svg>
+      about.exe
+    </span>
+    <span class="navbtn" data-target="player">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+        <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+        <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+        <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+        <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+      </svg>
+      now-building.mp3
+    </span>
+    <span class="navbtn" data-target="work">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="1" y="4" width="6" height="2" fill="#ff9fe3"/>
+        <rect x="1" y="6" width="14" height="9" fill="#ffb3e6" stroke="#3a1660" stroke-width="1"/>
+        <rect x="1" y="6" width="14" height="2" fill="#ffd6f2"/>
+      </svg>
+      selected-work/
+    </span>
+    <span class="navbtn" data-target="early">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <rect x="2" y="1" width="12" height="2" fill="#6fe0ff" stroke="#3a1660" stroke-width="0.5"/>
+        <rect x="2" y="13" width="12" height="2" fill="#6fe0ff" stroke="#3a1660" stroke-width="0.5"/>
+        <rect x="4" y="3" width="8" height="3" fill="#eaf9ff"/>
+        <rect x="4" y="10" width="8" height="3" fill="#eaf9ff"/>
+        <rect x="6" y="6" width="4" height="1" fill="#9fc7ff"/>
+        <rect x="7" y="7" width="2" height="2" fill="#5b2a86"/>
+        <rect x="6" y="9" width="4" height="1" fill="#9fc7ff"/>
+      </svg>
+      early-work/
+    </span>
+  </div>
+  <div class="nav-right">
+    <div class="nav-clock" id="clock">
+      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+        <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+        <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+        <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+      </svg>
+      <span id="clockText">10:26</span>
+    </div>
+    <div class="nav-more">+</div>
+  </div>
+</div>
+
+<!-- ============ DESKTOP ICONS ============ -->
+<div class="icons">
+  <button class="icon" data-open="about" title="About">
+    <div class="glyph"><img class="icon-art" src="icons/about.png" alt="About"></div>
+    <span>ABOUT</span>
+  </button>
+
+  <button class="icon" data-open="work" title="Selected work">
+    <div class="glyph"><img class="icon-art" src="icons/selected-work.png" alt="Selected work"></div>
+    <span>SELECTED<br>WORK</span>
+  </button>
+
+  <button class="icon" data-open="early" title="Early work">
+    <div class="glyph"><img class="icon-art" src="icons/early-work.png" alt="Early work"></div>
+    <span>EARLY<br>WORK</span>
+  </button>
+</div>
+
+<div class="trash-icon">
+  <div class="icon" title="Trash (decorative)">
+    <div class="glyph"><img class="icon-art" src="icons/trash.png" alt="Trash"></div>
+    <span>TRASH</span>
+  </div>
+</div>
+
+<!-- ============ BASE WINDOWS (always on desktop) ============ -->
+<div class="win win--about open" data-window="about" style="top:100px; left:210px; transform:rotate(-.5deg)">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">camila.exe — About</span></span>
+    <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
+  </div>
+  <div class="body about-grid">
+    <div class="about-photo"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="38" r="20" fill="var(--indigo)" opacity=".85"/><path d="M18 90c2-20 15-32 32-32s30 12 32 32Z" fill="var(--indigo)" opacity=".85"/></svg></div>
+    <div class="about-text">
+      <h1>Hi, I'm Camila.</h1>
+      <p>Product &amp; UI designer, based in Berlin. I turn fuzzy briefs into interfaces people enjoy using — then build them myself.</p>
+      <div class="chip-row">
+        <span class="chip chip--blue">BERLIN</span>
+        <span class="chip">FIGMA</span>
+        <span class="chip chip--pink">VIBE CODING</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="win win--player open" data-window="player" style="top:340px; left:130px; transform:rotate(1deg)">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--player"></span><span class="title">now-building.mp3</span></span>
+    <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
+  </div>
+  <div class="body">
+    <div class="player-art"><div class="glyph2"><svg width="76" height="76" viewBox="0 0 86 86" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="30" width="74" height="46" rx="4" fill="#fff" stroke="var(--indigo)" stroke-width="2"/><path d="M14 40l18-16 14 12 12-10 14 16" stroke="var(--indigo)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="66" cy="18" r="8" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2"/></svg></div></div>
+    <div class="player-title">THE Y2K DESKTOP<br>STYLE SYSTEM</div>
+    <div class="player-bar"><i></i></div>
+    <div class="player-controls"><span>⏮</span><span>⏸</span><span>⏭</span></div>
+  </div>
+</div>
+
+<!-- ============ MODAL WINDOWS (open with blur backdrop) ============ -->
+<div class="backdrop" id="backdrop"></div>
+
+<div class="win win--modal" data-window="work" style="top:150px; left:420px">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">selected-work/</span></span>
+    <span class="btns"><i data-modal-close>x</i></span>
+  </div>
+  <div class="body">
+    <div class="modal-grid">
+      <div class="modal-thumb"><span>NIMBELO FIBRE</span></div>
+      <div class="modal-thumb"><span>VOLTWELL ENERGY</span></div>
+    </div>
+    <p class="modal-note">A handful of recent case studies — product &amp; UI work, design systems, and a couple of live demos.</p>
+    <span class="modal-cta" id="workBack">← BACK TO DESKTOP</span>
+  </div>
+</div>
+
+<div class="win win--modal" data-window="early" style="top:150px; left:420px">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">early-work/</span></span>
+    <span class="btns"><i data-modal-close>x</i></span>
+  </div>
+  <div class="body">
+    <div class="modal-grid">
+      <div class="modal-thumb"><span>2019 — 2021</span></div>
+      <div class="modal-thumb"><span>2021 — 2023</span></div>
+    </div>
+    <p class="modal-note">A little archive of older projects, before the current design system — kept around for the full story.</p>
+    <span class="modal-cta" id="earlyBack">← BACK TO DESKTOP</span>
+  </div>
+</div>
+
+<div class="win win--dialog open" data-window="dialog" style="top:calc(50% - 90px); left:calc(50% - 145px)">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">confirm.exe</span></span>
+    <span class="btns"><i data-modal-close>x</i></span>
+  </div>
+  <div class="body">
+    <p>Are you sure you want to<br>view this portfolio?</p>
+    <div class="row">
+      <span class="dbtn dbtn--yes" data-modal-close>YES</span>
+      <span class="dbtn" data-modal-close>NO</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  var zTop = 10;
+  var zModalTop = 65; /* modal windows must render above the backdrop (z-index 60) */
+  function bringToFront(el){ zTop += 1; el.style.zIndex = zTop; }
+  function bringModalToFront(el){ zModalTop += 1; el.style.zIndex = zModalTop; }
+  function tabFor(id){ return document.querySelector('.nav-tabs [data-target="'+id+'"]'); }
+  function setTabState(id, shown, active){
+    var tab = tabFor(id); if (!tab) return;
+    tab.classList.toggle('shown', shown);
+    tab.classList.toggle('active', !!active);
+  }
+  function clearActiveTabs(){ document.querySelectorAll('.nav-tabs .navbtn').forEach(function(t){ t.classList.remove('active'); }); }
+
+  /* ---- base (non-modal) windows: about + player ---- */
+  function openBase(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.add('open'); bringToFront(el);
+    clearActiveTabs(); setTabState(id, true, true);
+  }
+  function closeBase(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.remove('open'); setTabState(id, false, false);
+  }
+  function minimizeBase(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    el.classList.remove('open'); setTabState(id, true, false);
+  }
+  function toggleBaseTab(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    if (el.classList.contains('open')) minimizeBase(id); else openBase(id);
+  }
+
+  /* ---- modal windows: work / early / dialog, with blur backdrop ---- */
+  var backdrop = document.getElementById('backdrop');
+  var openModals = 0;
+  function openModal(id){
+    var el = document.querySelector('.win[data-window="'+id+'"]');
+    if (!el) return;
+    if (!el.classList.contains('open')) openModals++;
+    el.classList.add('open'); bringModalToFront(el);
+    backdrop.classList.add('show');
+    if (id !== 'dialog'){ clearActiveTabs(); setTabState(id, true, true); }
+  }
+  function closeModal(el){
+    if (!el || !el.classList.contains('open')) return;
+    var id = el.getAttribute('data-window');
+    el.classList.remove('open');
+    openModals = Math.max(0, openModals - 1);
+    if (id !== 'dialog') setTabState(id, false, false);
+    if (openModals <= 0) backdrop.classList.remove('show');
+  }
+  function closeModalById(id){ closeModal(document.querySelector('.win[data-window="'+id+'"]')); }
+
+  document.querySelectorAll('[data-open]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var id = btn.getAttribute('data-open');
+      if (id === 'about' || id === 'player') openBase(id); else openModal(id);
+    });
+  });
+
+  document.querySelectorAll('.win').forEach(function(win){
+    var isModal = win.classList.contains('win--modal') || win.classList.contains('win--dialog');
+    win.addEventListener('mousedown', function(){ if (isModal) bringModalToFront(win); else bringToFront(win); });
+    var id = win.getAttribute('data-window');
+    var closeBtn = win.querySelector('[data-close]');
+    var minBtn = win.querySelector('[data-min]');
+    if (closeBtn) closeBtn.addEventListener('click', function(e){ e.stopPropagation(); closeBase(id); });
+    if (minBtn) minBtn.addEventListener('click', function(e){ e.stopPropagation(); minimizeBase(id); });
+    win.querySelectorAll('[data-modal-close]').forEach(function(b){
+      b.addEventListener('click', function(e){ e.stopPropagation(); closeModal(win); });
+    });
+  });
+
+  document.getElementById('workBack').addEventListener('click', function(){ closeModalById('work'); });
+  document.getElementById('earlyBack').addEventListener('click', function(){ closeModalById('early'); });
+
+  backdrop.addEventListener('click', function(){
+    ['work','early','dialog'].forEach(closeModalById);
+  });
+
+  document.querySelectorAll('.nav-tabs .navbtn').forEach(function(tab){
+    tab.addEventListener('click', function(){
+      var id = tab.getAttribute('data-target');
+      if (id === 'about' || id === 'player') toggleBaseTab(id);
+      else openModal(id);
+    });
+  });
+
+  /* dragging for base windows only */
+  function makeDraggable(win){
+    var bar = win.querySelector('.bar');
+    if (!bar) return;
+    var isModal = win.classList.contains('win--modal') || win.classList.contains('win--dialog');
+    var dragging = false, startX, startY, startLeft, startTop;
+    bar.addEventListener('pointerdown', function(e){
+      if (e.target.closest('.btns')) return;
+      dragging = true; if (isModal) bringModalToFront(win); else bringToFront(win);
+      var rect = win.getBoundingClientRect();
+      startX = e.clientX; startY = e.clientY; startLeft = rect.left; startTop = rect.top;
+      win.style.right = 'auto';
+      bar.setPointerCapture(e.pointerId);
+    });
+    bar.addEventListener('pointermove', function(e){
+      if (!dragging) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      win.style.left = (startLeft + dx) + 'px'; win.style.top = (startTop + dy) + 'px';
+    });
+    bar.addEventListener('pointerup', function(){ dragging = false; });
+    bar.addEventListener('pointercancel', function(){ dragging = false; });
+  }
+  document.querySelectorAll('.win').forEach(makeDraggable);
+
+  setTabState('about', true, false);
+  setTabState('player', true, false);
+
+  /* confirm dialog opens on load, as a modal */
+  openModal('dialog');
+
+  function tick(){
+    var d = new Date();
+    document.getElementById('clockText').textContent =
+      String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+</body>
+</html>
