@@ -102,44 +102,25 @@
   .nav-util{ text-decoration:none }
 
   /* ================= DESKTOP ICONS ================= */
-  .icons{position:fixed; top:80px; left:34px; z-index:5; display:flex; flex-direction:column; gap:28px}
-  .icon{display:flex; flex-direction:column; align-items:center; gap:7px; width:80px; cursor:pointer; background:none; border:0; padding:6px; border-radius:6px}
+  /* icons are position:fixed (outside .stage), so they don't shrink along with
+     the scaled-canvas responsive system below — kept deliberately small/compact
+     here since that's the only sizing they ever get, at any viewport width. */
+  .icons{position:fixed; top:70px; left:26px; z-index:5; display:flex; flex-direction:column; gap:18px}
+  .icon{display:flex; flex-direction:column; align-items:center; gap:6px; width:58px; cursor:pointer; background:none; border:0; padding:4px; border-radius:6px}
   .icon:hover{background:rgba(255,255,255,.35)}
   .icon:active{background:rgba(255,255,255,.55)}
-  .icon .glyph{width:56px;height:56px;display:flex;align-items:center;justify-content:center; position:relative}
+  .icon .glyph{width:40px;height:40px;display:flex;align-items:center;justify-content:center; position:relative}
   .icon .glyph::before{
     content:""; position:absolute; left:50%; bottom:-2px; width:66%; height:9px; transform:translateX(-50%);
     background:radial-gradient(ellipse at center, rgba(37,40,61,.3), rgba(37,40,61,0) 72%); z-index:-1;
   }
-  .icon span{font-family:var(--font-pixel); font-size:8px; color:var(--indigo); text-align:center; background:rgba(255,255,255,.6); padding:3px 5px}
+  .icon span{font-family:var(--font-pixel); font-size:7.5px; color:var(--indigo); text-align:center; background:rgba(255,255,255,.6); padding:3px 5px}
 
   /* real hand-drawn icon art — glow removed from the source art itself, sits directly on the desktop */
-  .icon-art{ width:72px; height:72px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(37,40,61,.35)) }
-  .trash-icon .icon-art{ width:62px; height:62px }
+  .icon-art{ width:52px; height:52px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(37,40,61,.35)) }
+  .trash-icon .icon-art{ width:44px; height:44px }
 
-  .trash-icon{ position:fixed; right:34px; bottom:34px; z-index:5 }
-
-  /* ================= COMPACT LAYOUT: smaller screens (laptops narrower than the
-     desktop design width) — the desktop icons shrink and every absolutely-positioned
-     window/cascade gets pulled toward the left so nothing falls outside the
-     viewport (body is overflow:hidden, so anything past the edge is simply lost). ================= */
-  @media (max-width:1400px){
-    .icons{ top:60px; left:16px; gap:18px }
-    .icon{ width:55px; padding:4px }
-    .icon .glyph{ width:39px; height:39px }
-    .icon .icon-art{ width:50px; height:50px }
-    .trash-icon .icon-art{ width:43px; height:43px }
-
-    .win[data-window="about"]{ top:120px !important; left:110px !important }
-    .win[data-window="work"]{ top:330px !important; left:380px !important }
-    .win[data-window="early"]{ top:590px !important; left:760px !important }
-
-    /* the sticky notice.exe cascade, moved as a unit toward the bottom-left
-       corner so it stays clear of the repositioned windows above */
-    .notice-cascade--back{ top:584px !important; left:4px !important }
-    .notice-cascade--mid{ top:602px !important; left:22px !important }
-    .notice-cascade--front{ top:620px !important; left:40px !important }
-  }
+  .trash-icon{ position:fixed; right:26px; bottom:26px; z-index:5 }
 
   /* ================= WINDOW CHROME (squared) ================= */
   .win{
@@ -549,15 +530,6 @@
 </div>
 
 <!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
-<<<<<<< HEAD
-<div class="ghost-bar notice-cascade notice-cascade--back" style="top:666px; left:60px; z-index:14; width:360px; height:143px">
-  <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-</div>
-<div class="ghost-bar notice-cascade notice-cascade--mid" style="top:684px; left:78px; z-index:15; width:360px; height:143px">
-  <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-</div>
-<div class="win win--notice notice-cascade notice-cascade--front open" data-window="notice" style="top:702px; left:96px; z-index:16; width:360px">
-=======
 <div class="ghost-bar desktop-only" style="top:666px; left:60px; z-index:14; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
@@ -565,7 +537,6 @@
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
 <div class="win win--notice open desktop-only" data-window="notice" style="top:702px; left:96px; z-index:16; width:360px">
->>>>>>> fa77919e4d10ff5f668bd3062855c554b5b37fc0
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span>
     <span class="btns"><i>_</i><i>▢</i><i>x</i></span>
