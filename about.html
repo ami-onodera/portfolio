@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rationale&family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 <style>
   /* ---------- structural layout (unchanged from the original page — grid
@@ -30,19 +30,19 @@
   .title-lockup{ margin:12px 0 16px; }
   .title-lockup img{ display:block; max-width:min(420px, 100%); height:auto; }
   .about-bio p { max-width: 64ch; }
-  .about-bio p:first-of-type { font-size: clamp(18px, 2vw, 21px); color: var(--ink); }
+  .about-bio p:first-of-type { font-size: clamp(18px, 2vw, 21px); color: var(--ink); font-weight: 600; }
   .bio-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 
   .edu-langs-bento { grid-template-columns: 1fr 1fr; }
-  .edu-langs-bento h3 { margin-bottom: 16px; }
+  .edu-langs-bento h3 { margin-bottom: 16px; font-family: var(--font-body); font-weight: 600; }
   .edu { list-style: none; display: grid; gap: 14px; }
   .edu small { display: block; font-size: 12px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; }
   .edu strong { display: block; line-height: 1.35; }
-  .edu span { display: block; color: var(--body); line-height: 1.4; }
+  .edu span { display: block; color: var(--body); line-height: 1.4; font-family: var(--font-body); font-weight: 500; }
   .edu-sub { margin-top: 20px; padding-top: 16px; }
   .langs { list-style: none; display: grid; gap: 18px; }
   .langs li { display: grid; gap: 8px; }
-  .langs .lvl { display: block; font-size: 15px; color: var(--body); }
+  .langs .lvl { display: block; font-size: 15px; color: var(--body); font-weight: 700; }
   .dots { display: inline-flex; gap: 6px; }
   .dots i { width: 12px; height: 12px; }
 
@@ -71,7 +71,7 @@
     --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
     --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
     --chrome:#f4f1fb;
-    --font-pixel:"Press Start 2P", monospace; --font-window:"Rationale", sans-serif; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+    --font-pixel:"Space Grotesk", sans-serif; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
 
     /* remap the site's design tokens onto the vaporwave palette */
     --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
@@ -90,6 +90,7 @@
     background: linear-gradient(180deg, #cfe3fb 0%, #d9d3f2 32%, #eccbe4 58%, #f6d9e4 78%, #fbe7d9 100%);
     background-attachment: fixed;
   }
+  p{ font-family:var(--font-body); font-weight:500; }
   h1, h2, h3, h4{ font-family:var(--font-head); color:var(--ink); }
   a{ color:var(--accent-ink); }
   a:hover{ color:var(--ink); }
@@ -122,7 +123,7 @@
     background:linear-gradient(90deg, var(--blue), var(--purple));
   }
   .win-bar .titlewrap{ display:flex; align-items:center; gap:7px; min-width:0 }
-  .win-bar .title{ font-family:var(--font-window); font-size:13px; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .win-bar .title{ font-family:var(--font-pixel); font-size:20px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
   .win-bar .btns{ display:flex; gap:4px; flex:none }
   .win-bar .btns i{
     width:14px; height:14px; background:var(--chrome); border:1.5px solid var(--indigo);
@@ -176,7 +177,7 @@
     background:linear-gradient(90deg, var(--blue), var(--purple));
   }
   .ghost-bar .titlewrap{ display:flex; align-items:center; gap:8px; min-width:0; }
-  .ghost-bar .title{ font-family:var(--font-window); font-size:13px; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; }
+  .ghost-bar .title{ font-family:var(--font-pixel); font-size:20px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; }
   .ghost-bar .btns{ display:flex; gap:5px; flex:none; }
   .ghost-bar .btns i{
     width:16px; height:16px; background:var(--chrome); border:1.5px solid var(--indigo);
@@ -235,7 +236,7 @@
     display:flex; align-items:center; gap:7px; padding:7px 9px;
     background:linear-gradient(90deg, var(--blue), var(--purple)); border-bottom:2px solid var(--indigo);
   }
-  .mail-popup__bar .title{ font-family:var(--font-window); font-size:12px; letter-spacing:.2px; color:var(--indigo); }
+  .mail-popup__bar .title{ font-family:var(--font-pixel); font-size:20px; font-weight:600; letter-spacing:.2px; color:var(--indigo); }
   .mail-reveal__out .mail-pill{
     display:block; margin:12px 10px 10px; padding:9px 10px; background:#fff; border:1.5px solid var(--indigo);
     font-family:var(--font-body); font-size:13px; color:var(--ink); white-space:nowrap; overflow:hidden;
@@ -272,7 +273,6 @@
   .chatwin > .win-bar{
     padding:16px 18px; margin: calc(-1 * clamp(18px, 2.6vw, 28px)) calc(-1 * clamp(16px, 3vw, 30px)) 20px;
   }
-  .chatwin > .win-bar .title{ font-size:11px; }
   .chatwin > .win-bar .bar-icon{ width:15px; height:15px; }
   .chat-body{ display:flex; flex-direction:column; gap:32px; padding-top:6px; }
   .chat-row{ display:flex; align-items:flex-start; gap:12px; }
@@ -293,13 +293,14 @@
   .chat-row--right .bubble{ background:var(--purple-soft); }
   .chat-row--right .bubble::after{ right:16px; background:var(--purple-soft); }
   .bubble__meta{ display:flex; flex-wrap:wrap; align-items:baseline; gap:9px; margin-bottom:8px; }
-  .bubble__meta .date{ font-family:var(--font-pixel); font-size:10px; color:var(--accent-ink); }
-  .bubble__meta .org{ font-family:var(--font-head); font-weight:800; color:var(--ink); font-size:16px; }
-  .bubble h3{ font-size:21px; margin-bottom:6px; }
+  .bubble__meta .date{ font-family:var(--font-pixel); font-size:18px; font-weight:600; color:var(--accent-ink); }
+  .bubble__meta .org{ font-family:var(--font-pixel); font-weight:700; color:var(--ink); font-size:16px; }
+  .bubble h3{ font-size:21px; margin-bottom:6px; font-family:var(--font-body); }
   .bubble p{ font-size:16.5px; line-height:1.6; }
   .bubble .promo{
     display:inline-block; margin-top:12px; font-family:var(--font-pixel); font-size:9px;
-    background:var(--pink); color:#fff; border:1.5px solid var(--indigo); padding:6px 10px 7px;
+    background:linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%); color:var(--indigo);
+    border:1.5px solid var(--indigo); border-radius:10px !important; padding:6px 10px 7px;
   }
 
   /* ---------- chat input bar (decorative, caps off the Experience window) ---------- */
@@ -524,7 +525,7 @@
           <img src="assets/img/camila.jpg" width="665" height="665" alt="Portrait of Camila Massa with blue hair and glasses, wearing a white shirt and black tie">
         </div>
         <div class="tile tile--blue about-note c-tr c-br">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Status.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">status.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
           <p>Based in Berlin. Open to Web Design and UI Design roles in Berlin or remote.</p>
         </div>
         <div class="tile tile--sky about-bio c-bl">
@@ -548,7 +549,7 @@
     <div class="wrap">
       <h2 id="exp-title" class="sr-only">Experience</h2>
       <div class="tile tile--white chatwin">
-        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Experience.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">experience.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <div class="chat-body">
           <div class="chat-row chat-row--left">
             <span class="avatar" aria-hidden="true"></span>
@@ -606,7 +607,7 @@
     <div class="wrap">
       <h2 id="skills-title" class="sr-only">Skills and background</h2>
       <div class="tile tile--white paintwin">
-        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Skills_and_background.bmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">skills_and_background.bmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <div class="paint-menu" aria-hidden="true">
           <span>File</span><span>Edit</span><span>View</span><span>Image</span><span>Options</span><span>Help</span>
         </div>
@@ -696,7 +697,7 @@
       <h2 id="edu-title" class="sr-only">Education and languages</h2>
       <div class="bento edu-langs-bento">
         <div class="tile tile--lilac c-tr">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">Education.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">education.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
           <h3>Education</h3>
           <ul class="edu">
             <li><small>Master’s</small><strong>Fashion &amp; Aesthetics Management</strong><span>University of São Paulo (USP)</span></li>
@@ -708,7 +709,7 @@
           </ul>
         </div>
         <div class="tile tile--violet c-tl loadwin">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">Loading...</span></span><span class="btns"><i>x</i></span></div>
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">loading...</span></span><span class="btns"><i>x</i></span></div>
           <h3 class="sr-only">Languages</h3>
           <ul class="langs">
             <li><div><strong>Portuguese</strong><span class="lvl">Native</span></div><div class="load-bar" role="img" aria-label="Fluency: native"><span class="load-bar__fill" style="width:100%"></span></div></li>
@@ -728,17 +729,17 @@
   <div class="wrap">
   <div class="contact-band">
     <div class="tile tile--blue c-br">
-      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">Contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <span class="eyebrow">Contact</span>
       <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
       <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
     </div>
     <div class="contact-cascade">
       <div class="ghost-bar cascade-ghost cascade-ghost--bottom">
-        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       </div>
       <div class="ghost-bar cascade-ghost cascade-ghost--middle">
-        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       </div>
       <div class="tile tile--violet cascade-front">
         <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
