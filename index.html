@@ -9,14 +9,14 @@
 <link rel="apple-touch-icon" href="assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rationale&family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
     --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
     --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
     --chrome:#f4f1fb;
-    --font-pixel:"Press Start 2P", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+    --font-pixel:"Press Start 2P", monospace; --font-window:"Rationale", sans-serif; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{min-height:100%; overflow-x:hidden}
@@ -68,20 +68,20 @@
     color:#22103b;
   }
   .nav-start{
-    width:54px; height:44px; padding:0; display:flex; align-items:center; justify-content:center; cursor:pointer;
+    width:auto; height:44px; padding:0 13px 0 8px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;
     background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
     border-top:2px solid #fff2fb; border-left:2px solid #fff2fb;
     border-right:2px solid #7a2e86; border-bottom:2px solid #7a2e86;
     box-shadow:0 3px 0 rgba(58,22,96,.35);
+    text-decoration:none;
   }
-  .nav-start img{ display:block; width:36px; height:36px; object-fit:contain; object-position:center; margin:0 auto; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)) }
+  .nav-start img{ display:block; width:32px; height:32px; object-fit:contain; object-position:center; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)) }
+  .nav-start-label{ font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.3px; color:#3a1660; }
   .nav-start:active{ transform:translate(1px,1px); box-shadow:inset 2px 2px 4px rgba(58,22,96,.4) }
   .nav-divider{ width:0; height:22px; border-left:2px solid #6b3fa0; border-right:2px solid #ffe8fb; flex:none }
-  .nav-tabs{ flex:1; display:flex; gap:8px; overflow:hidden }
-  .nav-tabs .navbtn{ display:none }
-  .nav-tabs .navbtn.shown{ display:flex }
-  .nav-tabs .navbtn svg{ flex:none }
-  .nav-right{ display:flex; align-items:center; gap:10px; flex:none }
+  .nav-right{ display:flex; align-items:center; gap:10px; flex:none; margin-left:auto }
+  .nav-tray{ display:flex; align-items:center; gap:8px; flex:none }
+  .navtray-icon{ display:flex; align-items:center; justify-content:center; width:22px; height:22px; cursor:default; opacity:.9 }
   .nav-clock{
     font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.5px; color:#1c2a5e;
     background:linear-gradient(180deg, #a8d8ff 0%, #7fb8f5 100%);
@@ -90,37 +90,103 @@
     box-shadow:inset 2px 2px 4px rgba(30,40,90,.35);
     height:26px; padding:0 10px; box-sizing:border-box; display:flex; align-items:center; gap:6px;
   }
-  .nav-more{
-    width:26px; height:26px; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%);
-    border-top:2px solid #fbf3ff; border-left:2px solid #fbf3ff;
-    border-right:2px solid #5b2a86; border-bottom:2px solid #5b2a86;
-    box-shadow:0 2px 0 rgba(58,22,96,.3);
-    font-family:"Silkscreen", monospace; font-size:13px; color:#3a1660; flex:none; cursor:pointer; box-sizing:border-box;
-  }
-  .nav-more:active{ transform:translate(1px,1px) }
   .nav-util{ text-decoration:none }
 
   /* ================= DESKTOP ICONS ================= */
-  /* icons are position:fixed (outside .stage), so they don't shrink along with
-     the scaled-canvas responsive system below — kept deliberately small/compact
-     here since that's the only sizing they ever get, at any viewport width. */
-  .icons{position:fixed; top:70px; left:26px; z-index:5; display:flex; flex-direction:column; gap:18px}
-  .icon{display:flex; flex-direction:column; align-items:center; gap:6px; width:58px; cursor:pointer; background:none; border:0; padding:4px; border-radius:6px}
+  /* full size by default (iMac / MacBook Pro 15"+ and any larger display) —
+     icons only shrink below the "compact desktop" breakpoint further down. */
+  .icons{position:fixed; top:80px; left:34px; z-index:5; display:flex; flex-direction:column; gap:28px}
+  .icon{display:flex; flex-direction:column; align-items:center; gap:7px; width:80px; cursor:pointer; background:none; border:0; padding:6px; border-radius:6px}
   .icon:hover{background:rgba(255,255,255,.35)}
   .icon:active{background:rgba(255,255,255,.55)}
-  .icon .glyph{width:40px;height:40px;display:flex;align-items:center;justify-content:center; position:relative}
+  .icon .glyph{width:56px;height:56px;display:flex;align-items:center;justify-content:center; position:relative}
   .icon .glyph::before{
     content:""; position:absolute; left:50%; bottom:-2px; width:66%; height:9px; transform:translateX(-50%);
     background:radial-gradient(ellipse at center, rgba(37,40,61,.3), rgba(37,40,61,0) 72%); z-index:-1;
   }
-  .icon span{font-family:var(--font-pixel); font-size:7.5px; color:var(--indigo); text-align:center; background:rgba(255,255,255,.6); padding:3px 5px}
+  .icon span{font-family:var(--font-pixel); font-size:8px; color:var(--indigo); text-align:center; background:rgba(255,255,255,.6); padding:3px 5px}
 
   /* real hand-drawn icon art — glow removed from the source art itself, sits directly on the desktop */
-  .icon-art{ width:52px; height:52px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(37,40,61,.35)) }
-  .trash-icon .icon-art{ width:44px; height:44px }
+  .icon-art{ width:72px; height:72px; object-fit:contain; filter:drop-shadow(0 3px 3px rgba(37,40,61,.35)) }
+  .trash-icon .icon-art{ width:62px; height:62px }
 
-  .trash-icon{ position:fixed; right:26px; bottom:26px; z-index:5 }
+  .trash-icon{ position:fixed; right:34px; bottom:34px; z-index:5 }
+
+  /* base/default left offsets for the notice cascade ghosts (no longer inline, so the
+     cascade-trail JS can animate `left` via inline style without fighting a stylesheet
+     rule of equal or higher priority). Must come before the responsive tiers below so
+     their overrides win at the matching widths despite equal selector specificity. */
+  .notice-stack--back{ left:60px }
+  .notice-stack--mid{ left:78px }
+  .notice-stack--front{ left:96px }
+
+  /* base/default positions for the three home-desktop windows (iMac / large-display
+     tier, ≥1800px). Also no longer inline, for the same reason as above: dragging sets
+     inline top/left, and a stylesheet `!important` override at narrower tiers would
+     otherwise permanently defeat it, which is exactly the bug this replaces — windows
+     that couldn't be dragged at MacBook Pro / compact widths. Must stay before the
+     responsive tiers below so their overrides win at the matching widths. */
+  .win[data-window="about"]{ top:148px; left:272px }
+  .win[data-window="work"]{ top:355px; left:603px }
+  .win[data-window="early"]{ top:655px; left:1187px }
+
+  /* base/default widths for the same three windows, moved out of their old
+     spots further down in the file for the same reason: they must come
+     before the responsive tiers below so those tiers' overrides win at the
+     matching widths despite equal selector specificity. */
+  .win--about{ width:540px }
+  .win--case{ width:640px }
+  .win--early{ width:320px }
+
+  /* ================= RESPONSIVE TIERS =================
+     Standard breakpoint scale: 640 / 768 / 1024 / 1280 / 1536.
+     ≥1536 ("very large desktop") is the unchanged base styling above.
+     Below 640px the separate stacked mobile layout (further down) takes over
+     entirely, unaffected by any of this. ================= */
+
+  /* ---- 1280-1535px: "large desktop" — same full-size windows as the base
+     tier, just pulled in from the right edge. ---- */
+  @media (max-width:1535px) and (min-width:1280px){
+    .win[data-window="about"]{ top:120px; left:186px }
+    .win[data-window="work"]{ top:324px; left:526px }
+    .win[data-window="early"]{ top:523px; left:1050px }
+  }
+
+  /* ---- 640-1279px: shared across "desktop" (1024-1279) and "tablet" /
+     "large mobile" (640-1023) — icons shrink, About narrows and repositions
+     the same way at every width in this range. Work/Early differ between
+     the two halves and are set separately below. ---- */
+  @media (max-width:1279px) and (min-width:640px){
+    .icons{ top:60px; left:20px; gap:18px }
+    .icon{ width:60px; padding:4px }
+    .icon .glyph{ width:42px; height:42px }
+    .icon .icon-art{ width:54px; height:54px }
+    .trash-icon .icon-art{ width:46px; height:46px }
+    .trash-icon{ right:20px; bottom:20px }
+
+    .win--about{ width:420px }
+    .win--early{ width:280px }
+
+    .win[data-window="about"]{ top:130px; left:148px }
+    .notice-stack--back{ left:150px }
+    .notice-stack--mid{ left:168px }
+    .notice-stack--front{ left:186px }
+  }
+
+  /* ---- 1024-1279px: "desktop" ---- */
+  @media (max-width:1279px) and (min-width:1024px){
+    .win--case{ width:460px }
+    .win[data-window="work"]{ top:304px; left:478px }
+    .win[data-window="early"]{ top:532px; left:852px }
+  }
+
+  /* ---- 640-1023px: "tablet" and "large mobile / small tablet" (same
+     layout for both, per Camila: everything pulled together further). ---- */
+  @media (max-width:1023px) and (min-width:640px){
+    .win--case{ width:308px }
+    .win[data-window="work"]{ top:320px; left:488px }
+    .win[data-window="early"]{ top:530px; left:605px }
+  }
 
   /* ================= WINDOW CHROME (squared) ================= */
   .win{
@@ -136,7 +202,7 @@
   }
   .win .bar:active{cursor:grabbing}
   .win .bar .titlewrap{display:flex; align-items:center; gap:8px; min-width:0}
-  .win .bar .title{font-family:var(--font-pixel); font-size:9.5px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .win .bar .title{font-family:var(--font-window); font-size:13px; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
   .bar-icon{width:14px;height:14px;flex:none;border:1.5px solid var(--indigo); background:var(--chrome); position:relative}
   .bar-icon--about{background:var(--pink); border-radius:50%}
   .bar-icon--player{background:var(--blue)}
@@ -153,7 +219,6 @@
   .win .bar .btns i:hover{background:var(--pink); color:#fff}
   .win .body{padding:18px 20px}
 
-  .win--about{ width:540px }
   .about-grid{display:flex; gap:20px; align-items:flex-start}
   .about-photo{
     flex:none; width:140px; height:140px; overflow:hidden; border-radius:0;
@@ -162,6 +227,7 @@
     display:flex; align-items:center; justify-content:center;
   }
   .about-photo svg{width:78%}
+  .about-photo img{width:100%; height:100%; object-fit:cover; object-position:center top; display:block}
   .about-text h1{font-family:var(--font-head); font-weight:800; font-size:25px; color:var(--indigo); line-height:1.1}
   .about-text p{font-size:14px; margin-top:10px; line-height:1.55}
   .chip-row{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap}
@@ -178,14 +244,12 @@
   .player-controls{display:flex; justify-content:center; gap:14px; margin-top:12px; font-family:var(--font-pixel); font-size:12px; color:var(--indigo)}
 
   /* selected-work: the biggest window on the desktop, 3 live case-study previews */
-  .win--case{ width:640px }
   .case-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:12px}
   .case-thumb{aspect-ratio:4/5; border:2px solid var(--indigo); position:relative; overflow:hidden; background:var(--purple-soft)}
   .case-thumb img{width:100%; height:100%; object-fit:cover; object-position:top; display:block}
   .case-thumb span{position:absolute; bottom:6px; left:6px; right:6px; font-family:var(--font-pixel); font-size:6.5px; line-height:1.5; color:#fff; background:rgba(37,40,61,.7); padding:4px 6px}
 
   /* early-work: a smaller window, tucked behind the big one */
-  .win--early{ width:320px }
   .early-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
   .early-thumb{aspect-ratio:4/3; border:2px solid var(--indigo); position:relative; overflow:hidden; background:var(--blue-soft)}
   .early-thumb img{width:100%; height:100%; object-fit:cover; display:block}
@@ -219,7 +283,7 @@
     background:linear-gradient(90deg, var(--blue), var(--purple));
   }
   .ghost-bar .titlewrap{display:flex; align-items:center; gap:8px; min-width:0}
-  .ghost-bar .title{font-family:var(--font-pixel); font-size:9.5px; color:var(--indigo); white-space:nowrap}
+  .ghost-bar .title{font-family:var(--font-window); font-size:13px; letter-spacing:.2px; color:var(--indigo); white-space:nowrap}
   .ghost-bar .btns{display:flex; gap:5px; flex:none}
   .ghost-bar .btns i{
     width:16px;height:16px;background:var(--chrome);border:1.5px solid var(--indigo);
@@ -269,7 +333,7 @@
   .mail-reveal__out:not([hidden]){ display:block; }
   .mail-popup__bar{ display:flex; align-items:center; gap:7px; padding:7px 9px; background:linear-gradient(90deg,var(--blue),var(--purple)); border-bottom:2px solid var(--indigo); }
   .mail-popup__bar .titlewrap{ display:flex; align-items:center; gap:7px; }
-  .mail-popup__bar .title{ font-family:var(--font-pixel); font-size:8px; color:var(--indigo); }
+  .mail-popup__bar .title{ font-family:var(--font-window); font-size:12px; letter-spacing:.2px; color:var(--indigo); }
   .mail-reveal__out .mail-pill{
     display:block; margin:12px 10px 10px; padding:9px 10px; background:#fff; border:1.5px solid var(--indigo);
     font:600 13px var(--font-body); color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-decoration:none;
@@ -278,20 +342,20 @@
   .mail-popup__row .btn{ flex:1; }
 
   /* ================= RESPONSIVE ================= */
-  /* tablet / phone: no scaled canvas. Windows stack in normal flow: About, Selected work, Early work, then Contact. No dragging. */
-  @media (max-width:900px){
+  /* mobile: no scaled canvas. Windows stack in normal flow: About, Selected work, Early work, then Contact. No dragging. Threshold matches the "large mobile / small tablet" breakpoint (640px) below. */
+  @media (max-width:639px){
     body{ user-select:auto; }
 
     .navbar{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 8px; border-bottom-width:2px; }
     .navbtn{ font-size:9px; height:24px; padding:0 8px; gap:5px; }
-    .nav-start{ width:42px; height:36px; padding:0; }
-    .nav-start img{ width:28px; height:28px; }
+    .nav-start{ height:36px; padding:0 9px 0 6px; gap:5px; }
+    .nav-start img{ width:24px; height:24px; }
+    .nav-start-label{ font-size:10px; }
     .nav-divider{ display:none; }
-    .nav-tabs{ flex:1 1 0; min-width:0; flex-wrap:wrap; overflow:visible; gap:6px; }
-    .nav-tabs .navbtn{ display:flex; }
-    .nav-right{ flex:1 1 100%; justify-content:space-between; flex-wrap:wrap; gap:6px; }
+    .nav-right{ flex:1 1 100%; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-left:0; }
+    .nav-tray{ gap:6px; }
+    .navtray-icon{ width:20px; height:20px; }
     .nav-clock{ height:24px; padding:0 8px; font-size:10px; }
-    .nav-more{ width:24px; height:24px; }
 
     .desktop{ height:auto !important; margin-top:0; overflow:visible; }
     .stage{ position:static; width:auto !important; height:auto !important; transform:none !important;
@@ -330,40 +394,11 @@
 
 <!-- ============ TOP NAVBAR ============ -->
 <div class="navbar">
-  <div class="navbtn nav-start" title="Camila Massa">
+  <div class="navbtn nav-start" title="Home">
     <img src="assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+    <span class="nav-start-label">Home</span>
   </div>
   <div class="nav-divider"></div>
-  <div class="nav-tabs" id="tabs">
-    <span class="navbtn" data-target="about">
-      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
-        <rect x="1" y="1" width="14" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
-        <rect x="7" y="3" width="2" height="2" fill="#ff6fd8"/>
-        <rect x="7" y="6" width="2" height="6" fill="#5b2a86"/>
-      </svg>
-      about.exe
-    </span>
-    <span class="navbtn" data-target="work">
-      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
-        <rect x="1" y="4" width="6" height="2" fill="#ff9fe3"/>
-        <rect x="1" y="6" width="14" height="9" fill="#ffb3e6" stroke="#3a1660" stroke-width="1"/>
-        <rect x="1" y="6" width="14" height="2" fill="#ffd6f2"/>
-      </svg>
-      selected-work/
-    </span>
-    <span class="navbtn" data-target="early">
-      <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
-        <rect x="2" y="1" width="12" height="2" fill="#6fe0ff" stroke="#3a1660" stroke-width="0.5"/>
-        <rect x="2" y="13" width="12" height="2" fill="#6fe0ff" stroke="#3a1660" stroke-width="0.5"/>
-        <rect x="4" y="3" width="8" height="3" fill="#eaf9ff"/>
-        <rect x="4" y="10" width="8" height="3" fill="#eaf9ff"/>
-        <rect x="6" y="6" width="4" height="1" fill="#9fc7ff"/>
-        <rect x="7" y="7" width="2" height="2" fill="#5b2a86"/>
-        <rect x="6" y="9" width="4" height="1" fill="#9fc7ff"/>
-      </svg>
-      early-work/
-    </span>
-  </div>
   <div class="nav-right">
     <a class="navbtn nav-util" href="assets/Camila-Massa-CV.pdf" download title="Download CV">
       <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
@@ -373,7 +408,7 @@
         <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
         <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
       </svg>
-      curriculum.exe
+      curriculum.sys
     </a>
     <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
       <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
@@ -383,9 +418,27 @@
         <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
         <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
       </svg>
-      linkedin.mp3
+      linkedin.link
     </a>
     <div class="nav-divider"></div>
+    <div class="nav-tray">
+      <span class="navtray-icon" title="Connected">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="7" y="11" width="2" height="2" fill="#1c2a5e"/>
+          <rect x="5" y="8" width="6" height="2" fill="#5b2a86"/>
+          <rect x="3" y="5" width="10" height="2" fill="#9fc7ff"/>
+        </svg>
+      </span>
+      <span class="navtray-icon" title="✨">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="6" y="9" width="4" height="4" fill="#3a1660"/>
+          <rect x="3" y="6" width="2" height="2" fill="#3a1660"/>
+          <rect x="6" y="4" width="2" height="2" fill="#3a1660"/>
+          <rect x="9" y="4" width="2" height="2" fill="#3a1660"/>
+          <rect x="12" y="6" width="2" height="2" fill="#3a1660"/>
+        </svg>
+      </span>
+    </div>
     <div class="nav-clock" id="clock">
       <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
         <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
@@ -394,7 +447,6 @@
       </svg>
       <span id="clockText">10:26</span>
     </div>
-    <div class="nav-more">+</div>
   </div>
 </div>
 
@@ -476,13 +528,13 @@
 <svg class="deco" style="top:690px; left:900px; width:6px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
 
 <!-- ============ THE HOME DESKTOP: a cascade of windows, About in back-left, biggest window (Selected work) overlapping its bottom-right corner, Early work tucked further behind that ============ -->
-<div class="win win--about open" data-window="about" style="top:148px; left:272px; z-index:11; transform:rotate(-.5deg)">
+<div class="win win--about open" data-window="about" style="z-index:11; transform:rotate(-.5deg)">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">camila.exe — About</span></span>
     <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
   </div>
   <div class="body about-grid">
-    <div class="about-photo"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="38" r="20" fill="var(--indigo)" opacity=".85"/><path d="M18 90c2-20 15-32 32-32s30 12 32 32Z" fill="var(--indigo)" opacity=".85"/></svg></div>
+    <div class="about-photo"><img src="assets/img/y2k/avatar-camila.jpg" alt="Camila's avatar"></div>
     <div class="about-text">
       <h1>Hi, I'm Camila.</h1>
       <p>Product &amp; UI designer, based in Berlin. I turn fuzzy briefs into interfaces people enjoy using — then build them myself.</p>
@@ -496,7 +548,7 @@
   </div>
 </div>
 
-<div class="win win--case open" data-window="work" style="top:355px; left:603px; z-index:13; transform:rotate(.6deg)">
+<div class="win win--case open" data-window="work" style="z-index:13; transform:rotate(.6deg)">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">selected-work/</span></span>
     <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
@@ -512,7 +564,7 @@
   </div>
 </div>
 
-<div class="win win--early open" data-window="early" style="top:655px; left:1187px; z-index:12; transform:rotate(-.8deg)">
+<div class="win win--early open" data-window="early" style="z-index:12; transform:rotate(-.8deg)">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">early-work/</span></span>
     <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
@@ -530,13 +582,13 @@
 </div>
 
 <!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
-<div class="ghost-bar desktop-only" style="top:666px; left:60px; z-index:14; width:360px; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="top:666px; z-index:14; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="ghost-bar desktop-only" style="top:684px; left:78px; z-index:15; width:360px; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="top:684px; z-index:15; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="win win--notice open desktop-only" data-window="notice" style="top:702px; left:96px; z-index:16; width:360px">
+<div class="win win--notice open desktop-only notice-stack notice-stack--front" data-window="notice" style="top:702px; z-index:16; width:360px">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span>
     <span class="btns"><i>_</i><i>▢</i><i>x</i></span>
@@ -611,24 +663,26 @@
 
 <script src="assets/js/contact.js" defer></script>
 <script>
-  /* ---- responsive: scale the desktop canvas to the screen width; stack windows on small screens ---- */
-  var MOBILE_MQ = window.matchMedia('(max-width: 900px)');
+  /* ---- responsive: desktop tiers are handled by CSS (very large >=1536px,
+     large desktop 1280-1535px, desktop 1024-1279px, tablet/large-mobile
+     640-1023px) so windows keep crisp, unscaled text at every desktop width
+     — no canvas transform. Below 640px the layout switches to the stacked
+     mobile flow. ---- */
+  var MOBILE_MQ = window.matchMedia('(max-width: 639px)');
   function isMobile(){ return MOBILE_MQ.matches; }
-  var DESIGN_W = 1800, DESIGN_H = 1100, stageScale = 1;
+  var DESIGN_H = 1100, stageScale = 1;
   function layoutStage(){
     var stage = document.getElementById('stage'), desk = document.getElementById('desktop');
     if (!stage || !desk) return;
+    stageScale = 1;
     if (isMobile()){
-      stageScale = 1;
       stage.style.width = ''; stage.style.height = ''; stage.style.transform = ''; desk.style.height = '';
       return;
     }
-    var vw = document.documentElement.clientWidth;
-    stageScale = Math.min(1, vw / DESIGN_W);
-    stage.style.width = (vw / stageScale) + 'px';
+    stage.style.width = '';
     stage.style.height = DESIGN_H + 'px';
-    stage.style.transform = 'scale(' + stageScale + ')';
-    desk.style.height = Math.round(DESIGN_H * stageScale) + 'px';
+    stage.style.transform = '';
+    desk.style.height = DESIGN_H + 'px';
   }
   window.addEventListener('resize', layoutStage);
   layoutStage();
@@ -754,6 +808,43 @@
     bar.addEventListener('pointercancel', function(){ dragging = false; });
   }
   document.querySelectorAll('.win').forEach(makeDraggable);
+
+  /* cascade trail: makes ghost-bars behind a draggable window chase it with
+     a springy delay, instead of sitting static or moving rigidly with it.
+     each ghost keeps easing its position a fraction of the way toward the
+     front window's live position (offset by its original stagger), every
+     animation frame, for as long as the page is open. */
+  function setupCascadeTrail(frontSelector){
+    var front = document.querySelector(frontSelector);
+    if (!front) return;
+    var key = front.getAttribute('data-window');
+    var followers = Array.prototype.slice.call(
+      document.querySelectorAll('.ghost-bar[data-trail-behind="' + key + '"]')
+    );
+    if (!followers.length) return;
+
+    var EASE = 0.16; /* 0..1, lower = lazier/more delayed follow */
+    var STEP = 18;   /* px offset per trail index, matches the original stagger */
+
+    var state = followers.map(function(el){
+      return { el: el, left: el.offsetLeft, top: el.offsetTop };
+    });
+
+    function tick(){
+      var targetLeft = front.offsetLeft, targetTop = front.offsetTop;
+      state.forEach(function(s){
+        var idx = parseFloat(s.el.getAttribute('data-trail-index')) || 0;
+        var tl = targetLeft - STEP * idx, tt = targetTop - STEP * idx;
+        s.left += (tl - s.left) * EASE;
+        s.top += (tt - s.top) * EASE;
+        s.el.style.left = s.left + 'px';
+        s.el.style.top = s.top + 'px';
+      });
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+  setupCascadeTrail('.win[data-window="notice"]');
 
   var HOME_WINDOWS = ['about', 'work', 'early'];
   HOME_WINDOWS.forEach(function(id){ setTabState(id, true, false); });

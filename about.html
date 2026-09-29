@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rationale&family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 <style>
   /* ---------- structural layout (unchanged from the original page — grid
@@ -27,6 +27,8 @@
   .about-note p { font-weight: 700; color: var(--ink); line-height: 1.45; }
   .about-bio { grid-area: bio; padding: clamp(28px, 4.4vw, 56px); }
   .about-bio h1 { margin: 18px 0 20px; }
+  .title-lockup{ margin:12px 0 16px; }
+  .title-lockup img{ display:block; max-width:min(420px, 100%); height:auto; }
   .about-bio p { max-width: 64ch; }
   .about-bio p:first-of-type { font-size: clamp(18px, 2vw, 21px); color: var(--ink); }
   .bio-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
@@ -69,7 +71,7 @@
     --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
     --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
     --chrome:#f4f1fb;
-    --font-pixel:"Press Start 2P", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+    --font-pixel:"Press Start 2P", monospace; --font-window:"Rationale", sans-serif; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
 
     /* remap the site's design tokens onto the vaporwave palette */
     --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
@@ -120,7 +122,7 @@
     background:linear-gradient(90deg, var(--blue), var(--purple));
   }
   .win-bar .titlewrap{ display:flex; align-items:center; gap:7px; min-width:0 }
-  .win-bar .title{ font-family:var(--font-pixel); font-size:9px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .win-bar .title{ font-family:var(--font-window); font-size:13px; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
   .win-bar .btns{ display:flex; gap:4px; flex:none }
   .win-bar .btns i{
     width:14px; height:14px; background:var(--chrome); border:1.5px solid var(--indigo);
@@ -174,7 +176,7 @@
     background:linear-gradient(90deg, var(--blue), var(--purple));
   }
   .ghost-bar .titlewrap{ display:flex; align-items:center; gap:8px; min-width:0; }
-  .ghost-bar .title{ font-family:var(--font-pixel); font-size:9.5px; color:var(--indigo); white-space:nowrap; }
+  .ghost-bar .title{ font-family:var(--font-window); font-size:13px; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; }
   .ghost-bar .btns{ display:flex; gap:5px; flex:none; }
   .ghost-bar .btns i{
     width:16px; height:16px; background:var(--chrome); border:1.5px solid var(--indigo);
@@ -187,7 +189,12 @@
      middle one. Implemented from the front card's position (top:0/left:0, in
      normal flow) with the two ghosts offset progressively down + over from
      it — geometrically identical, just described from the other end. */
-  .contact-cascade{ position:relative; width:min(420px, 100%); margin:0 auto; }
+  /* min-height matches the bottom ghost's full extent (90px offset + 190px
+     height = 280px). On desktop the grid happens to stretch this box to
+     match its sibling card anyway, but on mobile the grid collapses to a
+     single column and this box would otherwise shrink to just the front
+     card's 190px, leaving the ghost windows bleeding into the footer below. */
+  .contact-cascade{ position:relative; width:min(420px, 100%); margin:0 auto; min-height:280px; }
   /* All three "windows" must be the exact same height for the equal-spacing
      illusion to hold: the gap revealed below each card is (next offset -
      this offset), so if the front card's real height differed from the
@@ -228,7 +235,7 @@
     display:flex; align-items:center; gap:7px; padding:7px 9px;
     background:linear-gradient(90deg, var(--blue), var(--purple)); border-bottom:2px solid var(--indigo);
   }
-  .mail-popup__bar .title{ font-family:var(--font-pixel); font-size:8px; color:var(--indigo); }
+  .mail-popup__bar .title{ font-family:var(--font-window); font-size:12px; letter-spacing:.2px; color:var(--indigo); }
   .mail-reveal__out .mail-pill{
     display:block; margin:12px 10px 10px; padding:9px 10px; background:#fff; border:1.5px solid var(--indigo);
     font-family:var(--font-body); font-size:13px; color:var(--ink); white-space:nowrap; overflow:hidden;
@@ -372,42 +379,53 @@
     background-image: repeating-linear-gradient(90deg, var(--pink) 0 10px, transparent 10px 13px);
   }
 
-  /* ---------- nav (ported Win95 bevel navbar) ---------- */
+  /* ---------- nav (ported Win95 bevel navbar — shared across all pages) ---------- */
   .site-nav{ background:linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%); border-bottom:3px solid #4a1f70; box-shadow:0 4px 14px rgba(30,10,50,.28); position:sticky; top:0; z-index:80; padding:0; }
   .site-nav .wrap{ height:54px; gap:10px; }
   .brand.nav-start{
-    width:54px; height:44px; padding:0; display:flex; align-items:center; justify-content:center; flex:none;
+    width:auto; height:44px; padding:0 13px 0 8px; display:flex; align-items:center; justify-content:center; gap:8px; flex:none; text-decoration:none;
     background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
     border-top:2px solid #fff2fb; border-left:2px solid #fff2fb;
     border-right:2px solid #7a2e86; border-bottom:2px solid #7a2e86;
     box-shadow:0 3px 0 rgba(58,22,96,.35);
   }
-  .brand.nav-start img{ display:block; width:34px; height:34px; object-fit:contain; margin:0 auto; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)); }
+  .brand.nav-start img{ display:block; width:32px; height:32px; object-fit:contain; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)); }
+  .nav-start-label{ font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.3px; color:#3a1660; }
   .brand.nav-start:hover{ filter:brightness(1.05); }
   .brand.nav-start:active{ transform:translate(1px,1px); box-shadow:inset 2px 2px 4px rgba(58,22,96,.4); }
-  .nav-links{ gap:8px; }
-  .nav-links a{
-    font-family:"Silkscreen", monospace; font-weight:400; font-size:11px; color:#3a1660;
+  .nav-divider{ width:0; height:22px; border-left:2px solid #6b3fa0; border-right:2px solid #ffe8fb; flex:none }
+  .nav-right{ display:flex; align-items:center; gap:10px; flex:none; margin-left:auto }
+  .navbtn{
+    font-family:"Silkscreen", monospace; font-weight:400; font-size:11px; letter-spacing:.2px; color:#3a1660;
     background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%);
     border-top:2px solid #fbf3ff; border-left:2px solid #fbf3ff;
     border-right:2px solid #5b2a86; border-bottom:2px solid #5b2a86;
-    height:28px; padding:0 11px; display:flex; align-items:center; gap:7px;
-    box-shadow:0 2px 0 rgba(58,22,96,.3); transition:none;
+    height:28px; padding:0 11px; display:flex; align-items:center; gap:7px; text-decoration:none;
+    box-shadow:0 2px 0 rgba(58,22,96,.3);
   }
-  .nav-links a:hover{ background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%); filter:brightness(1.06); color:#3a1660; }
-  .nav-links a[aria-current="page"]{
-    background:linear-gradient(180deg, #b79bf2 0%, #a084e8 100%);
+  .navbtn:hover{ filter:brightness(1.06); }
+  .nav-tray{ display:flex; align-items:center; gap:8px; flex:none }
+  .navtray-icon{ display:flex; align-items:center; justify-content:center; width:22px; height:22px; cursor:default; opacity:.9 }
+  .nav-clock{
+    font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.5px; color:#1c2a5e;
+    background:linear-gradient(180deg, #a8d8ff 0%, #7fb8f5 100%);
     border-top:2px solid #5b2a86; border-left:2px solid #5b2a86;
-    border-right:2px solid #efe0ff; border-bottom:2px solid #efe0ff;
-    box-shadow:inset 2px 2px 5px rgba(42,16,70,.55); color:#22103b;
+    border-right:2px solid #eef7ff; border-bottom:2px solid #eef7ff;
+    box-shadow:inset 2px 2px 4px rgba(30,40,90,.35);
+    height:26px; padding:0 10px; box-sizing:border-box; display:flex; align-items:center; gap:6px;
   }
-  .nav-links a.btn--primary{
-    background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%); color:#3a1660;
-    border-top:2px solid #fff2fb; border-left:2px solid #fff2fb;
-    border-right:2px solid #7a2e86; border-bottom:2px solid #7a2e86;
-    box-shadow:0 2px 0 rgba(58,22,96,.3); font-family:"Silkscreen", monospace; letter-spacing:0;
+  @media (max-width:639px){
+    .site-nav .wrap{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 0; }
+    .brand.nav-start{ height:36px; padding:0 9px 0 6px; gap:5px; }
+    .brand.nav-start img{ width:24px; height:24px; }
+    .nav-start-label{ font-size:10px; }
+    .nav-divider{ display:none; }
+    .nav-right{ flex:1 1 100%; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-left:0; }
+    .navbtn{ font-size:9px; height:24px; padding:0 8px; gap:5px; }
+    .nav-tray{ gap:6px; }
+    .navtray-icon{ width:20px; height:20px; }
+    .nav-clock{ height:24px; padding:0 8px; font-size:10px; }
   }
-  .nav-links a.btn--primary:hover{ background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%); filter:brightness(1.05); color:#3a1660; transform:none; box-shadow:0 2px 0 rgba(58,22,96,.3); }
 
   /* ---------- footer: thin bevel status bar ---------- */
   .site-footer{ background:linear-gradient(90deg, #9fc7ff 0%, #c9a2ff 55%, #ffb3e6 100%); border-top:3px solid #4a1f70; color:#2c2a44; padding:16px 0; }
@@ -436,16 +454,59 @@
 <header class="site-nav">
   <div class="wrap">
     <a class="brand nav-start" href="index.html" title="Home" aria-label="Home">
-      <img src="assets/img/y2k/shiba.png" alt="">
+      <img src="assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
     </a>
-    <nav aria-label="Main">
-      <ul class="nav-links">
-        <li><a href="work.html#work">selected-work/</a></li>
-        <li><a href="earlier-work.html">early-work/</a></li>
-        <li><a href="about.html" aria-current="page">about/</a></li>
-        <li class="hide-sm"><a class="btn btn--primary" href="assets/Camila-Massa-CV.pdf" download>curriculum.exe</a></li>
-      </ul>
-    </nav>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn" href="assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.sys
+      </a>
+      <a class="navbtn" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon" title="Connected">
+          <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="7" y="11" width="2" height="2" fill="#1c2a5e"/>
+            <rect x="5" y="8" width="6" height="2" fill="#5b2a86"/>
+            <rect x="3" y="5" width="10" height="2" fill="#9fc7ff"/>
+          </svg>
+        </span>
+        <span class="navtray-icon" title="✨">
+          <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="6" y="9" width="4" height="4" fill="#3a1660"/>
+            <rect x="3" y="6" width="2" height="2" fill="#3a1660"/>
+            <rect x="6" y="4" width="2" height="2" fill="#3a1660"/>
+            <rect x="9" y="4" width="2" height="2" fill="#3a1660"/>
+            <rect x="12" y="6" width="2" height="2" fill="#3a1660"/>
+          </svg>
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
   </div>
 </header>
 <main id="main">
@@ -463,13 +524,13 @@
           <img src="assets/img/camila.jpg" width="665" height="665" alt="Portrait of Camila Massa with blue hair and glasses, wearing a white shirt and black tie">
         </div>
         <div class="tile tile--blue about-note c-tr c-br">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">status.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Status.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
           <p>Based in Berlin. Open to Web Design and UI Design roles in Berlin or remote.</p>
         </div>
         <div class="tile tile--sky about-bio c-bl">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">camila.exe — About</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">camila.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
           <span class="eyebrow">About</span>
-          <h1 id="about-title">Hi, I’m Camila.</h1>
+          <h1 id="about-title" class="title-lockup"><img src="assets/img/y2k/title-hi-im-camila.png" alt="Hi, I’m Camila." width="480" height="125"></h1>
           <p>I’m a Senior Web &amp; Brand Designer in Berlin, with 15+ years across digital design, brand communication, art direction and web production.</p>
           <p>At Aklamio, which builds referral-marketing programmes for brands in telecom, energy, banking, insurance and more, I design and ship B2B web experiences: referral landing pages, customer portals and branded widgets. I work hands-on in Figma, HTML/CSS, Contentful, JSON configuration and Material UI theming, use generative AI and vibe coding with Claude to prototype and automate, and I look after design QA and release readiness. So far that adds up to 40+ hosted pages from 67 integration tickets.</p>
           <p>I started as an art director at Editora Abril, then ran community and content for nine brands at Procter &amp; Gamble Brasil. As a project manager at Language International I led a team of software developers. That path is why I bridge design and delivery: I care how a brand looks, and how it gets built and shipped.</p>
@@ -487,7 +548,7 @@
     <div class="wrap">
       <h2 id="exp-title" class="sr-only">Experience</h2>
       <div class="tile tile--white chatwin">
-        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Experience</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Experience.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <div class="chat-body">
           <div class="chat-row chat-row--left">
             <span class="avatar" aria-hidden="true"></span>
@@ -545,7 +606,7 @@
     <div class="wrap">
       <h2 id="skills-title" class="sr-only">Skills and background</h2>
       <div class="tile tile--white paintwin">
-        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Skills and background</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Skills_and_background.bmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <div class="paint-menu" aria-hidden="true">
           <span>File</span><span>Edit</span><span>View</span><span>Image</span><span>Options</span><span>Help</span>
         </div>
@@ -635,7 +696,7 @@
       <h2 id="edu-title" class="sr-only">Education and languages</h2>
       <div class="bento edu-langs-bento">
         <div class="tile tile--lilac c-tr">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">education.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">Education.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
           <h3>Education</h3>
           <ul class="edu">
             <li><small>Master’s</small><strong>Fashion &amp; Aesthetics Management</strong><span>University of São Paulo (USP)</span></li>
@@ -667,17 +728,17 @@
   <div class="wrap">
   <div class="contact-band">
     <div class="tile tile--blue c-br">
-      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">Contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <span class="eyebrow">Contact</span>
       <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
       <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
     </div>
     <div class="contact-cascade">
       <div class="ghost-bar cascade-ghost cascade-ghost--bottom">
-        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       </div>
       <div class="ghost-bar cascade-ghost cascade-ghost--middle">
-        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">Contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       </div>
       <div class="tile tile--violet cascade-front">
         <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
@@ -705,8 +766,15 @@
 </section>
 <footer class="site-footer"><div class="wrap">
   <span>© 2026 Camila Massa · Berlin</span>
-  <span><a href="https://www.linkedin.com/in/amionodera">LinkedIn</a></span>
 </div></footer>
 <script src="assets/js/contact.js" defer></script>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
 </body>
 </html>

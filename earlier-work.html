@@ -59,21 +59,114 @@
     .lightbox__nav--next { right: calc(50% - 60px); }
     .lightbox .lightbox__fig img { max-height: 64vh; }
   }
+
+  /* ---------- nav (ported Win95 bevel navbar — shared across all pages) ---------- */
+  .site-nav{ background:linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%); border-bottom:3px solid #4a1f70; box-shadow:0 4px 14px rgba(30,10,50,.28); position:sticky; top:0; z-index:80; padding:0; }
+  .site-nav .wrap{ height:54px; gap:10px; }
+  .brand.nav-start{
+    width:auto; height:44px; padding:0 13px 0 8px; display:flex; align-items:center; justify-content:center; gap:8px; flex:none; text-decoration:none;
+    background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
+    border-top:2px solid #fff2fb; border-left:2px solid #fff2fb;
+    border-right:2px solid #7a2e86; border-bottom:2px solid #7a2e86;
+    box-shadow:0 3px 0 rgba(58,22,96,.35);
+  }
+  .brand.nav-start img{ display:block; width:32px; height:32px; object-fit:contain; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)); }
+  .nav-start-label{ font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.3px; color:#3a1660; }
+  .brand.nav-start:hover{ filter:brightness(1.05); }
+  .brand.nav-start:active{ transform:translate(1px,1px); box-shadow:inset 2px 2px 4px rgba(58,22,96,.4); }
+  .nav-divider{ width:0; height:22px; border-left:2px solid #6b3fa0; border-right:2px solid #ffe8fb; flex:none }
+  .nav-right{ display:flex; align-items:center; gap:10px; flex:none; margin-left:auto }
+  .navbtn{
+    font-family:"Silkscreen", monospace; font-weight:400; font-size:11px; letter-spacing:.2px; color:#3a1660;
+    background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%);
+    border-top:2px solid #fbf3ff; border-left:2px solid #fbf3ff;
+    border-right:2px solid #5b2a86; border-bottom:2px solid #5b2a86;
+    height:28px; padding:0 11px; display:flex; align-items:center; gap:7px; text-decoration:none;
+    box-shadow:0 2px 0 rgba(58,22,96,.3);
+  }
+  .navbtn:hover{ filter:brightness(1.06); }
+  .nav-tray{ display:flex; align-items:center; gap:8px; flex:none }
+  .navtray-icon{ display:flex; align-items:center; justify-content:center; width:22px; height:22px; cursor:default; opacity:.9 }
+  .nav-clock{
+    font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.5px; color:#1c2a5e;
+    background:linear-gradient(180deg, #a8d8ff 0%, #7fb8f5 100%);
+    border-top:2px solid #5b2a86; border-left:2px solid #5b2a86;
+    border-right:2px solid #eef7ff; border-bottom:2px solid #eef7ff;
+    box-shadow:inset 2px 2px 4px rgba(30,40,90,.35);
+    height:26px; padding:0 10px; box-sizing:border-box; display:flex; align-items:center; gap:6px;
+  }
+  @media (max-width:639px){
+    .site-nav .wrap{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 0; }
+    .brand.nav-start{ height:36px; padding:0 9px 0 6px; gap:5px; }
+    .brand.nav-start img{ width:24px; height:24px; }
+    .nav-start-label{ font-size:10px; }
+    .nav-divider{ display:none; }
+    .nav-right{ flex:1 1 100%; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-left:0; }
+    .navbtn{ font-size:9px; height:24px; padding:0 8px; gap:5px; }
+    .nav-tray{ gap:6px; }
+    .navtray-icon{ width:20px; height:20px; }
+    .nav-clock{ height:24px; padding:0 8px; font-size:10px; }
+  }
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-nav">
   <div class="wrap">
-    <a class="brand" href="index.html"><span class="brand__dot" aria-hidden="true"></span>Camila Massa</a>
-    <nav aria-label="Main">
-      <ul class="nav-links">
-        <li><a href="work.html#work">Selected work</a></li>
-        <li><a href="earlier-work.html" aria-current="page">Earlier work</a></li>
-        <li><a href="about.html">About</a></li>
-        <li class="hide-sm"><a class="btn btn--primary" href="assets/Camila-Massa-CV.pdf" download>CV</a></li>
-      </ul>
-    </nav>
+    <a class="brand nav-start" href="index.html" title="Home" aria-label="Home">
+      <img src="assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn" href="assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.sys
+      </a>
+      <a class="navbtn" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon" title="Connected">
+          <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="7" y="11" width="2" height="2" fill="#1c2a5e"/>
+            <rect x="5" y="8" width="6" height="2" fill="#5b2a86"/>
+            <rect x="3" y="5" width="10" height="2" fill="#9fc7ff"/>
+          </svg>
+        </span>
+        <span class="navtray-icon" title="✨">
+          <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="6" y="9" width="4" height="4" fill="#3a1660"/>
+            <rect x="3" y="6" width="2" height="2" fill="#3a1660"/>
+            <rect x="6" y="4" width="2" height="2" fill="#3a1660"/>
+            <rect x="9" y="4" width="2" height="2" fill="#3a1660"/>
+            <rect x="12" y="6" width="2" height="2" fill="#3a1660"/>
+          </svg>
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
   </div>
 </header>
 <main id="main">
@@ -370,5 +463,13 @@
 })();
 </script>
 <script src="assets/js/contact.js" defer></script>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
 </body>
 </html>
