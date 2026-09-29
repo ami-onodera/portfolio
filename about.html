@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 <style>
   /* ---------- structural layout (unchanged from the original page — grid
@@ -71,7 +71,7 @@
     --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
     --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
     --chrome:#f4f1fb;
-    --font-pixel:"Space Grotesk", sans-serif; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+    --font-pixel:"IBM Plex Mono", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
 
     /* remap the site's design tokens onto the vaporwave palette */
     --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
@@ -257,7 +257,7 @@
   .h-bar::after{ background:linear-gradient(90deg, var(--pink), var(--accent-2)); opacity:.8; height:4px; }
 
   /* ---------- buttons ---------- */
-  .btn{ font-family:var(--font-pixel); font-size:9.5px; letter-spacing:.2px; border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo); transition:none; }
+  .btn{ font-family:var(--font-pixel); font-size:16px; letter-spacing:.2px; border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo); transition:none; }
   .btn--primary{ background:var(--pink); color:#fff; }
   .btn--primary:hover{ background:var(--pink-dark); color:#fff; transform:none; box-shadow:3px 3px 0 var(--indigo); }
   .btn--soft{ background:var(--chrome); color:var(--indigo); box-shadow:3px 3px 0 var(--indigo); }
@@ -298,9 +298,9 @@
   .bubble h3{ font-size:21px; margin-bottom:6px; font-family:var(--font-body); }
   .bubble p{ font-size:16.5px; line-height:1.6; }
   .bubble .promo{
-    display:inline-block; margin-top:12px; font-family:var(--font-pixel); font-size:9px;
+    display:inline-block; margin-top:12px; font-family:var(--font-pixel); font-size:12px;
     background:linear-gradient(135deg, var(--blue) 0%, var(--purple) 100%); color:var(--indigo);
-    border:1.5px solid var(--indigo); border-radius:10px !important; padding:6px 10px 7px;
+    border-radius:10px !important; padding:6px 10px 7px;
   }
 
   /* ---------- chat input bar (decorative, caps off the Experience window) ---------- */
@@ -530,7 +530,6 @@
         </div>
         <div class="tile tile--sky about-bio c-bl">
           <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">camila.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-          <span class="eyebrow">About</span>
           <h1 id="about-title" class="title-lockup"><img src="assets/img/y2k/title-hi-im-camila.png" alt="Hi, I’m Camila." width="480" height="125"></h1>
           <p>I’m a Senior Web &amp; Brand Designer in Berlin, with 15+ years across digital design, brand communication, art direction and web production.</p>
           <p>At Aklamio, which builds referral-marketing programmes for brands in telecom, energy, banking, insurance and more, I design and ship B2B web experiences: referral landing pages, customer portals and branded widgets. I work hands-on in Figma, HTML/CSS, Contentful, JSON configuration and Material UI theming, use generative AI and vibe coding with Claude to prototype and automate, and I look after design QA and release readiness. So far that adds up to 40+ hosted pages from 67 integration tickets.</p>
