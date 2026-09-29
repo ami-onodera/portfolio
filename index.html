@@ -9,14 +9,21 @@
 <link rel="apple-touch-icon" href="assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  @font-face{
+    font-family:"R95 Sans Serif 12pt";
+    src: url("assets/fonts/R95-sans-serif-vga-12pt.woff2") format("woff2"),
+         url("assets/fonts/R95-sans-serif-vga-12pt.ttf") format("truetype");
+    font-weight: 400 700;
+    font-display: swap;
+  }
   :root{
     --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
     --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
     --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
     --chrome:#f4f1fb;
-    --font-pixel:"IBM Plex Mono", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+    --font-pixel:"R95 Sans Serif 12pt", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{min-height:100%; overflow-x:hidden}
