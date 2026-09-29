@@ -123,7 +123,7 @@
     background:linear-gradient(90deg, var(--blue), var(--purple));
   }
   .win-bar .titlewrap{ display:flex; align-items:center; gap:7px; min-width:0 }
-  .win-bar .title{ font-family:var(--font-pixel); font-size:20px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .win-bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
   .win-bar .btns{ display:flex; gap:4px; flex:none }
   .win-bar .btns i{
     width:14px; height:14px; background:var(--chrome); border:1.5px solid var(--indigo);
@@ -177,7 +177,7 @@
     background:linear-gradient(90deg, var(--blue), var(--purple));
   }
   .ghost-bar .titlewrap{ display:flex; align-items:center; gap:8px; min-width:0; }
-  .ghost-bar .title{ font-family:var(--font-pixel); font-size:20px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; }
+  .ghost-bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; }
   .ghost-bar .btns{ display:flex; gap:5px; flex:none; }
   .ghost-bar .btns i{
     width:16px; height:16px; background:var(--chrome); border:1.5px solid var(--indigo);
@@ -236,7 +236,7 @@
     display:flex; align-items:center; gap:7px; padding:7px 9px;
     background:linear-gradient(90deg, var(--blue), var(--purple)); border-bottom:2px solid var(--indigo);
   }
-  .mail-popup__bar .title{ font-family:var(--font-pixel); font-size:20px; font-weight:600; letter-spacing:.2px; color:var(--indigo); }
+  .mail-popup__bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); }
   .mail-reveal__out .mail-pill{
     display:block; margin:12px 10px 10px; padding:9px 10px; background:#fff; border:1.5px solid var(--indigo);
     font-family:var(--font-body); font-size:13px; color:var(--ink); white-space:nowrap; overflow:hidden;
@@ -265,7 +265,7 @@
   .btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--indigo); }
 
   /* ---------- pills / chips ---------- */
-  .pill{ font-family:var(--font-pixel); font-size:8px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:6px 9px; }
+  .pill{ font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:6px 9px; }
   .tl__what .promo{ font-family:var(--font-pixel); font-size:8px; background:var(--pink); color:#fff; border:1.5px solid var(--indigo); border-radius:0 !important; padding:5px 9px 6px; }
 
   /* ---------- experience: one big chat window, each role a bubble ---------- */
@@ -293,7 +293,7 @@
   .chat-row--right .bubble{ background:var(--purple-soft); }
   .chat-row--right .bubble::after{ right:16px; background:var(--purple-soft); }
   .bubble__meta{ display:flex; flex-wrap:wrap; align-items:baseline; gap:9px; margin-bottom:8px; }
-  .bubble__meta .date{ font-family:var(--font-pixel); font-size:18px; font-weight:600; color:var(--accent-ink); }
+  .bubble__meta .date{ font-family:var(--font-pixel); font-size:16px; font-weight:600; color:var(--accent-ink); }
   .bubble__meta .org{ font-family:var(--font-pixel); font-weight:700; color:var(--ink); font-size:16px; }
   .bubble h3{ font-size:21px; margin-bottom:6px; font-family:var(--font-body); }
   .bubble p{ font-size:16.5px; line-height:1.6; }
@@ -604,9 +604,9 @@
   <!-- Skills and background -->
   <section class="block" style="padding-top:0" aria-labelledby="skills-title">
     <div class="wrap">
-      <h2 id="skills-title" class="sr-only">Skills and background</h2>
+      <h2 id="skills-title" class="sr-only">Skills and tools</h2>
       <div class="tile tile--white paintwin">
-        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">skills_and_background.bmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">skills_and_tools.bmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <div class="paint-menu" aria-hidden="true">
           <span>File</span><span>Edit</span><span>View</span><span>Image</span><span>Options</span><span>Help</span>
         </div>
@@ -635,16 +635,16 @@
                 <div>
                   <h3>Strengths</h3>
                   <ul class="pills" role="list" style="list-style:none">
-                    <li class="pill">Web &amp; digital design</li>
-                    <li class="pill">Brand &amp; visual design</li>
-                    <li class="pill">UI design</li>
-                    <li class="pill">Responsive design</li>
-                    <li class="pill">Landing pages</li>
-                    <li class="pill">Material UI theming</li>
-                    <li class="pill">Typography</li>
-                    <li class="pill">Accessibility</li>
-                    <li class="pill">Design QA</li>
-                    <li class="pill">Generative AI</li>
+                    <li class="pill" style="background:#adcfed">Web &amp; digital design</li>
+                    <li class="pill" style="background:#d7bce8">Brand &amp; visual design</li>
+                    <li class="pill" style="background:#ef798a">UI design</li>
+                    <li class="pill" style="background:#9fc7ff">Responsive design</li>
+                    <li class="pill" style="background:#c9a2ff">Landing pages</li>
+                    <li class="pill" style="background:#ffa8e0">Material UI theming</li>
+                    <li class="pill" style="background:#f6d9e4">Typography</li>
+                    <li class="pill" style="background:#b79bf2">Accessibility</li>
+                    <li class="pill" style="background:#e9dcf3">Design QA</li>
+                    <li class="pill" style="background:#ffd3f2">Generative AI</li>
                   </ul>
                 </div>
                 <div>
