@@ -118,6 +118,28 @@
 
   .trash-icon{ position:absolute; right:34px; bottom:34px; z-index:2 }
 
+  /* ================= COMPACT LAYOUT: smaller screens (laptops narrower than the
+     desktop design width) — the desktop icons shrink and every absolutely-positioned
+     window/cascade gets pulled toward the left so nothing falls outside the
+     viewport (body is overflow:hidden, so anything past the edge is simply lost). ================= */
+  @media (max-width:1400px){
+    .icons{ top:60px; left:16px; gap:18px }
+    .icon{ width:55px; padding:4px }
+    .icon .glyph{ width:39px; height:39px }
+    .icon .icon-art{ width:50px; height:50px }
+    .trash-icon .icon-art{ width:43px; height:43px }
+
+    .win[data-window="about"]{ top:120px !important; left:110px !important }
+    .win[data-window="work"]{ top:330px !important; left:380px !important }
+    .win[data-window="early"]{ top:590px !important; left:760px !important }
+
+    /* the sticky notice.exe cascade, moved as a unit toward the bottom-left
+       corner so it stays clear of the repositioned windows above */
+    .notice-cascade--back{ top:584px !important; left:4px !important }
+    .notice-cascade--mid{ top:602px !important; left:22px !important }
+    .notice-cascade--front{ top:620px !important; left:40px !important }
+  }
+
   /* ================= WINDOW CHROME (squared) ================= */
   .win{
     position:absolute; z-index:10; background:var(--chrome); display:none;
@@ -451,13 +473,13 @@
 </div>
 
 <!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
-<div class="ghost-bar" style="top:666px; left:60px; z-index:14; width:360px; height:143px">
+<div class="ghost-bar notice-cascade notice-cascade--back" style="top:666px; left:60px; z-index:14; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="ghost-bar" style="top:684px; left:78px; z-index:15; width:360px; height:143px">
+<div class="ghost-bar notice-cascade notice-cascade--mid" style="top:684px; left:78px; z-index:15; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="win win--notice open" data-window="notice" style="top:702px; left:96px; z-index:16; width:360px">
+<div class="win win--notice notice-cascade notice-cascade--front open" data-window="notice" style="top:702px; left:96px; z-index:16; width:360px">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span>
     <span class="btns"><i>_</i><i>▢</i><i>x</i></span>
