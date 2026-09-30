@@ -59,6 +59,7 @@
     transition:filter .06s ease;
   }
   .navbtn:hover{ filter:brightness(1.06) }
+  .navbtn.nav-util{ font-family:var(--font-pixel); font-size:12px; }
   .navbtn:active{ transform:translate(1px,1px) }
   .navbtn.active, .navbtn.pressed{
     background:linear-gradient(180deg, #b79bf2 0%, #a084e8 100%);
@@ -82,6 +83,14 @@
   .nav-right{ display:flex; align-items:center; gap:10px; flex:none; margin-left:auto }
   .nav-tray{ display:flex; align-items:center; gap:8px; flex:none }
   .navtray-icon{ display:flex; align-items:center; justify-content:center; width:22px; height:22px; cursor:default; opacity:.9 }
+  .navtray-icon--claude{ position:relative; cursor:default; }
+  .navtray-icon--claude::after{
+    content:attr(data-tip); position:absolute; top:calc(100% + 10px); right:-8px;
+    background:var(--chrome); color:var(--indigo); font-family:var(--font-pixel); font-size:10px;
+    white-space:nowrap; padding:7px 10px; border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo);
+    opacity:0; transform:translateY(-4px); pointer-events:none; transition:opacity .15s ease, transform .15s ease; z-index:200;
+  }
+  .navtray-icon--claude:hover::after, .navtray-icon--claude:focus-visible::after{ opacity:1; transform:translateY(0); }
   .nav-clock{
     font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.5px; color:#1c2a5e;
     background:linear-gradient(180deg, #a8d8ff 0%, #7fb8f5 100%);
@@ -231,9 +240,10 @@
   .about-text h1{font-family:var(--font-head); font-weight:800; font-size:25px; color:var(--indigo); line-height:1.1}
   .about-text p{font-size:14px; margin-top:10px; line-height:1.55}
   .chip-row{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap}
-  .chip{font-family:var(--font-pixel); font-size:8.5px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:5px 9px; border-radius:0}
+  .chip{font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:5px 9px; border-radius:0}
   .chip--pink{background:var(--pink); color:#fff}
   .chip--blue{background:var(--blue)}
+  .chip--purple{background:var(--purple)}
 
   .win--player{ width:300px }
   .player-art{height:140px;border-radius:0;border:2px solid var(--indigo);overflow:hidden;position:relative;background:linear-gradient(200deg, var(--blue-soft), var(--purple))}
@@ -256,17 +266,19 @@
 
   .modal-note{margin-top:16px; font-size:12.5px; line-height:1.6}
   .modal-cta{
-    margin-top:14px; display:inline-block; font-family:var(--font-pixel); font-size:9px; color:#fff;
+    margin-top:14px; display:inline-block; font-family:var(--font-pixel); font-size:16px; color:#fff;
     background:var(--pink); border:2px solid var(--indigo); border-radius:0; padding:9px 14px;
-    box-shadow:3px 3px 0 var(--indigo); cursor:pointer; text-decoration:none;
+    box-shadow:3px 3px 0 var(--indigo); cursor:pointer; text-decoration:none; transition:box-shadow .1s ease, background-color .1s ease;
   }
 
   .win--dialog{ position:fixed; width:290px; z-index:110 }
   .win--dialog .body{ text-align:center; padding:22px 20px }
   .win--dialog p{font-family:var(--font-head); font-weight:600; font-size:14.5px; color:var(--indigo); line-height:1.5}
   .win--dialog .row{display:flex; gap:10px; justify-content:center; margin-top:18px}
-  .dbtn{font-family:var(--font-pixel); font-size:9px; color:var(--indigo); background:var(--chrome); border:2px solid var(--indigo); border-radius:0; padding:8px 16px; box-shadow:2px 2px 0 rgba(37,40,61,.3); cursor:pointer; text-decoration:none; display:inline-block}
+  .dbtn{font-family:var(--font-pixel); font-size:9px; color:var(--indigo); background:var(--chrome); border:2px solid var(--indigo); border-radius:0; padding:8px 16px; box-shadow:2px 2px 0 rgba(37,40,61,.3); cursor:pointer; text-decoration:none; display:inline-block; transition:box-shadow .1s ease, background-color .1s ease}
+  .dbtn:hover{ background:#fff; box-shadow:none; }
   .dbtn--yes{background:var(--pink); color:#fff}
+  .dbtn--yes:hover{ background:var(--pink-dark); color:#fff; box-shadow:none; }
 
   .win--notice{ font-family:var(--font-body) }
   .win--notice p{font-family:var(--font-head); font-weight:600; font-size:13.5px; color:var(--indigo); line-height:1.5}
@@ -318,11 +330,14 @@
   .btn{
     display:inline-flex; align-items:center; justify-content:center; gap:8px; white-space:nowrap; cursor:pointer; text-decoration:none;
     font:16px var(--font-pixel); color:var(--indigo); background:var(--chrome); padding:13px 14px;
-    border:2px solid var(--indigo); border-radius:0; box-shadow:3px 3px 0 var(--indigo);
+    border:2px solid var(--indigo); border-radius:0; box-shadow:3px 3px 0 var(--indigo); transition:box-shadow .1s ease, background-color .1s ease;
   }
   .btn svg{ flex:none; }
   .btn--primary{ background:var(--pink); color:#fff; }
+  .btn:hover{ box-shadow:none; }
+  .btn--primary:hover{ background:var(--pink-dark); color:#fff; }
   .btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--indigo); }
+  .modal-cta:hover{ background:var(--pink-dark); box-shadow:none; }
   .mail-reveal{ display:flex; }
   .mail-reveal__btn[hidden], .mail-reveal__out[hidden]{ display:none; }
   .mail-reveal__out{
@@ -422,7 +437,7 @@
     </a>
     <div class="nav-divider"></div>
     <div class="nav-tray">
-      <span class="navtray-icon" title="Claude">
+      <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
         <img src="assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
       </span>
       <span class="navtray-icon" title="Connected">
@@ -530,10 +545,10 @@
       <p>Product &amp; UI designer, based in Berlin. I turn fuzzy briefs into interfaces people enjoy using — then build them myself.</p>
       <div class="chip-row">
         <span class="chip chip--blue">BERLIN</span>
-        <span class="chip">FIGMA</span>
-        <span class="chip chip--pink">VIBE CODING</span>
+        <span class="chip">DESIGN</span>
+        <span class="chip chip--purple">VIBE CODING</span>
       </div>
-      <a class="modal-cta" href="about.html" style="margin-top:14px">SEE MORE →</a>
+      <a class="modal-cta" href="about.html" style="margin-top:14px">See more →</a>
     </div>
   </div>
 </div>
@@ -550,7 +565,7 @@
       <div class="case-thumb"><img src="assets/img/y2k/thumb-orbeo-mobile.jpg" alt="Orbeo Mobile demo"><span>ORBEO MOBILE</span></div>
     </div>
     <p class="modal-note">One template, three fictional brand portals. Product &amp; UI work, from Figma to a shared Contentful-driven template.</p>
-    <a class="modal-cta" href="work/one-template-many-brands.html">SEE CASE STUDY →</a>
+    <a class="modal-cta" href="work/one-template-many-brands.html">See case study →</a>
   </div>
 </div>
 
@@ -567,7 +582,7 @@
       <div class="early-thumb"><img src="assets/img/y2k/early-geekisstore-1.jpg" alt="Earlier project preview"></div>
     </div>
     <p class="modal-note">14 projects from earlier in my career, kept for the full story.</p>
-    <a class="modal-cta" href="earlier-work.html">SEE ALL →</a>
+    <a class="modal-cta" href="earlier-work.html">See all →</a>
   </div>
 </div>
 

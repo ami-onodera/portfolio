@@ -85,8 +85,17 @@
     box-shadow:0 2px 0 rgba(58,22,96,.3);
   }
   .navbtn:hover{ filter:brightness(1.06); }
+  .navbtn.nav-util{ font-family:var(--font-pixel); font-size:12px; }
   .nav-tray{ display:flex; align-items:center; gap:8px; flex:none }
   .navtray-icon{ display:flex; align-items:center; justify-content:center; width:22px; height:22px; cursor:default; opacity:.9 }
+  .navtray-icon--claude{ position:relative; cursor:default; }
+  .navtray-icon--claude::after{
+    content:attr(data-tip); position:absolute; top:calc(100% + 10px); right:-8px;
+    background:var(--chrome); color:var(--indigo); font-family:var(--font-pixel); font-size:10px;
+    white-space:nowrap; padding:7px 10px; border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo);
+    opacity:0; transform:translateY(-4px); pointer-events:none; transition:opacity .15s ease, transform .15s ease; z-index:200;
+  }
+  .navtray-icon--claude:hover::after, .navtray-icon--claude:focus-visible::after{ opacity:1; transform:translateY(0); }
   .nav-clock{
     font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.5px; color:#1c2a5e;
     background:linear-gradient(180deg, #a8d8ff 0%, #7fb8f5 100%);
@@ -119,7 +128,7 @@
     </a>
     <div class="nav-divider"></div>
     <div class="nav-right">
-      <a class="navbtn" href="assets/Camila-Massa-CV.pdf" download title="Download CV">
+      <a class="navbtn nav-util" href="assets/Camila-Massa-CV.pdf" download title="Download CV">
         <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
           <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
           <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
@@ -129,7 +138,7 @@
         </svg>
         curriculum.sys
       </a>
-      <a class="navbtn" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
         <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
           <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
           <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
@@ -141,7 +150,7 @@
       </a>
       <div class="nav-divider"></div>
       <div class="nav-tray">
-        <span class="navtray-icon" title="Claude">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
           <img src="assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
         </span>
         <span class="navtray-icon" title="Connected">
