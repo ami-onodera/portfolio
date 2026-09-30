@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 <style>
   /* page-specific: intro bento, gallery extras, lightbox controls */
@@ -116,6 +116,211 @@
     .navtray-icon{ width:20px; height:20px; }
     .nav-clock{ height:24px; padding:0 8px; font-size:10px; }
   }
+
+  /* ==========================================================================
+     Y2K / vaporwave retro-desktop reskin — Earlier work page.
+     Same palette, double-border "window" chrome and pixel type as the
+     About page. Structural HTML (bento layout, gallery grid, lightbox,
+     filters) is unchanged; this block restyles it on top of site.css.
+     ========================================================================== */
+  :root{
+    --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
+    --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
+    --chrome:#f4f1fb;
+    --font-pixel:"IBM Plex Mono", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+
+    --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
+    --accent:#a578d6; --accent-2:#5f8fe0; --accent-ink:#7a4fb0;
+    --sky:var(--blue-soft); --blue:#adcfed; --peri:var(--purple-soft); --lav-soft:var(--chrome);
+    --lav:var(--purple-soft); --lilac:var(--blue-soft); --violet:var(--purple-soft);
+    --page:#cfe3fb; --card:var(--chrome); --line:var(--indigo);
+    --R:0px; --r:0px; --pill:0px;
+    --shadow: 6px 8px 0 rgba(37,40,61,.16), 0 20px 34px rgba(60,40,90,.16);
+    --shadow-sm: 5px 6px 0 rgba(37,40,61,.14), 0 14px 24px rgba(60,40,90,.14);
+  }
+  *{ border-radius:0 !important; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--font-body); color:var(--body);
+    background: linear-gradient(180deg, #cfe3fb 0%, #d9d3f2 32%, #eccbe4 58%, #f6d9e4 78%, #fbe7d9 100%);
+    background-attachment: fixed;
+  }
+  p{ font-family:var(--font-body); font-weight:500; }
+  h1, h2, h3, h4{ font-family:var(--font-head); color:var(--ink); }
+  a{ color:var(--accent-ink); }
+  a:hover{ color:var(--ink); }
+
+  /* ---------- floating pixel-cloud / star decor ---------- */
+  .sky-decor{ position:relative; }
+  .sky-decor .deco, .sky-decor .pixel-cloud{ position:absolute; pointer-events:none; z-index:0; }
+  .deco{ filter:drop-shadow(0 6px 10px rgba(80,60,110,.18)); }
+  .pixel-cloud{ image-rendering:pixelated; filter:drop-shadow(0 10px 16px rgba(80,60,110,.28)); }
+
+  /* ---------- window chrome for every tile ---------- */
+  .win-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:7px 9px; margin:calc(-1 * clamp(22px, 3vw, 36px)) calc(-1 * clamp(22px, 3vw, 36px)) 16px;
+    border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .win-bar .titlewrap{ display:flex; align-items:center; gap:7px; min-width:0 }
+  .win-bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .win-bar .btns{ display:flex; gap:4px; flex:none }
+  .win-bar .btns i{
+    width:14px; height:14px; background:var(--chrome); border:1.5px solid var(--indigo);
+    display:flex; align-items:center; justify-content:center; font-style:normal;
+    font-family:var(--font-pixel); font-size:7px; color:var(--indigo);
+  }
+  .bar-icon{ width:12px; height:12px; flex:none; border:1.5px solid var(--indigo); background:var(--chrome); position:relative }
+  .bar-icon--about{ background:var(--pink); border-radius:50% !important }
+  .bar-icon--folder{ background:var(--purple) }
+  .bar-icon--warn{ background:var(--yellow) }
+  .bar-icon--star{ background:var(--yellow-dark); clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%) }
+
+  .ew-intro > .tile > .win-bar{ margin: calc(-1 * clamp(22px, 3vw, 36px)) calc(-1 * clamp(22px, 3vw, 36px)) 16px; }
+
+  .tile{
+    position:relative; border:4px double var(--indigo); box-shadow:var(--shadow-sm);
+    background:var(--card);
+  }
+  .tile--blue, .tile--sky, .tile--lilac{ background:var(--blue-soft); }
+  .tile--peri, .tile--lav, .tile--violet{ background:var(--purple-soft); }
+  .tile--lav-soft{ background:var(--chrome); }
+  .tile--white{ background:var(--chrome); box-shadow:var(--shadow); }
+  .c-tl, .c-tr, .c-bl, .c-br{ border-radius:0 !important; }
+
+  /* gentle hand-placed rotation so the cards read as a scrapbook, not a grid */
+  .ew-intro > .tile:nth-child(1){ transform:rotate(-.4deg); }
+  .ew-intro > .tile:nth-child(2){ transform:rotate(.5deg); }
+  .contact-band > .tile:nth-child(1){ transform:rotate(-.3deg); }
+
+  /* ---------- eyebrow / pixel tags ---------- */
+  .eyebrow{
+    font-family:var(--font-pixel); font-size:8px; letter-spacing:.5px; color:var(--indigo);
+    background:var(--yellow); border:1.5px solid var(--indigo); padding:6px 10px; gap:6px;
+  }
+  .eyebrow::before{ background:var(--pink); border-radius:0 !important; width:6px; height:6px; }
+  .h-bar::after{ background:linear-gradient(90deg, var(--pink), var(--accent-2)); opacity:.8; height:4px; }
+
+  /* ---------- buttons ---------- */
+  .btn{ font-family:var(--font-pixel); font-size:16px; letter-spacing:.2px; border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo); transition:box-shadow .1s ease, background-color .1s ease; }
+  .btn--primary{ background:var(--pink); color:#fff; }
+  .btn--primary:hover{ background:var(--pink-dark); color:#fff; transform:none; box-shadow:none; }
+  .btn--soft{ background:var(--chrome); color:var(--indigo); box-shadow:3px 3px 0 var(--indigo); }
+  .btn--soft:hover{ background:#fff; color:var(--indigo); box-shadow:none; }
+  .btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--indigo); }
+
+  /* ---------- credential pills (hero) ---------- */
+  .pill{ font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:6px 9px; }
+
+  /* ---------- filter buttons ---------- */
+  .filters{ display:flex; flex-wrap:wrap; gap:8px; }
+  .filters button{
+    font-family:var(--font-pixel); font-size:11px; color:var(--indigo); background:var(--chrome);
+    border:2px solid var(--indigo); padding:8px 13px; cursor:pointer; box-shadow:2px 2px 0 var(--indigo);
+    transition:box-shadow .1s ease, background-color .1s ease;
+  }
+  .filters button:hover{ background:#fff; box-shadow:none; }
+  .filters button[aria-pressed="true"]{ background:var(--pink); color:#fff; box-shadow:none; }
+  .ew-status{ font-family:var(--font-body); font-size:14px; color:var(--muted); margin:14px 0 18px; }
+
+  /* ---------- archive window (wraps filters + gallery grid) ---------- */
+  .archive-win{ padding:clamp(22px, 3vw, 36px); }
+  .archive-win .h-bar{ margin-top:0; }
+
+  /* ---------- gallery grid, reskinned as bordered thumbnail tiles ---------- */
+  .gallery__media{ border:2px solid var(--indigo); background:var(--chrome); }
+  .gallery__count{
+    font-family:var(--font-pixel); font-size:9px; color:#fff; background:rgba(37,40,61,.75);
+    border-radius:0 !important; padding:4px 7px; right:0; bottom:0;
+  }
+  .gallery__cap h3{ font-family:var(--font-body); font-weight:700; font-size:16px; margin:12px 0 4px; color:var(--ink); }
+  .gallery__cap p{ font-size:14px; line-height:1.5; }
+  .gallery__tags{ margin-top:8px; }
+  .gallery__tags .tag{
+    font-family:var(--font-pixel); font-size:9px; color:var(--indigo); background:var(--blue-soft);
+    border:1.5px solid var(--indigo); border-radius:0 !important; padding:4px 7px;
+  }
+
+  /* ---------- lightbox, reskinned to match the window system ---------- */
+  .lightbox{ background:rgba(37,40,61,.55); backdrop-filter:blur(4px); }
+  .lightbox__fig{ background:var(--chrome); border:4px double var(--indigo); box-shadow:var(--shadow); padding:20px; }
+  .lightbox .lightbox__cap{ font-family:var(--font-body); color:var(--ink); }
+  .lightbox__cap small{ font-family:var(--font-pixel); font-size:11px; color:var(--accent-ink); }
+  .lightbox__close, .lightbox__nav{
+    background:var(--chrome); color:var(--indigo); border:2px solid var(--indigo); box-shadow:3px 3px 0 rgba(37,40,61,.4);
+    font-family:var(--font-pixel);
+  }
+  .lightbox__close:hover, .lightbox__nav:hover{ background:#fff; box-shadow:none; }
+
+  /* ---------- back link, reskinned square ---------- */
+  .back-link__icon{ border:2px solid var(--indigo); background:var(--chrome); box-shadow:2px 2px 0 var(--indigo); color:var(--indigo); }
+  .back-link{ font-family:var(--font-pixel); font-size:13px; color:var(--indigo); }
+  .back-link:hover{ color:var(--indigo); }
+  .back-link:hover .back-link__icon{ background:#fff; box-shadow:none; transform:translateX(-3px); }
+
+  /* ---------- contact: upward alert cascade (same component as About) ---------- */
+  .ghost-bar{
+    box-sizing:border-box; pointer-events:none; background:var(--chrome); border:3px solid var(--indigo);
+    box-shadow:6px 8px 0 rgba(37,40,61,.18), 0 20px 34px rgba(60,40,90,.15);
+  }
+  .ghost-bar .bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:8px 10px; border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .ghost-bar .titlewrap{ display:flex; align-items:center; gap:8px; min-width:0; }
+  .ghost-bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; }
+  .ghost-bar .btns{ display:flex; gap:5px; flex:none; }
+  .ghost-bar .btns i{
+    width:16px; height:16px; background:var(--chrome); border:1.5px solid var(--indigo);
+    display:flex; align-items:center; justify-content:center; font-style:normal;
+    font-family:var(--font-pixel); font-size:8px; color:var(--indigo);
+  }
+  .contact-cascade{ position:relative; width:min(420px, 100%); margin:0 auto; min-height:280px; }
+  .cascade-ghost, .cascade-front{ height:190px; }
+  .cascade-ghost{ position:absolute; top:0; left:0; width:100%; pointer-events:none; background:var(--purple-soft); }
+  .cascade-ghost--middle{ top:45px; left:24px; z-index:2; }
+  .cascade-ghost--bottom{ top:90px; left:48px; z-index:1; }
+  .cascade-front{ position:relative; z-index:3; box-sizing:border-box; }
+  .cascade-front__body{ display:flex; flex-direction:column; gap:20px; margin-top:6px; align-items:center; text-align:center; }
+  .cascade-front__msg{ font-family:var(--font-head); font-weight:700; font-size:19px; color:var(--indigo); margin:0; }
+  .cascade-front__actions{ display:flex; flex-wrap:nowrap; gap:8px; justify-content:center; width:100%; }
+  .cascade-front__actions .mail-reveal{ display:flex; min-width:0; }
+  .cascade-front__actions .btn{ padding-left:14px; padding-right:14px; white-space:nowrap; }
+
+  .mail-reveal{ position:relative; }
+  .mail-reveal__out{
+    position:absolute; top:0; left:calc(100% + 14px); z-index:20; width:270px;
+    background:var(--chrome); border:3px double var(--indigo);
+    box-shadow:5px 6px 0 rgba(37,40,61,.18), 0 14px 24px rgba(60,40,90,.16); text-align:left;
+  }
+  .mail-reveal__out:not([hidden]){ display:block; }
+  .mail-popup__bar{
+    display:flex; align-items:center; gap:7px; padding:7px 9px;
+    background:linear-gradient(90deg, var(--blue), var(--purple)); border-bottom:2px solid var(--indigo);
+  }
+  .mail-popup__bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); }
+  .mail-reveal__out .mail-pill{
+    display:block; margin:12px 10px 10px; padding:9px 10px; background:#fff; border:1.5px solid var(--indigo);
+    font-family:var(--font-body); font-size:13px; color:var(--ink); white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; text-decoration:none;
+  }
+  .mail-popup__row{ display:flex; gap:8px; margin:0 10px 12px; }
+  .mail-popup__row .btn{ flex:1; }
+  @media (max-width:720px){
+    .mail-reveal__out{ position:static; width:auto; margin-top:12px; }
+  }
+
+  /* ---------- footer, status-bar style (matches taskbar) ---------- */
+  .site-footer{ background:linear-gradient(90deg, #9fc7ff 0%, #c9a2ff 55%, #ffb3e6 100%); border-top:3px solid #4a1f70; color:#2c2a44; padding:16px 0; }
+  .site-footer a{ color:#2c2a44; font-weight:700; }
+  .site-footer .wrap{ font-family:"Silkscreen", monospace; font-size:11px; }
+
+  @media (max-width:640px){
+    .ew-intro{ grid-template-columns:1fr; }
+  }
+
 </style>
 </head>
 <body>
@@ -169,21 +374,24 @@
   </div>
 </header>
 <main id="main">
-  <section class="cs-hero"><div class="wrap">
+  <section class="cs-hero sky-decor"><div class="wrap">
+    <img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-n-twin-blue.png" style="top:-10px; right:4%; width:110px; z-index:0">
+    <svg class="deco" style="top:8px; left:20%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
     <div class="ew-intro">
       <div class="tile tile--sky c-br">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">earlier-work.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <span class="eyebrow">Earlier work</span>
         <h1>Before the web: brand, print and social</h1>
         <p class="lead">Before I moved into web design, I spent years in art direction and brand communication. As an Art Director at Editora Abril I worked on print, direct marketing and brand campaigns. At Procter &amp; Gamble Brasil I created content and managed communities for beauty and personal care brands. Along the way came magazine advertising and a brand of my own.</p>
         <ul class="pills" aria-label="Where this work comes from">
-          <li class="pill">Editora Abril</li>
-          <li class="pill">Procter &amp; Gamble Brasil</li>
+          <li class="pill" style="background:#adcfed">Editora Abril</li>
+          <li class="pill" style="background:#d7bce8">Procter &amp; Gamble Brasil</li>
           <li class="pill">Bronze Trophy, ABEMD</li>
-          <li class="pill">Geekisstore</li>
+          <li class="pill" style="background:#8fb6dd">Geekisstore</li>
         </ul>
       </div>
       <aside class="tile tile--blue c-bl ew-note" aria-label="About this page">
-        <span class="ew-note__mark" aria-hidden="true"></span>
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">note.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <p>These pieces are from my earlier career in art direction and brand communication. For current work, see <a href="work.html#work">Selected work</a>.</p>
         <a class="btn btn--soft" href="work.html#work">Current work <span class="arrow" aria-hidden="true">→</span></a>
       </aside>
@@ -191,6 +399,8 @@
   </div></section>
 
   <section class="block" aria-labelledby="archive-title" style="padding-top:24px"><div class="wrap">
+    <div class="tile tile--white archive-win">
+      <div class="win-bar" style="margin:calc(-1 * clamp(22px, 3vw, 36px)) calc(-1 * clamp(22px, 3vw, 36px)) 20px"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">archive.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
     <div class="block__head ew-gallery-head">
       <div>
         <h2 class="h-bar" id="archive-title">From the archive</h2>
@@ -347,6 +557,7 @@
         </figcaption>
       </figure>
     </div>
+    </div>
   </div></section>
 
   <div class="wrap"><p class="back-row"><a class="back-link" href="index.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to home</a></p></div>
@@ -363,24 +574,48 @@
 </div>
 
 <!-- contact band (every page, above footer) -->
-<section class="block" id="contact"><div class="wrap">
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
   <div class="contact-band">
     <div class="tile tile--blue c-br">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <span class="eyebrow">Contact</span>
       <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
       <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
     </div>
-    <div class="tile tile--violet c-bl" style="display:flex;flex-direction:column;justify-content:center;gap:14px">
-      <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
-        <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email address</button>
-        <div class="mail-reveal__out" hidden></div>
-        <p class="sr-only mail-reveal__status" aria-live="polite"></p>
-        <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+    <div class="contact-cascade">
+      <div class="ghost-bar cascade-ghost cascade-ghost--bottom">
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       </div>
-      <a class="btn btn--soft" href="assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+      <div class="ghost-bar cascade-ghost cascade-ghost--middle">
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div></section>
+  </div>
+</section>
 <footer class="site-footer"><div class="wrap">
   <span>© 2026 Camila Massa · Berlin</span>
   <span><a href="https://www.linkedin.com/in/amionodera">LinkedIn</a></span>
