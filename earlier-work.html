@@ -17,10 +17,12 @@
   .ew-intro h1 { margin: 18px 0 16px; max-width: 15ch; }
   .ew-intro .pills { margin-top: 22px; list-style: none; }
   .ew-note { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .ew-note > .win-bar { align-self: stretch; }
   .ew-note p { font-size: 17px; color: var(--ink); font-weight: 600; }
   .ew-note .btn { align-self: flex-start; }
   .ew-note__mark { width: 44px; height: 44px; border-radius: 50% 50% 40% 60% / 55% 45% 55% 45%; background: linear-gradient(135deg, var(--accent-2), var(--accent)); opacity: .75; }
-  .ew-gallery-head p { max-width: 46ch; }
+  .ew-gallery-head { text-align: left; margin-bottom: 20px; }
+  .ew-gallery-head p { max-width: 46ch; margin-top: 10px; }
   .gallery__item[hidden] { display: none; }
   .gallery__media { position: relative; display: block; background: var(--lav-soft); }
   .gallery__open:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; border-radius: 26px 26px 0 0; }
@@ -392,19 +394,17 @@
       </div>
       <aside class="tile tile--blue c-bl ew-note" aria-label="About this page">
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">note.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-        <p>These pieces are from my earlier career in art direction and brand communication. For current work, see <a href="work.html#work">Selected work</a>.</p>
-        <a class="btn btn--soft" href="work.html#work">Current work <span class="arrow" aria-hidden="true">→</span></a>
+        <p>These pieces are from my earlier career in art direction and brand communication. For current work, see <a href="selected-work.html">Selected work</a>.</p>
+        <a class="btn btn--soft" href="selected-work.html">Current work <span class="arrow" aria-hidden="true">→</span></a>
       </aside>
     </div>
   </div></section>
 
   <section class="block" aria-labelledby="archive-title" style="padding-top:24px"><div class="wrap">
     <div class="tile tile--white archive-win">
-      <div class="win-bar" style="margin:calc(-1 * clamp(22px, 3vw, 36px)) calc(-1 * clamp(22px, 3vw, 36px)) 20px"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">archive.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-    <div class="block__head ew-gallery-head">
-      <div>
-        <h2 class="h-bar" id="archive-title">From the archive</h2>
-      </div>
+      <div class="win-bar" style="margin:calc(-1 * clamp(22px, 3vw, 36px)) calc(-1 * clamp(22px, 3vw, 36px)) 20px"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">archive.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+    <div class="ew-gallery-head">
+      <h2 class="h-bar" id="archive-title">From the archive</h2>
       <p class="muted">14 projects. Select a piece to see all of its images.</p>
     </div>
     <div class="filters" role="group" aria-label="Filter by type of work">
@@ -618,7 +618,6 @@
 </section>
 <footer class="site-footer"><div class="wrap">
   <span>© 2026 Camila Massa · Berlin</span>
-  <span><a href="https://www.linkedin.com/in/amionodera">LinkedIn</a></span>
 </div></footer>
 
 <script>
