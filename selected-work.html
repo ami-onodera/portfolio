@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selected work | Camila Massa</title>
+<meta name="description" content="Selected work by Camila Massa: case studies in branded web design, referral portals, theming and content models.">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/img/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+  /* ==========================================================================
+     Y2K / vaporwave retro-desktop reskin, shared with the About page.
+     Same palette, same double-border "window" chrome and pixel type as the
+     home page desktop, applied to a normal scrolling document instead of
+     draggable windows. Structural HTML (bento/tile grid, timeline, skills
+     grid) is unchanged; this block only restyles it. Nothing here touches
+     assets/css/site.css, so every other page is untouched.
+     ========================================================================== */
+  :root{
+    --blue:#adcfed; --blue-soft:#cfe3f5; --blue-dark:#8fb6dd; --purple:#d7bce8; --purple-soft:#e9dcf3; --purple-dark:#bc9cdb;
+    --indigo:#25283d; --pink:#ef798a; --pink-dark:#d95f77; --yellow:#f4eea9; --yellow-dark:#e0cd7a;
+    --chrome:#f4f1fb;
+    --font-pixel:"IBM Plex Mono", monospace; --font-head:"Baloo 2", sans-serif; --font-body:"Quicksand", sans-serif;
+
+    /* remap the site's design tokens onto the vaporwave palette */
+    --ink:#2c2a44; --body:#4d4a73; --muted:#6f6b98;
+    --accent:#a578d6; --accent-2:#5f8fe0; --accent-ink:#7a4fb0;
+    --sky:var(--blue-soft); --blue:#adcfed; --peri:var(--purple-soft); --lav-soft:var(--chrome);
+    --lav:var(--purple-soft); --lilac:var(--blue-soft); --violet:var(--purple-soft);
+    --page:#cfe3fb; --card:var(--chrome); --line:var(--indigo);
+    --R:0px; --r:0px; --pill:0px;
+    --shadow: 6px 8px 0 rgba(37,40,61,.16), 0 20px 34px rgba(60,40,90,.16);
+    --shadow-sm: 5px 6px 0 rgba(37,40,61,.14), 0 14px 24px rgba(60,40,90,.14);
+  }
+  *{ border-radius:0 !important; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--font-body); color:var(--body);
+    background: linear-gradient(180deg, #cfe3fb 0%, #d9d3f2 32%, #eccbe4 58%, #f6d9e4 78%, #fbe7d9 100%);
+    background-attachment: fixed;
+  }
+  p{ font-family:var(--font-body); font-weight:500; }
+  h1, h2, h3, h4{ font-family:var(--font-head); color:var(--ink); }
+  a{ color:var(--accent-ink); }
+  a:hover{ color:var(--ink); }
+
+  /* ---------- floating pixel-cloud / star decor (hero + contact only, kept light) ---------- */
+  .sky-decor{ position:relative; }
+  .sky-decor .deco, .sky-decor .pixel-cloud{ position:absolute; pointer-events:none; z-index:0; }
+  .deco{ filter:drop-shadow(0 6px 10px rgba(80,60,110,.18)); }
+  .pixel-cloud{ image-rendering:pixelated; filter:drop-shadow(0 10px 16px rgba(80,60,110,.28)); }
+
+  /* ---------- page-wide background decor: grid floor + starfield (matches the home desktop) ---------- */
+  .bg-decor{ position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden; }
+  .bg-decor .grid-floor{
+    position:absolute; left:0; right:0; bottom:0; height:42vh;
+    background-image:
+      linear-gradient(rgba(255,255,255,.5) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255,255,255,.5) 2px, transparent 2px);
+    background-size: 64px 64px;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%);
+    mask-image: linear-gradient(180deg, transparent, #000 30%);
+    opacity:.5;
+  }
+  .bg-decor .bgstar{ position:absolute; filter:drop-shadow(0 6px 10px rgba(80,60,110,.2)); }
+
+  /* ---------- window chrome for every tile ---------- */
+  .win-bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:7px 9px; margin:calc(-1 * clamp(22px, 3vw, 36px)) calc(-1 * clamp(22px, 3vw, 36px)) 16px;
+    border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .win-bar .titlewrap{ display:flex; align-items:center; gap:7px; min-width:0 }
+  .win-bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .win-bar .btns{ display:flex; gap:4px; flex:none }
+  .win-bar .btns i{
+    width:14px; height:14px; background:var(--chrome); border:1.5px solid var(--indigo);
+    display:flex; align-items:center; justify-content:center; font-style:normal;
+    font-family:var(--font-pixel); font-size:7px; color:var(--indigo);
+  }
+  .bar-icon{ width:12px; height:12px; flex:none; border:1.5px solid var(--indigo); background:var(--chrome); position:relative }
+  .bar-icon--about{ background:var(--pink); border-radius:50% !important }
+  .bar-icon--folder{ background:var(--purple) }
+  .bar-icon--warn{ background:var(--yellow) }
+  .bar-icon--star{ background:var(--yellow-dark); clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%) }
+  .tile{
+    position:relative; border:4px double var(--indigo); box-shadow:var(--shadow-sm);
+    background:var(--card);
+  }
+  .tile--blue, .tile--sky, .tile--lilac{ background:var(--blue-soft); }
+  .tile--peri, .tile--lav, .tile--violet{ background:var(--purple-soft); }
+  .tile--lav-soft{ background:var(--chrome); }
+  .tile--white{ background:var(--chrome); box-shadow:var(--shadow); }
+  .c-tl, .c-tr, .c-bl, .c-br{ border-radius:0 !important; }
+
+  /* ---------- contact: upward alert cascade ---------- */
+  .ghost-bar{
+    box-sizing:border-box; pointer-events:none; background:var(--chrome); border:3px solid var(--indigo);
+    box-shadow:6px 8px 0 rgba(37,40,61,.18), 0 20px 34px rgba(60,40,90,.15);
+  }
+  .ghost-bar .bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:8px 10px; border-bottom:2px solid var(--indigo);
+    background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .ghost-bar .titlewrap{ display:flex; align-items:center; gap:8px; min-width:0; }
+  .ghost-bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); white-space:nowrap; }
+  .ghost-bar .btns{ display:flex; gap:5px; flex:none; }
+  .ghost-bar .btns i{
+    width:16px; height:16px; background:var(--chrome); border:1.5px solid var(--indigo);
+    display:flex; align-items:center; justify-content:center; font-style:normal;
+    font-family:var(--font-pixel); font-size:8px; color:var(--indigo);
+  }
+  /* Three identical windows, stacked. The bottom one keeps its natural place;
+     the middle one sits one step up + over from it; the front one (the card
+     that actually shows the message) sits one more step up + over from the
+     middle one. Implemented from the front card's position (top:0/left:0, in
+     normal flow) with the two ghosts offset progressively down + over from
+     it, geometrically identical, just described from the other end. */
+  /* min-height matches the bottom ghost's full extent (90px offset + 190px
+     height = 280px). On desktop the grid happens to stretch this box to
+     match its sibling card anyway, but on mobile the grid collapses to a
+     single column and this box would otherwise shrink to just the front
+     card's 190px, leaving the ghost windows bleeding into the footer below. */
+  .contact-cascade{ position:relative; width:min(420px, 100%); margin:0 auto; min-height:280px; }
+  /* All three "windows" must be the exact same height for the equal-spacing
+     illusion to hold: the gap revealed below each card is (next offset -
+     this offset), so if the front card's real height differed from the
+     ghosts' fixed height, the front-to-middle gap and middle-to-bottom gap
+     would no longer match. 190px = the front card's measured natural height.
+     The vertical step (45px) is sized so the cascade's total height
+     (bottom card's offset + its height) lines up with the neighboring
+     "Let's build something good." card's height, the horizontal step
+     stays at the original 24px since the column is too narrow to grow it
+     the same amount without the back card bleeding past the section edge. */
+  .cascade-ghost, .cascade-front{ height:190px; }
+  .cascade-ghost{
+    position:absolute; top:0; left:0; width:100%; pointer-events:none; background:var(--purple-soft);
+  }
+  .cascade-ghost--middle{ top:45px; left:24px; z-index:2; }
+  .cascade-ghost--bottom{ top:90px; left:48px; z-index:1; }
+  .cascade-front{ position:relative; z-index:3; box-sizing:border-box; }
+  .cascade-front__body{ display:flex; flex-direction:column; gap:20px; margin-top:6px; align-items:center; text-align:center; }
+  .cascade-front__msg{ font-family:var(--font-head); font-weight:700; font-size:19px; color:var(--indigo); margin:0; }
+  .cascade-front__actions{ display:flex; flex-wrap:nowrap; gap:8px; justify-content:center; width:100%; }
+  .cascade-front__actions .mail-reveal{ display:flex; min-width:0; }
+  .cascade-front__actions .btn{ padding-left:14px; padding-right:14px; white-space:nowrap; }
+
+  /* ---------- mail reveal, restyled as a little popup window beside the button ----------
+     site.css sets .mail-reveal__out to display:flex (for its plain inline layout on the
+     other pages), override that here or the bar/pill/copy squeeze into a flex row and the
+     bar shrinks to its content width instead of spanning the popup. */
+  .mail-reveal{ position:relative; }
+  .mail-reveal__out{
+    position:absolute; top:0; left:calc(100% + 14px); z-index:20; width:270px;
+    background:var(--chrome); border:3px double var(--indigo);
+    box-shadow:5px 6px 0 rgba(37,40,61,.18), 0 14px 24px rgba(60,40,90,.16); text-align:left;
+  }
+  /* only override site.css's display:flex while actually shown, [hidden] must
+     still be able to hide it, so this deliberately doesn't touch that state */
+  .mail-reveal__out:not([hidden]){ display:block; }
+  .mail-popup__bar{
+    display:flex; align-items:center; gap:7px; padding:7px 9px;
+    background:linear-gradient(90deg, var(--blue), var(--purple)); border-bottom:2px solid var(--indigo);
+  }
+  .mail-popup__bar .title{ font-family:var(--font-pixel); font-size:16px; font-weight:600; letter-spacing:.2px; color:var(--indigo); }
+  .mail-reveal__out .mail-pill{
+    display:block; margin:12px 10px 10px; padding:9px 10px; background:#fff; border:1.5px solid var(--indigo);
+    font-family:var(--font-body); font-size:13px; color:var(--ink); white-space:nowrap; overflow:hidden;
+    text-overflow:ellipsis; text-decoration:none;
+  }
+  .mail-popup__row{ display:flex; gap:8px; margin:0 10px 12px; }
+  .mail-popup__row .btn{ flex:1; }
+  @media (max-width:720px){
+    .mail-reveal__out{ position:static; width:auto; margin-top:12px; }
+  }
+
+  /* ---------- eyebrow / pixel tags ---------- */
+  .eyebrow{
+    font-family:var(--font-pixel); font-size:8px; letter-spacing:.5px; color:var(--indigo);
+    background:var(--yellow); border:1.5px solid var(--indigo); padding:6px 10px; gap:6px;
+  }
+  .eyebrow::before{ background:var(--pink); border-radius:0 !important; width:6px; height:6px; }
+  .h-bar::after{ background:linear-gradient(90deg, var(--pink), var(--accent-2)); opacity:.8; height:4px; }
+
+  /* ---------- buttons ---------- */
+  .btn{ font-family:var(--font-pixel); font-size:16px; letter-spacing:.2px; border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo); transition:box-shadow .1s ease, background-color .1s ease; }
+  .btn--primary{ background:var(--pink); color:#fff; }
+  .btn--primary:hover{ background:var(--pink-dark); color:#fff; transform:none; box-shadow:none; }
+  .btn--soft{ background:var(--chrome); color:var(--indigo); box-shadow:3px 3px 0 var(--indigo); }
+  .btn--soft:hover{ background:#fff; color:var(--indigo); box-shadow:none; }
+  .btn:active{ transform:translate(2px,2px); box-shadow:1px 1px 0 var(--indigo); }
+
+  /* ---------- pills / chips ---------- */
+  .pill{ font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:6px 9px; }
+  /* ---------- nav (ported Win95 bevel navbar, shared across all pages) ---------- */
+  .site-nav{ background:linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%); border-bottom:3px solid #4a1f70; box-shadow:0 4px 14px rgba(30,10,50,.28); position:sticky; top:0; z-index:80; padding:0; }
+  .site-nav .wrap{ height:54px; gap:10px; }
+  .brand.nav-start{
+    width:auto; height:44px; padding:0 13px 0 8px; display:flex; align-items:center; justify-content:center; gap:8px; flex:none; text-decoration:none;
+    background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
+    border-top:2px solid #fff2fb; border-left:2px solid #fff2fb;
+    border-right:2px solid #7a2e86; border-bottom:2px solid #7a2e86;
+    box-shadow:0 3px 0 rgba(58,22,96,.35);
+  }
+  .brand.nav-start img{ display:block; width:32px; height:32px; object-fit:contain; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)); }
+  .nav-start-label{ font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.3px; color:#3a1660; }
+  .brand.nav-start:hover{ filter:brightness(1.05); }
+  .brand.nav-start:active{ transform:translate(1px,1px); box-shadow:inset 2px 2px 4px rgba(58,22,96,.4); }
+  .nav-divider{ width:0; height:22px; border-left:2px solid #6b3fa0; border-right:2px solid #ffe8fb; flex:none }
+  .nav-right{ display:flex; align-items:center; gap:10px; flex:none; margin-left:auto }
+  .navbtn{
+    font-family:"Silkscreen", monospace; font-weight:400; font-size:11px; letter-spacing:.2px; color:#3a1660;
+    background:linear-gradient(180deg, #e3d4ff 0%, #c4a2ff 100%);
+    border-top:2px solid #fbf3ff; border-left:2px solid #fbf3ff;
+    border-right:2px solid #5b2a86; border-bottom:2px solid #5b2a86;
+    height:28px; padding:0 11px; display:flex; align-items:center; gap:7px; text-decoration:none;
+    box-shadow:0 2px 0 rgba(58,22,96,.3);
+  }
+  .navbtn:hover{ filter:brightness(1.06); }
+  .navbtn.nav-util{ font-family:var(--font-pixel); font-size:12px; }
+  .nav-tray{ display:flex; align-items:center; gap:8px; flex:none }
+  .navtray-icon{ display:flex; align-items:center; justify-content:center; width:22px; height:22px; cursor:default; opacity:.9 }
+  .navtray-icon--claude{ position:relative; cursor:default; }
+  .navtray-icon--claude::after{
+    content:attr(data-tip); position:absolute; top:calc(100% + 10px); right:-8px;
+    background:var(--chrome); color:var(--indigo); font-family:var(--font-pixel); font-size:10px;
+    white-space:nowrap; padding:7px 10px; border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo);
+    opacity:0; transform:translateY(-4px); pointer-events:none; transition:opacity .15s ease, transform .15s ease; z-index:200;
+  }
+  .navtray-icon--claude:hover::after, .navtray-icon--claude:focus-visible::after{ opacity:1; transform:translateY(0); }
+  .nav-clock{
+    font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.5px; color:#1c2a5e;
+    background:linear-gradient(180deg, #a8d8ff 0%, #7fb8f5 100%);
+    border-top:2px solid #5b2a86; border-left:2px solid #5b2a86;
+    border-right:2px solid #eef7ff; border-bottom:2px solid #eef7ff;
+    box-shadow:inset 2px 2px 4px rgba(30,40,90,.35);
+    height:26px; padding:0 10px; box-sizing:border-box; display:flex; align-items:center; gap:6px;
+  }
+  @media (max-width:639px){
+    .site-nav .wrap{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 0; }
+    .brand.nav-start{ height:36px; padding:0 9px 0 6px; gap:5px; }
+    .brand.nav-start img{ width:24px; height:24px; }
+    .nav-start-label{ font-size:10px; }
+    .nav-divider{ display:none; }
+    .nav-right{ flex:1 1 100%; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-left:0; }
+    .navbtn{ font-size:9px; height:24px; padding:0 8px; gap:5px; }
+    .nav-tray{ gap:6px; }
+    .navtray-icon{ width:20px; height:20px; }
+    .nav-clock{ height:24px; padding:0 8px; font-size:10px; }
+  }
+
+  /* ---------- footer: thin bevel status bar ---------- */
+  .site-footer{ background:linear-gradient(90deg, #9fc7ff 0%, #c9a2ff 55%, #ffb3e6 100%); border-top:3px solid #4a1f70; color:#2c2a44; padding:16px 0; }
+  .site-footer a{ color:#2c2a44; font-weight:700; }
+  .site-footer .wrap{ font-family:"Silkscreen", monospace; font-size:11px; }
+
+  /* ==========================================================================
+     SELECTED WORK HUB: page-specific styles.
+     Everything above this block is the shared Y2K chrome (same as About).
+     The hub adds three things: an intro pair of windows, an "explorer" window
+     that holds the project cards, and an early-work strip.
+     ========================================================================== */
+  .hub-intro{ padding:clamp(20px,3.4vw,40px) 0 0; }
+  .hub-bento{ grid-template-columns:1.55fr 1fr; align-items:stretch; }
+  .hub-title{ padding:clamp(22px,3vw,36px) clamp(22px,3vw,36px) clamp(26px,3.6vw,44px); transform:rotate(-.3deg); }
+  .hub-title h1{ font-family:var(--font-head); font-weight:800; font-size:clamp(38px,6vw,64px); letter-spacing:-.02em; margin:14px 0 16px; }
+  .hub-title .lead{ font-family:var(--font-body); font-weight:500; max-width:58ch; }
+  .hub-title .pills{ margin-top:22px; list-style:none; }
+  .hub-note{ transform:rotate(.5deg); display:flex; flex-direction:column; gap:12px; }
+  .hub-note p{ font-weight:600; color:var(--ink); line-height:1.5; }
+  .hub-note .small{ font-size:15px; font-weight:500; color:var(--body); }
+  .hub-note .btn{ align-self:flex-start; margin-top:auto; }
+
+  /* ---------- explorer window: holds every project card ---------- */
+  .explorer{ padding:0 !important; overflow:visible; }
+  .explorer > .win-bar{ margin:0; }
+  .explorer__toolbar{
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    padding:9px 14px; background:var(--chrome); border-bottom:2px solid var(--indigo);
+  }
+  .crumbs{ display:flex; align-items:center; flex-wrap:wrap; gap:6px; list-style:none; font-family:var(--font-pixel); font-size:14px; }
+  .crumbs li + li::before{ content:"\\"; margin-right:6px; color:var(--muted); }
+  .crumbs a{ color:var(--accent-ink); font-weight:600; }
+  .crumbs [aria-current]{ color:var(--indigo); font-weight:700; }
+  .addr{ flex:1 1 220px; max-width:520px; background:#fff; border:1.5px solid var(--indigo); padding:5px 10px; box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); }
+  .explorer__view{ font-family:var(--font-pixel); font-size:13px; color:var(--muted); }
+  .explorer__body{ padding:clamp(18px,3vw,32px); background:
+      linear-gradient(rgba(255,255,255,.55) 1px, transparent 1px) 0 0/100% 32px,
+      var(--chrome); }
+  .explorer__status{
+    display:flex; flex-wrap:wrap; gap:6px 22px; padding:7px 14px; border-top:2px solid var(--indigo);
+    background:var(--chrome); font-family:var(--font-pixel); font-size:13px; color:var(--ink);
+  }
+
+  /* ---------- project card: THE reusable component ---------- */
+  .proj-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:clamp(22px,3vw,34px); }
+  .proj{
+    position:relative; display:flex; flex-direction:column; background:var(--chrome);
+    border:3px solid var(--indigo); box-shadow:5px 6px 0 rgba(37,40,61,.16);
+    transition:none;
+  }
+  .proj-grid > .proj:nth-child(even):not(.proj--wide){ transform:rotate(.3deg); }
+  .proj-grid > .proj:nth-child(odd):not(.proj--wide){ transform:rotate(-.3deg); }
+  .proj__bar{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; padding:6px 8px;
+    border-bottom:2px solid var(--indigo); background:linear-gradient(90deg, var(--blue), var(--purple));
+  }
+  .proj__bar .titlewrap{ display:flex; align-items:center; gap:7px; min-width:0; }
+  .proj__bar .title{ font-family:var(--font-pixel); font-size:14px; font-weight:600; color:var(--indigo); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .proj__bar .btns{ display:flex; gap:4px; flex:none; }
+  .proj__bar .btns i{ width:14px; height:14px; background:var(--chrome); border:1.5px solid var(--indigo); display:flex; align-items:center; justify-content:center; font-style:normal; font-family:var(--font-pixel); font-size:7px; color:var(--indigo); }
+  .proj__media{ position:relative; aspect-ratio:16/10; overflow:hidden; border-bottom:2px solid var(--indigo); background:var(--blue-soft); }
+  .proj__media > img, .proj__media > svg{ width:100%; height:100%; object-fit:cover; }
+  .proj__media--trio{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; padding:16px; aspect-ratio:auto; background:var(--blue-soft); }
+  .trio-thumb{ position:relative; border:2px solid var(--indigo); aspect-ratio:16/10; overflow:hidden; background:#fff; box-shadow:3px 3px 0 rgba(37,40,61,.18); }
+  .trio-thumb img{ width:100%; height:100%; object-fit:cover; }
+  .trio-thumb span{ position:absolute; left:0; right:0; bottom:0; padding:3px 6px; background:rgba(37,40,61,.88); color:#fff; font-family:var(--font-pixel); font-size:10px; letter-spacing:.3px; text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .proj__body{ display:flex; flex-direction:column; gap:10px; padding:18px 20px 20px; flex:1; }
+  .proj__tags{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{ font-family:var(--font-pixel); font-size:11px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:3px 8px; }
+  .chip--status{ background:var(--pink); }
+  .chip--wip{ background:#fff; border-style:dashed; }
+  .proj__body h3{ font-family:var(--font-head); font-weight:800; font-size:clamp(22px,2.4vw,27px); line-height:1.12; }
+  .proj__body h3 a{ color:var(--ink); text-decoration:none; }
+  .proj__body h3 a::after{ content:""; position:absolute; inset:0; z-index:1; }          /* whole card is the link */
+  .proj__body h3 a:focus-visible{ outline:none; }
+  .proj:has(h3 a:focus-visible){ outline:3px solid var(--accent); outline-offset:4px; }
+  .proj__body p{ font-size:16px; line-height:1.55; color:var(--body); font-weight:500; }
+  .proj__cta{
+    align-self:flex-start; margin-top:auto; padding:7px 12px; font-family:var(--font-pixel); font-size:14px; font-weight:600;
+    color:#fff; background:var(--pink-dark); border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo);
+  }
+  .proj:hover{ background:#fff; }
+  .proj:hover .proj__cta{ box-shadow:none; transform:translate(3px,3px); }
+  .proj:active .proj__cta{ transform:translate(3px,3px); }
+
+  /* wide: spans the full row, media left, text right */
+  .proj--wide{ grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); grid-template-areas:"bar bar" "media body"; }
+  .proj--wide .proj__bar{ grid-area:bar; }
+  .proj--wide .proj__media{ grid-area:media; border-bottom:0; border-right:2px solid var(--indigo); display:grid; align-content:center; }
+  .proj--wide .proj__body{ grid-area:body; justify-content:center; padding:clamp(20px,3vw,34px); }
+  .proj--wide .proj__body p{ font-size:17px; }
+  .proj--wide .proj__media:not(.proj__media--trio){ aspect-ratio:auto; }
+  .proj--wide .proj__media > svg{ height:auto; }
+
+  /* divider between published work and coming-soon work */
+  .proj-divider{ display:flex; align-items:center; gap:14px; margin:clamp(26px,4vw,40px) 0 clamp(18px,2.6vw,26px); font-family:var(--font-pixel); font-size:15px; font-weight:600; color:var(--indigo); text-transform:uppercase; letter-spacing:.4px; }
+  .proj-divider::after{ content:""; flex:1; border-top:2px dashed var(--indigo); opacity:.45; }
+
+  /* in progress: dashed, not a link, fake loading bar instead of media */
+  .proj--wip{ border-style:dashed; background:rgba(244,241,251,.72); box-shadow:none; }
+  .proj--wip:hover{ background:rgba(244,241,251,.72); }
+  .proj--wip .proj__bar{ background:linear-gradient(90deg, var(--blue-soft), var(--purple-soft)); }
+  .proj--wip .proj__media{ display:flex; flex-direction:column; justify-content:center; gap:12px; padding:0 clamp(18px,4vw,40px); aspect-ratio:auto; height:96px; background:var(--purple-soft); }
+  .proj--wip .proj__media .label{ font-family:var(--font-pixel); font-size:14px; font-weight:600; color:var(--indigo); }
+  .proj--wip h3, .proj--wip h3 a{ color:var(--ink); }
+  .proj--wip .proj__note{ align-self:flex-start; margin-top:auto; font-family:var(--font-pixel); font-size:13px; color:var(--muted); }
+  .load-bar{ height:20px; background:#fff; border:2px solid var(--indigo); padding:3px; box-shadow:inset 1px 1px 0 rgba(37,40,61,.18); }
+  .load-bar__fill{ display:block; height:100%; background-image:repeating-linear-gradient(90deg, var(--pink) 0 10px, transparent 10px 13px); }
+
+  /* ---------- early-work strip ---------- */
+  .early{ padding:0 !important; transform:rotate(-.25deg); }
+  .early > .win-bar{ margin:0; }
+  .early__row{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:clamp(18px,3vw,36px); align-items:center; padding:clamp(18px,3vw,28px); }
+  .early__thumbs{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:8px; }
+  .early__thumbs div{ aspect-ratio:4/3; border:2px solid var(--indigo); overflow:hidden; background:#fff; }
+  .early__thumbs img{ width:100%; height:100%; object-fit:cover; }
+  .early__text{ display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+  .early__text p{ font-weight:600; color:var(--ink); }
+
+  @media (max-width:900px){
+    .hub-bento{ grid-template-columns:1fr; }
+    .hub-title, .hub-note{ transform:none; }
+    .proj--wide{ grid-template-columns:minmax(0,1fr); grid-template-areas:"bar" "media" "body"; }
+    .proj--wide .proj__media{ border-right:0; border-bottom:2px solid var(--indigo); }
+    .early__row{ grid-template-columns:1fr; }
+  }
+  @media (max-width:720px){
+    .proj-grid{ grid-template-columns:minmax(0,1fr); }
+    .proj-grid > .proj{ transform:none !important; }
+    .early{ transform:none; }
+  }
+  @media (max-width:520px){
+    .proj__media--trio{ gap:6px; padding:10px; }
+    .trio-thumb span{ font-size:8px; padding:2px 4px; }
+    .addr{ max-width:none; }
+  }
+  @media (max-width:520px){ .cascade-ghost{ width:calc(100% - 48px); } .contact-band > .tile{ transform:none !important; } .contact-band{ grid-template-columns:minmax(0,1fr); } .cascade-front__actions{ flex-wrap:wrap; } .cascade-front__actions .btn{ padding-left:10px; padding-right:10px; font-size:14px; } }
+  @media (prefers-reduced-motion:reduce){ .proj, .proj__cta{ transition:none; } }
+</style>
+</head>
+<body>
+<div class="bg-decor" aria-hidden="true">
+  <div class="grid-floor"></div>
+  <svg class="bgstar" style="top:6%; left:9%; width:13px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:14%; left:22%; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:9%; left:38%; width:9px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:5%; left:58%; width:15px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:22%; left:6%; width:11px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:18%; left:82%; width:14px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:30%; left:93%; width:8px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:40%; left:4%; width:8px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:52%; left:91%; width:13px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:64%; left:8%; width:10px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:72%; left:96%; width:6px; opacity:.6" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:80%; left:14%; width:12px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:88%; left:88%; width:9px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <div class="wrap">
+    <a class="brand nav-start" href="index.html" title="Home" aria-label="Home">
+      <img src="assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn nav-util" href="assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.sys
+      </a>
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+          <img src="assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
+        </span>
+        <span class="navtray-icon" title="Connected">
+          <img src="assets/img/y2k/nav-wifi.png" alt="" width="13" height="10">
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
+  </div>
+</header>
+<main id="main">
+
+  <!-- Intro -->
+  <section class="hub-intro sky-decor" aria-labelledby="hub-title">
+    <img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" style="top:-6px; left:2%; width:130px; opacity:.95">
+    <img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-h-big-pink.png" alt="" style="top:-18px; right:4%; width:160px">
+    <svg class="deco" aria-hidden="true" style="top:12px; left:46%; width:16px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+    <svg class="deco" aria-hidden="true" style="top:60px; right:22%; width:10px; opacity:.85" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+    <div class="wrap">
+      <div class="bento hub-bento">
+        <div class="tile tile--sky hub-title c-br">
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">selected-work/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <span class="eyebrow">Selected work</span>
+          <h1 id="hub-title">Things I’ve designed and built</h1>
+          <p class="lead">Case studies from my work on branded web experiences: referral landing pages, customer portals and widgets. Pick one to see how it was designed, themed and shipped.</p>
+          <ul class="pills" aria-label="What the work covers">
+            <li class="pill">UI design</li>
+            <li class="pill">Material UI theming</li>
+            <li class="pill">Contentful</li>
+            <li class="pill">HTML &amp; CSS</li>
+            <li class="pill">Claude</li>
+          </ul>
+        </div>
+        <aside class="tile tile--violet hub-note c-tl" aria-label="About these projects">
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">readme.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <p>Fictional brands, built to show the system without exposing client work.</p>
+          <p class="small">Visual assets in the demos were made with AI for illustrative purposes.</p>
+          <a class="btn btn--soft" href="earlier-work.html">Earlier work <span class="arrow" aria-hidden="true">→</span></a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="block" aria-labelledby="projects-title" style="padding-top:clamp(28px,4vw,44px)">
+    <div class="wrap">
+      <h2 id="projects-title" class="sr-only">Projects</h2>
+      <div class="tile tile--white explorer">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">projects</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="explorer__toolbar">
+          <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="index.html">Home</a></li><li aria-current="page">selected-work</li></ol></nav>
+          <span class="explorer__view" aria-hidden="true">View: large icons</span>
+        </div>
+
+        <div class="explorer__body">
+          <div class="proj-grid">
+
+            <!-- ================================================================
+                 HOW TO ADD A PROJECT: copy an <article> block, change the text
+                 and the link. Order on the page = order in this file.
+                   .proj              half-width card (two per row)
+                   .proj proj--wide   full-width row, media left, text right
+                   .proj--wip         "coming soon": no link, goes in the
+                                      second grid, under the "Coming soon" divider
+                 To publish a WIP card: move it to the first grid, drop
+                 proj--wip and add the <a> and the button. To remove a project,
+                 delete its <article>. The status bar counts by itself.
+                 ================================================================ -->
+
+            <!-- 1. Feature case study -->
+            <article class="proj proj--wide">
+              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-template-many-brands.case</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__media proj__media--trio">
+                <div class="trio-thumb"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" width="480" height="300" alt="Desktop preview of the Nimbelo Fibre referral portal" loading="lazy"><span>Nimbelo Fibre</span></div>
+                <div class="trio-thumb"><img src="assets/img/y2k/thumb-voltwell-energy.jpg" width="480" height="300" alt="Desktop preview of the Voltwell Energy referral portal" loading="lazy"><span>Voltwell Energy</span></div>
+                <div class="trio-thumb"><img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy"><span>Orbeo Mobile</span></div>
+              </div>
+              <div class="proj__body">
+                <div class="proj__tags"><span class="chip chip--status">Case study</span><span class="chip">UI design</span><span class="chip">Theming</span></div>
+                <h3><a href="work/one-template-many-brands.html">One template, many brands</a></h3>
+                <p>A single referral portal template, themed for three fictional brands. The markup stays the same; only the brand elements, copy and client assets change.</p>
+                <span class="proj__cta" aria-hidden="true">Open case study →</span>
+              </div>
+            </article>
+
+            <!-- 2. Case study -->
+            <article class="proj proj--wide">
+              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">content-model.case</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__media">
+                <svg viewBox="0 0 480 250" role="img" aria-label="Diagram of nested content entries: a promotion contains a theme and a portal, and the portal contains an index page with five sections" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
+                  <rect width="480" height="250" fill="#cfe3f5"/>
+                  <g fill="none" stroke="#25283d" stroke-width="2">
+                    <path d="M240 46V58H105V72M240 58H290V72M290 100V126M290 154V178M60 178H420M60 178V202M150 178V202M240 178V202M330 178V202M420 178V202"/>
+                  </g>
+                  <g stroke="#25283d" stroke-width="2">
+                    <rect x="190" y="18" width="100" height="28" fill="#f4eea9"/>
+                    <rect x="60" y="72" width="90" height="28" fill="#ef798a"/>
+                    <rect x="240" y="72" width="100" height="28" fill="#d7bce8"/>
+                    <rect x="240" y="126" width="100" height="28" fill="#f4f1fb"/>
+                    <rect x="19" y="202" width="82" height="28" fill="#fff"/>
+                    <rect x="109" y="202" width="82" height="28" fill="#fff"/>
+                    <rect x="199" y="202" width="82" height="28" fill="#fff"/>
+                    <rect x="289" y="202" width="82" height="28" fill="#fff"/>
+                    <rect x="379" y="202" width="82" height="28" fill="#fff"/>
+                  </g>
+                  <g fill="#25283d">
+                    <text x="240" y="37">Promotion</text><text x="105" y="91">Theme</text><text x="290" y="91">Portal</text><text x="290" y="145">Index page</text>
+                    <text x="60" y="221">Hero</text><text x="150" y="221">How it works</text><text x="240" y="221">Product</text><text x="330" y="221">Rewards</text><text x="420" y="221">FAQ</text>
+                  </g>
+                </svg>
+              </div>
+              <div class="proj__body">
+                <div class="proj__tags"><span class="chip chip--status">Case study</span><span class="chip">Content model</span><span class="chip">CSS</span></div>
+                <h3><a href="work/content-architecture.html">Designing the content model</a></h3>
+                <p>How a portal is assembled from nested CMS entries, with an interactive x-ray view and a map of the model.</p>
+                <span class="proj__cta" aria-hidden="true">Open case study →</span>
+              </div>
+            </article>
+
+          </div>
+
+          <h3 class="proj-divider">Coming soon</h3>
+          <div class="proj-grid proj-grid--wip">
+
+            <!-- 3. In progress -->
+            <article class="proj proj--wip">
+              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">referral-widget.tmp</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__media" aria-hidden="true">
+                <span class="label">Loading...</span>
+                <div class="load-bar"><span class="load-bar__fill" style="width:40%"></span></div>
+              </div>
+              <div class="proj__body">
+                <div class="proj__tags"><span class="chip chip--wip">In progress</span><span class="chip">Component</span></div>
+                <h3>The referral widget, as a component</h3>
+                <p>Its states, on desktop and mobile, in three brand themes.</p>
+                <span class="proj__note">Coming soon</span>
+              </div>
+            </article>
+
+            <!-- 4. In progress -->
+            <article class="proj proj--wip">
+              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">design-qa.tmp</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__media" aria-hidden="true">
+                <span class="label">Loading...</span>
+                <div class="load-bar"><span class="load-bar__fill" style="width:20%"></span></div>
+              </div>
+              <div class="proj__body">
+                <div class="proj__tags"><span class="chip chip--wip">In progress</span><span class="chip">QA</span><span class="chip">Automation</span></div>
+                <h3>Design QA at volume</h3>
+                <p>How I keep quality steady across 40+ hosted pages and 67 integration tickets, including QA automation built with Claude.</p>
+                <span class="proj__note">Coming soon</span>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <div class="explorer__status" aria-live="polite">
+          <span id="count-all">4 objects</span><span id="count-done">2 case studies</span><span id="count-wip">2 in progress</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Earlier work strip -->
+  <section class="block" style="padding-top:0" aria-labelledby="early-title">
+    <div class="wrap">
+      <div class="tile tile--peri early">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">early-work/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="early__row">
+          <div class="early__thumbs" aria-hidden="true">
+            <div><img src="assets/img/y2k/early-abemd-1.jpg" alt="" loading="lazy"></div>
+            <div><img src="assets/img/y2k/early-always-2.jpg" alt="" loading="lazy"></div>
+            <div><img src="assets/img/y2k/early-clairol-1.jpg" alt="" loading="lazy"></div>
+            <div><img src="assets/img/y2k/early-geekisstore-1.jpg" alt="" loading="lazy"></div>
+          </div>
+          <div class="early__text">
+            <h2 id="early-title" style="font-family:var(--font-head);font-size:26px;font-weight:800">Looking for older work?</h2>
+            <p>14 projects from earlier in my career, in art direction, print, social media and identity.</p>
+            <a class="btn btn--primary" href="earlier-work.html">See all <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+<!-- contact band (every page, above footer) -->
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <span class="eyebrow">Contact</span>
+      <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
+      <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
+    </div>
+    <div class="contact-cascade">
+      <div class="ghost-bar cascade-ghost cascade-ghost--bottom">
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      </div>
+      <div class="ghost-bar cascade-ghost cascade-ghost--middle">
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+</div></footer>
+<script src="assets/js/contact.js" defer></script>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+<script>
+  /* keep the explorer status bar in sync with the cards, so nothing needs counting by hand */
+  (function(){
+    var g = document.querySelector('.explorer'); if (!g) return;
+    var all = g.querySelectorAll('.proj').length, wip = g.querySelectorAll('.proj--wip').length, done = all - wip;
+    function s(id, n, one, many){ var el = document.getElementById(id); if (el) el.textContent = n + ' ' + (n === 1 ? one : many); }
+    s('count-all', all, 'object', 'objects'); s('count-done', done, 'case study', 'case studies'); s('count-wip', wip, 'in progress', 'in progress');
+  })();
+</script>
+</body>
+</html>
