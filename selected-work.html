@@ -372,6 +372,14 @@
   .proj--gallery .proj__body p{ border-top:0; padding-top:4px; font-size:16px; }
   .proj--gallery h3{ padding-bottom:2px; }
   @media (max-width:900px){ .proj--gallery .proj__body{ border-left:0; padding-left:0; } }
+  /* folder tag, top right of each gallery entry */
+  .proj--gallery{ padding-top:clamp(46px,4vw,54px); }
+  .proj--gallery .proj__bar{ display:flex; position:absolute; top:12px; right:0; padding:0; border:0; background:none; }
+  .proj--gallery .proj__bar .btns{ display:none; }
+  .proj--gallery .proj__bar .title{ font-size:15px; font-weight:600; }
+  .proj--gallery .proj__bar .bar-icon{ width:22px; height:16px; margin-top:3px; }
+  .proj--gallery .proj__bar .bar-icon::after{ content:""; position:absolute; left:-1.5px; top:-6px; width:10px; height:4px; background:var(--purple); border:1.5px solid var(--indigo); border-bottom:0; }
+  .proj__specs .chip{ display:inline-block; font-size:12px; }
   .proj-divider{ display:flex; align-items:center; gap:14px; margin:clamp(26px,4vw,40px) 0 clamp(18px,2.6vw,26px); font-family:var(--font-pixel); font-size:15px; font-weight:600; color:var(--indigo); text-transform:uppercase; letter-spacing:.4px; }
   .proj-divider::after{ content:""; flex:1; border-top:2px dashed var(--indigo); opacity:.45; }
 
@@ -626,12 +634,12 @@
 
             <!-- 1. Feature case study -->
             <article class="proj proj--wide proj--gallery">
-              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-template-many-brands.case</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-template-many-brands/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd>Case study</dd></div><div><dt>Topics</dt><dd>UI design, Theming</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span></dd></div><div><dt>Topics</dt><dd>UI design, Theming</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
                 <h3>One template, many brands</h3>
                 <p>A single referral portal template, themed for three fictional brands. The markup stays the same; only the brand elements, copy and client assets change.</p>
                 <a class="proj__cta" href="work/one-template-many-brands.html">Open case study →</a>
@@ -640,7 +648,7 @@
 
             <!-- 2. Case study -->
             <article class="proj proj--wide proj--gallery">
-              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">content-model.case</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">content-model/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <svg viewBox="0 0 480 250" role="img" aria-label="Diagram of nested content entries: a promotion contains a theme and a portal, and the portal contains an index page with five sections" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
                   <rect width="480" height="250" fill="#cfe3f5"/>
@@ -665,7 +673,7 @@
                 </svg>
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd>Case study</dd></div><div><dt>Topics</dt><dd>Content model, CSS</dd></div><div><dt>Scope</dt><dd>1 portal, 5 sections</dd></div><div><dt>Demos</dt><dd>X-ray view, model map</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span></dd></div><div><dt>Topics</dt><dd>Content model, CSS</dd></div><div><dt>Scope</dt><dd>1 portal, 5 sections</dd></div><div><dt>Demos</dt><dd>X-ray view, model map</dd></div></dl>
                 <h3>Designing the content model</h3>
                 <p>How a portal is assembled from nested CMS entries, with an interactive x-ray view and a map of the model.</p>
                 <a class="proj__cta" href="work/content-architecture.html">Open case study →</a>
