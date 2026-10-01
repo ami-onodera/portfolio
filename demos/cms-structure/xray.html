@@ -120,6 +120,7 @@
     .sec-head h2{font-size:27px;} .sticker{display:none;}
   }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <style id="cms-xray-style">
   /* ============================================================
      CMS X-RAY LAYER (added). The portal styles above are untouched;
@@ -260,6 +261,48 @@
   @media (prefers-reduced-motion:reduce){
     .xr-box,.xr-label,.xr-frame,.xr-theme-ring,.xr-theme-tag,.xt-row,.xt-chev{transition:none;}
   }
+</style>
+<style id="pf-skin">
+  /* ===== Portfolio colours for the x-ray panel and toolbar. The Nimbelo page itself is untouched. ===== */
+  .xr-panel{ background:linear-gradient(180deg,#cfe3fb 0%,#d9d3f2 32%,#eccbe4 62%,#f6d9e4 100%); border-left:2px solid #25283d; box-shadow:-10px 0 0 rgba(37,40,61,.08); color:#3f3c63; }
+  .xr-panel__scroll{ scrollbar-color:#25283d55 transparent; }
+  .xr-eyebrow{ background:#f4eea9; color:#25283d; border:1.5px solid #25283d; }
+  .xr-eyebrow i{ background:#ef798a; }
+  .xr-title{ color:#25283d; }
+  .xr-intro{ color:#3f3c63; }
+  .xr-card{ background:#f4f1fb; box-shadow:0 0 0 2px #25283d,4px 5px 0 rgba(37,40,61,.16); }
+  .xt-children>li::before,.xt-children>li::after{ border-color:#25283d88; }
+  .xt-row{ color:#25283d; }
+  .xt-row:hover{ background:#e9dcf3; }
+  .xt-row.is-hot{ background:#f4eea9; }
+  .xt-row:focus-visible{ box-shadow:0 0 0 2px #25283d; }
+  .xt-count{ background:#e9dcf3; color:#25283d; }
+  .xt-note,.xt-node.is-optional>.xt-row{ color:#4d4a73; }
+  .xt-node.is-optional>.xt-row{ outline-color:#25283d88; }
+  .xt-chev{ border-color:#25283d; }
+  .xt-fields{ background:rgba(255,255,255,.65); border:1px solid #25283d55; }
+  .xf-row+.xf-row{ border-top:1px dashed #25283d55; }
+  .xf-row.is-hot{ background:#fff; }
+  .xf-label,.xf-bool,.xt-hint{ color:#25283d; }
+  .xf-chip,.xr-kbd{ background:#e9dcf3; color:#25283d; }
+  .xf-ref,.xf-tag,.xf-thumb__img,.xf-font__aa{ border-color:#25283d55; box-shadow:0 0 0 1px #25283d55; }
+  .xf-ref:hover,.xf-ref:focus-visible{ box-shadow:0 0 0 2px #25283d33; }
+  .xf-bool.is-on i{ background:#a578d6; }
+  .xf-muted,.xf-thumb__note,.xf-sw,.xf-font,.xf-rad,.xf-ref b,.xr-legend small{ color:#4d4a73; }
+  .xr-legend__note{ border-top:1px dashed #25283d55; color:#4d4a73; }
+  .xr-legend__title,.xr-legend li{ color:#25283d; }
+  .xr-panel::before{ background:#25283d88; }
+  /* toolbar: same square chrome as the content model page */
+  .cms-toolbar,.pf-back{ border-radius:0 !important; background:#f4f1fb !important; border:2px solid #25283d; box-shadow:4px 5px 0 rgba(37,40,61,.25) !important; }
+  .cms-toolbar{ font-family:'IBM Plex Mono',monospace; font-size:13px; padding:5px; }
+  .cms-toolbar__title{ color:#25283d; font-weight:600; }
+  .cms-toolbar__tab,.cms-toolbar__toggle{ border-radius:0 !important; font-weight:600; font-family:'IBM Plex Mono',monospace; }
+  .cms-toolbar__tab:hover{ background:#e9dcf3; }
+  .cms-toolbar__tab.is-active{ background:#f4eea9; color:#25283d; }
+  .cms-toolbar__toggle{ background:#25283d; color:#fff; }
+  .cms-toolbar__toggle[aria-pressed="false"]{ background:#e9dcf3; color:#25283d; }
+  .pf-back{ font-family:'IBM Plex Mono',monospace !important; font-weight:600 !important; color:#25283d !important; }
+  .pf-back i{ border-radius:0 !important; background:#f4eea9 !important; color:#25283d !important; }
 </style>
 </head>
 <body>
