@@ -371,15 +371,20 @@
   .proj__specs dd{ margin:0; color:var(--indigo); font-weight:600; }
   .proj--gallery .proj__body p{ border-top:0; padding-top:4px; font-size:16px; }
   .proj--gallery h3{ padding-bottom:2px; }
-  @media (max-width:900px){ .proj--gallery .proj__body{ border-left:0; padding-left:0; } }
-  /* folder tag, top right of each gallery entry */
-  .proj--gallery{ padding-top:clamp(46px,4vw,54px); }
-  .proj--gallery .proj__bar{ display:flex; position:absolute; top:12px; right:0; padding:0; border:0; background:none; }
+  @media (max-width:900px){ .proj--gallery{ grid-template-areas:"media" "bar" "body"; grid-template-rows:auto; } .proj--gallery .proj__bar{ padding-left:0; margin-top:14px; } .proj--gallery .proj__body{ border-left:0; padding-left:0; } }
+  /* folder tag, aligned with the text column next to the divider line */
+  .proj--gallery{ padding-top:clamp(18px,2vw,22px); grid-template-areas:"media bar" "media body"; grid-template-rows:auto 1fr; row-gap:0; align-items:start; }
+  .proj--gallery .proj__media{ grid-area:media; align-self:center; }
+  .proj--gallery .proj__bar{ grid-area:bar; display:flex; position:static; padding:0 0 0 clamp(22px,3.4vw,44px); margin-bottom:8px; border:0; background:none; }
   .proj--gallery .proj__bar .btns{ display:none; }
   .proj--gallery .proj__bar .title{ font-size:15px; font-weight:600; }
-  .proj--gallery .proj__bar .bar-icon{ width:22px; height:16px; margin-top:3px; }
-  .proj--gallery .proj__bar .bar-icon::after{ content:""; position:absolute; left:-1.5px; top:-6px; width:10px; height:4px; background:var(--purple); border:1.5px solid var(--indigo); border-bottom:0; }
+  .bar-folder{ width:28px; height:auto; image-rendering:pixelated; display:block; }
+  .proj--gallery .proj__bar .titlewrap{ gap:10px; }
+  .proj--gallery .proj__body{ grid-area:body; }
+  /* title: smaller, bold, same mono face as the spec rows */
+  .proj--gallery h3{ font-family:var(--font-pixel); font-weight:700; font-size:clamp(17px,1.7vw,20px); line-height:1.3; letter-spacing:0; }
   .proj__specs .chip{ display:inline-block; font-size:12px; }
+  @media (max-width:900px){ .proj--gallery{ grid-template-columns:minmax(0,1fr); grid-template-areas:"media" "bar" "body"; grid-template-rows:auto; } .proj--gallery .proj__bar{ padding-left:0; margin-top:14px; } .proj--gallery .proj__body{ border-left:0; padding-left:0; } }
   .proj-divider{ display:flex; align-items:center; gap:14px; margin:clamp(26px,4vw,40px) 0 clamp(18px,2.6vw,26px); font-family:var(--font-pixel); font-size:15px; font-weight:600; color:var(--indigo); text-transform:uppercase; letter-spacing:.4px; }
   .proj-divider::after{ content:""; flex:1; border-top:2px dashed var(--indigo); opacity:.45; }
 
@@ -634,7 +639,7 @@
 
             <!-- 1. Feature case study -->
             <article class="proj proj--wide proj--gallery">
-              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-template-many-brands/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">referral-portal/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
               </div>
@@ -648,7 +653,7 @@
 
             <!-- 2. Case study -->
             <article class="proj proj--wide proj--gallery">
-              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">content-model/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">cms-structure/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <svg viewBox="0 0 480 250" role="img" aria-label="Diagram of nested content entries: a promotion contains a theme and a portal, and the portal contains an index page with five sections" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
                   <rect width="480" height="250" fill="#cfe3f5"/>
