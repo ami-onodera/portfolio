@@ -89,10 +89,11 @@
   .checklist li { display: flex; gap: 10px; align-items: flex-start; font-weight: 700; color: var(--ink); }
   .checklist li::before { content: ""; flex: none; width: 10px; height: 10px; margin-top: 8px; background: var(--pink); border: 1.5px solid var(--indigo); }
   .checklist--swap li::before { background: transparent; border: 2px solid var(--accent-ink); }
+  .approach-win + .tokens { margin-top: clamp(32px, 5vw, 56px); }
   .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
   .three .tile h3 { font-size: 20px; margin: 10px 0 6px; }
   .three .tile p { font-size: 15px; }
-  .details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+  .details { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
   .details .tile h3 { font-size: 21px; margin-bottom: 6px; }
   .outcome-note { margin-top: 22px; }
 
@@ -423,6 +424,11 @@
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">responsive.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <h3>Mobile first, fully responsive</h3>
         <p>Referral links are often opened on a phone, so I design mobile first and check every layout across breakpoints, from small phones to wide desktop screens.</p>
+      </div>
+      <div class="tile tile--violet">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">custom-sections.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>Customized sections</h3>
+        <p>Custom sections and elements can be decided case by case, which makes each portal feel tailor made.</p>
       </div>
     </div>
   </div></section>

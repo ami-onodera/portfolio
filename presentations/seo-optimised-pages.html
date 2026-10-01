@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The SEO Road: Hosted Landing Pages | Camila Massa</title>
+<meta name="description" content="How I single-handedly audited, scored, rewrote and deployed 85 hosted landing pages across seven languages: an interactive scrollytelling case study.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141726;
+  --ink-soft:#4b5068;
+  --ink-faint:#8a90a8;
+  --bg:#f6f4ef;
+  --bg-2:#efece4;
+  --card:#ffffff;
+  --blue:#2f6df6;
+  --blue-deep:#1b3f9e;
+  --sky:#deedf2;
+  --violet:#7c5cf0;
+  --violet-soft:#ded7fb;
+  --mint:#19b39a;
+  --amber:#f5a623;
+  --rose:#f0576f;
+  --road:#c9c4b8;
+  --shadow:0 18px 46px -18px rgba(20,23,38,.28);
+  --stop-w:clamp(280px,32vw,430px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Outfit',system-ui,-apple-system,Segoe UI,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body.no-smooth{scroll-behavior:auto}
+
+/* ---------- back to portfolio ---------- */
+.pf-back{position:fixed;left:20px;bottom:20px;z-index:10000;display:inline-flex;align-items:center;gap:10px;padding:6px 16px 6px 6px;background:#fff;color:var(--ink);border-radius:999px;font:800 14px/1 'Outfit',system-ui,-apple-system,Segoe UI,sans-serif;text-decoration:none;box-shadow:0 10px 30px rgba(20,23,38,.18),0 0 0 1px #e7e4d8;}
+.pf-back i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#f3f1e9;color:var(--blue);transition:transform .15s ease;}
+.pf-back:hover i{transform:translateX(-2px);}
+.pf-back:focus-visible{outline:3px solid var(--blue);outline-offset:3px;}
+@media(max-width:820px){.pf-back{left:auto;right:12px;bottom:auto;top:12px;padding:6px;}.pf-back span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}}
+
+/* ---------- progress rail ---------- */
+#rail{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(20,23,38,.07);z-index:80;opacity:0;transition:opacity .3s}
+#rail.on{opacity:1}
+#rail i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--violet));border-radius:0 4px 4px 0;transition:width .12s linear}
+
+/* ---------- presenter hud ---------- */
+#hud{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:90;
+  display:flex;gap:14px;align-items:center;padding:10px 18px;border-radius:999px;
+  background:rgba(20,23,38,.9);color:#fff;font-size:13px;font-weight:500;letter-spacing:.01em;
+  box-shadow:0 12px 34px -10px rgba(0,0,0,.5);backdrop-filter:blur(8px);
+  opacity:.28;transition:opacity .25s}
+#hud:hover,#hud.show{opacity:1}
+#hud kbd{font-family:inherit;font-size:11px;font-weight:700;background:rgba(255,255,255,.16);
+  border-radius:6px;padding:3px 7px;margin-right:5px}
+#hud span{white-space:nowrap;opacity:.9}
+#hud b{color:#8fb4ff}
+@media(max-width:820px){#hud{display:none}}
+
+/* ---------- hero ---------- */
+header.hero{position:relative;padding:clamp(56px,9vh,110px) 6vw clamp(30px,6vh,70px);text-align:center;overflow:hidden}
+.hero-blob{position:absolute;border-radius:50%;filter:blur(6px);opacity:.5;pointer-events:none}
+.eyebrow{font-size:clamp(12px,1.1vw,14px);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--violet)}
+h1{font-family:'Fraunces',Georgia,serif;font-weight:700;font-size:clamp(40px,7.4vw,104px);
+  line-height:.96;margin:.22em 0 .1em;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--blue);position:relative;white-space:nowrap}
+h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.14em;
+  background:var(--violet-soft);border-radius:99px;z-index:-1}
+.dek{max-width:660px;margin:.4em auto 0;font-size:clamp(16px,1.5vw,21px);line-height:1.55;color:var(--ink-soft)}
+.stamp{margin-top:1.4em;font-size:13px;color:var(--ink-faint);font-weight:500;letter-spacing:.04em}
+
+.kpis{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(14px,2.4vw,34px);
+  margin:clamp(34px,5vh,58px) auto 0;max-width:1080px}
+.kpi{background:var(--card);border-radius:22px;padding:clamp(18px,2vw,26px) clamp(20px,2.4vw,34px);
+  min-width:150px;box-shadow:var(--shadow);text-align:left;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--c,var(--blue))}
+.kpi .n{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(34px,4vw,56px);line-height:1;color:var(--c,var(--blue));letter-spacing:-.02em}
+.kpi .n small{font-size:.42em;font-family:'Outfit';font-weight:600;color:var(--ink-faint);letter-spacing:0}
+.kpi .l{margin-top:.5em;font-size:clamp(12px,1.05vw,14px);font-weight:600;color:var(--ink-soft);line-height:1.35}
+.scroll-cue{margin:clamp(30px,5vh,54px) auto 0;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-faint);font-weight:700;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* ---------- road ---------- */
+#roadwrap{position:relative;max-width:1180px;margin:0 auto;padding:0 0 40px}
+#roadsvg{display:block;width:100%;height:auto;overflow:visible}
+#overlay{position:absolute;left:0;top:0;width:100%;pointer-events:none}
+
+.stop{position:absolute;width:var(--stop-w);pointer-events:auto;transform:translateY(-50%);
+  transition:opacity .5s ease,filter .5s ease}
+.stop.pre{opacity:.34;filter:saturate(.35)}
+.stop.side-l{text-align:left}
+.stop.side-r{text-align:left}
+
+.card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);
+  padding:20px 22px;cursor:pointer;border:2px solid transparent;position:relative;
+  transition:transform .28s cubic-bezier(.2,.8,.3,1),box-shadow .28s,border-color .28s}
+.card:hover{transform:translateY(-4px)}
+.stop.active .card{border-color:var(--c,var(--blue));box-shadow:0 26px 60px -20px rgba(47,109,246,.5)}
+.card .idx{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:800;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--c,var(--blue))}
+.card .idx i{width:26px;height:26px;border-radius:50%;background:var(--c,var(--blue));color:#fff;
+  display:grid;place-items:center;font-style:normal;font-size:13px;letter-spacing:0}
+.card h3{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(20px,2.05vw,29px);
+  line-height:1.12;margin:.42em 0 .3em;letter-spacing:-.01em}
+.card .head{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.card .head b{font-family:'Fraunces',serif;font-size:clamp(26px,2.8vw,40px);font-weight:700;color:var(--c,var(--blue));line-height:1}
+.card .head span{font-size:13.5px;font-weight:600;color:var(--ink-soft)}
+.card .more{margin-top:14px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);display:flex;align-items:center;gap:7px}
+.card .more::after{content:"▾";font-size:11px;transition:transform .3s}
+.stop.open .card .more::after{transform:rotate(180deg)}
+.stop.open .card .more{color:var(--c,var(--blue))}
+.date{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px}
+
+/* ---------- bubble ---------- */
+.bubble{max-height:0;opacity:0;overflow:hidden;transition:max-height .48s cubic-bezier(.2,.8,.3,1),opacity .32s,margin .48s}
+.stop.open .bubble{max-height:1400px;opacity:1;margin-top:14px}
+.bubble-in{background:linear-gradient(170deg,#fff,#fbfaf7);border-radius:22px;padding:20px 22px 22px;
+  box-shadow:0 22px 54px -22px rgba(20,23,38,.4);border:1.5px solid rgba(20,23,38,.07);position:relative}
+.bubble-in::before{content:"";position:absolute;top:-9px;left:36px;width:18px;height:18px;background:#fff;
+  transform:rotate(45deg);border-left:1.5px solid rgba(20,23,38,.07);border-top:1.5px solid rgba(20,23,38,.07)}
+.bubble h4{font-size:11px;font-weight:800;letter-spacing:.17em;text-transform:uppercase;color:var(--c,var(--blue));margin:0 0 10px}
+.bubble p{margin:0 0 11px;font-size:14.6px;line-height:1.62;color:var(--ink-soft)}
+.bubble p strong{color:var(--ink);font-weight:600}
+.bubble ul{margin:0 0 11px;padding-left:0;list-style:none}
+.bubble li{position:relative;padding-left:19px;font-size:14.2px;line-height:1.55;color:var(--ink-soft);margin-bottom:7px}
+.bubble li::before{content:"";position:absolute;left:2px;top:.62em;width:7px;height:7px;border-radius:50%;background:var(--c,var(--blue));opacity:.55}
+.bubble li b{color:var(--ink);font-weight:600}
+.divider{height:1px;background:rgba(20,23,38,.09);margin:15px 0}
+
+/* mini bar chart */
+.bars{margin:4px 0 12px}
+.bar{display:grid;grid-template-columns:minmax(88px,26%) 1fr auto;gap:10px;align-items:center;margin-bottom:8px;font-size:12.6px}
+.bar .k{font-weight:600;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .t{height:11px;border-radius:99px;background:rgba(20,23,38,.07);overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:99px;background:var(--bc,var(--blue));width:0;transition:width .9s cubic-bezier(.2,.8,.3,1)}
+.stop.open .bar .t i{width:var(--w)}
+.bar .v{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;font-size:12.4px}
+
+/* before/after */
+.ba{display:grid;gap:9px;margin:2px 0 12px}
+.ba div{border-radius:14px;padding:11px 13px;font-size:13.4px;line-height:1.5}
+.ba .b{background:#fdeef0;border:1px solid #f7ccd3;color:#8e2438}
+.ba .a{background:#e8f7f3;border:1px solid #bfe9dd;color:#12604f}
+.ba span{display:block;font-size:10.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-bottom:4px}
+
+/* pills */
+.pills{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 12px}
+.pill{font-size:12px;font-weight:600;padding:5px 11px;border-radius:99px;background:var(--sky);color:var(--blue-deep)}
+.pill.warn{background:#fdf0dc;color:#8a5a06}
+.pill.bad{background:#fdeef0;color:#8e2438}
+.pill.good{background:#e8f7f3;color:#12604f}
+
+blockquote{margin:0 0 11px;padding:11px 14px;border-left:3px solid var(--violet);
+  background:#f4f1fe;border-radius:0 14px 14px 0;font-size:13.8px;line-height:1.55;color:#3f3768;font-style:italic}
+blockquote cite{display:block;font-style:normal;font-size:11.5px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;opacity:.6;margin-top:6px}
+
+/* ---------- characters ---------- */
+#ami{transition:transform .55s cubic-bezier(.3,.9,.3,1)}
+#ami .float{animation:amibob 3s ease-in-out infinite}
+@keyframes amibob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+
+/* ---------- finale ---------- */
+.finale{position:relative;text-align:center;padding:clamp(40px,7vh,90px) 6vw clamp(70px,11vh,140px);overflow:hidden}
+.finale h2{font-family:'Fraunces',serif;font-size:clamp(30px,4.6vw,64px);font-weight:700;letter-spacing:-.02em;margin:.1em 0 .3em}
+.finale p{max-width:620px;margin:0 auto;font-size:clamp(15px,1.4vw,19px);line-height:1.6;color:var(--ink-soft)}
+.next{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;max-width:900px;margin:clamp(30px,5vh,52px) auto 0;text-align:left}
+.next div{background:var(--card);border-radius:20px;padding:18px 20px;box-shadow:var(--shadow);border-top:4px solid var(--violet)}
+.next b{display:block;font-family:'Fraunces',serif;font-size:18px;font-weight:600;margin-bottom:5px}
+.next span{font-size:13.6px;line-height:1.5;color:var(--ink-soft)}
+#confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+#confetti i{position:absolute;top:-14px;width:9px;height:14px;border-radius:2px;opacity:0}
+.fired #confetti i{animation:fall var(--d) linear var(--dl) forwards}
+@keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(115vh) rotate(760deg)}}
+
+footer{padding:0 6vw 60px;text-align:center;font-size:12.5px;color:var(--ink-faint);letter-spacing:.03em}
+
+@media(max-width:600px){h1 em{white-space:normal}}
+@media(max-width:860px){
+  :root{--stop-w:min(84vw,420px)}
+  #roadsvg{opacity:.42}
+  .stop{transform:none;position:relative!important;left:auto!important;top:auto!important;margin:0 auto 26px}
+  #overlay{position:relative;padding:10px 8vw 0}
+  #roadsvg{display:none}
+  .stop.pre{opacity:1;filter:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<a class="pf-back" href="../selected-work.html"><i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></i><span>Back to portfolio</span></a>
+
+<div id="rail"><i></i></div>
+
+<div id="hud">
+  <span><kbd>← →</kbd>stops</span>
+  <span><kbd>↵</kbd>open bubble</span>
+  <span><kbd>P</kbd>rail</span>
+  <span><kbd>Esc</kbd>close</span>
+  <span><b id="hudpos">1 / 11</b></span>
+</div>
+
+<header class="hero">
+  <svg class="hero-blob" style="width:340px;height:340px;left:-90px;top:-70px" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#deedf2"/></svg>
+  <svg class="hero-blob" style="width:250px;height:250px;right:-70px;top:120px" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="#ded7fb"/></svg>
+  <div style="position:relative">
+    <div class="eyebrow">Hosted Landing Pages · Integrations</div>
+    <h1>The road to<br><em>SEO optimised pages</em></h1>
+    <p class="dek">This is how I single-handedly audited, scored, rewrote and deployed all the web pages hosted by the company.</p>
+    <div class="stamp">SEO optimisation case study · last updated 25 Aug 2026</div>
+
+    <div class="kpis">
+      <div class="kpi" style="--c:var(--blue)"><div class="n" data-count="163">0</div><div class="l">pages audited<br>end to end</div></div>
+      <div class="kpi" style="--c:var(--mint)"><div class="n" data-count="85">0</div><div class="l">pages optimised<br>100% of scope</div></div>
+      <div class="kpi" style="--c:var(--violet)"><div class="n" data-count="17">0</div><div class="l">metadata fields<br>scored per page</div></div>
+      <div class="kpi" style="--c:var(--amber)"><div class="n" data-count="7">0</div><div class="l">languages<br>all complete</div></div>
+      <div class="kpi" style="--c:var(--rose)"><div class="n" data-count="12">0</div><div class="l">days from first<br>batch to last</div></div>
+    </div>
+    <div class="scroll-cue">Scroll to walk the road ↓</div>
+  </div>
+</header>
+
+<section id="roadwrap">
+  <svg id="roadsvg" viewBox="0 0 1000 5700" aria-hidden="true">
+    <defs>
+      <linearGradient id="prog" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#2f6df6"/><stop offset=".5" stop-color="#7c5cf0"/><stop offset="1" stop-color="#19b39a"/>
+      </linearGradient>
+      <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+        <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#141726" flood-opacity=".16"/>
+      </filter>
+    </defs>
+
+    <!-- lake + island -->
+    <ellipse cx="392" cy="2735" rx="300" ry="185" fill="#dceaf5"/>
+    <ellipse cx="392" cy="2735" rx="248" ry="146" fill="#cfe2f2"/>
+    <path d="M300 2775 q40 -16 80 0 t80 0 t80 0" stroke="#b3d0e8" stroke-width="6" fill="none" stroke-linecap="round" opacity=".9"/>
+    <path d="M330 2825 q40 -16 80 0 t80 0" stroke="#b3d0e8" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
+    <ellipse cx="392" cy="2712" rx="118" ry="62" fill="#e8dfc6"/>
+    <ellipse cx="392" cy="2698" rx="104" ry="50" fill="#f2ead6"/>
+    <!-- palm -->
+    <path d="M470 2700 q10 -60 -4 -96" stroke="#8a6a3f" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M466 2604 q-44 -14 -62 10 M466 2604 q44 -16 64 8 M466 2604 q-10 -40 -40 -50 M466 2604 q18 -38 50 -42" stroke="#19b39a" stroke-width="9" fill="none" stroke-linecap="round"/>
+
+    <!-- GUIDE on the island -->
+    <g id="guide" transform="translate(348,2600)">
+      <g class="float">
+        <ellipse cx="26" cy="112" rx="30" ry="7" fill="#141726" opacity=".13"/>
+        <!-- legs -->
+        <path d="M18 74 L14 108 M34 74 L40 108" stroke="#3a3f5c" stroke-width="11" stroke-linecap="round"/>
+        <!-- body: amber sweater -->
+        <path d="M26 34 q-20 4 -20 22 l0 20 q20 6 40 0 l0 -20 q0 -18 -20 -22z" fill="#f5a623"/>
+        <!-- arms: one waving -->
+        <path d="M9 46 L-6 66" stroke="#b9805a" stroke-width="9" stroke-linecap="round"/>
+        <path d="M43 44 L60 22" stroke="#b9805a" stroke-width="9" stroke-linecap="round"/>
+        <!-- curly hair -->
+        <circle cx="13" cy="9" r="9" fill="#2a1d17"/><circle cx="26" cy="3" r="10" fill="#2a1d17"/>
+        <circle cx="39" cy="9" r="9" fill="#2a1d17"/><circle cx="10" cy="19" r="7" fill="#2a1d17"/>
+        <circle cx="42" cy="19" r="7" fill="#2a1d17"/>
+        <!-- head -->
+        <circle cx="26" cy="21" r="14" fill="#b9805a"/>
+        <!-- round glasses -->
+        <circle cx="20.5" cy="21" r="5" fill="none" stroke="#141726" stroke-width="1.8"/>
+        <circle cx="31.5" cy="21" r="5" fill="none" stroke="#141726" stroke-width="1.8"/>
+        <path d="M25.5 21 h1" stroke="#141726" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="20.5" cy="21" r="1.5" fill="#141726"/><circle cx="31.5" cy="21" r="1.5" fill="#141726"/>
+        <path d="M22 28 q4 4 8 0" stroke="#141726" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+
+    <!-- paper plane round trip -->
+    <path id="flightpath" d="M700 2725 C640 2570 520 2540 462 2640" fill="none" stroke="#8a90a8" stroke-width="3" stroke-dasharray="9 11" opacity=".55"/>
+    <g id="plane">
+      <path d="M-16 -9 L16 0 L-16 9 L-9 0 Z" fill="#fff" stroke="#2f6df6" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M-16 -9 L-9 0 L-16 9" fill="#deedf2" stroke="#2f6df6" stroke-width="2.5" stroke-linejoin="round"/>
+    </g>
+
+    <!-- the road -->
+    <path id="roadbase" d="M300 170
+      C300 420 700 430 700 680
+      C700 930 300 940 300 1190
+      C300 1440 700 1450 700 1700
+      C700 1950 300 1960 300 2210
+      C300 2460 700 2470 700 2720
+      C700 2970 300 2980 300 3230
+      C300 3480 700 3490 700 3740
+      C700 3990 300 4000 300 4250
+      C300 4500 700 4510 700 4760
+      C700 4990 500 5050 500 5400"
+      fill="none" stroke="var(--road)" stroke-width="34" stroke-linecap="round"/>
+    <path id="roaddash" d="M300 170
+      C300 420 700 430 700 680
+      C700 930 300 940 300 1190
+      C300 1440 700 1450 700 1700
+      C700 1950 300 1960 300 2210
+      C300 2460 700 2470 700 2720
+      C700 2970 300 2980 300 3230
+      C300 3480 700 3490 700 3740
+      C700 3990 300 4000 300 4250
+      C300 4500 700 4510 700 4760
+      C700 4990 500 5050 500 5400"
+      fill="none" stroke="#f6f4ef" stroke-width="4" stroke-dasharray="20 26" opacity=".9"/>
+    <path id="roadprog" d="M300 170
+      C300 420 700 430 700 680
+      C700 930 300 940 300 1190
+      C300 1440 700 1450 700 1700
+      C700 1950 300 1960 300 2210
+      C300 2460 700 2470 700 2720
+      C700 2970 300 2980 300 3230
+      C300 3480 700 3490 700 3740
+      C700 3990 300 4000 300 4250
+      C300 4500 700 4510 700 4760
+      C700 4990 500 5050 500 5400"
+      fill="none" stroke="url(#prog)" stroke-width="34" stroke-linecap="round" opacity=".95"/>
+
+    <!-- finish flag -->
+    <g transform="translate(500,5400)">
+      <circle r="58" fill="#19b39a" opacity=".16"/>
+      <circle r="34" fill="#19b39a"/>
+      <path d="M-4 -18 L-4 20" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+      <path d="M-4 -16 h22 l-6 9 l6 9 h-22z" fill="#fff"/>
+    </g>
+
+    <g id="markers"></g>
+
+    <!-- AMI: the traveller -->
+    <g id="ami">
+      <g class="float">
+        <ellipse cx="0" cy="60" rx="26" ry="6" fill="#141726" opacity=".16"/>
+        <path d="M-7 30 L-11 56 M7 30 L11 56" stroke="#2b3a5c" stroke-width="10" stroke-linecap="round"/>
+        <path d="M0 -8 q-18 4 -18 20 l0 18 q18 6 36 0 l0 -18 q0 -16 -18 -20z" fill="#7c5cf0"/>
+        <path d="M-16 4 L-30 22" stroke="#f7d3b0" stroke-width="8.5" stroke-linecap="round"/>
+        <path d="M16 4 L30 20" stroke="#f7d3b0" stroke-width="8.5" stroke-linecap="round"/>
+        <!-- blue hair, shoulder length -->
+        <path d="M-16 -22 q-7 18 -2 28 q9 5 15 2 q-7 -14 -4 -30z" fill="#2f6df6"/>
+        <path d="M16 -22 q7 18 2 28 q-9 5 -15 2 q7 -14 4 -30z" fill="#2f6df6"/>
+        <circle cx="0" cy="-22" r="15" fill="#f7d3b0"/>
+        <path d="M-15 -24 q3 -17 15 -17 t15 17 q-15 -9 -30 0z" fill="#2f6df6"/>
+        <path d="M-15 -24 q-4 -2 -5 4 q6 2 8 -1z" fill="#1b3f9e"/>
+        <circle cx="-5" cy="-22" r="1.9" fill="#141726"/><circle cx="5" cy="-22" r="1.9" fill="#141726"/>
+        <path d="M-4 -15 q4 4 8 0" stroke="#141726" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </g>
+    </g>
+  </svg>
+
+  <div id="overlay"></div>
+</section>
+
+<section class="finale" id="finale">
+  <div id="confetti"></div>
+  <div style="position:relative">
+    <div class="eyebrow">Where the road goes next</div>
+    <h2>Pages that search engines can finally read.</h2>
+    <p>The project turned 85 inconsistent pages into one consistent, fully described set. Here is what that sets up.</p>
+    <div class="next">
+      <div><b>Searchable from the first crawl</b><span>Every page now has a unique title and description inside the length where search results show them in full, a correct canonical URL and clear crawler directives. Pages stop competing with their own duplicates and start describing themselves properly.</span></div>
+      <div><b>Better first impressions</b><span>A complete social preview and a designed share image on every page means links look intentional when they are pasted into chats and feeds, which is where a lot of referral traffic starts.</span></div>
+      <div><b>Results you can measure</b><span>The audit leaves a clean baseline of 17 scored fields per page. Impressions, click-through rate and rankings can now be tracked against it in search analytics, and any new page can be scored the same way on day one.</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>Built by Camila "Ami" Massa · SEO optimisation case study · figures as at 25 Aug 2026</footer>
+
+<script>
+/* ============ CONTENT ============ */
+const STOPS = [
+{ c:'var(--blue)', t:'The audit', date:'Where it started',
+  n:'163', nl:'pages found and inspected, one by one',
+  body:`<h4>What we actually did</h4>
+  <p>Nobody had a list. The first job was to find <strong>every hosted landing page we own</strong> and open its
+  source code, not sample it, all of it.</p>
+  <ul>
+    <li><b>163 pages</b> inspected across every brand and locale</li>
+    <li><b>90</b> classified as live and optimisable, <b>73</b> as offline or decommissioned</li>
+    <li>Every page's raw <b>&lt;head&gt;</b>, footer and asset URLs read by hand</li>
+  </ul>
+  <div class="divider"></div>
+  <p>This is the part that had never been done. Until this pass, we had no idea what our own pages were telling search engines.</p>` },
+
+{ c:'var(--violet)', t:'Defining the standard', date:'The spec',
+  n:'17', nl:'metadata fields, each with a written definition of “good”',
+  body:`<h4>The spec every page is held to</h4>
+  <p>“Bad SEO” isn't a finding. So we wrote down what optimal <em>means</em>, field by field, with hard thresholds,
+  so two people auditing the same page reach the same verdict.</p>
+  <div class="pills">
+    <span class="pill">Meta title 50–60</span><span class="pill">Meta description 120–160</span>
+    <span class="pill">Robots directive</span><span class="pill">Canonical URL</span>
+    <span class="pill">og:type</span><span class="pill">og:title</span><span class="pill">og:description</span>
+    <span class="pill">og:url</span><span class="pill">og:image 1200×630</span><span class="pill">og:site_name</span>
+    <span class="pill">twitter:card</span><span class="pill">twitter:title</span><span class="pill">twitter:description</span>
+    <span class="pill">twitter:image</span><span class="pill">Favicon</span><span class="pill">Footer links 4/4</span>
+    <span class="pill">Duplicate?</span>
+  </div>
+  <div class="divider"></div>
+  <p>Each field got its own status vocabulary: <strong>Optimal / Too short / Too long / Missing</strong>,
+  <strong>Present &amp; valid / malformed / Missing</strong>, <strong>4/4 / legacy / incomplete</strong>, so the
+  result is a category, not an opinion.</p>` },
+
+{ c:'var(--mint)', t:'Building the tracker', date:'One source of truth',
+  n:'68', nl:'columns per page: current, length, status, proposed',
+  body:`<h4>How the spreadsheet works</h4>
+  <p>Every scored field expands into a six-column run, so the sheet holds the diagnosis and the fix side by side:</p>
+  <ul>
+    <li><b>Current value</b>: what's on the live page today</li>
+    <li><b>Character count</b>: computed, not eyeballed</li>
+    <li><b>Status</b>: auto-graded against the spec</li>
+    <li><b>Proposed value</b>: the rewrite, in a purple cell</li>
+    <li><b>Proposed length + status</b>: live-validates as anyone types</li>
+  </ul>
+  <div class="divider"></div>
+  <p>Plus per-page <strong>Notes / Bugs Found</strong> and a <strong>Comment</strong> column for partner-facing teams.
+  The purple cells are the whole trick: a CSM can edit copy and immediately see whether it lands in the optimal band.</p>` },
+
+{ c:'var(--rose)', t:'Scoring the page set', date:'The bad news',
+  n:'28%', nl:'of live pages had an optimal title. Same for descriptions.',
+  body:`<h4>The before picture: 90 live pages</h4>
+  <div class="bars">
+    <div class="bar" style="--bc:var(--mint)"><span class="k">Title optimal</span><span class="t"><i style="--w:28%"></i></span><span class="v">25 · 28%</span></div>
+    <div class="bar" style="--bc:var(--amber)"><span class="k">Title too short</span><span class="t"><i style="--w:48%"></i></span><span class="v">43 · 48%</span></div>
+    <div class="bar" style="--bc:var(--rose)"><span class="k">Title too long</span><span class="t"><i style="--w:24%"></i></span><span class="v">22 · 24%</span></div>
+  </div>
+  <div class="bars">
+    <div class="bar" style="--bc:var(--mint)"><span class="k">Desc optimal</span><span class="t"><i style="--w:28%"></i></span><span class="v">25 · 28%</span></div>
+    <div class="bar" style="--bc:var(--amber)"><span class="k">Desc too short</span><span class="t"><i style="--w:67%"></i></span><span class="v">60 · 67%</span></div>
+    <div class="bar" style="--bc:var(--rose)"><span class="k">Desc too long</span><span class="t"><i style="--w:6%"></i></span><span class="v">5 · 6%</span></div>
+  </div>
+  <div class="divider"></div>
+  <ul>
+    <li><b>52 of 90</b> pages (58%) had no crawler directive at all, the worst-covered field</li>
+    <li><b>29 of 90</b> (32%) had no og:image; the whole social layer (og:title, og:description, twitter:*) was
+      <b>missing on virtually every page</b></li>
+    <li><b>13 pages</b> shared a duplicate title, 13 a duplicate description</li>
+    <li>Shortest title in the set: <b>4 characters</b> (a single short word). Longest description: <b>359</b>, against a 160 limit</li>
+  </ul>
+  <blockquote>“Recommend {Brand} or receive cashback. Get rewards for your purchase.”
+  <cite>The same description, copy-pasted across 16+ pages</cite></blockquote>` },
+
+{ c:'var(--amber)', t:'A fix for every page', date:'Not just red flags',
+  n:'163', nl:'pages given proposed copy, no page left as “needs work”',
+  body:`<h4>The audit came with the answer attached</h4>
+  <p>An audit that only reports problems creates work. Every row shipped with <strong>proposed copy for every
+  field</strong>, pre-validated against the spec, so approving it was a yes/no, not a project.</p>
+  <div class="ba">
+    <div class="b"><span>Before · Hosting provider, DE</span>A 69-character UK corporate title on a German referral page</div>
+    <div class="a"><span>After</span>Locale-correct, offer-forward title in the 50–60 band, brand at the end</div>
+  </div>
+  <div class="divider"></div>
+  <h4>Bugs the audit caught along the way</h4>
+  <ul>
+    <li><b>Canonical pointing at the corporate homepage</b> instead of the landing page, flagged critical</li>
+    <li><b>4 canonicals missing the https:// scheme</b> entirely</li>
+    <li><b>2 pages with a completely empty footer</b> (0 of 4 legal links); one with 1 of 4</li>
+    <li><b>Two byte-identical pages</b>: same title and description, differing only by UID</li>
+    <li>A favicon with a <b>malformed href</b>, one with a typo in the brand name, one showing another brand's logo</li>
+    <li>Smart quotes making meta tags unparseable; <code>NOINDEX,NO FOLLOW</code> with a space in it</li>
+    <li>Clone leftovers: an insurance page whose logo alt text still named the partner it was cloned from</li>
+  </ul>
+  <p>Several of these were invisible to anyone reading the page in a browser.</p>` },
+
+{ c:'var(--blue-deep)', t:'The round trip', date:'Out to the business, and back',
+  n:'71%', nl:'of live pages came back with written CSM feedback',
+  body:`<h4>The sheet left our desk</h4>
+  <p>The tracker went to <strong>the team lead</strong>, who put it in front of <strong>every CSM</strong>. They took it to
+  their partners, filled the purple cells, and sent it back. Nothing shipped until it came home.</p>
+  <ul>
+    <li><b>25 of 35</b> live-page rows (71%) returned with a written comment</li>
+    <li><b>14 explicit sign-offs</b>: “happy with the proposed meta title”, “please go ahead with all the suggestions”</li>
+    <li><b>8 status corrections</b> we could only get from CSMs: churning, payout portal, deliberately unindexed,
+      which is how <b>16 pages</b> were correctly taken out of scope</li>
+    <li><b>2 full client-side SEO briefs</b> relayed back, in German, asking for favicons, heading hierarchy fixes and a stated keyword strategy</li>
+  </ul>
+  <blockquote>“Are we okay with having numerical values in this? It'll need updating every review cycle.”
+  <cite>A CSM catching a maintenance trap we'd have shipped</cite></blockquote>
+  <div class="divider"></div>
+  <p>This is the stop that turned a spreadsheet into a decision. The pushback was the valuable part:
+  it stopped us optimising pages that were about to be switched off.</p>` },
+
+{ c:'var(--rose)', t:'Making the assets', date:'Before a single page shipped',
+  n:'29', nl:'pages had no share image at all: every one needed making',
+  body:`<h4>Metadata is text. Share previews are not.</h4>
+  <p>A page can have a perfect title and still look broken when someone pastes the link into a chat app.
+  So alongside the copy, every page needed a real <strong>1200×630 share image</strong>, designed, not scraped.</p>
+  <ul>
+    <li><b>29 of 90</b> live pages had <b>no og:image whatsoever</b></li>
+    <li>Many that “had” one were a <b>logo or favicon reused as a placeholder</b>, not a share image</li>
+    <li>Each new asset built on the brand's own colour, pulled from the portal theme, with the real logo file,
+      never a hand-redrawn approximation</li>
+    <li>No text on the image: platforms crop the edges differently, and cropped copy looks like a bug</li>
+  </ul>
+  <div class="divider"></div>
+  <h4>What the old assets actually were</h4>
+  <ul>
+    <li>An <b>unedited screenshot</b> left in as the share image</li>
+    <li>Two sourced from a <b>clipart aggregator</b></li>
+    <li>A draft asset with the <b>brand name misspelled</b></li>
+    <li>A telecom page serving <b>another brand's favicon</b></li>
+    <li>Assets <b>hosted on partner domains</b> we don't control, one already broken</li>
+    <li>Three declaring <b>image/x-icon</b> for a file that was actually a PNG</li>
+  </ul>
+  <p>This is the invisible half of the project. Nobody asks for it, and every shared link depends on it.</p>` },
+
+{ c:'var(--blue)', t:'The pilot', date:'13 Aug 2026',
+  n:'3', nl:'pages shipped first, to prove the build process',
+  body:`<h4>Proving the pattern before scaling it</h4>
+  <ul>
+    <li><b>13 Aug</b>: Pilot probe, <b>3 pages</b>. A deliberately small first cut to prove the build process</li>
+  </ul>
+  <div class="divider"></div>
+  <p>The probe is why the rest went fast. Three pages surfaced the whole workflow (extraction rules, output paths,
+  canonical logic, og:image specs) before it was applied to eighty.</p>` },
+
+{ c:'var(--violet)', t:'English and German', date:'19 – 25 Aug 2026',
+  n:'62', nl:'pages: 46 English and 16 German',
+  body:`<h4>The two biggest languages</h4>
+  <div class="bars">
+    <div class="bar" style="--bc:var(--blue)"><span class="k">English</span><span class="t"><i style="--w:100%"></i></span><span class="v">46</span></div>
+    <div class="bar" style="--bc:var(--violet)"><span class="k">German</span><span class="t"><i style="--w:35%"></i></span><span class="v">16</span></div>
+  </div>
+  <p>English was the largest surface: <strong>46 pages</strong> across en, en-gb, en-us, uk, us, ca and non-locale
+  paths like contract-buyout, cashback and partners. German added <strong>16 pages</strong> in a single batch.</p>
+  <div class="divider"></div>
+  <ul>
+    <li>Every English page now has a unique title and description: the shared boilerplate is gone</li>
+    <li><b>3 ended programmes</b> given honest archival descriptions rather than a bulk rewrite</li>
+    <li><b>8 internal sales and demo pages</b> confirmed as intentionally noindex, and left that way</li>
+    <li>German footers with locale-correct links and the right labels in the right language</li>
+  </ul>
+  <p>Judgement calls, not find-and-replace. That distinction is what keeps the page set trustworthy.</p>` },
+
+{ c:'var(--amber)', t:'Every other language', date:'24 – 25 Aug 2026',
+  n:'22', nl:'pages: Italian, French, Spanish, Dutch and Portuguese',
+  body:`<h4>The locales that usually get dropped</h4>
+  <div class="bars">
+    <div class="bar" style="--bc:var(--mint)"><span class="k">Italian</span><span class="t"><i style="--w:100%"></i></span><span class="v">10</span></div>
+    <div class="bar" style="--bc:var(--blue)"><span class="k">French</span><span class="t"><i style="--w:50%"></i></span><span class="v">5</span></div>
+    <div class="bar" style="--bc:var(--violet)"><span class="k">Spanish</span><span class="t"><i style="--w:30%"></i></span><span class="v">3</span></div>
+    <div class="bar" style="--bc:var(--rose)"><span class="k">Dutch</span><span class="t"><i style="--w:30%"></i></span><span class="v">3</span></div>
+    <div class="bar" style="--bc:var(--amber)"><span class="k">Portuguese</span><span class="t"><i style="--w:10%"></i></span><span class="v">1</span></div>
+  </div>
+  <p>A single Portuguese page is exactly the kind of thing that stays broken for years. It was on that page we found
+  the <strong>legacy company domain</strong> in the footer, used nowhere else in the set.</p>
+  <div class="divider"></div>
+  <ul>
+    <li>Three Italian pages were declaring <b>lang="en"</b> or <b>lang="es"</b>, fixed in passing</li>
+    <li>Dedicated og:images produced where only a reused favicon existed</li>
+  </ul>
+  <p>Finishing the tail is what lets us say “complete” without an asterisk.</p>` },
+
+{ c:'var(--mint)', t:'85 of 85. Zero pending.', date:'25 Aug 2026 · complete',
+  n:'100%', nl:'of scope delivered, every locale finished',
+  body:`<h4>Where the page set stands</h4>
+  <div class="ba">
+    <div class="b"><span>Before</span>28% of live pages with an optimal title · 28% with an optimal description · social preview layer missing on virtually every page · 13 duplicate titles</div>
+    <div class="a"><span>After</span>85 of 85 pages with title and description in the optimal band · full og: and twitter: layer · unique copy per page · correct legal footer</div>
+  </div>
+  <div class="divider"></div>
+  <ul>
+    <li><b>82 pages</b> verified through full QA: EN, DE, IT, FR/NL/ES/PT, all passing</li>
+    <li><b>3 pages</b> from the early pilot probe pending re-verification</li>
+    <li><b>16 pages</b> correctly excluded: churned, paused or payout portals</li>
+    <li><b>62 pages</b> out of scope by agreement: offline or decommissioned</li>
+  </ul>
+  <p>And the tracker is still live: any new hosted page gets scored against the same 17 fields on day one.</p>` }
+];
+
+/* ============ BUILD ============ */
+const overlay = document.getElementById('overlay');
+const svg = document.getElementById('roadsvg');
+const path = document.getElementById('roadbase');
+const prog = document.getElementById('roadprog');
+const markers = document.getElementById('markers');
+const ami = document.getElementById('ami');
+const VB = {w:1000, h:5700};
+const TARGETS = [
+  [300,170],[700,680],[300,1190],[700,1700],[300,2210],[700,2720],
+  [300,3230],[700,3740],[300,4250],[700,4760],[500,5400]
+];
+const L = path.getTotalLength();
+
+/* find the arc-length at each target point */
+const SAMPLES = [];
+for(let i=0;i<=3000;i++){const p=path.getPointAtLength(L*i/3000);SAMPLES.push([p.x,p.y,L*i/3000]);}
+const STOPLEN = TARGETS.map(([tx,ty])=>{
+  let best=0,bd=Infinity;
+  for(const [x,y,l] of SAMPLES){const d=(x-tx)**2+(y-ty)**2;if(d<bd){bd=d;best=l;}}
+  return best;
+});
+
+/* cards */
+/* stop 6 (index 5) is forced to the right so the card never covers
+   the island and the guide's cameo, which sit to the left of the road */
+const SIDE_OVERRIDE = {5:'r'};
+STOPS.forEach((s,i)=>{
+  const side = SIDE_OVERRIDE[i] || (TARGETS[i][0] < 500 ? 'r' : 'l');
+  const el = document.createElement('div');
+  el.className = `stop pre side-${side}`;
+  el.style.setProperty('--c', s.c);
+  el.dataset.i = i;
+  el.innerHTML = `
+    <div class="card">
+      <div class="idx"><i>${i+1}</i> Stop ${i+1} of ${STOPS.length}</div>
+      <h3>${s.t}</h3>
+      <div class="head"><b>${s.n}</b><span>${s.nl}</span></div>
+      <div class="date">${s.date}</div>
+      <div class="more">Open the details</div>
+    </div>
+    <div class="bubble"><div class="bubble-in">${s.body}</div></div>`;
+  el.querySelector('.card').addEventListener('click',()=>toggle(i));
+  overlay.appendChild(el);
+});
+const stopEls = [...document.querySelectorAll('.stop')];
+
+/* markers on the road */
+TARGETS.forEach(([x,y],i)=>{
+  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('transform',`translate(${x},${y})`);
+  g.innerHTML = `<circle r="30" fill="${STOPS[i].c}" opacity=".2"/>
+    <circle r="19" fill="#fff" stroke="${STOPS[i].c}" stroke-width="6"/>
+    <text y="7" text-anchor="middle" font-family="Outfit,sans-serif" font-size="18" font-weight="800" fill="${STOPS[i].c}">${i+1}</text>`;
+  markers.appendChild(g);
+});
+
+/* ============ LAYOUT ============ */
+let scale = 1, isMobile = false;
+function layout(){
+  isMobile = window.matchMedia('(max-width:860px)').matches;
+  if(isMobile){overlay.style.height='';stopEls.forEach(e=>{e.style.left='';e.style.top='';});return;}
+  const r = svg.getBoundingClientRect();
+  scale = r.width / VB.w;
+  overlay.style.height = r.height + 'px';
+  const OFF = 62;                    // default gap from road centre to card edge
+  const OFF_OVERRIDE = {5:165};      // stop 6: clear Ami, who stands on the road here
+  stopEls.forEach((el,i)=>{
+    const [x,y] = TARGETS[i];
+    const px = x*scale, py = y*scale;
+    const w = el.offsetWidth;
+    const off = OFF_OVERRIDE[i] || OFF;
+    let left = el.classList.contains('side-r') ? px + off : px - off - w;
+    left = Math.max(10, Math.min(left, r.width - w - 10));
+    el.style.left = left+'px';
+    el.style.top = py+'px';
+  });
+}
+
+/* ============ SCROLL ============ */
+prog.style.strokeDasharray = L;
+prog.style.strokeDashoffset = L;
+const railFill = document.querySelector('#rail i');
+const hudpos = document.getElementById('hudpos');
+let active = 0;
+
+function onScroll(){
+  const wrap = document.getElementById('roadwrap');
+  const r = wrap.getBoundingClientRect();
+  const vh = window.innerHeight;
+
+  /* Anchor Ami to the road's own geometry at the viewport focus line, rather
+     than to a linear fraction of scroll: arc length is not linear in y, which
+     is what made her drift ahead of / behind the stop cards. */
+  const FOCUS = 0.52;                                  /* eye line, 52% down the screen */
+  const focusY = (vh*FOCUS - r.top) / (scale || 1);    /* → SVG user units */
+  let t;
+  if(focusY <= SAMPLES[0][1]) t = 0;
+  else if(focusY >= SAMPLES[SAMPLES.length-1][1]) t = 1;
+  else {
+    let best = 0, bd = Infinity;
+    for(const [,y,l] of SAMPLES){
+      const d = Math.abs(y - focusY);
+      if(d < bd){ bd = d; best = l; }
+    }
+    t = best / L;
+  }
+  t = Math.max(0, Math.min(1, t));
+
+  prog.style.strokeDashoffset = L*(1-t);
+
+  /* Ami rides the drawn edge */
+  if(!isMobile && L > 0){
+    const p = path.getPointAtLength(L*Math.max(.004,t));
+    ami.setAttribute('transform',`translate(${p.x},${p.y-46})`);
+  }
+
+  /* page-level rail */
+  const doc = document.documentElement;
+  railFill.style.width = (doc.scrollTop/(doc.scrollHeight-vh)*100)+'%';
+
+  /* reveal + active stop */
+  const here = L*t;
+  let a = 0;
+  STOPLEN.forEach((sl,i)=>{
+    stopEls[i].classList.toggle('pre', here < sl - L*0.03);
+    if(here >= sl - L*0.02) a = i;
+  });
+  if(a !== active){active = a; hudpos.textContent = `${a+1} / ${STOPS.length}`; mark();}
+
+  /* confetti */
+  const fin = document.getElementById('finale');
+  if(fin.getBoundingClientRect().top < vh*0.75) fin.classList.add('fired');
+}
+function mark(){stopEls.forEach((e,i)=>e.classList.toggle('active', i===active));}
+
+/* ============ INTERACTION ============ */
+function toggle(i,force){
+  const el = stopEls[i];
+  const open = force===undefined ? !el.classList.contains('open') : force;
+  el.classList.toggle('open', open);
+  requestAnimationFrame(()=>setTimeout(layout,60));
+  setTimeout(layout,520);
+}
+function goto(i){
+  active = Math.max(0, Math.min(STOPS.length-1, i));
+  hudpos.textContent = `${active+1} / ${STOPS.length}`;
+  mark();
+  const el = stopEls[active];
+  const y = el.getBoundingClientRect().top + window.scrollY - window.innerHeight*0.34;
+  window.scrollTo({top:y, behavior:'smooth'});
+}
+document.addEventListener('keydown', e=>{
+  const hud = document.getElementById('hud');
+  if(['ArrowRight','ArrowLeft','ArrowUp','ArrowDown','Enter','p','P','Escape',' '].includes(e.key)){
+    hud.classList.add('show'); clearTimeout(window._h);
+    window._h = setTimeout(()=>hud.classList.remove('show'),2200);
+  }
+  switch(e.key){
+    case 'ArrowRight': case 'PageDown': e.preventDefault(); goto(active+1); break;
+    case 'ArrowLeft': case 'PageUp': e.preventDefault(); goto(active-1); break;
+    case 'Enter': case ' ': case 'ArrowDown': case 'ArrowUp':
+      e.preventDefault(); toggle(active); break;
+    case 'Escape': stopEls.forEach((el,i)=>toggle(i,false)); break;
+    case 'p': case 'P': document.getElementById('rail').classList.toggle('on'); break;
+    case 'Home': goto(0); break;
+    case 'End': goto(STOPS.length-1); break;
+  }
+});
+
+/* ============ COUNT-UP ============ */
+document.querySelectorAll('[data-count]').forEach(el=>{
+  const target = +el.dataset.count;
+  let seen = false;
+  const io = new IntersectionObserver(es=>{
+    if(es[0].isIntersecting && !seen){
+      seen = true;
+      const t0 = performance.now(), dur = 1500;
+      (function step(now){
+        const k = Math.min(1,(now-t0)/dur);
+        el.textContent = Math.round(target * (1-Math.pow(1-k,3)));
+        if(k<1) requestAnimationFrame(step);
+      })(t0);
+    }
+  },{threshold:.4});
+  io.observe(el);
+});
+
+/* ============ PAPER PLANE ROUND TRIP ============ */
+/* JS-driven so the plane flips to face the road on the way home */
+(function(){
+  const fp = document.getElementById('flightpath');
+  const plane = document.getElementById('plane');
+  const FL = fp.getTotalLength();
+  if(!FL) return;
+  const OUT = 2600, HOLD = 1100, BACK = 2600, REST = 900;
+  const CYCLE = OUT + HOLD + BACK + REST;
+  const ease = k => k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2;
+  function frame(now){
+    const m = now % CYCLE;
+    let u, outbound = true;
+    if(m < OUT){ u = ease(m/OUT); }
+    else if(m < OUT+HOLD){ u = 1; }
+    else if(m < OUT+HOLD+BACK){ u = 1-ease((m-OUT-HOLD)/BACK); outbound = false; }
+    else { u = 0; outbound = false; }
+    const d = Math.max(0.5, Math.min(FL-0.5, u*FL));
+    const p = fp.getPointAtLength(d);
+    const q = fp.getPointAtLength(Math.min(FL, d+1.5));
+    let ang = Math.atan2(q.y-p.y, q.x-p.x) * 180/Math.PI;
+    if(!outbound) ang += 180;              /* nose points back at the road */
+    plane.setAttribute('transform', `translate(${p.x},${p.y}) rotate(${ang})`);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* ============ CONFETTI ============ */
+const cols = ['#2f6df6','#7c5cf0','#19b39a','#f5a623','#f0576f','#deedf2'];
+const cf = document.getElementById('confetti');
+for(let i=0;i<70;i++){
+  const s = document.createElement('i');
+  s.style.left = Math.random()*100+'%';
+  s.style.background = cols[i%cols.length];
+  s.style.setProperty('--d', (2.6+Math.random()*2.4)+'s');
+  s.style.setProperty('--dl', (Math.random()*1.6)+'s');
+  s.style.height = (10+Math.random()*10)+'px';
+  cf.appendChild(s);
+}
+
+/* ============ GO ============ */
+window.addEventListener('resize', ()=>{layout();onScroll();});
+window.addEventListener('scroll', onScroll, {passive:true});
+window.addEventListener('load', ()=>{layout();onScroll();});
+layout(); onScroll();
+setTimeout(()=>{layout();onScroll();},400);
+document.fonts && document.fonts.ready.then(()=>{layout();onScroll();});
+</script>
+</body>
+</html>
