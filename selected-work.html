@@ -362,6 +362,16 @@
   .proj--gallery .proj__cta{ order:4; align-self:flex-start; margin-top:6px; }
   @media (max-width:900px){ .proj--gallery{ grid-template-columns:minmax(0,1fr); grid-template-areas:"media" "body"; } }
 
+  .proj--gallery .proj__media{ margin-right:0; }
+  .proj--gallery .proj__body{ border-left:2px solid var(--indigo); padding-left:clamp(22px,3.4vw,44px); align-self:stretch; }
+  .proj--gallery{ column-gap:clamp(22px,3.4vw,44px); }
+  .proj__specs{ order:2; margin:0; font-family:var(--font-pixel); font-size:13px; line-height:1.4; border-top:2px solid var(--indigo); }
+  .proj__specs > div{ display:grid; grid-template-columns:92px minmax(0,1fr); gap:12px; padding:8px 0; border-bottom:1px dashed rgba(37,40,61,.45); }
+  .proj__specs dt{ color:var(--muted); text-transform:uppercase; letter-spacing:.06em; font-size:12px; font-weight:600; }
+  .proj__specs dd{ margin:0; color:var(--indigo); font-weight:600; }
+  .proj--gallery .proj__body p{ border-top:0; padding-top:4px; font-size:16px; }
+  .proj--gallery h3{ padding-bottom:2px; }
+  @media (max-width:900px){ .proj--gallery .proj__body{ border-left:0; padding-left:0; } }
   .proj-divider{ display:flex; align-items:center; gap:14px; margin:clamp(26px,4vw,40px) 0 clamp(18px,2.6vw,26px); font-family:var(--font-pixel); font-size:15px; font-weight:600; color:var(--indigo); text-transform:uppercase; letter-spacing:.4px; }
   .proj-divider::after{ content:""; flex:1; border-top:2px dashed var(--indigo); opacity:.45; }
 
@@ -621,7 +631,7 @@
                 <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
               </div>
               <div class="proj__body">
-                <div class="proj__tags"><span class="chip chip--status">Case study</span><span class="chip">UI design</span><span class="chip">Theming</span></div>
+                <dl class="proj__specs"><div><dt>Type</dt><dd>Case study</dd></div><div><dt>Topics</dt><dd>UI design, Theming</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
                 <h3>One template, many brands</h3>
                 <p>A single referral portal template, themed for three fictional brands. The markup stays the same; only the brand elements, copy and client assets change.</p>
                 <a class="proj__cta" href="work/one-template-many-brands.html">Open case study →</a>
@@ -655,7 +665,7 @@
                 </svg>
               </div>
               <div class="proj__body">
-                <div class="proj__tags"><span class="chip chip--status">Case study</span><span class="chip">Content model</span><span class="chip">CSS</span></div>
+                <dl class="proj__specs"><div><dt>Type</dt><dd>Case study</dd></div><div><dt>Topics</dt><dd>Content model, CSS</dd></div><div><dt>Scope</dt><dd>1 portal, 5 sections</dd></div><div><dt>Demos</dt><dd>X-ray view, model map</dd></div></dl>
                 <h3>Designing the content model</h3>
                 <p>How a portal is assembled from nested CMS entries, with an interactive x-ray view and a map of the model.</p>
                 <a class="proj__cta" href="work/content-architecture.html">Open case study →</a>
