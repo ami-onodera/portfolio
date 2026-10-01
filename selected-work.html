@@ -199,8 +199,7 @@
   /* ---------- pills / chips ---------- */
   .pill{ font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:6px 9px; }
   /* ---------- nav (ported Win95 bevel navbar, shared across all pages) ---------- */
-  .site-nav{ background:linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%); border-bottom:3px solid #4a1f70; box-shadow:0 4px 14px rgba(30,10,50,.28); position:sticky; top:0; z-index:80; padding:0; }
-  .site-nav .wrap{ height:54px; gap:10px; }
+  .site-nav{ background:linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%); border-bottom:3px solid #4a1f70; box-shadow:0 4px 14px rgba(30,10,50,.28); position:sticky; top:0; z-index:80; height:54px; display:flex; align-items:center; gap:10px; padding:0 20px; }
   .brand.nav-start{
     width:auto; height:44px; padding:0 13px 0 8px; display:flex; align-items:center; justify-content:center; gap:8px; flex:none; text-decoration:none;
     background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
@@ -243,7 +242,7 @@
     height:26px; padding:0 10px; box-sizing:border-box; display:flex; align-items:center; gap:6px;
   }
   @media (max-width:639px){
-    .site-nav .wrap{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 0; }
+    .site-nav{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 8px; border-bottom-width:2px; }
     .brand.nav-start{ height:36px; padding:0 9px 0 6px; gap:5px; }
     .brand.nav-start img{ width:24px; height:24px; }
     .nav-start-label{ font-size:10px; }
@@ -324,21 +323,19 @@
   .proj__body{ display:flex; flex-direction:column; gap:10px; padding:18px 20px 20px; flex:1; }
   .proj__tags{ display:flex; flex-wrap:wrap; gap:6px; }
   .chip{ font-family:var(--font-pixel); font-size:11px; font-weight:600; letter-spacing:.3px; text-transform:uppercase; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:3px 8px; }
-  .chip--status{ background:var(--pink); }
+  .chip--status{ background:var(--purple); }
   .chip--wip{ background:#fff; border-style:dashed; }
+  .chip--pres{ background:var(--blue); }
   .proj__body h3{ font-family:var(--font-head); font-weight:800; font-size:clamp(22px,2.4vw,27px); line-height:1.12; }
-  .proj__body h3 a{ color:var(--ink); text-decoration:none; }
-  .proj__body h3 a::after{ content:""; position:absolute; inset:0; z-index:1; }          /* whole card is the link */
-  .proj__body h3 a:focus-visible{ outline:none; }
-  .proj:has(h3 a:focus-visible){ outline:3px solid var(--accent); outline-offset:4px; }
   .proj__body p{ font-size:16px; line-height:1.55; color:var(--body); font-weight:500; }
   .proj__cta{
     align-self:flex-start; margin-top:auto; padding:7px 12px; font-family:var(--font-pixel); font-size:14px; font-weight:600;
     color:#fff; background:var(--pink-dark); border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo);
+    text-decoration:none; cursor:pointer;
   }
-  .proj:hover{ background:#fff; }
-  .proj:hover .proj__cta{ box-shadow:none; transform:translate(3px,3px); }
-  .proj:active .proj__cta{ transform:translate(3px,3px); }
+  .proj__cta:hover{ box-shadow:none; transform:translate(3px,3px); }
+  .proj__cta:active{ transform:translate(3px,3px); }
+  .proj__cta:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; }
 
   /* wide: spans the full row, media left, text right */
   .proj--wide{ grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); grid-template-areas:"bar bar" "media body"; }
@@ -348,6 +345,8 @@
   .proj--wide .proj__body p{ font-size:17px; }
   .proj--wide .proj__media:not(.proj__media--trio){ aspect-ratio:auto; }
   .proj--wide .proj__media > svg{ height:auto; }
+  .proj--wide .proj__media:has(> img){ align-content:stretch; }
+  .proj--wide .proj__media > img{ display:block; width:100%; height:100%; object-fit:cover; }
 
   /* divider between published work and coming-soon work */
   .proj-divider{ display:flex; align-items:center; gap:14px; margin:clamp(26px,4vw,40px) 0 clamp(18px,2.6vw,26px); font-family:var(--font-pixel); font-size:15px; font-weight:600; color:var(--indigo); text-transform:uppercase; letter-spacing:.4px; }
@@ -393,6 +392,53 @@
   }
   @media (max-width:520px){ .cascade-ghost{ width:calc(100% - 48px); } .contact-band > .tile{ transform:none !important; } .contact-band{ grid-template-columns:minmax(0,1fr); } .cascade-front__actions{ flex-wrap:wrap; } .cascade-front__actions .btn{ padding-left:10px; padding-right:10px; font-size:14px; } }
   @media (prefers-reduced-motion:reduce){ .proj, .proj__cta{ transition:none; } }
+
+  /* ---------- file-browser layout: sidebar left, cards right ---------- */
+  .fm{ display:grid; grid-template-columns:232px minmax(0,1fr); }
+  .fm__main{ min-width:0; display:flex; flex-direction:column; }
+  .fm__main .explorer__body{ flex:1; }
+  .fm__side{ min-width:0; background:linear-gradient(180deg, var(--purple-soft), var(--blue-soft)); border-right:2px solid var(--indigo); padding:10px 10px 22px; }
+  .side-h{ font-family:var(--font-pixel); font-size:12px; font-weight:600; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); margin:16px 8px 6px; }
+  .side-h:first-of-type{ margin-top:6px; }
+  .side-list{ list-style:none; display:grid; grid-template-columns:minmax(0,1fr); gap:2px; }
+  .side-item{
+    display:flex; align-items:center; gap:9px; width:100%; min-width:0; padding:6px 8px; text-align:left;
+    font-family:var(--font-body); font-weight:700; font-size:15px; line-height:1.25; color:var(--indigo);
+    background:none; border:1.5px solid transparent; cursor:pointer; text-decoration:none; transition:none;
+  }
+  .side-item:hover{ background:rgba(255,255,255,.55); color:var(--indigo); }
+  .side-item[aria-pressed="true"]{ background:var(--purple); border-color:var(--indigo); box-shadow:2px 2px 0 var(--indigo); }
+  .side-item:focus-visible{ outline:3px solid var(--accent); outline-offset:1px; }
+  .side-item .ico{ width:16px; height:16px; flex:none; }
+  .side-item .lbl{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .side-item em{ margin-left:auto; flex:none; font-style:normal; font-family:var(--font-pixel); font-size:10px; font-weight:600; text-transform:uppercase; color:var(--muted); }
+  .side-item.is-soon{ cursor:default; opacity:.65; }
+  .side-item.is-soon:hover{ background:none; }
+  .fm-search{ display:flex; align-items:center; gap:6px; background:#fff; border:1.5px solid var(--indigo); padding:3px 8px; box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); }
+  .fm-search .ico{ width:14px; height:14px; flex:none; }
+  .fm-search input{ width:150px; min-width:0; border:0; outline:0; background:none; font-family:var(--font-pixel); font-size:14px; color:var(--indigo); }
+  .fm-search:focus-within{ outline:3px solid var(--accent); outline-offset:1px; }
+  .fm-empty{ padding:40px 16px; text-align:center; font-family:var(--font-pixel); font-size:15px; color:var(--muted); border-top:2px solid var(--indigo); background:var(--chrome); }
+  .proj[hidden], .proj-grid[hidden], .proj-divider[hidden], .fm-empty[hidden]{ display:none !important; }
+
+  @media (max-width:1240px){ .cascade-ghost{ width:calc(100% - 48px); } }   /* keep the back windows of the contact cascade inside the page */
+  @media (max-width:1100px){
+    .proj--wide{ grid-template-columns:minmax(0,1fr); grid-template-areas:"bar" "media" "body"; }
+    .proj--wide .proj__media{ border-right:0; border-bottom:2px solid var(--indigo); }
+  }
+  @media (max-width:900px){
+    .fm{ grid-template-columns:200px minmax(0,1fr); }
+    .fm__main .proj-grid{ grid-template-columns:minmax(0,1fr); }
+    .fm__main .proj-grid > .proj{ transform:none !important; }
+  }
+  @media (max-width:720px){
+    .fm{ grid-template-columns:minmax(0,1fr); }
+    .fm__side{ border-right:0; border-bottom:2px solid var(--indigo); padding:10px; }
+    .side-extra{ display:none; }
+    #side-views{ display:flex; flex-wrap:wrap; gap:6px; }
+    #side-views .side-item{ width:auto; }
+    .fm-search input{ width:110px; }
+  }
 </style>
 </head>
 <body>
@@ -414,8 +460,7 @@
 </div>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-nav">
-  <div class="wrap">
-    <a class="brand nav-start" href="index.html" title="Home" aria-label="Home">
+  <a class="brand nav-start" href="index.html" title="Home" aria-label="Home">
       <img src="assets/img/y2k/shiba.png" alt="Camila's shiba icon">
       <span class="nav-start-label">Home</span>
     </a>
@@ -429,9 +474,9 @@
           <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
           <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
         </svg>
-        curriculum.sys
+        curriculum.pdf
       </a>
-      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" title="Open LinkedIn">
         <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
           <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
           <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
@@ -459,7 +504,6 @@
         <span id="clockText">10:26</span>
       </div>
     </div>
-  </div>
 </header>
 <main id="main">
 
@@ -499,9 +543,40 @@
       <h2 id="projects-title" class="sr-only">Projects</h2>
       <div class="tile tile--white explorer">
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">projects</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="fm">
+          <aside class="fm__side" aria-label="Project browser">
+          <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+            <symbol id="i-grid" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3"><rect x="2" y="2" width="5" height="5" fill="#adcfed"/><rect x="9" y="2" width="5" height="5" fill="#d7bce8"/><rect x="2" y="9" width="5" height="5" fill="#f4eea9"/><rect x="9" y="9" width="5" height="5" fill="#ef798a"/></g></symbol>
+            <symbol id="i-folder" viewBox="0 0 16 16"><path d="M1.5 3.5h5l1.5 1.8h6.5v8h-13z" fill="#d7bce8" stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+            <symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="#f4eea9" stroke="#25283d" stroke-width="1.3"/><path d="M8 4.5V8l2.5 1.5" fill="none" stroke="#25283d" stroke-width="1.3"/></symbol>
+            <symbol id="i-home" viewBox="0 0 16 16"><path d="M8 2l6.5 6H13v6H3V8H1.5z" fill="#cfe3f5" stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+            <symbol id="i-user" viewBox="0 0 16 16"><g fill="#ef798a" stroke="#25283d" stroke-width="1.3"><circle cx="8" cy="5.2" r="2.7"/><path d="M3 14c0-3 2-4.6 5-4.6s5 1.6 5 4.6z" stroke-linejoin="round"/></g></symbol>
+            <symbol id="i-box" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><rect x="2" y="3" width="12" height="4" fill="#d7bce8"/><path d="M3 7h10v7H3z" fill="#f4f1fb"/><path d="M6.5 10h3" fill="none"/></g></symbol>
+            <symbol id="i-doc" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><path d="M3.5 1.5h6l3 3v10h-9z" fill="#fff"/><path d="M5.5 8h5M5.5 10.5h5" fill="none"/></g></symbol>
+            <symbol id="i-play" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="#f4eea9" stroke="#25283d" stroke-width="1.3"/><path d="M6.4 5.3 11 8l-4.6 2.7z" fill="#25283d"/></symbol>
+          </svg>
+            <p class="side-h">Favourites</p>
+            <ul class="side-list" id="side-views">
+              <li><button type="button" class="side-item" data-view="all" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl">All projects</span></button></li>
+              <li><button type="button" class="side-item" data-view="done" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg><span class="lbl">Case studies</span></button></li>
+              <li><button type="button" class="side-item" data-view="presentation" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg><span class="lbl">Presentations</span></button></li>
+              <li><button type="button" class="side-item" data-view="wip" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><span class="lbl">In progress</span></button></li>
+            </ul>
+            <p class="side-h side-extra">Case studies</p>
+            <!-- filled in by the script at the bottom: one entry per project card below -->
+            <ul class="side-list side-extra" id="side-cases"></ul>
+            <p class="side-h side-extra">Locations</p>
+            <ul class="side-list side-extra">
+              <li><a class="side-item" href="index.html"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg><span class="lbl">Home</span></a></li>
+              <li><a class="side-item" href="about.html"><svg class="ico" aria-hidden="true"><use href="#i-user"/></svg><span class="lbl">About</span></a></li>
+              <li><a class="side-item" href="earlier-work.html"><svg class="ico" aria-hidden="true"><use href="#i-box"/></svg><span class="lbl">Earlier work</span></a></li>
+              <li><a class="side-item" href="assets/Camila-Massa-CV.pdf" download><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg><span class="lbl">curriculum.pdf</span></a></li>
+            </ul>
+          </aside>
+          <div class="fm__main">
         <div class="explorer__toolbar">
           <nav aria-label="Breadcrumb"><ol class="crumbs"><li><a href="index.html">Home</a></li><li aria-current="page">selected-work</li></ol></nav>
-          <span class="explorer__view" aria-hidden="true">View: large icons</span>
+          <label class="fm-search"><span class="sr-only">Search projects</span><svg class="ico" aria-hidden="true" viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4" fill="#fff" stroke="#25283d" stroke-width="1.4"/><path d="M9.6 9.6L14 14" stroke="#25283d" stroke-width="1.8"/></svg><input type="search" id="fm-q" placeholder="Search" autocomplete="off"></label>
         </div>
 
         <div class="explorer__body">
@@ -512,6 +587,13 @@
                  and the link. Order on the page = order in this file.
                    .proj              half-width card (two per row)
                    .proj proj--wide   full-width row, media left, text right
+                   .proj--pres        add to a published card (alongside
+                                      proj--wide) to also tag it as a
+                                      Presentation chip "Presentation" +
+                                      list it under the sidebar's
+                                      "Presentations" filter. Use for
+                                      standalone interactive pieces that
+                                      live in /presentations/.
                    .proj--wip         "coming soon": no link, goes in the
                                       second grid, under the "Coming soon" divider
                  To publish a WIP card: move it to the first grid, drop
@@ -522,16 +604,14 @@
             <!-- 1. Feature case study -->
             <article class="proj proj--wide">
               <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-template-many-brands.case</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
-              <div class="proj__media proj__media--trio">
-                <div class="trio-thumb"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" width="480" height="300" alt="Desktop preview of the Nimbelo Fibre referral portal" loading="lazy"><span>Nimbelo Fibre</span></div>
-                <div class="trio-thumb"><img src="assets/img/y2k/thumb-voltwell-energy.jpg" width="480" height="300" alt="Desktop preview of the Voltwell Energy referral portal" loading="lazy"><span>Voltwell Energy</span></div>
-                <div class="trio-thumb"><img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy"><span>Orbeo Mobile</span></div>
+              <div class="proj__media">
+                <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
               </div>
               <div class="proj__body">
                 <div class="proj__tags"><span class="chip chip--status">Case study</span><span class="chip">UI design</span><span class="chip">Theming</span></div>
-                <h3><a href="work/one-template-many-brands.html">One template, many brands</a></h3>
+                <h3>One template, many brands</h3>
                 <p>A single referral portal template, themed for three fictional brands. The markup stays the same; only the brand elements, copy and client assets change.</p>
-                <span class="proj__cta" aria-hidden="true">Open case study →</span>
+                <a class="proj__cta" href="work/one-template-many-brands.html">Open case study →</a>
               </div>
             </article>
 
@@ -563,9 +643,38 @@
               </div>
               <div class="proj__body">
                 <div class="proj__tags"><span class="chip chip--status">Case study</span><span class="chip">Content model</span><span class="chip">CSS</span></div>
-                <h3><a href="work/content-architecture.html">Designing the content model</a></h3>
+                <h3>Designing the content model</h3>
                 <p>How a portal is assembled from nested CMS entries, with an interactive x-ray view and a map of the model.</p>
-                <span class="proj__cta" aria-hidden="true">Open case study →</span>
+                <a class="proj__cta" href="work/content-architecture.html">Open case study →</a>
+              </div>
+            </article>
+
+            <!-- 3. Case study, delivered as a standalone interactive presentation -->
+            <article class="proj proj--wide proj--pres">
+              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">seo-landing-pages.case</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__media">
+                <img src="assets/img/y2k/thumb-seo-landing-pages.jpg" width="1699" height="1175" alt="Hero screen of The SEO Road presentation: the headline, five KPI tiles and the first stop on the illustrated road" loading="lazy">
+              </div>
+              <div class="proj__body">
+                <div class="proj__tags"><span class="chip chip--status">Case study</span><span class="chip chip--pres">Presentation</span><span class="chip">SEO</span></div>
+                <h3>The SEO road: hosted landing pages</h3>
+                <p>A single-handed SEO audit and optimisation across 163 hosted landing pages in seven languages, walked through as an interactive, scroll-driven presentation.</p>
+                <a class="proj__cta" href="presentations/seo-optimised-pages.html">Open presentation ↗</a>
+              </div>
+            </article>
+
+
+            <!-- 4. Case study, internal tooling -->
+            <article class="proj proj--wide">
+              <div class="proj__bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">mockup-maker.case</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__media">
+                <img src="assets/img/y2k/thumb-mockup-maker.jpg" width="960" height="614" alt="Preview of a referral portal mockup generated from a prospect's brand colours" loading="lazy">
+              </div>
+              <div class="proj__body">
+                <div class="proj__tags"><span class="chip chip--status">Case study</span><span class="chip">Internal tooling</span><span class="chip">AI</span></div>
+                <h3>Mockup maker</h3>
+                <p>A guided tool that turns a prospect's website into a branded portal preview, built on a fixed template and a Claude skill, so Sales can make mockups without a designer.</p>
+                <a class="proj__cta" href="work/mockup-maker.html">Open case study →</a>
               </div>
             </article>
 
@@ -607,29 +716,10 @@
           </div>
         </div>
 
+        <p class="fm-empty" id="fm-empty" hidden>Nothing here yet. Try another view.</p>
         <div class="explorer__status" aria-live="polite">
-          <span id="count-all">4 objects</span><span id="count-done">2 case studies</span><span id="count-wip">2 in progress</span>
+          <span id="count-all">5 objects</span><span id="count-done">3 case studies</span><span id="count-pres">1 presentation</span><span id="count-wip">2 in progress</span>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Earlier work strip -->
-  <section class="block" style="padding-top:0" aria-labelledby="early-title">
-    <div class="wrap">
-      <div class="tile tile--peri early">
-        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">early-work/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-        <div class="early__row">
-          <div class="early__thumbs" aria-hidden="true">
-            <div><img src="assets/img/y2k/early-abemd-1.jpg" alt="" loading="lazy"></div>
-            <div><img src="assets/img/y2k/early-always-2.jpg" alt="" loading="lazy"></div>
-            <div><img src="assets/img/y2k/early-clairol-1.jpg" alt="" loading="lazy"></div>
-            <div><img src="assets/img/y2k/early-geekisstore-1.jpg" alt="" loading="lazy"></div>
-          </div>
-          <div class="early__text">
-            <h2 id="early-title" style="font-family:var(--font-head);font-size:26px;font-weight:800">Looking for older work?</h2>
-            <p>14 projects from earlier in my career, in art direction, print, social media and identity.</p>
-            <a class="btn btn--primary" href="earlier-work.html">See all <span class="arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
@@ -645,8 +735,7 @@
   <div class="contact-band">
     <div class="tile tile--blue c-br">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-      <span class="eyebrow">Contact</span>
-      <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
+      <h2 class="h-bar">Let’s build something good.</h2>
       <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
     </div>
     <div class="contact-cascade">
@@ -693,12 +782,56 @@
   tick(); setInterval(tick, 15000);
 </script>
 <script>
-  /* keep the explorer status bar in sync with the cards, so nothing needs counting by hand */
+  /* File browser: builds the sidebar's case list from the project cards, and filters the cards.
+     Add or remove a card and the sidebar, counts and filters follow. No lists to keep in sync by hand. */
   (function(){
-    var g = document.querySelector('.explorer'); if (!g) return;
-    var all = g.querySelectorAll('.proj').length, wip = g.querySelectorAll('.proj--wip').length, done = all - wip;
-    function s(id, n, one, many){ var el = document.getElementById(id); if (el) el.textContent = n + ' ' + (n === 1 ? one : many); }
-    s('count-all', all, 'object', 'objects'); s('count-done', done, 'case study', 'case studies'); s('count-wip', wip, 'in progress', 'in progress');
+    var ex = document.querySelector('.explorer'); if (!ex) return;
+    var cards = [].slice.call(ex.querySelectorAll('.proj'));
+    var list = document.getElementById('side-cases');
+    function icon(id){ return '<svg class="ico" aria-hidden="true"><use href="#' + id + '"/></svg>'; }
+    cards.forEach(function(c){
+      var h = c.querySelector('h3'), a = c.querySelector('.proj__cta'), li = document.createElement('li');
+      li.innerHTML = a
+        ? '<a class="side-item">' + icon('i-folder') + '<span class="lbl"></span></a>'
+        : '<span class="side-item is-soon" aria-disabled="true">' + icon('i-clock') + '<span class="lbl"></span><em>soon</em></span>';
+      li.firstChild.querySelector('.lbl').textContent = h.textContent.trim();
+      if (a) {
+        li.firstChild.setAttribute('href', a.getAttribute('href'));
+        if (a.hasAttribute('target')) {
+          li.firstChild.setAttribute('target', a.getAttribute('target'));
+          li.firstChild.setAttribute('rel', 'noopener');
+        }
+      }
+      list.appendChild(li);
+    });
+    var view = 'all', q = '', input = document.getElementById('fm-q');
+    var viewBtns = [].slice.call(ex.querySelectorAll('[data-view]'));
+    function n(id, v, one, many){ var el = document.getElementById(id); if (el) el.textContent = v + ' ' + (v === 1 ? one : many); }
+    function apply(){
+      var all = 0, wip = 0, pres = 0;
+      cards.forEach(function(c){
+        var isWip = c.classList.contains('proj--wip');
+        var isPres = c.classList.contains('proj--pres');
+        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'done' ? !isWip : true);
+        var okText = !q || c.textContent.toLowerCase().indexOf(q) > -1;
+        c.hidden = !(okView && okText);
+        if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; }
+      });
+      [].forEach.call(ex.querySelectorAll('.proj-grid'), function(g){
+        g.hidden = !g.querySelector('.proj:not([hidden])');
+        var prev = g.previousElementSibling;
+        if (prev && prev.classList.contains('proj-divider')) prev.hidden = g.hidden;
+      });
+      document.getElementById('fm-empty').hidden = all > 0;
+      n('count-all', all, 'object', 'objects'); n('count-done', all - wip, 'case study', 'case studies'); n('count-pres', pres, 'presentation', 'presentations'); n('count-wip', wip, 'in progress', 'in progress');
+    }
+    viewBtns.forEach(function(b){ b.addEventListener('click', function(){
+      view = b.getAttribute('data-view');
+      viewBtns.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      apply();
+    }); });
+    if (input) input.addEventListener('input', function(){ q = input.value.trim().toLowerCase(); apply(); });
+    apply();
   })();
 </script>
 </body>

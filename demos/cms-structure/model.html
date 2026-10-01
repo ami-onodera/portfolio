@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <!-- Brand heading fonts, used only in the three Theme samples -->
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700&family=Fraunces:opsz,wght@9..144,600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   @page { size: 1440px 3220px; margin: 0; }
 
@@ -206,6 +207,73 @@
     .cms-toolbar__title{display:none;}
   }
 </style>
+
+<style>
+  /* ===== Portfolio Y2K skin: same sky background and colours, one open page (no windows) ===== */
+  :root{ --indigo:#25283d; --chrome:#f4f1fb; --ink:#25283d; --body:#3f3c63; --muted:#5f5b8a; --accent:#7a4fb0; --pink:#ef798a; --yellow:#f4eea9;
+    --hair:#a9a2cf; --line:#25283d; }
+  html{ background:#cfe3fb; }
+  body{ font-family:'Quicksand',sans-serif; font-weight:500; font-size:16px; color:var(--body);
+    background:linear-gradient(180deg,#cfe3fb 0%,#d9d3f2 32%,#eccbe4 58%,#f6d9e4 78%,#fbe7d9 100%); background-attachment:fixed; }
+  h1,h2,h3,.node__name,.theme__entry{ font-family:'Baloo 2',sans-serif; }
+
+  /* intro and bands: no tinted boxes, just content on the sky, separated by a pixel rule */
+  .intro,.band,.band--model,.band--brands{ background:none; border-radius:0; padding-left:0; padding-right:0; }
+  .intro{ padding-top:24px; padding-bottom:44px; }
+  .band{ margin-top:0; padding-top:44px; padding-bottom:48px; border-top:2px dashed rgba(37,40,61,.7); }
+  .intro h1{ font-weight:800; letter-spacing:-.01em; }
+  .band__head h2{ font-weight:800; letter-spacing:0; }
+  .intro__lead{ font-weight:600; }
+  .intro__small{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:13px; }
+
+  /* readable top label (replaces the tiny pill) */
+  .eyebrow{ display:inline-block; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:15px; letter-spacing:.02em; text-transform:none;
+    color:var(--indigo); background:var(--yellow); border:2px solid var(--indigo); border-radius:0; padding:6px 14px; box-shadow:3px 4px 0 rgba(37,40,61,.2); }
+  .band__kicker,.legend h2,.howto h3,.where h3,.shared__label{ font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:14px; letter-spacing:.04em; color:var(--accent); }
+  .legend h2,.howto h3,.where h3{ color:var(--muted); }
+
+  /* cards: square, indigo outline, small hard shadow */
+  .legend,.where,.shared,.node,.theme{ background:var(--chrome); border:2px solid var(--indigo); border-radius:0; box-shadow:4px 5px 0 rgba(37,40,61,.16); }
+  .where{ background:rgba(244,241,251,.8); }
+  .node.alt{ border-radius:0; }
+  .node{ border-color:var(--indigo); }
+  .node::before{ left:0; right:0; top:0; height:6px; border-radius:0; }
+  .node.is-optional{ border-style:dashed; background:rgba(244,241,251,.7); box-shadow:none; }
+  .theme.mirror{ border-radius:0; }
+  .theme::before{ display:none; }
+  .theme__top::before{ left:0; right:0; height:6px; border-radius:0; }
+  .node__name{ font-size:18px; font-weight:700; }
+  .node__level,.node__count,.chip,.pill,.annot--theme b,.annot--index b,.theme__entry,.sw-hex{ font-family:'IBM Plex Mono',monospace; }
+  .node__count,.chip,.pill{ border-radius:0; font-weight:600; }
+  .node__count{ border:1px solid var(--indigo); }
+  .node__dot,.legend .sw,.theme__entry i,.pill i{ border-radius:0; }
+  .chip{ background:#e9dcf3; color:var(--indigo); font-size:11.5px; }
+  .pill{ background:#fff; border:1px solid var(--indigo); font-size:12.5px; }
+  .pill--theme{ background:var(--yellow); }
+  .fields li{ border-top:1px dashed var(--hair); font-size:13px; }
+  .fl{ font-weight:700; color:var(--ink); }
+  .node__note,.annot,.sw-name,.radius span,.sample__cap{ font-weight:600; }
+  .where li::before,.annot--index::after{ border-radius:0; }
+  .where a{ color:var(--accent); text-decoration:underline; }
+  .sw-tile{ border-radius:0; border:1.5px solid var(--indigo); }
+  .shared__sep{ background:var(--indigo); opacity:.35; }
+  .legend .sw-dash{ border-radius:0; border-color:var(--indigo); }
+  /* brand shapes, buttons and badges keep their real per-brand border radius: those ARE the content */
+
+  /* floating bar and back button: square chrome */
+  .cms-toolbar,.pf-back{ border-radius:0 !important; background:var(--chrome) !important; border:2px solid var(--indigo); box-shadow:4px 5px 0 rgba(37,40,61,.25) !important; }
+  .cms-toolbar{ font-family:'IBM Plex Mono',monospace; font-size:13px; padding:5px; }
+  .cms-toolbar__title{ color:var(--indigo); font-weight:600; }
+  .cms-toolbar__tab,.cms-toolbar__toggle{ border-radius:0 !important; font-weight:600; font-family:'IBM Plex Mono',monospace; }
+  .cms-toolbar__tab:hover{ background:#e9dcf3; }
+  .cms-toolbar__tab.is-active{ background:var(--yellow); color:var(--indigo); }
+  .cms-toolbar__toggle{ background:var(--indigo); color:#fff; }
+  .cms-toolbar__toggle[aria-pressed="false"]{ background:#e9dcf3; color:var(--indigo); }
+  .pf-back{ font-family:'IBM Plex Mono',monospace !important; font-weight:600 !important; color:var(--indigo) !important; }
+  .pf-back i{ border-radius:0 !important; background:var(--yellow) !important; color:var(--indigo) !important; }
+  .band__head{ padding:0; }
+  @media (max-width:1000px){ .intro,.band{ padding-left:0; padding-right:0; } }
+</style>
 </head>
 <body>
 <main class="page">
@@ -278,12 +346,12 @@
 
       <!-- Connector: Promotion to Theme, Portal, Follow-up pages -->
       <svg class="conn" width="1240" height="56" viewBox="0 0 1240 56" aria-hidden="true">
-        <g fill="none" stroke="#c9c2ee" stroke-width="1.5" stroke-linecap="round">
+        <g fill="none" stroke="#25283d" stroke-width="2" stroke-linecap="round">
           <path d="M620 0 V56"/>
           <path d="M620 28 H130 Q116 28 116 42 V56"/>
           <path d="M620 28 H1110 Q1124 28 1124 42 V56" stroke-dasharray="5 5"/>
         </g>
-        <g fill="#c9c2ee"><circle cx="620" cy="28" r="3.5"/></g>
+        <g fill="#25283d"><circle cx="620" cy="28" r="3.5"/></g>
       </svg>
 
       <!-- Row 2: Theme, Portal, Follow-up pages -->
@@ -324,7 +392,7 @@
 
       <!-- Connector: Portal to Index page, plus the Theme leader line -->
       <svg class="conn" width="1240" height="44" viewBox="0 0 1240 44" aria-hidden="true">
-        <g fill="none" stroke="#c9c2ee" stroke-width="1.5" stroke-linecap="round">
+        <g fill="none" stroke="#25283d" stroke-width="2" stroke-linecap="round">
           <path d="M620 0 V44"/>
         </g>
         <path d="M116 0 V44" fill="none" stroke="#c98a2b" stroke-width="1"/>
@@ -348,7 +416,7 @@
 
       <!-- Connector: Index page to the five ordered sections -->
       <svg class="conn" width="1240" height="78" viewBox="0 0 1240 78" aria-hidden="true">
-        <g fill="none" stroke="#c9c2ee" stroke-width="1.5" stroke-linecap="round">
+        <g fill="none" stroke="#25283d" stroke-width="2" stroke-linecap="round">
           <path d="M620 0 V30"/>
           <path d="M620 30 H130 Q116 30 116 44 V78"/>
           <path d="M620 30 H872"/>
@@ -359,11 +427,11 @@
         </g>
         <text x="632" y="19" font-family="Nunito, sans-serif" font-size="11" font-weight="800" letter-spacing="0.9" fill="#7b78a0">SECTIONS, IN PAGE ORDER</text>
         <g font-family="Nunito, sans-serif" font-size="11" font-weight="900" text-anchor="middle">
-          <circle cx="116" cy="56" r="10" fill="#fff" stroke="#7466cf" stroke-width="1.5"/><text x="116" y="60" fill="#7466cf">1</text>
-          <circle cx="368" cy="56" r="10" fill="#fff" stroke="#7466cf" stroke-width="1.5"/><text x="368" y="60" fill="#7466cf">2</text>
-          <circle cx="620" cy="56" r="10" fill="#fff" stroke="#7466cf" stroke-width="1.5"/><text x="620" y="60" fill="#7466cf">3</text>
-          <circle cx="872" cy="56" r="10" fill="#fff" stroke="#7466cf" stroke-width="1.5"/><text x="872" y="60" fill="#7466cf">4</text>
-          <circle cx="1124" cy="56" r="10" fill="#fff" stroke="#b3acd9" stroke-width="1.5" stroke-dasharray="3 2"/><text x="1124" y="60" fill="#9a96bd">5</text>
+          <circle cx="116" cy="56" r="10" fill="#fff" stroke="#25283d" stroke-width="2"/><text x="116" y="60" fill="#25283d">1</text>
+          <circle cx="368" cy="56" r="10" fill="#fff" stroke="#25283d" stroke-width="2"/><text x="368" y="60" fill="#25283d">2</text>
+          <circle cx="620" cy="56" r="10" fill="#fff" stroke="#25283d" stroke-width="2"/><text x="620" y="60" fill="#25283d">3</text>
+          <circle cx="872" cy="56" r="10" fill="#fff" stroke="#25283d" stroke-width="2"/><text x="872" y="60" fill="#25283d">4</text>
+          <circle cx="1124" cy="56" r="10" fill="#fff" stroke="#25283d" stroke-width="1.5" stroke-dasharray="3 2"/><text x="1124" y="60" fill="#25283d">5</text>
         </g>
       </svg>
 
@@ -424,7 +492,7 @@
 
       <!-- Connector: sections to their children -->
       <svg class="conn" width="1240" height="44" viewBox="0 0 1240 44" aria-hidden="true">
-        <g fill="none" stroke="#c9c2ee" stroke-width="1.5" stroke-linecap="round">
+        <g fill="none" stroke="#25283d" stroke-width="2" stroke-linecap="round">
           <path d="M116 0 V44"/>
           <path d="M368 0 V44"/>
           <path d="M620 0 V44"/>

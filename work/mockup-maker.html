@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mockup maker | Camila Massa</title>
+<meta name="description" content="Case study: a guided mockup maker that turns a prospect's website into a realistic, on-brand referral-portal preview in minutes, with no designer and nothing the product can't deliver.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/y2k.css">
+<style>
+  .section-head{ margin-bottom:26px; }
+  .section-head .lead{ margin-top:14px; font-family:var(--font-body); font-weight:500; }
+  .section-win{ transform:none; }
+  .live-frame{ aspect-ratio:16 / 10; }
+
+  /* context */
+  .trio{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); margin-top:28px; }
+  .trio--two{ grid-template-columns:repeat(2, minmax(0,1fr)); }
+  .trio h3{ font-size:20px; margin:10px 0 6px; font-family:var(--font-head); }
+  .trio p{ font-size:16px; }
+  .trio .tile:nth-child(odd){ transform:rotate(-.3deg); }
+  .trio .tile:nth-child(even){ transform:rotate(.3deg); }
+  .trio--two .tile{ transform:none !important; }
+  .pull{ margin-top:30px; font-family:var(--font-head); font-size:clamp(22px,2.8vw,30px); font-weight:700; line-height:1.3; color:var(--ink); max-width:30em; padding:6px 0 6px 22px; border-left:8px solid var(--pink); }
+
+  /* demo: brand switcher */
+  .demo-tile{ padding:clamp(18px,3vw,36px); }
+  .demo-tile > .win-bar{ margin:calc(-1 * clamp(18px,3vw,36px)) calc(-1 * clamp(18px,3vw,36px)) 20px; }
+  .demo{ display:grid; grid-template-columns:270px minmax(0,1fr); gap:clamp(18px,3vw,32px); margin-top:26px; align-items:start; }
+  .controls{ position:sticky; top:80px; }
+  .controls h4{ font-family:var(--font-pixel); font-size:13px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--accent-ink); margin-bottom:12px; }
+  .swatch-btn{
+    display:flex; align-items:center; gap:12px; width:100%; margin-bottom:10px; padding:10px 12px; text-align:left; cursor:pointer;
+    font-family:var(--font-body); font-size:15px; font-weight:700; color:var(--ink); background:var(--chrome);
+    border-top:2px solid #fff; border-left:2px solid #fff; border-right:2px solid var(--indigo); border-bottom:2px solid var(--indigo);
+    box-shadow:2px 3px 0 rgba(37,40,61,.2); transition:none;
+  }
+  .swatch-btn:hover{ background:#fff; }
+  .swatch-btn:focus-visible{ outline:3px solid var(--accent); outline-offset:2px; }
+  .swatch-btn[aria-pressed="true"]{
+    background:var(--purple); border-top-color:var(--indigo); border-left-color:var(--indigo); border-right-color:#fff; border-bottom-color:#fff;
+    box-shadow:inset 2px 2px 4px rgba(37,40,61,.35);
+  }
+  .swatch-btn .dots{ display:flex; flex:none; }
+  .swatch-btn .dots i{ width:18px; height:18px; border:1.5px solid var(--indigo); margin-left:-5px; }
+  .swatch-btn .dots i:first-child{ margin-left:0; }
+  .brand-btn small{ display:block; font-weight:600; font-size:13px; color:var(--muted); }
+  .readout{ margin-top:16px; font-size:14px; font-weight:600; line-height:1.9; color:var(--body); background:#fff; border:2px solid var(--indigo); box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); padding:12px 14px; }
+  .readout b{ color:var(--ink); font-weight:800; }
+  .readout .sw{ display:inline-block; width:12px; height:12px; margin-right:6px; vertical-align:-1px; border:1.5px solid var(--indigo); }
+  .demo-note{ font-size:14px; color:var(--muted); margin-top:12px; line-height:1.5; }
+  .demo-note.warn{ color:var(--accent-ink); font-weight:700; }
+  .demo-foot{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px 20px; margin-top:14px; }
+  .demo-foot figcaption{ margin:0; }
+
+  /* outputs, problem solved */
+  .out-grid, .impact-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); }
+  .out-grid .tile:nth-child(odd), .impact-grid .tile:nth-child(odd){ transform:rotate(-.3deg); }
+  .out-grid .tile:nth-child(even), .impact-grid .tile:nth-child(even){ transform:rotate(.3deg); }
+  .out-grid svg{ margin-bottom:14px; }
+  .out-grid h3, .impact-grid h3{ font-size:20px; margin:4px 0 8px; font-family:var(--font-head); }
+  .out-grid p, .impact-grid p{ font-size:16px; }
+  .skill-lead{ margin-bottom:26px; }
+  .pills{ margin-top:14px; }
+  .pill--line{ background:var(--yellow); }
+
+  /* related case study */
+  .next-card{ display:grid; grid-template-columns:2fr 3fr; grid-template-rows:auto 1fr; align-items:stretch; }
+  .next-card > .win-bar{ grid-column:1 / -1; margin:0; }
+  .next-card .work-card__media{ aspect-ratio:auto; height:100%; min-height:300px; border-bottom:0; border-right:2px solid var(--indigo); }
+  .next-card .work-card__media .live-frame{ position:absolute; inset:0; aspect-ratio:auto; }
+  .next-card .live-frame iframe{ width:1440px; height:900px; max-width:none; }
+  .next-card .work-card__body{ justify-content:center; padding:30px 34px; }
+
+  @media (max-width:900px){
+    .demo{ grid-template-columns:1fr; }
+    .controls{ position:static; display:grid; grid-template-columns:1fr 1fr; gap:0 10px; }
+    .controls h4, .readout, .demo-note{ grid-column:1 / -1; }
+    .trio, .trio--two, .out-grid, .impact-grid{ grid-template-columns:1fr; }
+    .trio .tile, .out-grid .tile, .impact-grid .tile{ transform:none !important; }
+    .next-card{ grid-template-columns:1fr; grid-template-rows:auto; }
+    .next-card .work-card__media{ aspect-ratio:16 / 10; height:auto; min-height:0; border-right:0; border-bottom:2px solid var(--indigo); }
+  }
+  @media (max-width:640px){
+    .controls{ grid-template-columns:1fr; }
+    .next-card .work-card__body{ padding:22px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-decor" aria-hidden="true">
+  <div class="grid-floor"></div>
+  <svg class="bgstar" style="top:6%; left:9%; width:13px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:14%; left:22%; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:9%; left:38%; width:9px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:5%; left:58%; width:15px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:22%; left:6%; width:11px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:18%; left:82%; width:14px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:30%; left:93%; width:8px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:40%; left:4%; width:8px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:52%; left:91%; width:13px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:64%; left:8%; width:10px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:72%; left:96%; width:6px; opacity:.6" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:80%; left:14%; width:12px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:88%; left:88%; width:9px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <a class="brand nav-start" href="../index.html" title="Home" aria-label="Home">
+      <img src="../assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn nav-util" href="../assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.pdf
+      </a>
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" title="Open LinkedIn" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+          <img src="../assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
+        </span>
+        <span class="navtray-icon" title="Connected">
+          <img src="../assets/img/y2k/nav-wifi.png" alt="" width="13" height="10">
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
+</header>
+<main id="main">
+
+  <!-- Hero -->
+  <section class="cs-hero sky-decor">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" style="top:-6px; left:2%; width:130px; opacity:.95">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-h-big-pink.png" alt="" style="top:-18px; right:3%; width:160px">
+    <svg class="deco" aria-hidden="true" style="top:12px; left:46%; width:16px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+    <div class="wrap"><div class="tile tile--sky cs-win">
+    <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">mockup-maker.case</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+    <h1>Mockup maker: from a prospect’s client website to our portal</h1>
+    <p class="lead">I built a guided mockup maker that lets Sales and Customer Success teams turn any prospect’s website into a realistic, on-brand preview of a referral portal. No designer, no design tool knowledge, nothing touching production and nothing on the page the product can’t actually deliver.</p>
+    <dl class="facts">
+      <div class="fact"><dt>Role</dt><dd>Concept, system design, build and rollout</dd></div>
+      <div class="fact"><dt>For</dt><dd>Sales, Customer Success and the Integrations team</dd></div>
+      <div class="fact"><dt>Tools</dt><dd>Claude (custom skills), HTML/CSS, Contentful, GitLab Pages</dd></div>
+      <div class="fact"><dt>Output</dt><dd>One self-contained HTML file, a deck slide or a private link</dd></div>
+    </dl>
+    </div></div>
+  </section>
+
+  <!-- Context -->
+  <section class="block" style="padding-top:24px" aria-labelledby="context-title"><div class="wrap">
+    <div class="tile tile--white section-win">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">the-pain-point.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="prose">
+      <h2 id="context-title">The pain point</h2>
+      <p class="lead" style="margin:10px 0 18px;font-weight:800;color:var(--ink)">Prospects couldn’t picture the product</p>
+      <p>I work at a B2B referral-marketing platform. Our partners embed a branded referral portal where their customers invite friends and collect rewards. Every portal runs on the same structure, but it is dressed in the partner’s colours, type and imagery, so it feels like part of the partner’s own site.</p>
+      <p>That is hard to explain in a sales call. Prospects kept asking the same thing: <strong>“What would this look like for us?”</strong> The honest answer was a generic demo in someone else’s colours, which undersold the product at the moment that mattered most. Getting a proper mockup had three problems:</p>
+    </div>
+    </div>
+    <div class="trio">
+      <div class="tile tile--sky c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">bottleneck.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Bottleneck</span><h3>It needed a designer</h3><p>Every mockup went through someone with design skills and a Figma seat. Turnaround took days, so most deals never got one.</p></div>
+      <div class="tile tile--blue c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">risk.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Risk</span><h3>Production was off-limits</h3><p>Building a real portal in the CMS before a contract was signed wasn’t an option. Prospects couldn’t touch live infrastructure.</p></div>
+      <div class="tile tile--peri c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">trust.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Trust</span><h3>Mockups over-promised</h3><p>Freehand designs drifted from what the platform could build. A prospect who signs expecting a section that doesn’t exist is a problem someone has to fix later.</p></div>
+    </div>
+    <p class="pull">How might we let non-designers produce a believable, buildable preview of a prospect’s portal before a contract is signed?</p>
+  </div></section>
+
+  <!-- The insight -->
+  <section class="block" style="padding-top:0" id="demo" aria-labelledby="demo-title"><div class="wrap">
+    <div class="tile tile--white demo-tile">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">brand-switcher.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head" style="margin-bottom:0">
+        <h2 id="demo-title" class="h-bar" style="margin-top:14px">The insight: only the skin changes</h2>
+        <p class="lead">Having a <a href="one-template-many-brands.html">defined structure of a portal</a> is the key. If the structure is fixed, a mockup is just a set of brand elements applied to one template. Pick a brand below and watch the same portal change skin.</p>
+      </div>
+      <div class="demo">
+        <div class="controls" role="group" aria-label="Choose a portal">
+          <h4>Fictional brands</h4>
+          <button class="swatch-btn brand-btn" type="button" data-brand="nimbelo-fibre" aria-pressed="true"><span class="dots"><i style="background:#0B7285"></i><i style="background:#C6F432"></i><i style="background:#0B2530"></i></span><span>Nimbelo Fibre<small>Very round</small></span></button>
+          <button class="swatch-btn brand-btn" type="button" data-brand="voltwell-energy" aria-pressed="false"><span class="dots"><i style="background:#1F6F43"></i><i style="background:#FFC53D"></i><i style="background:#10261A"></i></span><span>Voltwell Energy<small>Medium border radius</small></span></button>
+          <button class="swatch-btn brand-btn" type="button" data-brand="orbeo-mobile" aria-pressed="false"><span class="dots"><i style="background:#5B2EFF"></i><i style="background:#FF6B4A"></i><i style="background:#140B33"></i></span><span>Orbeo Mobile<small>Sharp edges</small></span></button>
+          <div class="readout" id="readout" aria-live="polite"></div>
+          <p class="demo-note" id="note"></p>
+        </div>
+
+        <figure class="shot" style="margin:0">
+          <div class="frame">
+            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span id="demo-url">refer.nimbelo.example</span></div>
+            <div class="live-frame"><iframe id="demo-frame" src="../demos/nimbelo-fibre/index.html" title="Referral portal preview, scaled" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+          </div>
+          <div class="demo-foot">
+            <figcaption>Fictional brands, built to show the system without exposing client work.</figcaption>
+            <a class="btn btn--primary" id="demo-open" href="../demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (opens in a new tab)</span></a>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- How it came together -->
+  <section class="block" style="padding-top:0" id="process" aria-labelledby="process-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="process-title" class="h-bar">How it came together</h2>
+      <p class="lead">A mockup that shows something we can’t build costs more than no mockup at all. So most of the design work went into what the tool <em>refuses</em> to do.</p>
+    </div>
+    <div class="trio trio--two" style="margin-top:0">
+      <div class="tile tile--sky c-br">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">step-1-define.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">1 · Define</span>
+        <h3>A fixed structure, ten brand elements</h3>
+        <p>I decided on a fixed page structure that showcased our product well, and let only the styling change per client. The brand layer is cut down to ten named elements.</p>
+        <div class="pills">
+          <span class="pill">Primary colour</span><span class="pill">Text on primary</span><span class="pill">Secondary colour</span><span class="pill">Text on secondary</span><span class="pill">Secondary background</span><span class="pill">Grey</span><span class="pill">Link colour</span><span class="pill">Heading font</span><span class="pill">Body font</span><span class="pill">Border radius</span>
+        </div>
+      </div>
+      <div class="tile tile--blue c-tl">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">step-2-build.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">2 · Build</span>
+        <h3>One template, one file</h3>
+        <p>I rebuilt the live portal as a single standalone HTML page, section for section, with every visual decision as a CSS variable. A rebrand means changing a handful of values, not rewriting the layout.</p>
+        <p>I picked HTML over a design tool on purpose. One file emails cleanly, opens anywhere and feels live: buttons react, “show more” expands, the email field validates. Figma would have needed a seat for every user.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Skill and outputs -->
+  <section class="block" style="padding-top:0" id="skill" aria-labelledby="skill-title"><div class="wrap">
+    <div class="section-head skill-lead">
+      <h2 id="skill-title" class="h-bar">Delivered as a skill, shared the way teams work</h2>
+      <p class="lead">Everything above is packaged as a custom Claude skill: a written playbook the AI agent follows, with templates and helper scripts. Nobody opens a CSS file or picks a hex code. They paste a prospect’s website URL and answer four questions. The skill reads the site, shows the palette for confirmation before building, runs its own checks and hands over the result in whatever shape the team needs.</p>
+    </div>
+    <div class="out-grid">
+      <div class="tile tile--sky c-br">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-file.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true"><rect x="9" y="4" width="26" height="36" rx="4" stroke="#2c2a4f" stroke-width="1.8"/><path d="M15 15h14M15 21h14M15 27h9" stroke="#7466cf" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="tag">Default</span><h3>One self-contained file</h3><p>Images are embedded, so the page works offline. It is around half a megabyte and easy to email or attach to a CRM record.</p>
+      </div>
+      <div class="tile tile--peri c-tl c-br">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">deck-slide.ppt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true"><rect x="4" y="9" width="36" height="22" rx="3" stroke="#2c2a4f" stroke-width="1.8"/><rect x="10" y="14" width="14" height="12" rx="1.5" fill="#7466cf"/><path d="M22 31v6M15 37h14" stroke="#2c2a4f" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span class="tag">For pitches</span><h3>Dropped into a deck slide</h3><p>A script injects the mockup into the HTML sales deck at 1440×810 and checks the result, so Sales can present it live.</p>
+      </div>
+      <div class="tile tile--lav c-tl">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">private-link.url</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true"><circle cx="22" cy="22" r="16" stroke="#2c2a4f" stroke-width="1.8"/><path d="M6 22h32M22 6c5 5 5 27 0 32M22 6c-5 5-5 27 0 32" stroke="#2c2a4f" stroke-width="1.8"/><circle cx="33" cy="33" r="6" fill="#7466cf"/></svg>
+        <span class="tag">For follow-ups</span><h3>A private hosted link</h3><p>Published to GitLab Pages with access control, so a named prospect’s preview can’t be found by anyone else.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Problem solved -->
+  <section class="block" style="padding-top:0" id="impact" aria-labelledby="impact-title"><div class="wrap">
+    <div class="section-head"><h2 id="impact-title" class="h-bar">Problem solved</h2></div>
+    <div class="impact-grid">
+      <div class="tile tile--lav-soft c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">bottleneck.fixed</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Bottleneck</span><h3>Days → one conversation</h3><p>A branded preview no longer waits in a design queue. It is made while the deal is still warm.</p></div>
+      <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">risk.fixed</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Risk</span><h3>Self-serve, off production</h3><p>Sales and Customer Success make mockups themselves, with no design tool seat, no CSS and nothing built in the live CMS.</p></div>
+      <div class="tile tile--lilac c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">trust.fixed</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Trust</span><h3>No expectation gap</h3><p>Every mockup is built from real sections, so what a prospect sees is what Integrations can deliver.</p></div>
+    </div>
+  </div></section>
+
+  <!-- Other case study -->
+  <section class="block" style="padding-top:0" aria-labelledby="prev-title"><div class="wrap">
+    <h2 id="prev-title" class="sr-only">Related case study</h2>
+    <a class="work-card next-card" href="one-template-many-brands.html">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">related-case-study.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="work-card__media">
+        <div class="live-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Preview of the Orbeo Mobile portal" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
+      </div>
+      <div class="work-card__body">
+        <span class="tag">Related case study</span>
+        <h3 style="font-size:28px;margin-top:6px">One template, many brands</h3>
+        <p>Three refer-a-friend portals, a single template. Only the client’s assets, copy and design identity change.</p>
+        <span class="work-card__cta">Read the case study →</span>
+      </div>
+    </a>
+    <p class="back-row"><a class="back-link" href="../selected-work.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to all work</a></p>
+  </div></section>
+
+</main>
+<!-- contact band (every page, above footer) -->
+<!-- contact band (every page, above footer) -->
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h2 class="h-bar">Let’s build something good.</h2>
+      <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
+    </div>
+    <div class="contact-cascade">
+      <div class="ghost-bar cascade-ghost cascade-ghost--bottom">
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      </div>
+      <div class="ghost-bar cascade-ghost cascade-ghost--middle">
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+  <span><a href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener">LinkedIn</a></span>
+</div></footer>
+<script>
+  (function () {
+    var frames = document.querySelectorAll('.live-frame');
+    function fit() {
+      frames.forEach(function (el) {
+        var f = el.querySelector('iframe');
+        if (f) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
+      });
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(fit);
+      frames.forEach(function (el) { ro.observe(el); });
+    }
+  })();
+
+  (function () {
+    var brands = {
+      'nimbelo-fibre':   { url:'refer.nimbelo.example',   brand:'#0B7285', accent:'#C6F432', tint:'#E6F6F7', head:'Outfit', body:'Inter', radius:'999px / 28px', note:'' },
+      'voltwell-energy': { url:'refer.voltwell.example', brand:'#1F6F43', accent:'#FFC53D', tint:'#EEF6EC', head:'Fraunces', body:'DM Sans', radius:'12px / 16px', note:'' },
+      'orbeo-mobile':    { url:'refer.orbeo.example',    brand:'#5B2EFF', accent:'#FF6B4A', tint:'#F1EDFF', head:'Space Grotesk', body:'Manrope', radius:'6px / 6px', note:'⚠ White on this coral is only 2.8:1, so the sticker text uses the brand’s dark ink and the coral stays bright.' }
+    };
+    var frame = document.getElementById('demo-frame');
+    var openLink = document.getElementById('demo-open');
+    var url = document.getElementById('demo-url');
+    var readout = document.getElementById('readout');
+    var note = document.getElementById('note');
+    var btns = document.querySelectorAll('.brand-btn');
+    function sw(c) { return '<span class="sw" style="background:' + c + '"></span>'; }
+    function apply(key) {
+      var t = brands[key], src = '../demos/' + key + '/index.html';
+      if (frame.getAttribute('src') !== src) frame.setAttribute('src', src);
+      openLink.setAttribute('href', src);
+      url.textContent = t.url;
+      readout.innerHTML =
+        'Primary colour: ' + sw(t.brand) + '<b>' + t.brand + '</b><br>' +
+        'Accent: ' + sw(t.accent) + '<b>' + t.accent + '</b><br>' +
+        'Hero background: ' + sw(t.tint) + '<b>' + t.tint + '</b><br>' +
+        'Heading font: <b>' + t.head + '</b><br>' +
+        'Body font: <b>' + t.body + '</b><br>' +
+        'Border radius (buttons / cards): <b>' + t.radius + '</b>';
+      note.textContent = t.note || 'Same markup, same sections. Only the brand elements changed.';
+      note.className = 'demo-note' + (t.note ? ' warn' : '');
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.brand === key ? 'true' : 'false'); });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.brand); }); });
+    apply('nimbelo-fibre');
+  })();
+</script>
+<script src="../assets/js/contact.js" defer></script>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+</body>
+</html>

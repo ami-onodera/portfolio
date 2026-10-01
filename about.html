@@ -381,8 +381,7 @@
   }
 
   /* ---------- nav (ported Win95 bevel navbar — shared across all pages) ---------- */
-  .site-nav{ background:linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%); border-bottom:3px solid #4a1f70; box-shadow:0 4px 14px rgba(30,10,50,.28); position:sticky; top:0; z-index:80; padding:0; }
-  .site-nav .wrap{ height:54px; gap:10px; }
+  .site-nav{ background:linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%); border-bottom:3px solid #4a1f70; box-shadow:0 4px 14px rgba(30,10,50,.28); position:sticky; top:0; z-index:80; height:54px; display:flex; align-items:center; gap:10px; padding:0 20px; }
   .brand.nav-start{
     width:auto; height:44px; padding:0 13px 0 8px; display:flex; align-items:center; justify-content:center; gap:8px; flex:none; text-decoration:none;
     background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
@@ -425,7 +424,7 @@
     height:26px; padding:0 10px; box-sizing:border-box; display:flex; align-items:center; gap:6px;
   }
   @media (max-width:639px){
-    .site-nav .wrap{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 0; }
+    .site-nav{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 8px; border-bottom-width:2px; }
     .brand.nav-start{ height:36px; padding:0 9px 0 6px; gap:5px; }
     .brand.nav-start img{ width:24px; height:24px; }
     .nav-start-label{ font-size:10px; }
@@ -462,8 +461,7 @@
 </div>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-nav">
-  <div class="wrap">
-    <a class="brand nav-start" href="index.html" title="Home" aria-label="Home">
+  <a class="brand nav-start" href="index.html" title="Home" aria-label="Home">
       <img src="assets/img/y2k/shiba.png" alt="Camila's shiba icon">
       <span class="nav-start-label">Home</span>
     </a>
@@ -477,7 +475,7 @@
           <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
           <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
         </svg>
-        curriculum.sys
+        curriculum.pdf
       </a>
       <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener" title="Open LinkedIn">
         <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
@@ -507,7 +505,6 @@
         <span id="clockText">10:26</span>
       </div>
     </div>
-  </div>
 </header>
 <main id="main">
 

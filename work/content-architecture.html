@@ -9,127 +9,214 @@
 <link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/y2k.css">
 <style>
-  .nav-links a[aria-current="true"] { background: var(--lav); color: var(--ink); }
   .section-head { margin-bottom: 26px; }
-  .section-head .lead { margin-top: 14px; }
+  .section-head .lead { margin-top: 14px; font-family: var(--font-body); font-weight: 500; }
   .live-frame { aspect-ratio: 16 / 10; }
+  .live-frame iframe { max-width: none; }
+  .win-link-cta { font-family: var(--font-pixel); font-weight: 600; }
+  .hero-sky { position: relative; }
+  .hero-sky .wrap { position: relative; z-index: 1; }
+  .hero-sky .tile { background-color: var(--blue-soft); }
 
   /* featured x-ray */
-  .feature { padding: clamp(14px, 2vw, 22px); }
-  .feature .frame { border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--shadow-sm); }
-  .feature__foot { display: flex; align-items: center; justify-content: space-between; gap: 18px 28px; flex-wrap: wrap; padding: 20px 10px 6px; }
+  .feature .frame { overflow: hidden; }
+  .feature__foot { display: flex; align-items: center; justify-content: space-between; gap: 18px 28px; flex-wrap: wrap; padding: 18px 0 0; }
   .feature__foot figcaption { margin: 0; font-size: 15px; color: var(--body); max-width: 62ch; }
-  .kbd { display: inline-block; min-width: 22px; padding: 1px 7px; border-radius: 6px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 2px 0 var(--line); font-size: 13px; font-weight: 800; color: var(--ink); text-align: center; }
-  .btn--big { font-size: 16px; padding: 16px 24px 17px; }
+  .kbd { display: inline-block; min-width: 22px; padding: 0 6px; background: #fff; border: 1.5px solid var(--indigo); box-shadow: 2px 2px 0 var(--indigo); font-family: var(--font-pixel); font-size: 13px; font-weight: 700; color: var(--indigo); text-align: center; }
+  .btn--big { font-size: 16px; padding: 14px 22px 15px; }
 
   /* why it matters */
-  .why { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
-  .why__list { list-style: none; display: grid; gap: var(--gap); }
-  .why__list li { padding: 20px 22px; }
-  .why__list h3 { font-size: 18px; margin-bottom: 4px; }
-  .why__list p { font-size: 15px; }
+
+  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+  .three .tile h3 { font-size: 20px; margin: 10px 0 6px; }
+  .three .tile p { font-size: 15px; }
 
   /* model diagram */
-  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; list-style: none; margin-bottom: 18px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; list-style: none; margin: 0 0 18px; padding: 0; font-family: var(--font-pixel); font-size: 13px; font-weight: 600; color: var(--indigo); }
   .legend li { display: inline-flex; align-items: center; gap: 8px; }
-  .legend li::before { content: ""; width: 12px; height: 12px; border-radius: 4px; background: var(--c); }
-  .legend .opt::before { background: transparent; box-shadow: inset 0 0 0 2px var(--muted); border-radius: 4px; }
-  .lv-container { --c: #7466cf; }
-  .lv-section { --c: #4f86e0; }
-  .lv-item { --c: #2aa3b8; }
-  .lv-component { --c: #d9668f; }
-  .lv-theme { --c: #c98a2b; }
+  .legend li::before { content: ""; width: 12px; height: 12px; border: 1.5px solid var(--indigo); background: var(--c); }
+  .legend .opt::before { background: #fff; border: 1.5px dashed var(--indigo); }
+  .lv-container { --c: #a578d6; }
+  .lv-section { --c: #5f8fe0; }
+  .lv-item { --c: #3fb0c4; }
+  .lv-component { --c: #ef798a; }
+  .lv-theme { --c: #e0cd7a; }
 
-  .model { padding: clamp(14px, 2.2vw, 26px); }
-  .model ul { list-style: none; }
-  .node { position: relative; background: #fff; border-radius: 18px; border: 2px solid var(--c); padding: 14px 16px 16px; }
+  .model { padding: 0 clamp(14px, 2.2vw, 26px) clamp(14px, 2.2vw, 26px); }
+  .model .win-bar { margin: 0 calc(-1 * clamp(14px, 2.2vw, 26px)) 16px; }
+  .model ul { list-style: none; margin: 0; padding: 0; }
+  .node { position: relative; background: #fff; border: 2px solid var(--indigo); border-left: 8px solid var(--c); box-shadow: 3px 3px 0 rgba(37, 40, 61, .16); padding: 12px 14px 14px; min-width: 0; }
   .node + .node { margin-top: 12px; }
-  .node__name { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-weight: 900; color: var(--ink); font-size: 16px; line-height: 1.25; }
-  .node__name::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
-  .node__lvl { font-size: 11px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--muted); }
-  .node__desc { font-size: 13.5px; color: var(--body); margin-top: 4px; line-height: 1.45; }
+  .node__name { display: block; font-family: var(--font-head); font-weight: 800; color: var(--ink); font-size: 17px; line-height: 1.25; overflow-wrap: anywhere; }
+  .node__name::before { content: ""; display: inline-block; vertical-align: -1px; margin-right: 8px; width: 10px; height: 10px; background: var(--c); border: 1.5px solid var(--indigo); }
+  .node__lvl { font-family: var(--font-pixel); font-size: 11px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; color: var(--accent-ink); }
+  .node__desc { font-size: 13.5px; color: var(--body); margin: 4px 0 0; line-height: 1.45; }
   .node__kids { margin-top: 12px; }
-  .node--opt { border-style: dashed; background: rgba(255, 255, 255, .55); }
-  .node--sm { border-radius: 12px; padding: 8px 12px; border-width: 1.5px; }
-  .node--sm .node__name { font-size: 14px; font-weight: 800; }
+  .node--opt { border-style: dashed; border-left-style: solid; background: rgba(255, 255, 255, .6); }
+  .node--sm { padding: 6px 10px; border-width: 1.5px; border-left-width: 6px; box-shadow: none; }
+  .node--sm.node--opt { border-style: dashed; border-left-style: solid; }
+  .node--sm .node__name { font-size: 14.5px; }
+  .node__name > span { margin-left: 6px; }
   .node--sm + .node--sm { margin-top: 6px; }
-  .count { font-weight: 800; color: var(--muted); white-space: nowrap; }
-  .node--sm .node__name { gap: 4px 7px; }
+  .count { font-family: var(--font-pixel); font-weight: 600; color: var(--muted); white-space: nowrap; }
   .n-promo { background: #fdfcff; }
-  .n-theme { background: #fdf8ef; }
+  .n-theme { background: #fffbe6; }
   .n-portal, .n-index { background: #faf9ff; }
-  .sections { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .sections { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
   .sections > .node + .node { margin-top: 0; }
   .model-actions { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; margin: 32px 0 36px; }
-  .map-preview .frame { position: relative; transition: transform .2s ease, box-shadow .2s ease; }
-  .map-preview .frame:hover { transform: translateY(-3px); box-shadow: 0 26px 56px rgba(44, 42, 79, .13), 0 0 0 2px var(--accent); }
-  .frame-link { position: absolute; inset: 0; z-index: 3; border-radius: inherit; }
-  .frame-link:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .map-preview .frame { border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--shadow); }
+  .map-preview { padding-bottom: clamp(22px, 3vw, 36px); }
+  .map-preview .frame { position: relative; overflow: hidden; }
   .map-preview .live-frame { aspect-ratio: 16 / 7; }
+  .map-preview figcaption { margin-top: 14px; }
+  .frame-link { position: absolute; inset: 0; z-index: 3; }
+  .frame-link:focus-visible { outline: 3px solid var(--pink); outline-offset: -3px; }
+  .frame-link:hover { background: rgba(165, 120, 214, .08); }
 
   /* principles */
   .principles { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--gap); }
+  .principles .tile { padding: 0 clamp(22px, 3vw, 36px) clamp(22px, 3vw, 36px); }
+  .principles .tile .win-bar { margin: 0 calc(-1 * clamp(22px, 3vw, 36px)) 16px; }
   .principles h3 { font-size: 20px; margin-bottom: 6px; }
-  .principles .num { display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #fff; color: var(--accent-ink); font-weight: 900; margin-bottom: 12px; }
+  .principles .num { display: inline-grid; place-items: center; width: 32px; height: 32px; background: var(--yellow); border: 2px solid var(--indigo); box-shadow: 2px 2px 0 var(--indigo); color: var(--indigo); font-family: var(--font-pixel); font-weight: 700; margin-bottom: 12px; }
 
   /* prev case study */
-  .next-card { display: grid; grid-template-columns: 2fr 3fr; align-items: stretch; }
-  .next-card .work-card__media { aspect-ratio: auto; height: 100%; min-height: 300px; }
+  .next-card { display: grid; grid-template-columns: 2fr 3fr; align-items: stretch; text-decoration: none; color: inherit; }
+  .next-card .win-bar { grid-column: 1 / -1; margin: 0; }
+  .next-card .work-card__media { aspect-ratio: auto; height: 100%; min-height: 300px; border-bottom: 0; border-right: 2px solid var(--indigo); }
   .next-card .work-card__media .live-frame { position: absolute; inset: 0; aspect-ratio: auto; }
   .next-card .work-card__body { justify-content: center; padding: 30px 34px; }
+  .next-card .work-card__body h3 { font-size: 28px; margin: 6px 0 0; }
+  .next-card:hover .work-card__cta { text-decoration: underline; }
 
   @media (max-width: 900px) {
-    .why, .next-card { grid-template-columns: 1fr; }
-    .sections { grid-template-columns: repeat(2, 1fr); }
-    .next-card .work-card__media { aspect-ratio: 16 / 10; height: auto; min-height: 0; }
+    .three, .next-card { grid-template-columns: 1fr; }
+    .sections { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .next-card .work-card__media { aspect-ratio: 16 / 10; height: auto; min-height: 0; border-right: 0; border-bottom: 2px solid var(--indigo); }
     .map-preview .live-frame { aspect-ratio: 16 / 10; }
   }
   @media (max-width: 640px) {
     .sections, .principles { grid-template-columns: 1fr; }
-    .principles .tile { border-radius: var(--R); }
-    .node { padding: 12px 12px 14px; }
+    .node { padding: 10px 10px 12px; }
     .feature__foot .btn { width: 100%; }
+    .model-actions .btn { width: 100%; justify-content: center; }
   }
 </style>
 </head>
 <body>
+<div class="bg-decor" aria-hidden="true">
+  <div class="grid-floor"></div>
+  <svg class="bgstar" style="top:6%; left:9%; width:13px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:14%; left:22%; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:9%; left:38%; width:9px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:5%; left:58%; width:15px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:22%; left:6%; width:11px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:18%; left:82%; width:14px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:30%; left:93%; width:8px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:40%; left:4%; width:8px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:52%; left:91%; width:13px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:64%; left:8%; width:10px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:72%; left:96%; width:6px; opacity:.6" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:80%; left:14%; width:12px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:88%; left:88%; width:9px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+</div>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-nav">
-  <div class="wrap">
-    <a class="brand" href="../index.html"><span class="brand__dot" aria-hidden="true"></span>Camila Massa</a>
-    <nav aria-label="Main">
-      <ul class="nav-links">
-        <li><a href="../selected-work.html" aria-current="true">Selected work</a></li>
-        <li><a href="../earlier-work.html">Earlier work</a></li>
-        <li><a href="../about.html">About</a></li>
-        <li class="hide-sm"><a class="btn btn--primary" href="../assets/Camila-Massa-CV.pdf" download>CV</a></li>
-      </ul>
-    </nav>
-  </div>
+  <a class="brand nav-start" href="../index.html" title="Home" aria-label="Home">
+      <img src="../assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn nav-util" href="../assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.pdf
+      </a>
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" title="Open LinkedIn" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+          <img src="../assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
+        </span>
+        <span class="navtray-icon" title="Connected">
+          <img src="../assets/img/y2k/nav-wifi.png" alt="" width="13" height="10">
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
 </header>
 <main id="main">
 
   <!-- Hero -->
-  <section class="cs-hero"><div class="wrap">
-    <span class="eyebrow">Case study · CMS &amp; content modelling</span>
-    <h1>Designing the content model</h1>
-    <p class="lead">A referral portal is not one page in a CMS. It is a tree of nested entries, from the promotion at the top down to each reward row. How that tree is shaped decides what editors can change, what stays consistent, and how fast a new brand goes live.</p>
-    <dl class="facts">
-      <div class="fact"><dt>Role</dt><dd>Web designer: content structure, CMS configuration, theming and CSS styling</dd></div>
-      <div class="fact"><dt>Context</dt><dd>B2B referral portals assembled from nested CMS entries</dd></div>
-      <div class="fact"><dt>Tools</dt><dd>Contentful, JSON, HTML/CSS, vibe coding with Claude</dd></div>
-      <div class="fact"><dt>Note</dt><dd>Fictional brand. The structure mirrors production work, with readable labels instead of internal field names</dd></div>
-    </dl>
+  <section class="cs-hero sky-decor hero-sky" aria-labelledby="ca-title">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" aria-hidden="true" style="top:-4px; left:1%; width:120px; opacity:.95">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-h-big-pink.png" alt="" aria-hidden="true" style="top:-14px; right:1%; width:140px">
+    <svg class="deco" aria-hidden="true" style="top:10px; left:46%; width:16px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+    <div class="wrap">
+      <div class="tile tile--sky cs-win">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">content-architecture.case</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h1 id="ca-title">Designing the content model</h1>
+        <p class="lead">A referral portal is not one page in a CMS. It is a tree of nested entries, from the promotion at the top down to each reward row. How that tree is shaped decides what editors can change, what stays consistent, and how fast a new brand goes live.</p>
+        <dl class="facts">
+          <div class="fact"><dt>Role</dt><dd>Web designer: content structure, Contentful entries, JSON configuration, Material UI theming, CSS styling and design QA</dd></div>
+          <div class="fact"><dt>For</dt><dd>Editors, developers and designers working on B2B referral portals</dd></div>
+          <div class="fact"><dt>Tools</dt><dd>Contentful, JSON, HTML/CSS, vibe coding with Claude</dd></div>
+          <div class="fact"><dt>Output</dt><dd>An interactive x-ray view and a content model map</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- The pain point -->
+  <section class="block" style="padding-top:24px" aria-labelledby="pain-title"><div class="wrap">
+    <div class="tile tile--lav-soft">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">the-pain-point.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head">
+        <h2 id="pain-title" class="h-bar">The pain point</h2>
+        <p class="lead"><strong>A design that breaks the first time someone edits it</strong></p>
+      </div>
+      <div class="prose">
+        <p>Many design decisions never show up in a Figma file. They live in the content model: what an editor can change, what is locked, what repeats, what is optional. If the model is wrong, the design breaks the first time someone edits it.</p>
+      </div>
+      <div class="three" style="margin-top:22px">
+        <div class="tile tile--white"><span class="tag">Alignment</span><h3>No shared map</h3><p>Editors, developers and designers need to point at the same entries and use the same names.</p></div>
+        <div class="tile tile--white"><span class="tag">Flexibility</span><h3>Changes need a developer</h3><p>A promotion should be able to reorder or drop sections without code.</p></div>
+        <div class="tile tile--white"><span class="tag">Re-branding</span><h3>Every brand is a special case</h3><p>One template should serve many brands without special cases or copied colours.</p></div>
+      </div>
+    </div>
   </div></section>
 
   <!-- Featured x-ray -->
-  <section class="block" style="padding-top:24px" aria-labelledby="xray-title"><div class="wrap">
+  <section class="block" style="padding-top:0" aria-labelledby="xray-title"><div class="wrap">
     <h2 id="xray-title" class="sr-only">Interactive x-ray view</h2>
     <figure class="shot tile tile--sky feature">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">xray-view.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="frame">
         <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>nimbelo.link/refer · x-ray view</span></div>
         <div class="live-frame"><iframe src="../demos/cms-structure/xray.html" title="Nimbelo Fibre portal with the CMS x-ray overlay, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
@@ -138,149 +225,84 @@
         <figcaption>The Nimbelo Fibre portal with its CMS structure drawn on top. Hover a block to trace it in the content tree, click it to see its fields, and press <span class="kbd">X</span> to switch the x-ray on or off.</figcaption>
         <a class="btn btn--primary btn--big" href="../demos/cms-structure/xray.html" target="_blank" rel="noopener">Open the interactive x-ray ↗<span class="sr-only"> (opens in a new tab)</span></a>
       </div>
+      <p class="muted" style="padding:10px 10px 0;font-size:14px">Fictional brand. The structure mirrors production work, with readable labels instead of internal field names.</p>
     </figure>
-  </div></section>
-
-  <!-- Why it matters -->
-  <section class="block" style="padding-top:0" aria-labelledby="why-title"><div class="wrap">
-    <div class="why">
-      <div class="prose">
-        <h2 id="why-title" class="h-bar">Why it matters</h2>
-        <p>Many design decisions never show up in a Figma file. They live in the content model: what an editor can change, what is locked, what repeats, what is optional. If the model is wrong, the design breaks the first time someone edits it.</p>
-        <p>So I design the structure as carefully as the screens. A good model gives editors, developers and designers the same map of the page, and it lets one template serve many brands without special cases.</p>
-      </div>
-      <ul class="why__list">
-        <li class="tile tile--blue c-bl"><h3>One shared map</h3><p>Editors, developers and designers point at the same entries and use the same names.</p></li>
-        <li class="tile tile--peri c-tl c-bl"><h3>Reorder without code</h3><p>The index page holds an ordered list of sections, so a promotion can reorder or drop sections in the CMS.</p></li>
-        <li class="tile tile--lav-soft c-tl"><h3>One Theme entry reskins everything</h3><p>Colours, type and border radius sit in a single Theme entry. Swap it and the whole portal changes brand.</p></li>
-      </ul>
-    </div>
   </div></section>
 
   <!-- The model -->
   <section class="block" style="padding-top:0" aria-labelledby="model-title"><div class="wrap">
     <div class="section-head">
       <h2 id="model-title" class="h-bar">The model</h2>
-      <p class="lead">A simplified view of how one portal nests, entry by entry. Colours show the level of each entry.</p>
+      <p class="lead">How one portal nests, entry by entry, from the promotion down to each reward row.</p>
     </div>
 
-    <div class="tile tile--lav-soft model">
-      <ul class="legend" aria-label="Legend">
-        <li class="lv-container">Container</li>
-        <li class="lv-section">Section</li>
-        <li class="lv-item">Item</li>
-        <li class="lv-component">Component</li>
-        <li class="lv-theme">Theme</li>
-        <li class="opt">Optional (dashed)</li>
-      </ul>
-
-      <ul aria-label="Content model tree">
-        <li class="node n-promo lv-container">
-          <span class="node__name">Promotion <span class="node__lvl">Container</span></span>
-          <p class="node__desc">The top of the tree. Links one Portal and one Theme.</p>
-          <ul class="node__kids">
-            <li class="node n-theme lv-theme">
-              <span class="node__name">Theme <span class="node__lvl">Theme</span></span>
-              <p class="node__desc">Colours, typography and border radius. Applies to every entry below.</p>
-            </li>
-            <li class="node n-portal lv-container">
-              <span class="node__name">Portal <span class="node__lvl">Container</span></span>
-              <p class="node__desc">Logo, legal links, footer text.</p>
-              <ul class="node__kids">
-                <li class="node n-index lv-container">
-                  <span class="node__name">Index page <span class="node__lvl">Container</span></span>
-                  <p class="node__desc">An ordered list of sections.</p>
-                  <ul class="node__kids sections">
-                    <li class="node lv-section">
-                      <span class="node__name">Hero</span>
-                      <p class="node__desc">Background image, reward sticker.</p>
-                      <ul class="node__kids">
-                        <li class="node node--sm lv-component"><span class="node__name">Referral widget</span></li>
-                      </ul>
-                    </li>
-                    <li class="node lv-section">
-                      <span class="node__name">How it works</span>
-                      <p class="node__desc">Headline.</p>
-                      <ul class="node__kids">
-                        <li class="node node--sm lv-item"><span class="node__name">Step <span class="count">×3</span></span></li>
-                      </ul>
-                    </li>
-                    <li class="node lv-section">
-                      <span class="node__name">Product section</span>
-                      <p class="node__desc">Headline, subheadline.</p>
-                      <ul class="node__kids">
-                        <li class="node node--sm lv-item"><span class="node__name">Product item <span class="count">×2</span></span></li>
-                      </ul>
-                    </li>
-                    <li class="node lv-section">
-                      <span class="node__name">Rewards table</span>
-                      <p class="node__desc">Column labels, show more, footnote.</p>
-                      <ul class="node__kids">
-                        <li class="node node--sm lv-item"><span class="node__name">Reward row <span class="count">×4</span></span></li>
-                      </ul>
-                    </li>
-                    <li class="node node--opt lv-section">
-                      <span class="node__name">FAQ <span class="node__lvl">Optional</span></span>
-                      <p class="node__desc">Not used in this demo.</p>
-                      <ul class="node__kids">
-                        <li class="node node--sm node--opt lv-item"><span class="node__name">FAQ row</span></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-
-    <div class="model-actions">
-      <a class="btn btn--primary" href="../demos/cms-structure/model.html" target="_blank" rel="noopener">See the full content model map ↗<span class="sr-only"> (opens in a new tab)</span></a>
-      <span class="muted">Every entry, every field and its type, plus the same model applied to three brands.</span>
-    </div>
-    <figure class="shot map-preview">
+    <figure class="shot map-preview tile tile--sky">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">model-map.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="frame">
         <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>content model map</span></div>
         <div class="live-frame"><iframe src="../demos/cms-structure/model.html" title="Content model map, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
         <a class="frame-link" href="../demos/cms-structure/model.html" target="_blank" rel="noopener"><span class="sr-only">Open the full content model map (opens in a new tab)</span></a>
       </div>
-      <figcaption>Preview of the full map. Click it to explore each entry and where it shows up on the page.</figcaption>
+      <div class="feature__foot">
+        <figcaption>Preview of the full map. Click it to explore each entry and where it shows up on the page.</figcaption>
+        <a class="btn btn--primary btn--big" href="../demos/cms-structure/model.html" target="_blank" rel="noopener">See the full content model map ↗<span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
     </figure>
-  </div></section>
-
-  <!-- My role -->
-  <section class="block" style="padding-top:0" aria-labelledby="role-title"><div class="wrap">
-    <div class="prose">
-      <h2 id="role-title" class="h-bar">My role in this</h2>
-      <p>At Aklamio I work hands-on in Contentful: building and wiring up entries, writing JSON configuration, theming with Material UI, styling in CSS, and running design QA before each release. I care about release readiness as much as the visuals, because a portal is only finished when the content behind it is right.</p>
-      <p>This is not new ground for me. As Project Manager at Language International I ran the website content in the CMS and a custom CRM, and supervised the translation of the full site into 27 languages. That taught me early that structure is what makes content scale.</p>
-    </div>
   </div></section>
 
   <!-- Principles -->
   <section class="block" style="padding-top:0" aria-labelledby="principles-title"><div class="wrap">
     <div class="section-head"><h2 id="principles-title" class="h-bar">Principles I design by</h2></div>
     <div class="principles">
-      <div class="tile tile--lav c-br">
+      <div class="tile tile--lav">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">principles-01.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <span class="num" aria-hidden="true">1</span>
         <h3>Readable labels for editors</h3>
         <p>Fields are named for the person filling them in, not for the code. “Reward sticker” beats an internal key every time.</p>
       </div>
-      <div class="tile tile--lilac c-bl">
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">principles-02.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <span class="num" aria-hidden="true">2</span>
         <h3>One source of truth per value</h3>
         <p>A brand colour lives in the Theme, once. Nothing is copied into sections where it can drift out of sync.</p>
       </div>
-      <div class="tile tile--lilac c-tr">
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">principles-03.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <span class="num" aria-hidden="true">3</span>
         <h3>Optional is explicit</h3>
         <p>If a section or field can be left out, the model says so, and the page still looks finished without it.</p>
       </div>
-      <div class="tile tile--violet c-tl">
+      <div class="tile tile--violet">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">principles-04.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <span class="num" aria-hidden="true">4</span>
         <h3>Structure before styling</h3>
         <p>I agree the entries and their order first. Styling then sits on a stable base instead of patching around content.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- What was delivered -->
+  <section class="block" style="padding-top:0" aria-labelledby="delivered-title"><div class="wrap">
+    <div class="section-head"><h2 id="delivered-title" class="h-bar">What was delivered</h2></div>
+    <div class="three">
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">xray-view.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>An interactive x-ray view</h3><p>The portal with its CMS structure drawn on top, so anyone can trace a block to its entry and fields.</p><p style="margin-top:12px"><a href="../demos/cms-structure/xray.html" target="_blank" rel="noopener">Open the x-ray ↗<span class="sr-only"> (opens in a new tab)</span></a></p></div>
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">model-map.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A content model map</h3><p>A map of the full model, where you can explore each entry and where it shows up on the page.</p><p style="margin-top:12px"><a href="../demos/cms-structure/model.html" target="_blank" rel="noopener">Open the map ↗<span class="sr-only"> (opens in a new tab)</span></a></p></div>
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">editor-model.cfg</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A model built for editors</h3><p>Fields named for the person filling them in, one Theme entry per brand, and optional sections marked as optional.</p></div>
+    </div>
+  </div></section>
+
+  <!-- Problem solved -->
+  <section class="block" style="padding-top:0" aria-labelledby="solved-title"><div class="wrap">
+    <div class="tile tile--violet">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">problem-solved.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head">
+        <h2 id="solved-title" class="h-bar">Problem solved</h2>
+        <p class="lead">A good model lets one template serve many brands without special cases, and the design holds up when content changes.</p>
+      </div>
+      <div class="three">
+        <div class="tile tile--white"><span class="tag">Alignment</span><h3>One shared map</h3><p>Editors, developers and designers point at the same entries and use the same names.</p></div>
+        <div class="tile tile--white"><span class="tag">Flexibility</span><h3>Reorder without code</h3><p>The index page holds an ordered list of sections, so a promotion can reorder or drop sections in the CMS.</p></div>
+        <div class="tile tile--white"><span class="tag">Re-branding</span><h3>One Theme entry reskins everything</h3><p>Colours, type and border radius sit in a single Theme entry. Swap it and the whole portal changes brand.</p></div>
       </div>
     </div>
   </div></section>
@@ -289,12 +311,13 @@
   <section class="block" style="padding-top:0" aria-labelledby="prev-title"><div class="wrap">
     <h2 id="prev-title" class="sr-only">Previous case study</h2>
     <a class="work-card next-card" href="one-template-many-brands.html">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-template-many-brands.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="work-card__media">
         <div class="live-frame"><iframe src="../demos/voltwell-energy/index.html" title="Preview of the Voltwell Energy portal" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
       </div>
       <div class="work-card__body">
         <span class="tag">Previous case study</span>
-        <h3 style="font-size:28px;margin-top:6px">One template, many brands</h3>
+        <h3>One template, many brands</h3>
         <p>Three refer-a-friend portals, a single template. Only the client’s assets, copy and design identity change.</p>
         <span class="work-card__cta">Read the case study →</span>
       </div>
@@ -304,28 +327,59 @@
 
 </main>
 <!-- contact band (every page, above footer) -->
-<section class="block" id="contact"><div class="wrap">
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
   <div class="contact-band">
     <div class="tile tile--blue c-br">
-      <span class="eyebrow">Contact</span>
-      <h2 class="h-bar" style="margin-top:14px">Let’s build something good.</h2>
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h2 class="h-bar">Let’s build something good.</h2>
       <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
     </div>
-    <div class="tile tile--violet c-bl" style="display:flex;flex-direction:column;justify-content:center;gap:14px">
-      <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
-        <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email address</button>
-        <div class="mail-reveal__out" hidden></div>
-        <p class="sr-only mail-reveal__status" aria-live="polite"></p>
-        <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+    <div class="contact-cascade">
+      <div class="ghost-bar cascade-ghost cascade-ghost--bottom">
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       </div>
-      <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+      <div class="ghost-bar cascade-ghost cascade-ghost--middle">
+        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div></section>
+  </div>
+</section>
 <footer class="site-footer"><div class="wrap">
   <span>© 2026 Camila Massa · Berlin</span>
-  <span><a href="https://www.linkedin.com/in/amionodera">LinkedIn</a></span>
+  <span><a href="https://www.linkedin.com/in/amionodera" target="_blank" rel="noopener">LinkedIn</a></span>
 </div></footer>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
 <script>
   (function () {
     var frames = document.querySelectorAll('.live-frame');
