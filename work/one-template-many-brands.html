@@ -105,6 +105,37 @@
   .next-card .live-frame iframe { width: 1440px; height: 900px; max-width: none; }
   .next-card .work-card__body { justify-content: center; padding: 30px 34px; }
 
+  /* brand portals: gallery window, one big preview + two thumbnails, description follows the big one */
+  .gal__body { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: stretch; padding: 20px; gap: 0; }
+  .gal__stage { display: flex; flex-direction: column; gap: 18px; padding-right: clamp(18px, 3vw, 36px); min-width: 0; }
+  .gal__shot { margin: 0; }
+  .gal__shot .frame { overflow: hidden; background: #fff; border: 3px solid var(--indigo); box-shadow: 6px 8px 0 rgba(37,40,61,.2); }
+  .gal__thumbs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .gal__thumb { display: flex; flex-direction: column; gap: 8px; padding: 6px 6px 8px; background: var(--chrome); border: 2px solid var(--indigo); box-shadow: 3px 4px 0 rgba(37,40,61,.18); cursor: pointer; text-align: left; font: inherit; color: var(--indigo); }
+  .gal__thumb img { display: block; width: 100%; height: auto; border: 1.5px solid var(--indigo); }
+  .gal__thumb span { font-family: var(--font-pixel); font-weight: 600; font-size: 13px; }
+  .gal__thumb:hover { background: var(--yellow); }
+  .gal__thumb:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .gal__info { border-left: 2px solid var(--indigo); padding-left: clamp(18px, 3vw, 36px); display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+  .gal__desc { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; width: 100%; }
+  .gal__desc[hidden], .gal__shot[hidden], .gal__thumb[hidden] { display: none; }
+  .gal__folder { display: flex; align-items: center; gap: 10px; margin: 0; font-family: var(--font-pixel); font-weight: 600; font-size: 15px; color: var(--indigo); }
+  .gal__desc h3 { font-family: var(--font-pixel); font-weight: 700; font-size: clamp(17px, 1.7vw, 20px); line-height: 1.3; }
+  .gal__desc .proj__specs { width: 100%; }
+  .gal__sw { display: inline-block; width: 12px; height: 12px; border: 1.5px solid var(--indigo); margin-right: 8px; vertical-align: -1px; }
+  .gal__desc > p:not(.gal__folder) { font-size: 16px; line-height: 1.55; }
+  .gal__cap { margin: 0; padding: 0 20px 18px; font-size: 14px; font-weight: 600; color: var(--muted); }
+  .bar-folder { width: 28px; height: auto; image-rendering: pixelated; display: block; }
+  .proj__specs { margin: 0; font-family: var(--font-pixel); font-size: 13px; line-height: 1.4; border-top: 2px solid var(--indigo); }
+  .proj__specs > div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px dashed rgba(37,40,61,.45); }
+  .proj__specs dt { color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-size: 12px; font-weight: 600; }
+  .proj__specs dd { margin: 0; color: var(--indigo); font-weight: 600; }
+  @media (max-width: 900px) {
+    .gal__body { grid-template-columns: minmax(0, 1fr); padding: 14px; }
+    .gal__stage { padding-right: 0; }
+    .gal__info { border-left: 0; padding-left: 0; padding-top: 22px; }
+  }
+
   @media (max-width: 900px) {
     .brands-grid, .flow, .tokens__grid { grid-template-columns: 1fr; }
     .next-card { grid-template-columns: 1fr; grid-template-rows: auto; }
@@ -223,47 +254,86 @@
     </div>
   </div></section>
 
-  <!-- Three portals -->
+  <!-- Three portals: gallery window -->
   <section class="block" style="padding-top:24px" aria-labelledby="portals-title"><div class="wrap">
     <h2 id="portals-title" class="sr-only">The three brand portals</h2>
-    <figure class="shot brands-fig">
-      <div class="brands-grid">
-        <div class="tile tile--sky brand-tile">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">nimbelo-fibre.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-          <div class="frame">
-            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>nimbelo.link/refer</span></div>
-            <div class="live-frame"><iframe src="../demos/nimbelo-fibre/index.html" title="Nimbelo Fibre referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+    <div class="tile tile--lilac gal" id="gallery">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">brand-portals/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="gal__body">
+        <div class="gal__stage">
+          <div class="gal__main">
+          <figure class="gal__shot" data-id="nimbelo">
+            <div class="frame">
+              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>nimbelo.link/refer</span></div>
+              <div class="live-frame"><iframe src="../demos/nimbelo-fibre/index.html" title="Nimbelo Fibre referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+            </div>
+          </figure>
+          <figure class="gal__shot" data-id="voltwell" hidden>
+            <div class="frame">
+              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>voltwell.link/refer</span></div>
+              <div class="live-frame"><iframe src="../demos/voltwell-energy/index.html" title="Voltwell Energy referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+            </div>
+          </figure>
+          <figure class="gal__shot" data-id="orbeo" hidden>
+            <div class="frame">
+              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>orbeo.link/refer</span></div>
+              <div class="live-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Orbeo Mobile referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+            </div>
+          </figure>
           </div>
-          <div class="brand-tile__cap">
-            <div><h3>Nimbelo Fibre</h3><p>Full-fibre broadband</p></div>
-            <a href="../demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Nimbelo Fibre, opens in a new tab)</span></a>
+          <div class="gal__thumbs" role="group" aria-label="Choose a brand portal">
+          <button type="button" class="gal__thumb" data-id="nimbelo" aria-label="Show Nimbelo Fibre" hidden>
+            <img src="../assets/img/y2k/thumb-nimbelo-fibre.jpg" width="480" height="300" alt="" loading="lazy"><span>Nimbelo Fibre</span>
+          </button>
+          <button type="button" class="gal__thumb" data-id="voltwell" aria-label="Show Voltwell Energy">
+            <img src="../assets/img/y2k/thumb-voltwell-energy.jpg" width="480" height="300" alt="" loading="lazy"><span>Voltwell Energy</span>
+          </button>
+          <button type="button" class="gal__thumb" data-id="orbeo" aria-label="Show Orbeo Mobile">
+            <img src="../assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="" loading="lazy"><span>Orbeo Mobile</span>
+          </button>
           </div>
         </div>
-        <div class="tile tile--blue brand-tile">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">voltwell-energy.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-          <div class="frame">
-            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>voltwell.link/refer</span></div>
-            <div class="live-frame"><iframe src="../demos/voltwell-energy/index.html" title="Voltwell Energy referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+        <div class="gal__info" aria-live="polite">
+          <div class="gal__desc" data-id="nimbelo">
+            <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>nimbelo-fibre/</span></p>
+            <h3>Nimbelo Fibre</h3>
+            <dl class="proj__specs">
+              <div><dt>Industry</dt><dd>Full-fibre broadband</dd></div>
+              <div><dt>Heading</dt><dd>Outfit 700</dd></div>
+              <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#0B7285"></i>#0B7285</dd></div>
+              <div><dt>Radius</dt><dd>Card 28px, button 999px</dd></div>
+            </dl>
+            <p>Rounded and bright, with a lime sticker that pulls the eye to the reward.</p>
+            <a class="btn btn--primary" href="../demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Nimbelo Fibre, opens in a new tab)</span></a>
           </div>
-          <div class="brand-tile__cap">
-            <div><h3>Voltwell Energy</h3><p>Renewable electricity and gas</p></div>
-            <a href="../demos/voltwell-energy/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Voltwell Energy, opens in a new tab)</span></a>
+          <div class="gal__desc" data-id="voltwell" hidden>
+            <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>voltwell-energy/</span></p>
+            <h3>Voltwell Energy</h3>
+            <dl class="proj__specs">
+              <div><dt>Industry</dt><dd>Renewable electricity and gas</dd></div>
+              <div><dt>Heading</dt><dd>Fraunces 600</dd></div>
+              <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#1F6F43"></i>#1F6F43</dd></div>
+              <div><dt>Radius</dt><dd>Card 16px, button 12px</dd></div>
+            </dl>
+            <p>A calm green and a serif heading, for an energy brand that wants to feel trustworthy.</p>
+            <a class="btn btn--primary" href="../demos/voltwell-energy/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Voltwell Energy, opens in a new tab)</span></a>
           </div>
-        </div>
-        <div class="tile tile--peri brand-tile">
-          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">orbeo-mobile.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-          <div class="frame">
-            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>orbeo.link/refer</span></div>
-            <div class="live-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Orbeo Mobile referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
-          </div>
-          <div class="brand-tile__cap">
-            <div><h3>Orbeo Mobile</h3><p>SIM-only mobile</p></div>
-            <a href="../demos/orbeo-mobile/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Orbeo Mobile, opens in a new tab)</span></a>
+          <div class="gal__desc" data-id="orbeo" hidden>
+            <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>orbeo-mobile/</span></p>
+            <h3>Orbeo Mobile</h3>
+            <dl class="proj__specs">
+              <div><dt>Industry</dt><dd>SIM-only mobile</dd></div>
+              <div><dt>Heading</dt><dd>Space Grotesk 700</dd></div>
+              <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#5B2EFF"></i>#5B2EFF</dd></div>
+              <div><dt>Radius</dt><dd>Card 6px, button 6px</dd></div>
+            </dl>
+            <p>Sharp corners and a deep violet, tuned for a tech-forward mobile offer.</p>
+            <a class="btn btn--primary" href="../demos/orbeo-mobile/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Orbeo Mobile, opens in a new tab)</span></a>
           </div>
         </div>
       </div>
-      <figcaption><span class="brands-fig__main">Three fictional brands, one template. Each preview is the live demo page, scaled down. Open one to scroll the full portal.</span><span class="brands-fig__note">Visual assets made with AI for illustrative purposes.</span></figcaption>
-    </figure>
+      <p class="gal__cap">Three fictional brands, one template. Pick a portal to preview it, then open the live demo to scroll the full page. Visual assets made with AI for illustrative purposes.</p>
+    </div>
   </div></section>
 
   <!-- Approach -->
@@ -525,18 +595,30 @@
 </div></footer>
 <script>
   (function () {
-    var frames = document.querySelectorAll('.live-frame');
+    var g = document.getElementById('gallery'); if (!g) return;
     function fit() {
-      frames.forEach(function (el) {
+      document.querySelectorAll('.live-frame').forEach(function (el) {
         var f = el.querySelector('iframe');
-        if (f) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
+        if (f && el.clientWidth) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
       });
     }
+    function show(id) {
+      ['.gal__shot', '.gal__desc', '.gal__thumb'].forEach(function (sel) {
+        g.querySelectorAll(sel).forEach(function (el) {
+          var on = el.getAttribute('data-id') === id;
+          el.hidden = sel === '.gal__thumb' ? on : !on;
+        });
+      });
+      fit();
+    }
+    g.querySelectorAll('.gal__thumb').forEach(function (b) {
+      b.addEventListener('click', function () { show(b.getAttribute('data-id')); });
+    });
     fit();
     window.addEventListener('resize', fit);
     if ('ResizeObserver' in window) {
       var ro = new ResizeObserver(fit);
-      frames.forEach(function (el) { ro.observe(el); });
+      document.querySelectorAll('.live-frame').forEach(function (el) { ro.observe(el); });
     }
   })();
 </script>
