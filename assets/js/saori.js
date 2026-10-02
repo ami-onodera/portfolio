@@ -4,8 +4,9 @@
    - click her for a woof
    Dismissible, skipped entirely for prefers-reduced-motion. No dependencies. */
 (function(){
-  if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches; /* still shows, just without movement */
   var script = document.currentScript;
+  if (/[?&]saori-test/.test(location.search) && window.console) console.log('[saori] loaded. reduced motion:', REDUCED);
   var base = script ? script.src.replace(/assets\/js\/saori\.js.*$/, '') : '';
   var IDLE_MS = 20000; /* TESTING value: set back to 45000 before going live */
   var TESTING = /[?&]saori-test/.test(location.search); /* add ?saori-test to the URL to ignore the once-per-session limits */
@@ -40,6 +41,7 @@
   '@keyframes saoriHop{0%,100%{transform:translateY(0)}40%{transform:translateY(-10px) rotate(-6deg)}}'+
   '@media (max-width:640px){.saori{right:10px;bottom:10px}.saori__bubble{max-width:170px}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+  if (REDUCED) st.textContent += '.saori,.saori.on{transition:none;translate:none}.saori.on .saori__dog,.saori__dog.woof{animation:none}';
 
   var el = document.createElement('div');
   el.className = 'saori'; el.setAttribute('role', 'status'); el.setAttribute('aria-live', 'polite');
