@@ -7,7 +7,8 @@
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var script = document.currentScript;
   var base = script ? script.src.replace(/assets\/js\/saori\.js.*$/, '') : '';
-  var IDLE_MS = 45000;
+  var IDLE_MS = 20000; /* TESTING value: set back to 45000 before going live */
+  var TESTING = /[?&]saori-test/.test(location.search); /* add ?saori-test to the URL to ignore the once-per-session limits */
 
   var path = location.pathname;
   var lines = {
@@ -20,6 +21,7 @@
   if (/^\/?(index\.html)?$/.test(path.replace(/.*\/portfolio\/?/, ''))) key = 'home';
 
   function store(kind, k, v){
+    if (TESTING && kind === 'sessionStorage') return null;
     try { var s = window[kind]; if (v === undefined) return s.getItem(k); s.setItem(k, v); } catch(e){}
     return null;
   }
