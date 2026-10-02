@@ -396,6 +396,35 @@
   .paintwin .swatch:focus-visible{ outline:2px solid var(--indigo); outline-offset:2px; }
   .paintwin .swatch.is-active{ outline:2px solid var(--indigo); outline-offset:1px; box-shadow:inset 0 0 0 2px #fff; }
   .paint-hint{ margin:2px 0 0; font-family:var(--font-pixel); font-size:12px; color:var(--muted); }
+  /* ---------- paint toolbar: real(ish) tools ---------- */
+  .paintwin .paint-tool{ cursor:pointer; transition:transform .12s ease; }
+  .paintwin .paint-tool:hover{ animation:tool-pop .35s ease; }
+  .paintwin .paint-tool:focus-visible{ outline:2px solid var(--indigo); outline-offset:1px; }
+  .paintwin .paint-tool.is-active{
+    background:linear-gradient(180deg, #d9d3f2, #efebfd);
+    border-top:1.5px solid var(--indigo); border-left:1.5px solid var(--indigo);
+    border-right:1.5px solid #fff; border-bottom:1.5px solid #fff;
+    box-shadow:inset 1px 1px 0 rgba(37,40,61,.25);
+  }
+  @keyframes tool-pop{ 0%{transform:scale(1) rotate(0)} 35%{transform:scale(1.18) rotate(-6deg)} 70%{transform:scale(1.12) rotate(4deg)} 100%{transform:scale(1.1) rotate(0)} }
+  /* zoom (magnifier) */
+  .paintwin.tool-zoom .pill:hover{ transform:scale(1.35); }
+  /* shapes */
+  .paintwin.shape-rect .pill{ border-radius:0; }
+  .paintwin.shape-rounded .pill{ border-radius:12px; }
+  .paintwin.shape-ellipse .pill{ border-radius:999px; padding-left:14px; padding-right:14px; }
+  .paintwin.shape-polygon .pill{ border-radius:0; clip-path:polygon(9% 0, 91% 0, 100% 50%, 91% 100%, 9% 100%, 0 50%); padding-left:14px; padding-right:14px; border-color:transparent; }
+  /* text + curve */
+  .paintwin.mode-text .pill{ font-family:Georgia, "Times New Roman", serif; font-style:italic; }
+  .paintwin.mode-curve .pill:nth-child(odd){ transform:rotate(-2.5deg); }
+  .paintwin.mode-curve .pill:nth-child(even){ transform:rotate(2deg) translateY(2px); }
+  .paintwin.mode-curve .pill:hover{ transform:scale(1.09); }
+  /* select: marching ants */
+  .paintwin .pill.is-selected{ outline:2px dashed var(--indigo); outline-offset:3px; animation:ants .6s linear infinite; }
+  @keyframes ants{ to{ outline-offset:4px; } }
+  @media (prefers-reduced-motion: reduce){
+    .paintwin .paint-tool:hover, .paintwin .pill.is-selected{ animation:none; }
+  }
   @media (prefers-reduced-motion: reduce){
     .paintwin .pill, .paintwin .swatch{ transition:background-color .2s ease, color .2s ease; }
     .paintwin .pill:hover{ animation:none; transform:none; }
@@ -659,7 +688,7 @@
           <span>File</span><span>Edit</span><span>View</span><span>Image</span><span>Options</span><span>Help</span>
         </div>
         <div class="paint-main">
-          <div class="paint-toolbar" aria-hidden="true">
+          <div class="paint-toolbar" role="toolbar" aria-label="Paint tools">
             <span class="paint-tool" title="Free-form select"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><path d="M3 8c0-3 2-5 5-5s5 2 4.5 4.5S10 12 7 12c-1.3 0-2.4-.4-3.2-1.1" stroke-dasharray="1.6 1.4"/></svg></span>
             <span class="paint-tool" title="Select"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><rect x="2.5" y="3.5" width="11" height="9" stroke-dasharray="2 1.6"/></svg></span>
             <span class="paint-tool" title="Eraser"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><rect x="4.5" y="6" width="8" height="5" rx=".5" transform="rotate(-25 8 8)"/><line x1="3.5" y1="12.5" x2="12.5" y2="12.5"/></svg></span>
@@ -732,7 +761,7 @@
           <div class="palette-row">
             <span class="swatch" style="background:#ffd3f2"></span><span class="swatch" style="background:#ffa8e0"></span><span class="swatch" style="background:#c9a2ff"></span><span class="swatch" style="background:#9fc7ff"></span><span class="swatch" style="background:#b79bf2"></span><span class="swatch" style="background:#7a4fb0"></span><span class="swatch" style="background:#5f8fe0"></span><span class="swatch" style="background:#fbe7d9"></span><span class="swatch" style="background:#f6d9e4"></span><span class="swatch" style="background:#eccbe4"></span><span class="swatch" style="background:#d9d3f2"></span><span class="swatch" style="background:#cfe3fb"></span><span class="swatch" style="background:#6f6b98"></span><span class="swatch" style="background:#2c2a44"></span>
           </div>
-          <p class="paint-hint">Psst: click a colour. Go on, paint the skills.</p>
+          <p class="paint-hint" id="paintHint" aria-live="polite">Psst: click a colour. Go on, paint the skills.</p>
         </div>
       </div>
     </div>
@@ -827,34 +856,153 @@
     if (!win) return;
     var pills = [].slice.call(win.querySelectorAll('.pill'));
     var swatches = [].slice.call(win.querySelectorAll('.swatch'));
+    var tools = [].slice.call(win.querySelectorAll('.paint-tool'));
+    var hint = document.getElementById('paintHint');
     if (!pills.length || !swatches.length) return;
+
     function rgb(c){ var m = c.match(/\d+/g); return [+m[0], +m[1], +m[2]]; }
     function lum(c){ return (0.299*c[0] + 0.587*c[1] + 0.114*c[2]) / 255; }
-    pills.forEach(function(p, i){ p._orig = p.style.backgroundColor; p._rgb = rgb(getComputedStyle(p).backgroundColor); p.style.setProperty('--d', (i*30) + 'ms'); });
-    var active = null;
-    function reset(){
-      pills.forEach(function(p){ p.style.backgroundColor = p._orig; p.style.color = ''; });
-      if (active) { active.classList.remove('is-active'); active.setAttribute('aria-pressed','false'); }
-      active = null;
-    }
-    function paint(sw){
-      var s = rgb(getComputedStyle(sw).backgroundColor), t = 0.78;
-      pills.forEach(function(p){
-        var o = p._rgb, m = [0,1,2].map(function(k){ return Math.round(o[k]*(1-t) + s[k]*t); });
-        p.style.backgroundColor = 'rgb(' + m.join(',') + ')';
-        p.style.color = lum(m) < 0.5 ? '#fff' : '';
-      });
-      if (active) { active.classList.remove('is-active'); active.setAttribute('aria-pressed','false'); }
-      active = sw; sw.classList.add('is-active'); sw.setAttribute('aria-pressed','true');
-    }
-    function pick(sw){ if (active === sw) reset(); else paint(sw); }
-    swatches.forEach(function(sw){
-      var hex = sw.style.backgroundColor;
-      sw.setAttribute('role','button'); sw.setAttribute('tabindex','0');
-      sw.setAttribute('aria-pressed','false'); sw.setAttribute('aria-label','Paint the skills in this colour');
-      sw.addEventListener('click', function(){ pick(sw); });
-      sw.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(sw); } });
+    function say(t){ if (hint) hint.textContent = t; }
+
+    pills.forEach(function(p, i){
+      p._orig = p.style.backgroundColor;
+      p._rgb = rgb(getComputedStyle(p).backgroundColor);
+      p.style.setProperty('--d', (i*30) + 'ms');
     });
+
+    var NAMES = {
+      'Free-form select':'ffselect','Select':'select','Eraser':'eraser','Fill':'fill','Eyedropper':'dropper',
+      'Magnifier':'zoom','Pencil':'pencil','Brush':'brush','Airbrush':'airbrush','Text':'text','Line':'line',
+      'Curve':'curve','Rectangle':'rect','Polygon':'polygon','Ellipse':'ellipse','Rounded rectangle':'rounded'
+    };
+    var HINTS = {
+      fill:'Fill: click a colour to paint every skill. Click it again to undo.',
+      brush:'Brush: pick a colour, then click a skill to paint it.',
+      pencil:'Pencil: pick a colour, then click a skill to paint it.',
+      airbrush:'Airbrush: pick a colour, then sweep over the skills.',
+      eraser:'Eraser: click a skill to restore its colour.',
+      dropper:'Eyedropper: click a skill to pick up its colour.',
+      zoom:'Magnifier: hover a skill for a closer look.',
+      select:'Select: click skills to select them. Click again to let go.',
+      ffselect:'Free-form select: draws nothing, selects nothing. Try another tool.',
+      line:'Line: very straight, very quiet. Try another tool.',
+      text:'Text: switches the skills to italic serif. Click again to undo.',
+      curve:'Curve: gives the skills a little wave. Click again to undo.',
+      rect:'Rectangle: sharp corners. Click again to undo.',
+      rounded:'Rounded rectangle: softer corners. Click again to undo.',
+      ellipse:'Ellipse: full pills. Click again to undo.',
+      polygon:'Polygon: hexagon skills. Click again to undo.'
+    };
+    var SHAPES = ['rect','rounded','ellipse','polygon'];
+    var TOGGLES = ['text','curve'];
+
+    var tool = 'fill', color = null, activeSwatch = null, shape = null;
+
+    function setTextFor(p, m){ p.style.color = lum(m) < 0.5 ? '#fff' : ''; }
+    function paintPill(p, c, t){
+      var o = p._rgb, k = (t === undefined ? 0.78 : t);
+      var m = [0,1,2].map(function(n){ return Math.round(o[n]*(1-k) + c[n]*k); });
+      p.style.backgroundColor = 'rgb(' + m.join(',') + ')'; setTextFor(p, m);
+    }
+    function paintDirect(p, c){ p.style.backgroundColor = 'rgb(' + c.join(',') + ')'; setTextFor(p, c); }
+    function restorePill(p){ p.style.backgroundColor = p._orig; p.style.color = ''; }
+    function clearSwatch(){
+      if (activeSwatch){ activeSwatch.classList.remove('is-active'); activeSwatch.setAttribute('aria-pressed','false'); }
+      activeSwatch = null;
+    }
+    function selectSwatch(sw){
+      clearSwatch(); activeSwatch = sw;
+      sw.classList.add('is-active'); sw.setAttribute('aria-pressed','true');
+      color = rgb(getComputedStyle(sw).backgroundColor);
+    }
+    function selectTool(name){
+      tool = name;
+      tools.forEach(function(t){
+        var on = (t._name === name) || (t._name === shape) || (win.classList.contains('mode-' + t._name));
+        t.classList.toggle('is-active', on); t.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      win.classList.toggle('tool-zoom', name === 'zoom');
+      say(HINTS[name] || '');
+    }
+    function refreshToolStates(){ selectTool(tool); }
+
+    tools.forEach(function(t){
+      t._name = NAMES[t.getAttribute('title')] || '';
+      t.setAttribute('role','button'); t.setAttribute('aria-pressed','false');
+      t.setAttribute('aria-label', t.getAttribute('title'));
+      function use(){
+        var n = t._name; if (!n) return;
+        if (SHAPES.indexOf(n) > -1){
+          SHAPES.forEach(function(s){ win.classList.remove('shape-' + s); });
+          shape = (shape === n) ? null : n;
+          if (shape) win.classList.add('shape-' + shape);
+          refreshToolStates(); say(shape ? HINTS[n] : 'Back to the original shape.'); return;
+        }
+        if (TOGGLES.indexOf(n) > -1){
+          var on = !win.classList.contains('mode-' + n);
+          win.classList.toggle('mode-' + n, on);
+          refreshToolStates(); say(on ? HINTS[n] : 'Back to normal.'); return;
+        }
+        selectTool(n);
+      }
+      t.addEventListener('click', use);
+      t.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); use(); } });
+    });
+
+    function paintAll(){ pills.forEach(function(p){ paintPill(p, color); }); }
+    function resetAll(){ pills.forEach(restorePill); clearSwatch(); color = null; }
+
+    swatches.forEach(function(sw){
+      sw.setAttribute('role','button'); sw.setAttribute('tabindex','-1');
+      sw.setAttribute('aria-pressed','false'); sw.setAttribute('aria-label','Colour ' + sw.style.backgroundColor);
+      function pick(){
+        var paintTools = ['brush','pencil','airbrush'];
+        if (paintTools.indexOf(tool) > -1){
+          selectSwatch(sw); say(HINTS[tool]); return;
+        }
+        if (tool !== 'fill') selectTool('fill');
+        if (activeSwatch === sw){ resetAll(); say('Skills restored. Pick a colour to start again.'); return; }
+        selectSwatch(sw); paintAll(); say(HINTS.fill);
+      }
+      sw.addEventListener('click', pick);
+      sw.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pick(); } });
+    });
+
+    pills.forEach(function(p){
+      p.addEventListener('click', function(){
+        if (tool === 'brush' || tool === 'pencil'){
+          if (!color) { say('Pick a colour first.'); return; }
+          paintDirect(p, color);
+        } else if (tool === 'eraser'){
+          restorePill(p);
+        } else if (tool === 'dropper'){
+          var c = rgb(p.style.backgroundColor || getComputedStyle(p).backgroundColor);
+          color = c; clearSwatch(); selectTool('brush'); say('Colour picked up. Brush selected: click a skill to paint it.');
+        } else if (tool === 'select'){
+          p.classList.toggle('is-selected');
+        }
+      });
+      p.addEventListener('pointerenter', function(e){
+        if (tool === 'airbrush' && color && e.pointerType === 'mouse') paintDirect(p, color);
+      });
+    });
+
+    /* keyboard: one tab stop per group, arrow keys move inside it */
+    function roving(items){
+      items.forEach(function(it, i){ it.setAttribute('tabindex', i === 0 ? '0' : '-1'); });
+      items.forEach(function(it, i){
+        it.addEventListener('keydown', function(e){
+          var d = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? 1 : (e.key === 'ArrowLeft' || e.key === 'ArrowUp') ? -1 : 0;
+          if (!d) return; e.preventDefault();
+          var n = items[(i + d + items.length) % items.length];
+          items.forEach(function(x){ x.setAttribute('tabindex','-1'); });
+          n.setAttribute('tabindex','0'); n.focus();
+        });
+      });
+    }
+    roving(tools); roving(swatches);
+    selectTool('fill');
+    say('Psst: click a colour. Go on, paint the skills.');
   })();
   (function(){
     var el = document.getElementById('berlinTime');
