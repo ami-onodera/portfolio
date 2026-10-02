@@ -11,14 +11,17 @@
   var TESTING = /[?&]saori-test/.test(location.search); /* add ?saori-test to the URL to ignore the once-per-session limits */
 
   var path = location.pathname;
+  var generic = ["Still here? You might as well say hi! Contact info is in the end of the page!", "Everything\u2019s interactive. Go on, click some buttons!"];
+  var work = ["Still reading? The next project is just a click away.", "Psst. Hire-me window at the bottom. Just saying."].concat(generic);
   var lines = {
-    home:  ["Psst. Every window on this desktop opens. Go on, poke around.", "Still there? The Selected work window has the good stuff."],
-    about: ["Still there? The little menu in the status window jumps to each section.", "Try the paint window. It really works."],
-    work:  ["Still reading? The next project is just a click away.", "Psst. Hire-me window at the bottom. Just saying."],
-    other: ["Still there? Say hi at the bottom of the page, she replies fast."]
+    home:  ["Psst. Every window on this desktop opens. Go on, poke around.", "Still there? The Selected work window has the good stuff.", "Bored? Drag stuff around, everything moves!"],
+    about: ["Still there? Write me a message in the experience chatbox.", "Try the paint window, it really works!"],
+    selected: work.concat(["Psst, have you tried the projects side menu?"]),
+    earlier:  work.concat(["Still curious? This is not old, it's vintage!"]),
+    work:  work,
+    other: generic
   };
-  var key = /about/.test(path) ? 'about' : /selected-work|earlier-work|\/work\//.test(path) ? 'work' : 'home';
-  if (/^\/?(index\.html)?$/.test(path.replace(/.*\/portfolio\/?/, ''))) key = 'home';
+  var key = /about/.test(path) ? 'about' : /selected-work/.test(path) ? 'selected' : /earlier-work/.test(path) ? 'earlier' : /\/work\//.test(path) ? 'work' : /(^|\/)(index\.html)?$/.test(path) ? 'home' : 'other';
 
   function store(kind, k, v){
     if (TESTING && kind === 'sessionStorage') return null;
@@ -54,7 +57,7 @@
   }
   function hide(){ el.classList.remove('on'); }
   el.querySelector('.saori__x').addEventListener('click', function(){ hide(); store('sessionStorage','saori-off','1'); });
-  var woofs = ["Woof!", "Woof woof!", "Bork.", "*tail wag*"], wi = 0;
+  var woofs = ["Bork", "AwAwooo!", "much click!", "Mlem", "fomfom"], wi = 0;
   dog.addEventListener('click', function(){
     dog.classList.remove('woof'); void dog.offsetWidth; dog.classList.add('woof');
     say(woofs[wi++ % woofs.length], 3000);
@@ -63,7 +66,7 @@
   /* welcome back (returning visitor, once per session) */
   if (store('localStorage','saori-seen') && !store('sessionStorage','saori-welcomed') && !store('sessionStorage','saori-off')) {
     store('sessionStorage','saori-welcomed','1');
-    setTimeout(function(){ say("Welcome back! Saori missed you."); }, 1800);
+    setTimeout(function(){ say("Welcome back!"); }, 1800);
   }
   store('localStorage','saori-seen','1');
 
