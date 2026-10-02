@@ -35,8 +35,6 @@
   .status__field{ gap:9px; background:#fff; border:2px solid var(--indigo); box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); padding:10px 12px; font-family:var(--font-body); font-weight:700; font-size:15px; line-height:1.35; color:var(--ink); }
   .status__places{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
   .status__places li{ display:inline-flex; align-items:center; gap:6px; font-family:var(--font-pixel); font-size:13px; color:var(--indigo); background:rgba(255,255,255,.7); border:1.5px solid var(--indigo); padding:4px 9px; }
-  .status__time{ color:var(--muted); font-variant-numeric:tabular-nums; }
-  .status__time:empty{ display:none; }
   .status__menu{ list-style:none; margin:2px 0 0; padding:6px 0 0; border-top:2px solid rgba(37,40,61,.18); display:flex; flex-direction:column; }
   .status__menu a{ display:flex; justify-content:space-between; align-items:center; padding:7px 4px; font-family:var(--font-body); font-weight:700; font-size:15px; color:var(--ink); text-decoration:none; transition:background-color .12s ease; }
   .status__menu a:hover, .status__menu a:focus-visible{ background:rgba(255,255,255,.75); }
@@ -333,6 +331,28 @@
     box-shadow:inset 2px 2px 0 rgba(37,40,61,.06);
   }
   .chat-send{ flex:none; }
+  /* ---------- experience.log: scroll reveal + working message bar ---------- */
+  .chat-body.js-rv .chat-row{ opacity:0; transition:opacity .5s ease, transform .55s cubic-bezier(.2,.8,.2,1); }
+  .chat-body.js-rv .chat-row--left{ transform:translate(-18px, 14px); }
+  .chat-body.js-rv .chat-row--right{ transform:translate(18px, 14px); }
+  .chat-body.js-rv .chat-row.in{ opacity:1; transform:none; }
+  .chat-input{ width:100%; min-width:0; outline:none; color:var(--ink); }
+  .chat-input::placeholder{ color:var(--muted); opacity:1; }
+  .chat-input:focus{ border-color:var(--accent-ink); box-shadow:inset 2px 2px 0 rgba(37,40,61,.06), 0 0 0 3px rgba(116,102,207,.25); }
+  .chat-input:disabled{ background:#f4f1fb; }
+  .chat-send:disabled{ opacity:.55; cursor:default; }
+  .chat-note{ margin-top:8px; font-family:var(--font-pixel); font-size:12px; color:var(--muted); }
+  .chat-input.shake{ animation:chat-shake .35s ease; }
+  @keyframes chat-shake{ 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
+  .chat-row--you .avatar{ background:var(--pink); }
+  .bubble--typing{ display:inline-flex; gap:5px; align-items:center; padding:16px 20px; }
+  .bubble--typing i{ width:7px; height:7px; background:var(--indigo); border-radius:50% !important; animation:chat-dot 1s ease-in-out infinite; }
+  .bubble--typing i:nth-child(2){ animation-delay:.15s } .bubble--typing i:nth-child(3){ animation-delay:.3s }
+  @keyframes chat-dot{ 0%,60%,100%{ transform:translateY(0); opacity:.4 } 30%{ transform:translateY(-4px); opacity:1 } }
+  @media (prefers-reduced-motion: reduce){
+    .chat-body.js-rv .chat-row{ transition:opacity .2s ease; transform:none !important; }
+    .chat-input.shake, .bubble--typing i{ animation:none; }
+  }
 
   /* ---------- Skills and background: MS Paint window ---------- */
   .paintwin{ padding:0 !important; overflow:hidden; }
@@ -592,11 +612,11 @@
             <p class="status__presence"><span class="status__dot" aria-hidden="true"></span>Online</p>
             <p class="status__field"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="flex:none"><path d="M8 1 L9.8 6.2 L15 8 L9.8 9.8 L8 15 L6.2 9.8 L1 8 L6.2 6.2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="1.4" stroke-linejoin="round"/></svg><span>Open to web design and UI design roles</span></p>
             <ul class="status__places">
-              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>Berlin <time id="berlinTime" class="status__time"></time></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>Berlin</li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10-5 5V2l5 5L7 17"/></svg>Hybrid</li>
               <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.8a10 10 0 0 1 13 0M9 16.5a5 5 0 0 1 6 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>Remote</li>
             </ul>
             <ul class="status__menu" aria-label="On this page">
-              <li><a href="selected-work.html">Portfolio<span class="status__key" aria-hidden="true">→</span></a></li>
               <li><a href="#experience">Experience<span class="status__key" aria-hidden="true">↓</span></a></li>
               <li><a href="#skills">Skills<span class="status__key" aria-hidden="true">↓</span></a></li>
               <li><a href="#education">Education<span class="status__key" aria-hidden="true">↓</span></a></li>
@@ -670,89 +690,12 @@
             </div>
           </div>
         </div>
-        <div class="chat-input-row" aria-hidden="true">
-          <div class="chat-input">Type a message…</div>
-          <button class="btn btn--primary chat-send" type="button" tabindex="-1">Send</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Skills and background -->
-  <section class="block" id="skills" style="padding-top:0" aria-labelledby="skills-title">
-    <div class="wrap">
-      <h2 id="skills-title" class="sr-only">Skills and tools</h2>
-      <div class="tile tile--white paintwin">
-        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">skills_and_tools.bmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-        <div class="paint-menu" aria-hidden="true">
-          <span>File</span><span>Edit</span><span>View</span><span>Image</span><span>Options</span><span>Help</span>
-        </div>
-        <div class="paint-main">
-          <div class="paint-toolbar" role="toolbar" aria-label="Paint tools">
-            <span class="paint-tool" title="Free-form select"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><path d="M3 8c0-3 2-5 5-5s5 2 4.5 4.5S10 12 7 12c-1.3 0-2.4-.4-3.2-1.1" stroke-dasharray="1.6 1.4"/></svg></span>
-            <span class="paint-tool" title="Select"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><rect x="2.5" y="3.5" width="11" height="9" stroke-dasharray="2 1.6"/></svg></span>
-            <span class="paint-tool" title="Eraser"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><rect x="4.5" y="6" width="8" height="5" rx=".5" transform="rotate(-25 8 8)"/><line x1="3.5" y1="12.5" x2="12.5" y2="12.5"/></svg></span>
-            <span class="paint-tool" title="Fill"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><path d="M3 7 8 3l5 4-5 5-5-5Z"/><path d="M8 12v2"/><circle cx="8" cy="15" r=".8" fill="var(--indigo)" stroke="none"/></svg></span>
-            <span class="paint-tool" title="Eyedropper"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><line x1="4" y1="13" x2="9.5" y2="7.5"/><rect x="9" y="2.5" width="3.6" height="3.6" transform="rotate(45 10.8 4.3)"/></svg></span>
-            <span class="paint-tool" title="Magnifier"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><circle cx="7" cy="7" r="4"/><line x1="10" y1="10" x2="14" y2="14"/></svg></span>
-            <span class="paint-tool" title="Pencil"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><line x1="3" y1="13" x2="10" y2="6"/><path d="M10 6l2-2 2 2-2 2Z"/></svg></span>
-            <span class="paint-tool" title="Brush"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><path d="M4 12q1-4 5-8q2-2 3-1t-1 3q-4 4-8 5Z"/></svg></span>
-            <span class="paint-tool" title="Airbrush"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><circle cx="5.5" cy="10.5" r="2"/><line x1="7.5" y1="8.5" x2="13" y2="3"/><circle cx="10" cy="6" r=".5" fill="var(--indigo)" stroke="none"/><circle cx="12" cy="4" r=".5" fill="var(--indigo)" stroke="none"/></svg></span>
-            <span class="paint-tool" title="Text"><svg viewBox="0 0 16 16"><text x="3.5" y="12.5" font-family="Georgia, serif" font-size="11" fill="var(--indigo)">A</text></svg></span>
-            <span class="paint-tool" title="Line"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><line x1="3" y1="13" x2="13" y2="3"/></svg></span>
-            <span class="paint-tool" title="Curve"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><path d="M3 12Q6 3 8 8Q10 13 13 4"/></svg></span>
-            <span class="paint-tool" title="Rectangle"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><rect x="3" y="4" width="10" height="8"/></svg></span>
-            <span class="paint-tool" title="Polygon"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><polygon points="8,3 13,7 11,13 5,13 3,7"/></svg></span>
-            <span class="paint-tool" title="Ellipse"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><ellipse cx="8" cy="8" rx="5" ry="4"/></svg></span>
-            <span class="paint-tool" title="Rounded rectangle"><svg viewBox="0 0 16 16" fill="none" stroke="var(--indigo)" stroke-width="1.3"><rect x="3" y="4" width="10" height="8" rx="2.5"/></svg></span>
-          </div>
-          <div class="paint-canvas-col">
-            <div class="paint-canvas-row">
-              <div class="paint-canvas">
-                <div>
-                  <h3>Strengths</h3>
-                  <ul class="pills" role="list" style="list-style:none">
-                    <li class="pill" style="background:#adcfed">Web Design</li>
-                    <li class="pill" style="background:#d7bce8">Design-to-Code</li>
-                    <li class="pill" style="background:#ef798a">UI Design &amp; Prototyping</li>
-                    <li class="pill" style="background:#9fc7ff">Scalable CMS</li>
-                    <li class="pill" style="background:#c9a2ff">Template Systems</li>
-                    <li class="pill" style="background:#ffa8e0">Landing Pages</li>
-                    <li class="pill" style="background:#f6d9e4">Material UI theming</li>
-                    <li class="pill" style="background:#b79bf2">AI-assisted Development</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3>Toolkit</h3>
-                  <ul class="pills" role="list" style="list-style:none">
-                    <li class="pill" style="background:#cfe3f5">Figma</li>
-                    <li class="pill" style="background:#e9dcf3">Adobe CS</li>
-                    <li class="pill" style="background:#bc9cdb">HTML5 / CSS3</li>
-                    <li class="pill" style="background:#ffd3f2">Claude</li>
-                    <li class="pill" style="background:#f4eea9">Contentful CMS</li>
-                    <li class="pill" style="background:#e0cd7a">Material UI</li>
-                    <li class="pill" style="background:#a578d6">ChatGPT</li>
-                    <li class="pill" style="background:#fbe7d9">Git / GitLab</li>
-                    <li class="pill" style="background:#eccbe4">Jira</li>
-                    <li class="pill" style="background:#d9d3f2">CMS platforms</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="paint-scroll paint-scroll--v" aria-hidden="true">
-                <span class="scroll-btn">▲</span>
-                <span class="scroll-track"><span class="scroll-thumb"></span></span>
-                <span class="scroll-btn">▼</span>
-              </div>
-            </div>
-            <div class="paint-hscroll-row" aria-hidden="true">
-              <div class="paint-scroll paint-scroll--h">
-                <span class="scroll-btn">◀</span>
-                <span class="scroll-track"><span class="scroll-thumb"></span></span>
-                <span class="scroll-btn">▶</span>
-              </div>
-              <span class="paint-corner"></span>
-            </div>
-          </div>
+        <form class="chat-input-row" id="chatForm" autocomplete="off">
+          <label class="sr-only" for="chatText">Leave me a message</label>
+          <input class="chat-input" id="chatText" type="text" maxlength="240" placeholder="Type a message…">
+          <button class="btn btn--primary chat-send" type="submit">Send</button>
+        </form>
+        <p class="chat-note" id="chatNote">Just for fun: your message stays in this browser. To really reach me, use "Say hi" below.</p>
         </div>
         <div class="paint-palette">
           <div class="palette-row">
@@ -1005,14 +948,56 @@
     say('Psst: click a colour. Go on, paint the skills.');
   })();
   (function(){
-    var el = document.getElementById('berlinTime');
-    if (!el) return;
-    function berlin(){
-      try {
-        el.textContent = new Intl.DateTimeFormat('en-GB', { timeZone:'Europe/Berlin', hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date());
-      } catch (e) { el.textContent = ''; }
+    var body = document.querySelector('.chat-body');
+    if (!body) return;
+    var rows = [].slice.call(body.querySelectorAll('.chat-row'));
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var io = null;
+    if ('IntersectionObserver' in window){
+      body.classList.add('js-rv');
+      io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ e.target.classList.toggle('in', e.isIntersecting); });
+      }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+      rows.forEach(function(r){ io.observe(r); });
     }
-    berlin(); setInterval(berlin, 15000);
+    function addRow(cls, inner){
+      var row = document.createElement('div');
+      row.className = 'chat-row ' + cls;
+      row.innerHTML = '<span class="avatar" aria-hidden="true"></span>' + inner;
+      body.appendChild(row);
+      if (io) io.observe(row);
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ row.classList.add('in'); }); });
+      return row;
+    }
+    var form = document.getElementById('chatForm'), input = document.getElementById('chatText');
+    var btn = form && form.querySelector('.chat-send'), note = document.getElementById('chatNote');
+    if (!form || !input) return;
+    var sent = false;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      if (sent) return;
+      var text = input.value.replace(/\s+/g, ' ').trim();
+      if (!text){
+        input.classList.remove('shake'); void input.offsetWidth; input.classList.add('shake'); input.focus(); return;
+      }
+      sent = true; input.disabled = true; btn.disabled = true;
+      var d = new Date(), hh = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+      var you = addRow('chat-row--right chat-row--you',
+        '<div class="bubble"><div class="bubble__meta"><span class="date">You</span><span class="org">' + hh + '</span></div><p></p></div>');
+      you.querySelector('p').textContent = text;
+      input.value = ''; input.placeholder = 'Message sent. Thank you!';
+      if (note) note.textContent = 'Sent to this page only. It was never uploaded anywhere.';
+      var typing = addRow('chat-row--left', '<div class="bubble bubble--typing" aria-label="Typing"><i></i><i></i><i></i></div>');
+      setTimeout(function(){
+        typing.remove();
+        var reply = addRow('chat-row--left',
+          '<div class="bubble"><div class="bubble__meta"><span class="date">Ami</span><span class="org">just now</span></div>' +
+          '<p>Thanks for stopping by! Fun fact: your message never left your browser, this chat is just for show. If you want me to actually read it, say hi below.</p>' +
+          '<p class="bubble__link"><a href="#contact">Say hi ↓</a></p></div>');
+        reply.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+      }, reduce ? 300 : 1400);
+      you.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
+    });
   })();
 </script>
 </body>
