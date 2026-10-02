@@ -298,7 +298,7 @@
   .chat-row{ display:flex; align-items:flex-start; gap:12px; }
   .chat-row--right{ flex-direction:row-reverse; }
   .avatar{ width:28px; height:28px; flex:none; border:2px solid var(--indigo); margin-top:2px; }
-  .chat-row--left .avatar{ background:var(--blue); border-radius:0 !important; }
+  .chat-row--left .avatar{ background:var(--blue) url(assets/img/y2k/avatar-camila.jpg) center/cover no-repeat; border-radius:0 !important; width:36px; height:36px; }
   .chat-row--right .avatar{ background:var(--purple); border-radius:50% !important; }
   .bubble{
     position:relative; max-width:74%; padding:20px 24px 22px; border-radius:10px !important;
@@ -992,8 +992,8 @@
         typing.remove();
         var reply = addRow('chat-row--left',
           '<div class="bubble"><div class="bubble__meta"><span class="date">Ami</span><span class="org">just now</span></div>' +
-          '<p>Thanks for stopping by! Fun fact: your message never left your browser, this chat is just for show. If you want me to actually read it, say hi below.</p>' +
-          '<p class="bubble__link"><a href="#contact">Say hi ↓</a></p></div>');
+          '<p>Hey, thanks for stopping by! Plot twist: this chat is a very convincing prop. To reach the real me, say hi below!</p>' +
+          '<p class="bubble__link"><a href="#contact">Contact me (for real) ↓</a></p></div>');
         reply.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
       }, reduce ? 300 : 1400);
       you.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
