@@ -33,8 +33,10 @@
   @keyframes status-pulse{ 0%{ transform:scale(.5); opacity:.7 } 70%,100%{ transform:scale(1.15); opacity:0 } }
   @media (prefers-reduced-motion: reduce){ .status__dot::after{ animation:none } }
   .status__field{ gap:9px; background:#fff; border:2px solid var(--indigo); box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); padding:10px 12px; font-family:var(--font-body); font-weight:700; font-size:15px; line-height:1.35; color:var(--ink); }
-  .status__places{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
-  .status__places li{ display:inline-flex; align-items:center; gap:6px; font-family:var(--font-pixel); font-size:13px; color:var(--indigo); background:rgba(255,255,255,.7); border:1.5px solid var(--indigo); padding:4px 9px; }
+  .status__places{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:nowrap; gap:5px; }
+  @media (max-width:1023px) and (min-width:641px){ .status__places{ flex-wrap:wrap; } }
+  .status__places li{ display:inline-flex; align-items:center; gap:4px; font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:rgba(255,255,255,.7); border:1.5px solid var(--indigo); padding:4px 6px; }
+  .status__places li svg{ width:12px; height:12px; flex:none; }
   .status__menu{ list-style:none; margin:2px 0 0; padding:6px 0 0; border-top:2px solid rgba(37,40,61,.18); display:flex; flex-direction:column; }
   .status__menu a{ display:flex; justify-content:space-between; align-items:center; padding:7px 4px; font-family:var(--font-body); font-weight:700; font-size:15px; color:var(--ink); text-decoration:none; transition:background-color .12s ease; }
   .status__menu a:hover, .status__menu a:focus-visible{ background:rgba(255,255,255,.75); }
@@ -230,9 +232,23 @@
   .cascade-ghost{
     position:absolute; top:0; left:0; width:100%; pointer-events:none; background:var(--purple-soft);
   }
-  .cascade-ghost--middle{ top:45px; left:24px; z-index:2; }
-  .cascade-ghost--bottom{ top:90px; left:48px; z-index:1; }
   .cascade-front{ position:relative; z-index:3; box-sizing:border-box; }
+  /* the two back cards are full clones of the front card, decorative only */
+  .cascade-clone{ position:absolute; top:0; left:0; width:100%; pointer-events:none; }
+  .cascade-clone--middle{ top:45px; left:24px; z-index:2; }
+  .cascade-clone--bottom{ top:90px; left:48px; z-index:1; }
+  /* cards pop in one after another, on top of each other (JS adds .js-cascade, then .in) */
+  .contact-cascade.js-cascade .cascade-clone, .contact-cascade.js-cascade .cascade-front:not(.cascade-clone){
+    opacity:0; translate:-16px -16px; scale:.96;
+    transition:opacity .35s ease var(--cd,0ms), translate .45s cubic-bezier(.2,.9,.3,1.2) var(--cd,0ms), scale .45s cubic-bezier(.2,.9,.3,1.2) var(--cd,0ms);
+  }
+  .contact-cascade.js-cascade .cascade-clone--bottom{ --cd:0ms; }
+  .contact-cascade.js-cascade .cascade-clone--middle{ --cd:320ms; }
+  .contact-cascade.js-cascade .cascade-front:not(.cascade-clone){ --cd:640ms; }
+  .contact-cascade.js-cascade.in .cascade-clone, .contact-cascade.js-cascade.in .cascade-front:not(.cascade-clone){ opacity:1; translate:0 0; scale:1; }
+  @media (prefers-reduced-motion: reduce){
+    .contact-cascade.js-cascade .cascade-clone, .contact-cascade.js-cascade .cascade-front:not(.cascade-clone){ transition:opacity .2s ease; translate:none; scale:none; }
+  }
   .cascade-front__body{ display:flex; flex-direction:column; gap:20px; margin-top:6px; align-items:center; text-align:center; }
   .cascade-front__msg{ font-family:var(--font-head); font-weight:700; font-size:19px; color:var(--indigo); margin:0; }
   .cascade-front__actions{ display:flex; flex-wrap:nowrap; gap:8px; justify-content:center; width:100%; }
@@ -299,7 +315,7 @@
   .chat-row--right{ flex-direction:row-reverse; }
   .avatar{ width:28px; height:28px; flex:none; border:2px solid var(--indigo); margin-top:2px; }
   .chat-row--left .avatar{ background:var(--blue) url(assets/img/y2k/avatar-camila.jpg) center/cover no-repeat; border-radius:0 !important; width:36px; height:36px; }
-  .chat-row--right .avatar{ background:var(--purple); border-radius:50% !important; }
+  .chat-row--right .avatar{ background:var(--purple) url(assets/img/y2k/shiba.png) center/cover no-repeat; border-radius:50% !important; width:36px; height:36px; }
   .bubble{
     position:relative; max-width:74%; padding:20px 24px 22px; border-radius:10px !important;
     box-shadow:4px 5px 0 rgba(37,40,61,.14);
@@ -336,6 +352,18 @@
   .chat-body.js-rv .chat-row--left{ transform:translate(-18px, 14px); }
   .chat-body.js-rv .chat-row--right{ transform:translate(18px, 14px); }
   .chat-body.js-rv .chat-row.in{ opacity:1; transform:none; }
+  /* ---------- gentle life for the windows ---------- */
+  .about-photo, .about-note, .edu-langs-bento > .tile, .contact-band > .tile:first-child{ transition:transform .3s ease, box-shadow .3s ease; }
+  .about-photo:hover, .about-note:hover, .edu-langs-bento > .tile:hover, .contact-band > .tile:first-child:hover{ transform:rotate(0deg) translateY(-4px); }
+  .js-rv2 .rv-win{ opacity:0; translate:0 22px; transition:opacity .6s ease var(--rv-d,0ms), translate .7s cubic-bezier(.2,.8,.2,1) var(--rv-d,0ms), transform .3s ease, box-shadow .3s ease; }
+  .js-rv2 .rv-win.in{ opacity:1; translate:0 0; }
+  .js-rv2 .loadwin .load-bar__fill{ transform-origin:left center; transform:scaleX(0); transition:transform 1.2s cubic-bezier(.2,.8,.2,1) .35s; }
+  .js-rv2 .loadwin.in .load-bar__fill{ transform:scaleX(1); }
+  .js-rv2 .loadwin li:nth-child(2) .load-bar__fill{ transition-delay:.6s; }
+  .js-rv2 .loadwin li:nth-child(3) .load-bar__fill{ transition-delay:.85s; }
+  @media (prefers-reduced-motion: reduce){
+    .about-photo:hover, .about-note:hover, .edu-langs-bento > .tile:hover, .contact-band > .tile:first-child:hover{ transform:none; }
+  }
   .chat-input{ width:100%; min-width:0; outline:none; color:var(--ink); }
   .chat-input::placeholder{ color:var(--muted); opacity:1; }
   .chat-input:focus{ border-color:var(--accent-ink); box-shadow:inset 2px 2px 0 rgba(37,40,61,.06), 0 0 0 3px rgba(116,102,207,.25); }
@@ -344,7 +372,7 @@
   .chat-note{ margin-top:8px; font-family:var(--font-pixel); font-size:12px; color:var(--muted); }
   .chat-input.shake{ animation:chat-shake .35s ease; }
   @keyframes chat-shake{ 20%{transform:translateX(-5px)} 40%{transform:translateX(5px)} 60%{transform:translateX(-3px)} 80%{transform:translateX(3px)} }
-  .chat-row--you .avatar{ background:var(--pink); }
+  .chat-row--right.chat-row--you .avatar{ background:var(--pink); }
   .bubble--typing{ display:inline-flex; gap:5px; align-items:center; padding:16px 20px; }
   .bubble--typing i{ width:7px; height:7px; background:var(--indigo); border-radius:50% !important; animation:chat-dot 1s ease-in-out infinite; }
   .bubble--typing i:nth-child(2){ animation-delay:.15s } .bubble--typing i:nth-child(3){ animation-delay:.3s }
@@ -695,7 +723,7 @@
           <input class="chat-input" id="chatText" type="text" maxlength="240" placeholder="Type a message…">
           <button class="btn btn--primary chat-send" type="submit">Send</button>
         </form>
-        <p class="chat-note" id="chatNote">Just for fun: your message stays in this browser. To really reach me, use "Say hi" below.</p>
+        <p class="chat-note" id="chatNote">Interact with everything! Try writing me a message. ;)</p>
       </div>
     </div>
   </section>
@@ -832,11 +860,25 @@
       <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
     </div>
     <div class="contact-cascade">
-      <div class="ghost-bar cascade-ghost cascade-ghost--bottom">
-        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="tile tile--violet cascade-front cascade-clone cascade-clone--bottom" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
       </div>
-      <div class="ghost-bar cascade-ghost cascade-ghost--middle">
-        <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="tile tile--violet cascade-front cascade-clone cascade-clone--middle" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
       </div>
       <div class="tile tile--violet cascade-front">
         <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
@@ -1065,18 +1107,31 @@
         '<div class="bubble"><div class="bubble__meta"><span class="date">You</span><span class="org">' + hh + '</span></div><p></p></div>');
       you.querySelector('p').textContent = text;
       input.value = ''; input.placeholder = 'Message sent. Thank you!';
-      if (note) note.textContent = 'Sent to this page only. It was never uploaded anywhere.';
+      if (note) note.textContent = 'Your message was sent but not saved. This stays just between us!';
       var typing = addRow('chat-row--left', '<div class="bubble bubble--typing" aria-label="Typing"><i></i><i></i><i></i></div>');
       setTimeout(function(){
         typing.remove();
         var reply = addRow('chat-row--left',
           '<div class="bubble"><div class="bubble__meta"><span class="date">Ami</span><span class="org">just now</span></div>' +
-          '<p>Hey, thanks for stopping by! Plot twist: this chat is a very convincing prop. To reach the real me, say hi below!</p>' +
+          '<p>Hey, thanks for stopping by! Plot twist: this chat is just a very convincing prop. To reach the real me, say hi below!</p>' +
           '<p class="bubble__link"><a href="#contact">Contact me (for real) ↓</a></p></div>');
         reply.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
       }, reduce ? 300 : 1400);
       you.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest' });
     });
+  })();
+  (function(){
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var targets = [].slice.call(document.querySelectorAll('.about-photo, .about-note, .about-bio, .paintwin, .edu-langs-bento > .tile, .contact-band > .tile:first-child'));
+    document.body.classList.add('js-rv2');
+    var ioW = new IntersectionObserver(function(es){ es.forEach(function(e){ e.target.classList.toggle('in', e.isIntersecting); }); }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+    targets.forEach(function(t, i){ t.classList.add('rv-win'); t.style.setProperty('--rv-d', ((t.matches('.about-photo, .about-note, .about-bio') ? [0,90,180][['about-photo','about-note','about-bio'].findIndex(function(c){ return t.classList.contains(c); })] : 0) + 'ms')); ioW.observe(t); });
+    var cas = document.querySelector('.contact-cascade');
+    if (cas){
+      cas.classList.add('js-cascade');
+      new IntersectionObserver(function(es){ es.forEach(function(e){ cas.classList.toggle('in', e.isIntersecting); }); }, { threshold: 0.4 }).observe(cas);
+    }
   })();
 </script>
 </body>
