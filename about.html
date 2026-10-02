@@ -386,6 +386,21 @@
   .paint-palette{ border-top:2px solid var(--indigo); background:var(--chrome); padding:9px 16px; display:grid; gap:5px; }
   .palette-row{ display:flex; gap:4px; flex-wrap:wrap; }
   .swatch{ width:24px; height:17px; border:1px solid var(--indigo); flex:none; }
+  /* ---------- skills window: pills twitch on hover, swatches repaint them ---------- */
+  .paintwin .pill{ position:relative; cursor:default; transition:background-color .35s ease var(--d,0ms), color .35s ease var(--d,0ms), transform .18s ease; }
+  .paintwin .pill:hover{ z-index:2; transform:scale(1.09); animation:pill-twitch .45s ease; }
+  .paintwin .pill:active{ transform:scale(.97); }
+  @keyframes pill-twitch{ 0%{transform:scale(1) rotate(0)} 20%{transform:scale(1.1) rotate(-3deg)} 45%{transform:scale(1.1) rotate(2.5deg)} 70%{transform:scale(1.09) rotate(-1.5deg)} 100%{transform:scale(1.09) rotate(0)} }
+  .paintwin .swatch{ cursor:pointer; transition:transform .12s ease; }
+  .paintwin .swatch:hover{ transform:translateY(-2px); }
+  .paintwin .swatch:focus-visible{ outline:2px solid var(--indigo); outline-offset:2px; }
+  .paintwin .swatch.is-active{ outline:2px solid var(--indigo); outline-offset:1px; box-shadow:inset 0 0 0 2px #fff; }
+  .paint-hint{ margin:2px 0 0; font-family:var(--font-pixel); font-size:12px; color:var(--muted); }
+  @media (prefers-reduced-motion: reduce){
+    .paintwin .pill, .paintwin .swatch{ transition:background-color .2s ease, color .2s ease; }
+    .paintwin .pill:hover{ animation:none; transform:none; }
+    .paintwin .swatch:hover{ transform:none; }
+  }
 
   /* ---------- education / languages ---------- */
   .edu small{ font-family:var(--font-pixel); font-size:12px; color:var(--accent-ink); }
@@ -710,13 +725,14 @@
             </div>
           </div>
         </div>
-        <div class="paint-palette" aria-hidden="true">
+        <div class="paint-palette">
           <div class="palette-row">
             <span class="swatch" style="background:#25283d"></span><span class="swatch" style="background:#ffffff"></span><span class="swatch" style="background:#f4f1fb"></span><span class="swatch" style="background:#adcfed"></span><span class="swatch" style="background:#cfe3f5"></span><span class="swatch" style="background:#8fb6dd"></span><span class="swatch" style="background:#d7bce8"></span><span class="swatch" style="background:#e9dcf3"></span><span class="swatch" style="background:#bc9cdb"></span><span class="swatch" style="background:#ef798a"></span><span class="swatch" style="background:#d95f77"></span><span class="swatch" style="background:#f4eea9"></span><span class="swatch" style="background:#e0cd7a"></span><span class="swatch" style="background:#a578d6"></span>
           </div>
           <div class="palette-row">
             <span class="swatch" style="background:#ffd3f2"></span><span class="swatch" style="background:#ffa8e0"></span><span class="swatch" style="background:#c9a2ff"></span><span class="swatch" style="background:#9fc7ff"></span><span class="swatch" style="background:#b79bf2"></span><span class="swatch" style="background:#7a4fb0"></span><span class="swatch" style="background:#5f8fe0"></span><span class="swatch" style="background:#fbe7d9"></span><span class="swatch" style="background:#f6d9e4"></span><span class="swatch" style="background:#eccbe4"></span><span class="swatch" style="background:#d9d3f2"></span><span class="swatch" style="background:#cfe3fb"></span><span class="swatch" style="background:#6f6b98"></span><span class="swatch" style="background:#2c2a44"></span>
           </div>
+          <p class="paint-hint">Psst: click a colour. Go on, paint the skills.</p>
         </div>
       </div>
     </div>
@@ -806,6 +822,40 @@
     if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
   }
   tick(); setInterval(tick, 15000);
+  (function(){
+    var win = document.querySelector('.paintwin');
+    if (!win) return;
+    var pills = [].slice.call(win.querySelectorAll('.pill'));
+    var swatches = [].slice.call(win.querySelectorAll('.swatch'));
+    if (!pills.length || !swatches.length) return;
+    function rgb(c){ var m = c.match(/\d+/g); return [+m[0], +m[1], +m[2]]; }
+    function lum(c){ return (0.299*c[0] + 0.587*c[1] + 0.114*c[2]) / 255; }
+    pills.forEach(function(p, i){ p._orig = p.style.backgroundColor; p._rgb = rgb(getComputedStyle(p).backgroundColor); p.style.setProperty('--d', (i*30) + 'ms'); });
+    var active = null;
+    function reset(){
+      pills.forEach(function(p){ p.style.backgroundColor = p._orig; p.style.color = ''; });
+      if (active) { active.classList.remove('is-active'); active.setAttribute('aria-pressed','false'); }
+      active = null;
+    }
+    function paint(sw){
+      var s = rgb(getComputedStyle(sw).backgroundColor), t = 0.78;
+      pills.forEach(function(p){
+        var o = p._rgb, m = [0,1,2].map(function(k){ return Math.round(o[k]*(1-t) + s[k]*t); });
+        p.style.backgroundColor = 'rgb(' + m.join(',') + ')';
+        p.style.color = lum(m) < 0.5 ? '#fff' : '';
+      });
+      if (active) { active.classList.remove('is-active'); active.setAttribute('aria-pressed','false'); }
+      active = sw; sw.classList.add('is-active'); sw.setAttribute('aria-pressed','true');
+    }
+    function pick(sw){ if (active === sw) reset(); else paint(sw); }
+    swatches.forEach(function(sw){
+      var hex = sw.style.backgroundColor;
+      sw.setAttribute('role','button'); sw.setAttribute('tabindex','0');
+      sw.setAttribute('aria-pressed','false'); sw.setAttribute('aria-label','Paint the skills in this colour');
+      sw.addEventListener('click', function(){ pick(sw); });
+      sw.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(sw); } });
+    });
+  })();
   (function(){
     var el = document.getElementById('berlinTime');
     if (!el) return;
