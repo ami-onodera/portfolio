@@ -833,22 +833,26 @@
     );
     if (!followers.length) return;
 
-    var EASE = 0.16; /* 0..1, lower = lazier/more delayed follow */
-    var STEP = 18;   /* px offset per trail index, matches the original stagger */
+    var EASE = 0.14; /* lower = lazier follow */
+    var STEP = 18;   /* px offset between neighbouring windows */
 
+    /* chain: front -> mid -> back. each window chases the one directly in front of it,
+       so they peel away one after the other instead of moving as a block */
+    followers.sort(function(x, y){
+      return (parseFloat(x.getAttribute('data-trail-index')) || 0) - (parseFloat(y.getAttribute('data-trail-index')) || 0);
+    });
     var state = followers.map(function(el){
       return { el: el, left: el.offsetLeft, top: el.offsetTop };
     });
 
     function tick(){
-      var targetLeft = front.offsetLeft, targetTop = front.offsetTop;
+      var prevLeft = front.offsetLeft, prevTop = front.offsetTop;
       state.forEach(function(s){
-        var idx = parseFloat(s.el.getAttribute('data-trail-index')) || 0;
-        var tl = targetLeft - STEP * idx, tt = targetTop - STEP * idx;
-        s.left += (tl - s.left) * EASE;
-        s.top += (tt - s.top) * EASE;
+        s.left += (prevLeft - STEP - s.left) * EASE;
+        s.top += (prevTop - STEP - s.top) * EASE;
         s.el.style.left = s.left + 'px';
         s.el.style.top = s.top + 'px';
+        prevLeft = s.left; prevTop = s.top;
       });
       requestAnimationFrame(tick);
     }
