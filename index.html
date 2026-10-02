@@ -218,6 +218,7 @@
   .bar-icon--player::after{content:"";position:absolute;left:3px;top:2px;border-left:5px solid var(--indigo);border-top:3px solid transparent;border-bottom:3px solid transparent}
   .bar-icon--folder{background:var(--purple)}
   .bar-icon--folder::after{content:"";position:absolute;left:0;top:-3px;width:7px;height:3px;background:var(--purple);border:1.5px solid var(--indigo);border-bottom:0}
+  .bar-icon--floppy{width:15px;height:15px;border:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h10l3 3v10H1z' fill='%235f8fe0' stroke='%2325283d' stroke-width='1.5' stroke-linejoin='miter'/%3E%3Crect x='4' y='1.8' width='6' height='3.6' fill='%23fff'/%3E%3Crect x='7.8' y='2.5' width='1.4' height='2.2' fill='%2325283d'/%3E%3Crect x='3' y='8' width='9' height='5.2' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat}
   .bar-icon--warn{background:var(--yellow)}
   .win .bar .btns{display:flex; gap:5px; flex:none}
   .win .bar .btns i{
@@ -255,7 +256,9 @@
 
   /* selected-work: the biggest window on the desktop, 3 live case-study previews */
   .case-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:12px}
-  .case-thumb{aspect-ratio:4/5; border:2px solid var(--indigo); position:relative; overflow:hidden; background:var(--purple-soft)}
+  .case-thumb{aspect-ratio:4/3; border:2px solid var(--indigo); position:relative; overflow:hidden; background:var(--purple-soft)}
+  .case-thumb--soon{background:repeating-linear-gradient(45deg,var(--purple-soft),var(--purple-soft) 8px,#fff 8px,#fff 16px); border-style:dashed; display:flex; align-items:center; justify-content:center}
+  .case-thumb--soon span{position:static; background:rgba(37,40,61,.7); text-align:center}
   .case-thumb img{width:100%; height:100%; object-fit:cover; object-position:top; display:block}
   .case-thumb span{position:absolute; bottom:6px; left:6px; right:6px; font-family:var(--font-pixel); font-size:6.5px; line-height:1.5; color:#fff; background:rgba(37,40,61,.7); padding:4px 6px}
 
@@ -390,9 +393,7 @@
     .win .body{ padding:16px 14px; }
   }
   @media (max-width:480px){
-    .case-grid{ grid-template-columns:1fr; }
-    .case-thumb{ aspect-ratio:16/10; }
-    .case-thumb span{ font-size:8px; }
+    .case-grid{ grid-template-columns:1fr 1fr; }
   }
   @media (max-width:440px){
     .navbtn{ font-size:8px; padding:0 6px; gap:4px; }
@@ -535,18 +536,19 @@
 <!-- ============ THE HOME DESKTOP: a cascade of windows, About in back-left, biggest window (Selected work) overlapping its bottom-right corner, Early work tucked further behind that ============ -->
 <div class="win win--about open" data-window="about" style="z-index:11; transform:rotate(-.5deg)">
   <div class="bar">
-    <span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">camila.exe — about</span></span>
+    <span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">ami.exe: about</span></span>
     <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
   </div>
   <div class="body about-grid">
     <div class="about-photo"><img src="assets/img/y2k/avatar-camila.jpg" alt="Camila's avatar"></div>
     <div class="about-text">
-      <h1>Hi, I'm Camila.</h1>
-      <p>Product &amp; UI designer, based in Berlin. I turn fuzzy briefs into interfaces people enjoy using — then build them myself.</p>
+      <h1>Hello world! I'm Ami</h1>
+      <p>I design and build web experiences. Have a poke around, every window opens!</p>
       <div class="chip-row">
-        <span class="chip chip--blue">BERLIN</span>
-        <span class="chip">DESIGN</span>
-        <span class="chip chip--purple">VIBE CODING</span>
+        <span class="chip chip--blue">DESIGN</span>
+        <span class="chip">CSS/HTML</span>
+        <span class="chip chip--purple">FIGMA</span>
+        <span class="chip chip--blue">CMS</span>
       </div>
       <a class="modal-cta" href="about.html" style="margin-top:14px">See more →</a>
     </div>
@@ -560,18 +562,21 @@
   </div>
   <div class="body">
     <div class="case-grid">
-      <div class="case-thumb"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" alt="Nimbelo Fibre demo"><span>NIMBELO FIBRE</span></div>
-      <div class="case-thumb"><img src="assets/img/y2k/thumb-voltwell-energy.jpg" alt="Voltwell Energy demo"><span>VOLTWELL ENERGY</span></div>
-      <div class="case-thumb"><img src="assets/img/y2k/thumb-orbeo-mobile.jpg" alt="Orbeo Mobile demo"><span>ORBEO MOBILE</span></div>
+      <div class="case-thumb"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" alt="Nimbelo Fibre referral portal, from the one template, many brands case study"></div>
+      <div class="case-thumb"><img src="assets/img/y2k/thumb-seo-landing-pages.jpg" alt="The SEO road, an interactive presentation on hosted landing pages"></div>
+      <div class="case-thumb"><img src="assets/img/y2k/model-map-preview.jpg" alt="Content model map of a portal built from nested CMS entries"></div>
+      <div class="case-thumb"><img src="assets/img/y2k/thumb-mockup-maker.jpg" alt="Mockup maker, a branded portal preview generated from a prospect website"></div>
+      <div class="case-thumb case-thumb--soon" aria-label="Case study coming soon"><span>COMING SOON</span></div>
+      <div class="case-thumb case-thumb--soon" aria-label="Case study coming soon"><span>COMING SOON</span></div>
     </div>
-    <p class="modal-note">One template, three fictional brand portals. Product &amp; UI work, from Figma to a shared Contentful-driven template.</p>
+    <p class="modal-note">I design it, I build it, I wire it to the CMS, and I check it works. These are the projects I'd show you over coffee!</p>
     <a class="modal-cta" href="selected-work.html">See portfolio →</a>
   </div>
 </div>
 
 <div class="win win--early open" data-window="early" style="z-index:12; transform:rotate(-.8deg)">
   <div class="bar">
-    <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">early-work/</span></span>
+    <span class="titlewrap"><span class="bar-icon bar-icon--floppy"></span><span class="title">floppy_disk (A:)/</span></span>
     <span class="btns"><i data-min>_</i><i data-max>▢</i><i data-close>x</i></span>
   </div>
   <div class="body">
@@ -581,7 +586,7 @@
       <div class="early-thumb"><img src="assets/img/y2k/early-clairol-1.jpg" alt="Earlier project preview"></div>
       <div class="early-thumb"><img src="assets/img/y2k/early-geekisstore-1.jpg" alt="Earlier project preview"></div>
     </div>
-    <p class="modal-note">14 projects from earlier in my career, kept for the full story.</p>
+    <p class="modal-note">Vintage work: projects from the dial-up era of my career.</p>
     <a class="modal-cta" href="earlier-work.html">See all →</a>
   </div>
 </div>

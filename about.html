@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About | Camila Massa</title>
-<meta name="description" content="About Camila Massa: Senior Web Designer at Aklamio in Berlin, with 15+ years across digital design, brand communication, art direction and web production.">
+<meta name="description" content="About Camila Massa: Senior Web Designer in Berlin, with 15+ years across digital design, brand communication, art direction and web production.">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,6 +24,26 @@
   .about-photo { grid-area: photo; position: relative; }
   .about-note { grid-area: note; display: flex; flex-direction: column; justify-content: flex-start; gap: 10px; }
   .about-note p { flex:1; display:flex; align-items:center; }
+  /* ---------- status.tmp: a messenger-style status card ---------- */
+  .status{ display:flex; flex-direction:column; gap:12px; width:100%; }
+  .about-note .status p{ flex:none; display:flex; align-items:center; }
+  .status__presence{ gap:8px; font-family:var(--font-body); font-weight:800; font-size:16px; color:var(--ink); }
+  .status__dot{ width:11px; height:11px; border-radius:50%; background:#2fb67c; border:1.5px solid var(--indigo); position:relative; flex:none; }
+  .status__dot::after{ content:""; position:absolute; inset:-5px; border-radius:50%; border:2px solid #2fb67c; opacity:0; animation:status-pulse 2.4s ease-out infinite; }
+  @keyframes status-pulse{ 0%{ transform:scale(.5); opacity:.7 } 70%,100%{ transform:scale(1.15); opacity:0 } }
+  @media (prefers-reduced-motion: reduce){ .status__dot::after{ animation:none } }
+  .status__field{ gap:9px; background:#fff; border:2px solid var(--indigo); box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); padding:10px 12px; font-family:var(--font-body); font-weight:700; font-size:15px; line-height:1.35; color:var(--ink); }
+  .status__places{ list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px; }
+  .status__places li{ display:inline-flex; align-items:center; gap:6px; font-family:var(--font-pixel); font-size:13px; color:var(--indigo); background:rgba(255,255,255,.7); border:1.5px solid var(--indigo); padding:4px 9px; }
+  .status__time{ color:var(--muted); font-variant-numeric:tabular-nums; }
+  .status__time:empty{ display:none; }
+  .status__menu{ list-style:none; margin:2px 0 0; padding:6px 0 0; border-top:2px solid rgba(37,40,61,.18); display:flex; flex-direction:column; }
+  .status__menu a{ display:flex; justify-content:space-between; align-items:center; padding:7px 4px; font-family:var(--font-body); font-weight:700; font-size:15px; color:var(--ink); text-decoration:none; transition:background-color .12s ease; }
+  .status__menu a:hover, .status__menu a:focus-visible{ background:rgba(255,255,255,.75); }
+  section[id]{ scroll-margin-top:72px; }
+  @media (max-width:640px){ section[id]{ scroll-margin-top:100px; } }
+  .status__key{ font-family:var(--font-pixel); font-size:12px; color:var(--muted); }
+
   .about-note p { font-weight: 700; color: var(--ink); line-height: 1.45; }
   .about-bio { grid-area: bio; padding: clamp(28px, 4.4vw, 56px); }
   .about-bio h1 { margin: 18px 0 20px; }
@@ -522,14 +542,28 @@
         </div>
         <div class="tile tile--blue about-note c-tr c-br">
           <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">status.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-          <p>Based in Berlin. Open to Web Design and UI Design roles in Berlin or remote.</p>
+          <div class="status">
+            <p class="status__presence"><span class="status__dot" aria-hidden="true"></span>Online</p>
+            <p class="status__field"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" style="flex:none"><path d="M8 1 L9.8 6.2 L15 8 L9.8 9.8 L8 15 L6.2 9.8 L1 8 L6.2 6.2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="1.4" stroke-linejoin="round"/></svg><span>Open to web design and UI design roles</span></p>
+            <ul class="status__places">
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>Berlin <time id="berlinTime" class="status__time"></time></li>
+              <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.8a10 10 0 0 1 13 0M9 16.5a5 5 0 0 1 6 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>Remote</li>
+            </ul>
+            <ul class="status__menu" aria-label="On this page">
+              <li><a href="selected-work.html">Portfolio<span class="status__key" aria-hidden="true">→</span></a></li>
+              <li><a href="#experience">Experience<span class="status__key" aria-hidden="true">↓</span></a></li>
+              <li><a href="#skills">Skills<span class="status__key" aria-hidden="true">↓</span></a></li>
+              <li><a href="#education">Education<span class="status__key" aria-hidden="true">↓</span></a></li>
+              <li><a href="#contact">Say hi<span class="status__key" aria-hidden="true">↓</span></a></li>
+            </ul>
+          </div>
         </div>
         <div class="tile tile--sky about-bio c-bl">
           <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">camila.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
           <h1 id="about-title" class="title-lockup"><img src="assets/img/y2k/title-hi-im-camila.png" alt="Hi, I’m Camila." width="480" height="125"></h1>
-          <p>I’m a Senior Web &amp; Brand Designer in Berlin, with 15+ years across digital design, brand communication, art direction and web production.</p>
-          <p>At Aklamio, which builds referral-marketing programmes for brands in telecom, energy, banking, insurance and more, I design and ship B2B web experiences: referral landing pages, customer portals and branded widgets. I work hands-on in Figma, HTML/CSS, Contentful, JSON configuration and Material UI theming, use generative AI and vibe coding with Claude to prototype and automate, and I look after design QA and release readiness. So far that adds up to 40+ hosted pages from 67 integration tickets.</p>
-          <p>I started as an art director at Editora Abril, then ran community and content for nine brands at Procter &amp; Gamble Brasil. As a project manager at Language International I led a team of software developers. That path is why I bridge design and delivery: I care how a brand looks, and how it gets built and shipped.</p>
+          <p>But you can call me Ami. I’m a designer who codes: I make brands look good on the web, and then I make sure nothing gets lost between the design and the live page. And I’ve been doing it for 15+ years.</p>
+          <p>In my current position, I design, build and launch B2B and B2C web experiences for partner brands: landing pages, customer portals and branded widgets. HTML/CSS, Contentful, Figma, JSON configuration and Material UI theming are my daily tools, with Claude as my sidekick for prototyping and automating the repetitive bits. I also own design QA and release readiness, which is how 163 hosted pages stayed consistent from first draft to live link.</p>
+          <p>I started as an art director, then created content for nine brands for P&amp;G Brasil, working through an agency. Later, as a project manager at Language International, I led a team of software developers and built a website translated into 27 languages. That path is why I bridge design and delivery: I care how a brand looks, and how it actually gets built.</p>
           <div class="bio-actions">
             <a class="btn btn--primary" href="assets/Camila-Massa-CV.pdf" download>Download CV</a>
             <a class="btn btn--soft" href="selected-work.html">See my work <span class="arrow" aria-hidden="true">→</span></a>
@@ -540,7 +574,7 @@
   </section>
 
   <!-- Experience -->
-  <section class="block" aria-labelledby="exp-title">
+  <section class="block" id="experience" aria-labelledby="exp-title">
     <div class="wrap">
       <h2 id="exp-title" class="sr-only">Experience</h2>
       <div class="tile tile--white chatwin">
@@ -598,7 +632,7 @@
   </section>
 
   <!-- Skills and background -->
-  <section class="block" style="padding-top:0" aria-labelledby="skills-title">
+  <section class="block" id="skills" style="padding-top:0" aria-labelledby="skills-title">
     <div class="wrap">
       <h2 id="skills-title" class="sr-only">Skills and tools</h2>
       <div class="tile tile--white paintwin">
@@ -686,7 +720,7 @@
   </section>
 
   <!-- Education and languages -->
-  <section class="block" style="padding-top:0" aria-labelledby="edu-title">
+  <section class="block" id="education" style="padding-top:0" aria-labelledby="edu-title">
     <div class="wrap">
       <h2 id="edu-title" class="sr-only">Education and languages</h2>
       <div class="bento edu-langs-bento">
@@ -769,6 +803,16 @@
     if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
   }
   tick(); setInterval(tick, 15000);
+  (function(){
+    var el = document.getElementById('berlinTime');
+    if (!el) return;
+    function berlin(){
+      try {
+        el.textContent = new Intl.DateTimeFormat('en-GB', { timeZone:'Europe/Berlin', hour:'2-digit', minute:'2-digit', hour12:false }).format(new Date());
+      } catch (e) { el.textContent = ''; }
+    }
+    berlin(); setInterval(berlin, 15000);
+  })();
 </script>
 </body>
 </html>
