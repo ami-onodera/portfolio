@@ -737,6 +737,19 @@
 </div>
 </div>
 
+<!-- ============ SAORI VIDEO: opened from the secret file in the trash ============ -->
+<div class="win desktop-only" data-window="saori" style="top:200px; left:300px; z-index:41; width:280px">
+  <div class="bar">
+    <span class="titlewrap"><img src="assets/img/y2k/shiba.png" alt="" width="20" height="20" style="flex:none; object-fit:contain"><span class="title">saori.mp4</span></span>
+    <span class="btns"><i data-min>_</i><i>▢</i><i data-close>x</i></span>
+  </div>
+  <div class="body" style="padding:10px; background:var(--chrome)">
+    <video controls playsinline preload="none" poster="assets/video/saori-treats.jpg" style="display:block; width:100%; height:auto; aspect-ratio:464/848; background:#25283d; border:3px solid var(--indigo)">
+      <source src="assets/video/saori-treats.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
 <!-- ============ TRASH: opened from the trash icon (click). Right-click the icon for "Empty Trash" ============ -->
 <div class="win win--notice desktop-only" data-window="trash" style="top:260px; left:560px; z-index:40; width:440px">
   <div class="bar">
@@ -752,7 +765,7 @@
       <li><button type="button" class="bin-file" data-joke="They all looked the same on Monday."><span class="bin-ico"></span><span class="bin-name">47-shades-of-blue.fig</span><span class="bin-size">9 MB</span></button></li>
       <li><button type="button" class="bin-file" data-joke="Not in this house. Square corners only."><span class="bin-ico"></span><span class="bin-name">border-radius-everything.css</span><span class="bin-size">2 KB</span></button></li>
       <!-- placeholder: swap data-href for a real link (a favourite project, say) and update the joke -->
-      <li><button type="button" class="bin-file bin-file--secret" data-joke="Psst. Something good will live here soon." data-href=""><span class="bin-ico bin-ico--star"></span><span class="bin-name">hidden-gem.txt</span><span class="bin-size">? KB</span></button></li>
+      <li><button type="button" class="bin-file bin-file--secret" data-joke="Psst. Best file in the whole trash." data-open-win="saori"><span class="bin-ico bin-ico--star"></span><span class="bin-name">saori-treats.txt</span><span class="bin-size">2 MB</span></button></li>
     </ul>
     <p class="bin-status" id="binStatus" aria-live="polite">7 items. Click a file to inspect it.</p>
   </div>
@@ -1091,13 +1104,29 @@
         emptied = false;
       }, 2500);
     }
+    /* saori-treats: opens a small video window next to the trash */
+    var vidWin = document.querySelector('.win[data-window="saori"]');
+    var vid = vidWin && vidWin.querySelector('video');
+    function openSaoriVideo(){
+      if (!vidWin) return;
+      if (typeof openBase === 'function') openBase('saori');
+      var w = vidWin.offsetWidth;
+      vidWin.style.left = Math.max(8, win.offsetLeft - w - 16) + 'px';
+      vidWin.style.top = Math.max(8, Math.min(win.offsetTop - 60, window.innerHeight - vidWin.offsetHeight - 70)) + 'px';
+      if (typeof bringToFront === 'function') bringToFront(vidWin);
+      if (vid){ try { vid.currentTime = 0; var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); } catch(e){} }
+    }
+    if (vidWin && vid){
+      vidWin.querySelectorAll('[data-close],[data-min]').forEach(function(b){ b.addEventListener('click', function(){ vid.pause(); }); });
+    }
     files.forEach(function(f){
       f.addEventListener('click', function(){
         files.forEach(function(o){ o.classList.remove('sel'); });
         f.classList.add('sel');
-        setStatus(f.getAttribute('data-joke') + (f.classList.contains('bin-file--secret') && !f.getAttribute('data-href') ? ' (placeholder)' : ''));
+        setStatus(f.getAttribute('data-joke'));
         var href = f.getAttribute('data-href');
         if (href) window.open(href, '_blank', 'noopener');
+        if (f.getAttribute('data-open-win')) openSaoriVideo();
       });
     });
     function showMenu(e){
