@@ -296,6 +296,24 @@
   .win[data-window="network"] .mail-reveal__out{ position:static; display:none; margin:0; width:100%; min-width:260px }
   .win[data-window="network"] .mail-reveal__out:not([hidden]){ display:block }
   .backdrop.backdrop--dim.show{ background:rgba(37,40,61,.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px) }
+  /* ---- minesweeper ---- */
+  .mines{ padding:14px 14px 10px; background:var(--chrome) }
+  .mines-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; padding:8px 10px; background:#eceaf8; border:3px solid var(--indigo); box-shadow:inset 2px 2px 0 rgba(37,40,61,.12) }
+  .mcount{ min-width:70px; padding:2px 8px; text-align:center; background:var(--indigo); color:var(--pink); font:700 28px/1.15 var(--font-pixel); letter-spacing:3px }
+  .mines-face{ width:46px; height:46px; padding:3px; cursor:pointer; background:var(--chrome); border:0; box-shadow:inset 3px 3px 0 #fff, inset -3px -3px 0 #9a9bb8, 0 0 0 2px var(--indigo) }
+  .mines-face:active{ box-shadow:inset 2px 2px 0 #9a9bb8, 0 0 0 2px var(--indigo) }
+  .mines-face svg{ display:block; width:100%; height:100% }
+  .mines-board{ display:grid; grid-template-columns:repeat(8, 40px); width:max-content; margin:0 auto; border:3px solid var(--indigo); background:#c9c8dc; -webkit-user-select:none; user-select:none }
+  .mcell{ width:40px; height:40px; padding:0; border:0; cursor:pointer; background:var(--chrome); box-shadow:inset 3px 3px 0 #fff, inset -3px -3px 0 #9a9bb8; font:700 20px var(--font-pixel); color:var(--indigo); display:flex; align-items:center; justify-content:center; border-radius:0 !important }
+  .mcell:hover:not(.open){ background:#fff }
+  .mcell:focus-visible{ outline:3px solid var(--pink); outline-offset:-3px }
+  .mcell.open{ cursor:default; background:#eceaf8; box-shadow:inset 1px 1px 0 #b8b9d1 }
+  .mcell.boom{ background:var(--pink) }
+  .mcell img{ width:26px; height:26px; object-fit:contain; image-rendering:pixelated; pointer-events:none }
+  .mcell[data-n="1"]{ color:#3b6fd1 } .mcell[data-n="2"]{ color:#2e9a5f } .mcell[data-n="3"]{ color:#e0485f }
+  .mcell[data-n="4"]{ color:#5b3fb0 } .mcell[data-n="5"]{ color:#b0482e } .mcell[data-n="6"], .mcell[data-n="7"], .mcell[data-n="8"]{ color:#25283d }
+  .mcell:disabled{ opacity:1 }
+  .mines-hint{ margin:10px 0 0; text-align:center; font:600 12px var(--font-pixel); color:var(--indigo); opacity:.7 }
   /* ---- trash ---- */
   .bin-list{ list-style:none; margin:0; padding:8px; background:#fff; border-bottom:2px solid var(--indigo); max-height:300px; overflow:auto }
   .bin-file{ display:flex; align-items:center; gap:10px; width:100%; padding:7px 8px; background:none; border:0; text-align:left; cursor:pointer; font:600 14px var(--font-body); color:var(--indigo); transition:opacity .35s ease, translate .35s ease }
@@ -515,6 +533,11 @@
     <div class="glyph"><img class="icon-art" src="assets/img/y2k/network.png" alt="Network"></div>
     <span>NETWORK</span>
   </button>
+
+  <button class="icon" data-open="mines" title="Minesweeper">
+    <div class="glyph"><img class="icon-art" src="assets/img/y2k/mine.png" alt="Minesweeper"></div>
+    <span>MINE<br>SWEEPER</span>
+  </button>
 </div>
 
 <div class="trash-icon">
@@ -722,6 +745,23 @@
   <button type="button" role="menuitem" data-act="open">Open</button>
   <hr>
   <button type="button" role="menuitem" data-act="empty">Empty Trash</button>
+</div>
+
+<!-- ============ MINESWEEPER: simplified, one fixed 8x8 map. Logic in assets/js/mines.js ============ -->
+<div class="win desktop-only" data-window="mines" style="top:150px; left:520px; z-index:35; width:368px">
+  <div class="bar">
+    <span class="titlewrap"><img src="assets/img/y2k/mine.png" alt="" width="20" height="20" style="flex:none; object-fit:contain"><span class="title">minesweeper.exe</span></span>
+    <span class="btns"><i data-min>_</i><i>▢</i><i data-close>x</i></span>
+  </div>
+  <div class="body mines" data-mines data-base="">
+    <div class="mines-head">
+      <div class="mcount" data-mines-left aria-label="Mines left">006</div>
+      <button type="button" class="mines-face" aria-label="Restart the game"></button>
+      <div class="mcount" data-mines-time aria-label="Seconds">000</div>
+    </div>
+    <div class="mines-board" role="group" aria-label="Minesweeper board"></div>
+    <p class="mines-hint">Click to dig. Right-click to flag.</p>
+  </div>
 </div>
 
 <!-- ============ NETWORK: opened from the desktop icon. A small alert window with the contact email (obfuscated, revealed by JS) ============ -->
@@ -1120,5 +1160,6 @@
   tick(); setInterval(tick, 15000);
 </script>
 <script src="assets/js/saori.js?v=4" defer></script>
+<script src="assets/js/mines.js" defer></script>
 </body>
 </html>
