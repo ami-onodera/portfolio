@@ -127,9 +127,9 @@
      cascade-trail JS can animate `left` via inline style without fighting a stylesheet
      rule of equal or higher priority). Must come before the responsive tiers below so
      their overrides win at the matching widths despite equal selector specificity. */
-  .notice-stack--back{ left:178px }
-  .notice-stack--mid{ left:196px }
-  .notice-stack--front{ left:214px }
+  .notice-stack--back{ left:178px; top:588px }
+  .notice-stack--mid{ left:196px; top:606px }
+  .notice-stack--front{ left:214px; top:624px }
 
   /* base/default positions for the three home-desktop windows (iMac / large-display
      tier, ≥1800px). Also no longer inline, for the same reason as above: dragging sets
@@ -183,9 +183,9 @@
     .win--early{ width:280px }
 
     .win[data-window="about"]{ top:130px; left:148px }
-    .notice-stack--back{ left:150px }
-    .notice-stack--mid{ left:168px }
-    .notice-stack--front{ left:186px }
+    .notice-stack--back{ left:150px; top:588px }
+    .notice-stack--mid{ left:168px; top:606px }
+    .notice-stack--front{ left:186px; top:624px }
   }
 
   /* ---- 1024-1279px: "desktop" ---- */
@@ -194,6 +194,17 @@
     .win[data-window="work"]{ top:304px; left:478px }
     .win[data-window="early"]{ top:532px; left:852px }
     .win[data-window="mines"]{ top:150px; left:700px }
+  }
+
+  /* ---- 1200-1279px: MacBook 12" — Camila's hand-arranged layout ---- */
+  @media (max-width:1279px) and (min-width:1200px){
+    .win[data-window="about"]{ top:92px; left:130px }
+    .win[data-window="work"]{ top:265px; left:370px }
+    .win[data-window="early"]{ top:450px; left:760px }
+    .win[data-window="mines"]{ top:510px; left:175px }
+    .notice-stack--back{ left:642px; top:165px }
+    .notice-stack--mid{ left:660px; top:183px }
+    .notice-stack--front{ left:678px; top:201px }
   }
 
   /* ---- 640-1023px: "tablet" and "large mobile / small tablet" (same
@@ -664,13 +675,13 @@
 </div>
 
 <!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
-<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="top:588px; z-index:14; width:360px; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="z-index:14; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="top:606px; z-index:15; width:360px; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="z-index:15; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="win win--notice open desktop-only notice-stack notice-stack--front" data-window="notice" style="top:624px; z-index:16; width:360px">
+<div class="win win--notice open desktop-only notice-stack notice-stack--front" data-window="notice" style="z-index:16; width:360px">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span>
     <span class="btns"><i>_</i><i>▢</i><i>x</i></span>
