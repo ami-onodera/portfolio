@@ -82,7 +82,8 @@
   function hide(){ el.classList.remove('on'); }
   window.saori = { say: function(text, ms){ say(text, ms); } };
   if (key === 'home') el.classList.add('saori--home'); /* the desktop has the trash icon bottom right: sit above it */
-  el.querySelector('.saori__x').addEventListener('click', function(){ hide(); store('sessionStorage','saori-off','1'); });
+  var dismissed = false; /* only silences Saori for this page view, never for the rest of the visit */
+  el.querySelector('.saori__x').addEventListener('click', function(){ hide(); dismissed = true; });
   var woofs = ["Bork", "AwAwooo!", "much click!", "Mlem", "fomfom"], wi = 0;
   dog.addEventListener('click', function(){
     dog.classList.remove('woof'); void dog.offsetWidth; dog.classList.add('woof');
@@ -90,26 +91,32 @@
   });
 
   function pick(pool){ return pool[Math.floor(Math.random() * pool.length)]; }
-  function off(){ return !!store('sessionStorage','saori-off'); }
+  function off(){ return dismissed; }
 
   /* 1) first appearance, 20-25s after arriving. On the desktop it is a welcome
         (first visit) or a welcome back (every return to the desktop). Elsewhere
         it comes from that page's own pool, never a welcome back. */
-  var firstShown = false, idleTimer;
-  setTimeout(function(){
-    if (off()) return;
-    var text;
-    if (key === 'home'){
-      if (store('localStorage','saori-seen')) text = pick(welcomeBack);
-      else { text = welcomeFirst; store('localStorage','saori-seen','1'); }
-    } else text = pick(lines[key] || lines.other);
-    say(text, 16000);
-    firstShown = true;
-    armIdle();
-  }, FIRST_MIN + Math.random() * (FIRST_MAX - FIRST_MIN));
+  var firstShown = false, idleTimer, firstTimer, idleDone = false;
+  function start(){
+    /* runs on every page view, including when the browser restores the page from its
+       back/forward cache (Back button), where scripts do not run again by themselves */
+    clearTimeout(firstTimer); clearTimeout(idleTimer); clearTimeout(hideT);
+    el.classList.remove('on');
+    firstShown = false; idleDone = false; dismissed = false;
+    firstTimer = setTimeout(function(){
+      if (off()) return;
+      var text;
+      if (key === 'home'){
+        if (store('localStorage','saori-seen')) text = pick(welcomeBack);
+        else { text = welcomeFirst; store('localStorage','saori-seen','1'); }
+      } else text = pick(lines[key] || lines.other);
+      say(text, 16000);
+      firstShown = true;
+      armIdle();
+    }, FIRST_MIN + Math.random() * (FIRST_MAX - FIRST_MIN));
+  }
 
   /* 2) second appearance: only if the screen then goes idle for 45s, once per page visit */
-  var idleDone = false;
   function armIdle(){
     clearTimeout(idleTimer);
     if (!firstShown || idleDone || off()) return;
@@ -121,4 +128,6 @@
   ['mousemove','scroll','keydown','pointerdown','touchstart'].forEach(function(ev){
     window.addEventListener(ev, armIdle, { passive: true });
   });
+  start();
+  window.addEventListener('pageshow', function(e){ if (e.persisted) start(); });
 })();
