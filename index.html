@@ -127,9 +127,9 @@
      cascade-trail JS can animate `left` via inline style without fighting a stylesheet
      rule of equal or higher priority). Must come before the responsive tiers below so
      their overrides win at the matching widths despite equal selector specificity. */
-  .notice-stack--back{ left:60px }
-  .notice-stack--mid{ left:78px }
-  .notice-stack--front{ left:96px }
+  .notice-stack--back{ left:178px }
+  .notice-stack--mid{ left:196px }
+  .notice-stack--front{ left:214px }
 
   /* base/default positions for the three home-desktop windows (iMac / large-display
      tier, ≥1800px). Also no longer inline, for the same reason as above: dragging sets
@@ -140,6 +140,7 @@
   .win[data-window="about"]{ top:148px; left:272px }
   .win[data-window="work"]{ top:355px; left:603px }
   .win[data-window="early"]{ top:655px; left:1187px }
+  .win[data-window="mines"]{ top:193px; left:1130px }
 
   /* base/default widths for the same three windows, moved out of their old
      spots further down in the file for the same reason: they must come
@@ -161,6 +162,7 @@
     .win[data-window="about"]{ top:120px; left:186px }
     .win[data-window="work"]{ top:324px; left:526px }
     .win[data-window="early"]{ top:523px; left:1050px }
+    .win[data-window="mines"]{ top:162px; left:1053px }
   }
 
   /* ---- 640-1279px: shared across "desktop" (1024-1279) and "tablet" /
@@ -191,14 +193,17 @@
     .win--case{ width:460px }
     .win[data-window="work"]{ top:304px; left:478px }
     .win[data-window="early"]{ top:532px; left:852px }
+    .win[data-window="mines"]{ top:150px; left:700px }
   }
 
   /* ---- 640-1023px: "tablet" and "large mobile / small tablet" (same
      layout for both, per Camila: everything pulled together further). ---- */
   @media (max-width:1023px) and (min-width:640px){
+    .win[data-window="mines"], .icon[data-open="mines"]{ display:none !important }
     .win--case{ width:308px }
     .win[data-window="work"]{ top:320px; left:488px }
     .win[data-window="early"]{ top:530px; left:605px }
+    .win[data-window="mines"]{ top:150px; left:560px }
   }
 
   /* ================= WINDOW CHROME (squared) ================= */
@@ -297,23 +302,24 @@
   .win[data-window="network"] .mail-reveal__out:not([hidden]){ display:block }
   .backdrop.backdrop--dim.show{ background:rgba(37,40,61,.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px) }
   /* ---- minesweeper ---- */
-  .mines{ padding:14px 14px 10px; background:var(--chrome) }
-  .mines-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; padding:8px 10px; background:#eceaf8; border:3px solid var(--indigo); box-shadow:inset 2px 2px 0 rgba(37,40,61,.12) }
-  .mcount{ min-width:70px; padding:2px 8px; text-align:center; background:var(--indigo); color:var(--pink); font:700 28px/1.15 var(--font-pixel); letter-spacing:3px }
-  .mines-face{ width:46px; height:46px; padding:3px; cursor:pointer; background:var(--chrome); border:0; box-shadow:inset 3px 3px 0 #fff, inset -3px -3px 0 #9a9bb8, 0 0 0 2px var(--indigo) }
-  .mines-face:active{ box-shadow:inset 2px 2px 0 #9a9bb8, 0 0 0 2px var(--indigo) }
+  .mines{ padding:12px 12px 8px; background:linear-gradient(180deg,var(--blue-soft),var(--purple-soft)) }
+  .mines-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding:6px 8px; background:var(--chrome); border:3px solid var(--indigo); box-shadow:3px 3px 0 rgba(37,40,61,.25) }
+  .mcount{ min-width:58px; padding:1px 6px; text-align:center; background:var(--indigo); color:var(--pink); font:700 22px/1.15 var(--font-pixel); letter-spacing:2px }
+  .mines-face{ width:40px; height:40px; padding:3px; cursor:pointer; background:var(--pink); border:2px solid var(--indigo); box-shadow:2px 2px 0 rgba(37,40,61,.3); transition:box-shadow .1s ease, background-color .1s ease }
+  .mines-face:hover{ background:var(--pink-dark) }
+  .mines-face:active{ box-shadow:none; transform:translate(2px,2px) }
   .mines-face svg{ display:block; width:100%; height:100% }
-  .mines-board{ display:grid; grid-template-columns:repeat(8, 40px); width:max-content; margin:0 auto; border:3px solid var(--indigo); background:#c9c8dc; -webkit-user-select:none; user-select:none }
-  .mcell{ width:40px; height:40px; padding:0; border:0; cursor:pointer; background:var(--chrome); box-shadow:inset 3px 3px 0 #fff, inset -3px -3px 0 #9a9bb8; font:700 20px var(--font-pixel); color:var(--indigo); display:flex; align-items:center; justify-content:center; border-radius:0 !important }
-  .mcell:hover:not(.open){ background:#fff }
-  .mcell:focus-visible{ outline:3px solid var(--pink); outline-offset:-3px }
-  .mcell.open{ cursor:default; background:#eceaf8; box-shadow:inset 1px 1px 0 #b8b9d1 }
+  .mines-board{ display:grid; grid-template-columns:repeat(8, 34px); width:max-content; margin:0 auto; border:3px solid var(--indigo); background:var(--purple-soft); box-shadow:3px 3px 0 rgba(37,40,61,.25); -webkit-user-select:none; user-select:none }
+  .mcell{ width:34px; height:34px; padding:0; border:0; cursor:pointer; background:linear-gradient(135deg,#f7bfd0,var(--purple) 55%,var(--blue)); box-shadow:inset 3px 3px 0 rgba(255,255,255,.75), inset -3px -3px 0 rgba(37,40,61,.22); font:700 17px var(--font-pixel); color:var(--indigo); display:flex; align-items:center; justify-content:center; border-radius:0 !important }
+  .mcell:hover:not(.open){ background:linear-gradient(135deg,#ffd3df,#e6d2f3 55%,#c6e0f6) }
+  .mcell:focus-visible{ outline:3px solid var(--indigo); outline-offset:-3px }
+  .mcell.open{ cursor:default; background:var(--chrome); box-shadow:inset 1px 1px 0 rgba(37,40,61,.18) }
   .mcell.boom{ background:var(--pink) }
-  .mcell img{ width:26px; height:26px; object-fit:contain; image-rendering:pixelated; pointer-events:none }
-  .mcell[data-n="1"]{ color:#3b6fd1 } .mcell[data-n="2"]{ color:#2e9a5f } .mcell[data-n="3"]{ color:#e0485f }
-  .mcell[data-n="4"]{ color:#5b3fb0 } .mcell[data-n="5"]{ color:#b0482e } .mcell[data-n="6"], .mcell[data-n="7"], .mcell[data-n="8"]{ color:#25283d }
+  .mcell img{ width:22px; height:22px; object-fit:contain; image-rendering:pixelated; pointer-events:none }
+  .mcell[data-n="1"]{ color:#4f86c9 } .mcell[data-n="2"]{ color:#5b3fb0 } .mcell[data-n="3"]{ color:var(--pink-dark) }
+  .mcell[data-n="4"]{ color:#3a4aa0 } .mcell[data-n="5"]{ color:#b0482e } .mcell[data-n="6"], .mcell[data-n="7"], .mcell[data-n="8"]{ color:var(--indigo) }
   .mcell:disabled{ opacity:1 }
-  .mines-hint{ margin:10px 0 0; text-align:center; font:600 12px var(--font-pixel); color:var(--indigo); opacity:.7 }
+  .mines-hint{ margin:8px 0 0; text-align:center; font:600 11px var(--font-pixel); color:var(--indigo); opacity:.7 }
   /* ---- trash ---- */
   .bin-list{ list-style:none; margin:0; padding:8px; background:#fff; border-bottom:2px solid var(--indigo); max-height:300px; overflow:auto }
   .bin-file{ display:flex; align-items:center; gap:10px; width:100%; padding:7px 8px; background:none; border:0; text-align:left; cursor:pointer; font:600 14px var(--font-body); color:var(--indigo); transition:opacity .35s ease, translate .35s ease }
@@ -535,7 +541,7 @@
   </button>
 
   <button class="icon" data-open="mines" title="Minesweeper">
-    <div class="glyph"><img class="icon-art" src="assets/img/y2k/mine.png" alt="Minesweeper"></div>
+    <div class="glyph"><img class="icon-art" src="assets/img/y2k/mine-flag.png" alt="Minesweeper"></div>
     <span>MINE<br>SWEEPER</span>
   </button>
 </div>
@@ -563,7 +569,7 @@
 <img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-j-wide-purple.png" style="top:985px; left:520px; width:200px; z-index:2">
 <img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-a-puff-pink.png" style="top:60px; left:160px; width:180px; z-index:2" title="peeking behind About">
 <img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-n-twin-blue.png" style="top:1000px; left:1120px; width:160px; z-index:2" title="peeking behind Early work's bottom-left corner">
-<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-l-twin-pinkpurple.png" style="top:596px; left:4px; width:130px; z-index:2" title="peeking behind the notice stack">
+<img class="pixel-cloud" src="assets/img/y2k/clouds/cloud-l-twin-pinkpurple.png" style="top:700px; left:500px; width:130px; z-index:2" title="peeking behind the notice stack">
 
 <!-- star trail: a small milky-way-ish drift of stars from upper-left to lower-right, mixing tiny dots, small twinkles and a couple of bigger anchor stars -->
 <svg class="deco star-trail" style="top:66px; left:602px; width:15px; opacity:0.86" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
@@ -658,13 +664,13 @@
 </div>
 
 <!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
-<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="top:666px; z-index:14; width:360px; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="top:588px; z-index:14; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="top:684px; z-index:15; width:360px; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="top:606px; z-index:15; width:360px; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="win win--notice open desktop-only notice-stack notice-stack--front" data-window="notice" style="top:702px; z-index:16; width:360px">
+<div class="win win--notice open desktop-only notice-stack notice-stack--front" data-window="notice" style="top:624px; z-index:16; width:360px">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span>
     <span class="btns"><i>_</i><i>▢</i><i>x</i></span>
@@ -748,7 +754,7 @@
 </div>
 
 <!-- ============ MINESWEEPER: simplified, one fixed 8x8 map. Logic in assets/js/mines.js ============ -->
-<div class="win desktop-only" data-window="mines" style="top:150px; left:520px; z-index:35; width:368px">
+<div class="win open desktop-only" data-window="mines" style="z-index:12; width:315px">
   <div class="bar">
     <span class="titlewrap"><img src="assets/img/y2k/mine.png" alt="" width="20" height="20" style="flex:none; object-fit:contain"><span class="title">minesweeper.exe</span></span>
     <span class="btns"><i data-min>_</i><i>▢</i><i data-close>x</i></span>
@@ -1160,6 +1166,6 @@
   tick(); setInterval(tick, 15000);
 </script>
 <script src="assets/js/saori.js?v=4" defer></script>
-<script src="assets/js/mines.js" defer></script>
+<script src="assets/js/mines.js?v=2" defer></script>
 </body>
 </html>
