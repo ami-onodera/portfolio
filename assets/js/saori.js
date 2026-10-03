@@ -9,9 +9,10 @@
   if (/[?&]saori-test/.test(location.search) && window.console) console.log('[saori] loaded. reduced motion:', REDUCED);
   var base = script ? script.src.replace(/assets\/js\/saori\.js.*$/, '') : '';
   var IDLE_MS = 45000;      /* second appearance: only if the screen is idle this long */
-  var FIRST_MIN = 8000, FIRST_MAX = 12000; /* first appearance: shortly after arriving, before most people bounce */
+  var FIRST_MIN = 8000, FIRST_MAX = 12000; /* first appearance on inner pages */
+  var HOME_DELAY = 3000;   /* on the desktop she shows up after ~3s, so even a quick visit sees her */
   var TESTING = /[?&]saori-test/.test(location.search); /* add ?saori-test to the URL: short timers (3s / 8s) and ignores the session limits */
-  if (TESTING){ IDLE_MS = 8000; FIRST_MIN = FIRST_MAX = 3000; }
+  if (TESTING){ IDLE_MS = 8000; FIRST_MIN = FIRST_MAX = 3000; HOME_DELAY = 1500; }
 
   var path = location.pathname;
   var shared = [
@@ -113,7 +114,7 @@
       say(text, 16000);
       firstShown = true;
       armIdle();
-    }, FIRST_MIN + Math.random() * (FIRST_MAX - FIRST_MIN));
+    }, key === 'home' ? HOME_DELAY : FIRST_MIN + Math.random() * (FIRST_MAX - FIRST_MIN));
   }
 
   /* 2) second appearance: only if the screen then goes idle for 45s, once per page visit */
