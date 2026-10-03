@@ -306,6 +306,9 @@
   .bin-name{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
   .bin-size{ flex:none; font:600 12px var(--font-pixel); opacity:.7 }
   .bin-file--secret .bin-name::after{ content:" \2728"; }
+  .bin-shake{ animation:binShake .5s ease }
+  @keyframes binShake{ 0%,100%{ transform:rotate(0) } 20%{ transform:rotate(-9deg) } 45%{ transform:rotate(7deg) } 70%{ transform:rotate(-4deg) } }
+  @media (prefers-reduced-motion:reduce){ .bin-shake{ animation:none } }
   .bin-file.gone{ opacity:0; translate:0 -6px; pointer-events:none }
   .bin-status{ margin:0; padding:10px 12px; min-height:44px; font:600 14px/1.4 var(--font-body); color:var(--indigo); background:var(--chrome) }
   .ctx-menu{ position:fixed; z-index:200; min-width:190px; padding:4px; background:var(--chrome); border:2px solid var(--indigo); box-shadow:4px 4px 0 rgba(37,40,61,.25) }
@@ -1004,11 +1007,19 @@
     if (!win || !icon || !list || !menu) return;
     var files = Array.prototype.slice.call(list.querySelectorAll('.bin-file'));
     var emptied = false;
+    var art = icon.querySelector('.icon-art');
+    var FULL = art.getAttribute('src'), EMPTY = FULL.replace('trash.png', 'trash-empty.png');
+    new Image().src = EMPTY; /* preload */
+    function setArt(isEmpty){
+      art.src = isEmpty ? EMPTY : FULL;
+      art.classList.remove('bin-shake'); void art.offsetWidth; art.classList.add('bin-shake');
+    }
     function setStatus(s){ status.textContent = s; }
     function hideMenu(){ menu.hidden = true; }
     function emptyBin(){
       if (emptied) return;
       emptied = true; hideMenu();
+      setArt(true);
       files.forEach(function(f, i){ setTimeout(function(){ f.classList.add('gone'); }, i * 110); });
       setTimeout(function(){ files.forEach(function(f){ f.hidden = true; f.classList.remove('sel'); }); setStatus('0 items. The Recycle Bin is empty. Peaceful.'); }, files.length * 110 + 380);
       /* ...and they come back, like an alert would */
@@ -1017,6 +1028,7 @@
           f.hidden = false;
           setTimeout(function(){ f.classList.remove('gone'); }, 30 + i * 90);
         });
+        setArt(false);
         setStatus('Wait. They came back.');
         if (window.saori && window.saori.say) window.saori.say('Nice try.', 7000);
         emptied = false;
@@ -1033,13 +1045,17 @@
     });
     function showMenu(e){
       e.preventDefault();
-      var x = e.clientX || 0, y = e.clientY || 0;
-      if (!x && !y){ var r = icon.getBoundingClientRect(); x = r.left; y = r.top; }
       menu.hidden = false;
       menu.querySelector('[data-act="empty"]').disabled = emptied;
-      var w = menu.offsetWidth, h = menu.offsetHeight;
-      menu.style.left = Math.max(4, Math.min(x, window.innerWidth - w - 4)) + 'px';
-      menu.style.top = Math.max(4, Math.min(y - h, window.innerHeight - h - 4)) + 'px';
+      var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+      var w = menu.offsetWidth, h = menu.offsetHeight, x, y;
+      if (icon.contains(e.target)){
+        /* always open to the LEFT of the bin, so it can never run off the right edge */
+        var r = icon.getBoundingClientRect();
+        x = r.left - w - 8; y = r.bottom - h;
+      } else { x = e.clientX; y = e.clientY; }
+      menu.style.left = Math.max(4, Math.min(x, vw - w - 4)) + 'px';
+      menu.style.top = Math.max(4, Math.min(y, vh - h - 4)) + 'px';
       menu.querySelector('button').focus();
     }
     icon.addEventListener('contextmenu', showMenu);
