@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No-Buy Club | Camila Massa</title>
+<meta name="description" content="Case study: the No-Buy Club, a small app that helps people wait out impulse purchases with a cooling-off period, honest numbers and a savings goal.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/cascade.css">
+<link rel="stylesheet" href="../assets/css/y2k.css">
+<style>
+  .section-head{ margin-bottom:26px; }
+  .section-head .lead{ margin-top:14px; font-family:var(--font-body); font-weight:500; }
+  .section-win{ transform:none; }
+  .section-win .prose{ max-width:none; }
+  .section-win .prose p{ max-width:none; }
+
+  .trio{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); margin-top:28px; }
+  .trio h3{ font-size:20px; margin:10px 0 6px; font-family:var(--font-head); }
+  .trio p{ font-size:16px; }
+  .trio .tile:nth-child(odd){ transform:rotate(-.3deg); }
+  .trio .tile:nth-child(even){ transform:rotate(.3deg); }
+  .pull{ margin:40px 0; padding:0; border:0; max-width:none; text-align:center; font-family:var(--font-head); font-size:clamp(17px,2.1vw,28px); font-weight:700; line-height:1.3; color:var(--ink); }
+  @media (min-width:900px){ .pull{ white-space:nowrap; } }
+
+  .demo-tile{ padding:clamp(18px,3vw,36px); }
+  .demo-tile > .win-bar{ margin:calc(-1 * clamp(18px,3vw,36px)) calc(-1 * clamp(18px,3vw,36px)) 20px; }
+  .demo{ display:grid; grid-template-columns:270px minmax(0,1fr); gap:clamp(18px,3vw,32px); margin-top:26px; align-items:start; }
+  .controls{ position:sticky; top:80px; }
+  .controls h4{ font-family:var(--font-pixel); font-size:13px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--accent-ink); margin-bottom:12px; }
+  .try{ margin:0 0 16px; padding:0; list-style:none; counter-reset:t; }
+  .try li{ counter-increment:t; position:relative; padding:0 0 12px 34px; font-size:15px; font-weight:600; line-height:1.45; color:var(--body); }
+  .try li::before{ content:counter(t); position:absolute; left:0; top:0; width:24px; height:24px; display:grid; place-items:center; font-family:var(--font-pixel); font-size:13px; color:var(--ink); background:var(--lav-soft,#efebfd); border:2px solid var(--indigo); }
+  .try b{ color:var(--ink); font-weight:800; }
+  .demo-note{ font-size:14px; color:var(--muted); margin-top:12px; line-height:1.5; }
+  .nbc-frame{ height:760px; background:#eef1ff; border-top:2px solid var(--indigo); }
+  .nbc-frame iframe{ display:block; width:100%; height:100%; border:0; max-width:none; }
+  .demo-foot{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px 20px; margin-top:14px; }
+  .demo-foot figcaption{ margin:0; }
+  .demo-actions{ display:flex; flex-wrap:wrap; gap:10px; }
+
+  .out-grid, .impact-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); }
+  .out-grid .tile:nth-child(odd), .impact-grid .tile:nth-child(odd){ transform:rotate(-.3deg); }
+  .out-grid .tile:nth-child(even), .impact-grid .tile:nth-child(even){ transform:rotate(.3deg); }
+  .out-grid svg{ margin-bottom:14px; }
+  .out-grid h3, .impact-grid h3{ font-size:20px; margin:4px 0 8px; font-family:var(--font-head); }
+  .out-grid p, .impact-grid p{ font-size:16px; }
+  .skill-lead{ margin-bottom:26px; }
+  .pills{ margin-top:14px; }
+
+  .next-card{ display:grid; grid-template-columns:2fr 3fr; grid-template-rows:auto 1fr; align-items:stretch; }
+  .next-card > .win-bar{ grid-column:1 / -1; margin:0; }
+  .next-card .work-card__media{ aspect-ratio:auto; height:100%; min-height:300px; border-bottom:0; border-right:2px solid var(--indigo); position:relative; overflow:hidden; }
+  .next-card .work-card__media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .next-card .work-card__body{ justify-content:center; padding:30px 34px; }
+
+  @media (max-width:900px){
+    .demo{ grid-template-columns:1fr; }
+    .controls{ position:static; }
+    .trio, .out-grid, .impact-grid{ grid-template-columns:1fr; }
+    .trio .tile, .out-grid .tile, .impact-grid .tile{ transform:none !important; }
+    .next-card{ grid-template-columns:1fr; grid-template-rows:auto; }
+    .next-card .work-card__media{ aspect-ratio:16 / 10; height:auto; min-height:0; border-right:0; border-bottom:2px solid var(--indigo); }
+  }
+  @media (max-width:640px){
+    .nbc-frame{ height:680px; }
+    .next-card .work-card__body{ padding:22px 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-decor" aria-hidden="true">
+  <div class="grid-floor"></div>
+  <svg class="bgstar" style="top:6%; left:9%; width:13px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:14%; left:22%; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:9%; left:38%; width:9px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:5%; left:58%; width:15px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:22%; left:6%; width:11px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:18%; left:82%; width:14px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:30%; left:93%; width:8px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:40%; left:4%; width:8px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:52%; left:91%; width:13px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:64%; left:8%; width:10px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:72%; left:96%; width:6px; opacity:.6" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:80%; left:14%; width:12px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:88%; left:88%; width:9px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <a class="brand nav-start" href="../index.html" title="Home" aria-label="Home">
+      <img src="../assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn nav-util" href="../assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.pdf
+      </a>
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" title="Open LinkedIn" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+          <img src="../assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
+        </span>
+        <span class="navtray-icon" title="Connected">
+          <img src="../assets/img/y2k/nav-wifi.png" alt="" width="13" height="10">
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
+</header>
+<main id="main">
+
+  <!-- Hero -->
+  <section class="cs-hero sky-decor">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" style="top:-6px; left:2%; width:130px; opacity:.95">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-h-big-pink.png" alt="" style="top:-18px; right:3%; width:160px">
+    <svg class="deco" aria-hidden="true" style="top:12px; left:46%; width:16px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+    <div class="wrap"><div class="tile tile--sky cs-win">
+    <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">no-buy-club.case</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+    <h1>No-Buy Club: from “I want it now” to “do I still want it?”</h1>
+    <p class="lead">I designed and built a small app that helps people stop buying on impulse. Every urge goes on ice for a cooling-off period before it becomes a decision, slips are logged without guilt, and the money you don’t spend grows towards a goal you care about.</p>
+    <dl class="facts">
+      <div class="fact"><dt>Role</dt><dd>Concept, UI design and build</dd></div>
+      <div class="fact"><dt>For</dt><dd>Anyone who wants to stop buying on impulse</dd></div>
+      <div class="fact"><dt>Tools</dt><dd>HTML, CSS, JavaScript</dd></div>
+      <div class="fact"><dt>Output</dt><dd>One self-contained HTML file, no account, data stays in the browser</dd></div>
+    </dl>
+    </div></div>
+  </section>
+
+  <!-- Pain point -->
+  <section class="block" style="padding-top:24px;padding-bottom:0" aria-labelledby="context-title"><div class="wrap">
+    <div class="tile tile--white section-win">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">the-pain-point.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="prose">
+      <h2 id="context-title">The pain point</h2>
+      <p class="lead" style="margin:10px 0 18px;font-weight:800;color:var(--ink)">Buying feels good right now, and saving feels like nothing</p>
+      <p>Impulse buying is about the small hit of excitement more than the thing itself. A new season, a sale, a bad day, an ad at midnight: the urge is quick, the checkout is one tap away, and the feeling fades soon after the parcel arrives.</p>
+      <p>I wanted a tool that works with that, not against it. It should not lecture, and it should not need willpower alone. Three problems stood in the way:</p>
+    </div>
+    </div>
+    <div class="trio">
+      <div class="tile tile--sky c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">impulse.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>The urge is faster than the second thought</h3><p>Online shops are built to make buying instant. There is no natural pause between wanting something and owning it.</p></div>
+      <div class="tile tile--blue c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">guilt.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>One slip feels like failing</h3><p>When a single purchase wipes out a streak, it is tempting to give up on the whole thing. Shame is a poor motivator.</p></div>
+      <div class="tile tile--peri c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">motivation.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>Saved money is invisible</h3><p>Money you don’t spend leaves no trace. Without something to watch grow, not buying feels like missing out.</p></div>
+    </div>
+    <p class="pull">How might we make not buying something feel as rewarding as buying it?</p>
+  </div></section>
+
+  <!-- The case: demo -->
+  <section class="block" style="padding-top:0" id="demo" aria-labelledby="demo-title"><div class="wrap">
+    <div class="tile tile--white demo-tile">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">no-buy-club.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head" style="margin-bottom:0">
+        <h2 id="demo-title" class="h-bar" style="margin-top:14px">The idea: put it on ice</h2>
+        <p class="lead">Log what you want, with its price and why you want it right now. It sits on ice for 15 days. Then the app asks one question: <strong>do you still want it?</strong></p>
+      </div>
+      <div class="demo">
+        <div class="controls">
+          <h4>Try it</h4>
+          <ol class="try">
+            <li><b>Answer the verdict.</b> One sample item is ready to decide. Let it go, or ask for time to buy it.</li>
+            <li><b>Put something on ice.</b> Add an item and watch the money stay yours.</li>
+            <li><b>Read the numbers.</b> Scroll to the stats and achievements.</li>
+            <li><b>Make it yours.</b> Edit the goal, the days on ice and the currency.</li>
+          </ol>
+          <p class="demo-note">Everything in the demo is made-up sample data. What you change stays in your browser only.</p>
+        </div>
+        <figure class="shot" style="margin:0">
+          <div class="frame">
+            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>no-buy-club.demo</span></div>
+            <div class="nbc-frame"><iframe id="nbc-demo" src="../demos/no-buy-club/index.html" title="No-Buy Club app, interactive demo with sample data" loading="lazy"></iframe></div>
+          </div>
+          <div class="demo-foot">
+            <figcaption><strong>Interactive demo. Scroll inside the window.</strong></figcaption>
+            <div class="demo-actions">
+              <button class="btn btn--soft" id="nbc-reset" type="button">Reset sample data</button>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- The case: how it works -->
+  <section class="block" style="padding-top:0" id="how" aria-labelledby="how-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="how-title" class="h-bar">Kind rules, honest numbers</h2>
+    </div>
+    <div class="trio" style="margin-top:0">
+      <div class="tile tile--sky c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">ice.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>Ice first, decide later</h3><p>Every urge is parked for 15 days, a number you can change. If the wish has faded by then, the price joins your goal.</p></div>
+      <div class="tile tile--blue c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">green-light.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A week to buy it, no guilt</h3><p>If you still want it, you get seven days to actually buy it. Passing on it after that counts double, because you had permission.</p></div>
+      <div class="tile tile--peri c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">honesty.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>Slips are data</h3><p>“I bought something” logs it and restarts the streak. Your longest streak is kept and your goal total never goes backwards. A monthly “delusion index” counts only the impulse buys.</p></div>
+    </div>
+  </div></section>
+
+  <!-- What was delivered -->
+  <section class="block" style="padding-top:0" id="delivered" aria-labelledby="skill-title"><div class="wrap">
+    <div class="section-head skill-lead">
+      <h2 id="skill-title" class="h-bar">What was delivered</h2>
+      <p class="lead">A small, kawaii-styled app with a shiba mascot, a goal bar, stats and achievements. It is one HTML file with no account and no server, so it is private by default.</p>
+    </div>
+    <div class="out-grid">
+      <div class="tile tile--sky c-br">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-file.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true"><rect x="9" y="4" width="26" height="36" rx="4" stroke="#2c2a4f" stroke-width="1.8"/><path d="M15 15h14M15 21h14M15 27h9" stroke="#7466cf" stroke-width="2" stroke-linecap="round"/></svg>
+        <h3>One self-contained file</h3><p>HTML, CSS and JavaScript in a single page. Open it anywhere, on a phone or a computer.</p>
+      </div>
+      <div class="tile tile--peri c-tl c-br">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">private.sys</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true"><rect x="8" y="19" width="28" height="19" rx="4" stroke="#2c2a4f" stroke-width="1.8"/><path d="M14 19v-5a8 8 0 0 1 16 0v5" stroke="#2c2a4f" stroke-width="1.8"/><circle cx="22" cy="29" r="3" fill="#7466cf"/></svg>
+        <h3>Your data stays with you</h3><p>Everything is stored in the browser. Nothing is sent anywhere, and there is nothing to sign up for.</p>
+      </div>
+      <div class="tile tile--lav c-tl">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">backup.json</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true"><path d="M22 6v20" stroke="#2c2a4f" stroke-width="1.8" stroke-linecap="round"/><path d="m14 19 8 8 8-8" stroke="#2c2a4f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 34h28" stroke="#7466cf" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <h3>Save and restore</h3><p>A backup file or a copy to the clipboard, plus a gentle reminder. Euro, Brazilian real and US dollar are built in.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Problem solved -->
+  <section class="block" style="padding-top:0" id="impact" aria-labelledby="impact-title"><div class="wrap">
+    <div class="section-head"><h2 id="impact-title" class="h-bar">Problem solved</h2></div>
+    <div class="impact-grid">
+      <div class="tile tile--lav-soft c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">impulse.fixed</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A pause, built in</h3><p>Every urge waits on ice before it becomes a decision, so the second thought finally gets its turn.</p></div>
+      <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">guilt.fixed</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>Slips without shame</h3><p>Buying is logged as data, not failure. The streak restarts, and the longest streak and the goal total stay.</p></div>
+      <div class="tile tile--lilac c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">motivation.fixed</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>Not buying becomes visible</h3><p>Kept money grows towards a goal, with a pace forecast, achievements and a mascot who is very proud of you.</p></div>
+    </div>
+  </div></section>
+
+  <!-- Other case study -->
+  <section class="block" style="padding-top:0" aria-labelledby="prev-title"><div class="wrap">
+    <h2 id="prev-title" class="sr-only">Related case study</h2>
+    <a class="work-card next-card" href="mockup-maker.html">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">related-case-study.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="work-card__media">
+        <img src="../assets/img/y2k/thumb-mockup-maker.jpg" width="960" height="614" alt="A branded referral portal preview made with the mockup maker" loading="lazy">
+      </div>
+      <div class="work-card__body">
+        <span class="tag">Related case study</span>
+        <h3 style="font-size:28px;margin-top:6px">Mockup maker</h3>
+        <p>Another tool I built: it turns a prospect’s website into a branded portal preview, so Sales can make mockups without a designer.</p>
+        <span class="work-card__cta">Read the case study →</span>
+      </div>
+    </a>
+    <p class="back-row"><a class="back-link" href="../selected-work.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to all work</a></p>
+  </div></section>
+
+</main>
+<!-- contact band (every page, above footer) -->
+<!-- contact band (every page, above footer) -->
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h2 class="h-bar">Let’s build something good.</h2>
+      <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
+    </div>
+    <div class="contact-cascade">
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--bottom" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--middle" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+</div></footer>
+<script>
+  (function(){
+    var b=document.getElementById('nbc-reset'), f=document.getElementById('nbc-demo');
+    if(!b||!f) return;
+    b.addEventListener('click',function(){
+      try{ localStorage.removeItem('amiNoBuyClub_portfolioDemo_v1'); }catch(e){}
+      f.contentWindow.location.reload();
+    });
+  })();
+</script>
+<script src="../assets/js/contact.js" defer></script>
+<script src="../assets/js/cascade.js" defer></script>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+<script src="../assets/js/saori.js?v=4" defer></script>
+</body>
+</html>

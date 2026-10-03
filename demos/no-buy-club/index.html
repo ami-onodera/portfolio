@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No-Buy Club demo | Camila Massa</title>
+<meta name="description" content="Interactive demo of the No-Buy Club, a small app that helps people wait out impulse purchases. Sample data only.">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============ KAWAII BASE ============ */
+:root{
+  --ink:#3d4a7a;
+  --ink-soft:#6b78a8;
+  --pink:#ff7fc0;
+  --pink-lt:#ffd6ec;
+  --purple:#a68cf0;
+  --purple-lt:#e2d9fd;
+  --blue:#6fabf2;
+  --blue-lt:#d4e6fd;
+  --mint:#5fd6b4;
+  --mint-lt:#cdf3e8;
+  --green:#a5dc63;
+  --green-lt:#e4f6c9;
+  --yellow:#ffd45e;
+  --yellow-lt:#fff2c6;
+  --orange:#ffa557;
+  --red:#ff7b7b;
+  --grey:#b9c2d8;
+  --card:#ffffff;
+  --shadow:0 4px 0 rgba(61,74,122,.18);
+  --squircle:26px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Baloo 2','Chalkboard SE','Comic Sans MS','Segoe UI Rounded',system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 12% 8%, #ffe3f2 0 22%, transparent 22.5%),
+    radial-gradient(circle at 88% 4%, #dff0ff 0 18%, transparent 18.5%),
+    linear-gradient(#eef1ff 0 0);
+  background-attachment:fixed;
+  min-height:100vh;font-size:16px;-webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(140,165,220,.16) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(140,165,220,.16) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.wrap{position:relative;z-index:1;max-width:940px;margin:0 auto;padding:18px 16px 90px}
+.rainbow{position:fixed;left:-60px;bottom:-90px;width:340px;height:340px;z-index:0;opacity:.55;pointer-events:none}
+h1,h2,h3{margin:0;font-weight:800;letter-spacing:.2px}
+.tape{display:inline-block;padding:6px 16px;border-radius:8px;font-weight:800;transform:rotate(-1.2deg);box-shadow:0 2px 0 rgba(61,74,122,.10)}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:var(--squircle);box-shadow:0 5px 0 rgba(61,74,122,.20);padding:16px;margin:14px 0;position:relative}
+.card.pink{background:#fff6fb}.card.blue{background:#f5faff}.card.mint{background:#f4fdf9}.card.lav{background:#f9f6ff}
+.row{display:flex;gap:10px;align-items:center}
+.row.wrap-r{flex-wrap:wrap}
+.spread{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.muted{color:var(--ink-soft);font-size:13px}
+.tiny{font-size:12px}
+
+/* ============ HEADER ============ */
+.topbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.pill{display:flex;align-items:center;gap:8px;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:5px 14px 5px 6px;box-shadow:var(--shadow);font-weight:800}
+.pill .ic{width:30px;height:30px;flex:0 0 30px}
+.avatarBtn{background:#fff;border:3px solid var(--ink);border-radius:22px;padding:3px;box-shadow:var(--shadow);width:58px;height:58px;display:grid;place-items:center}
+.lvl{background:var(--blue-lt);border:3px solid var(--ink);border-radius:999px;padding:4px 12px;font-weight:800;box-shadow:var(--shadow);font-size:14px}
+
+/* ============ GOAL ============ */
+.goalTitle{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bigNum{font-size:34px;font-weight:800;line-height:1}
+.bar{height:30px;background:var(--grey);border:3px solid var(--ink);border-radius:999px;overflow:hidden;position:relative;box-shadow:inset 0 -3px 0 rgba(61,74,122,.10)}
+.bar > i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#ff9ad2,#c39bf5,#8fc2f7,#7fe0c2,#ffe07a);position:relative;transition:width .6s cubic-bezier(.3,1.4,.5,1)}
+.bar > i::after{content:"";position:absolute;inset:3px 6px auto 6px;height:6px;border-radius:999px;background:rgba(255,255,255,.55)}
+.bar.ice > i{background:linear-gradient(90deg,#8fc2f7,#b9e0fb)}
+.bar.win > i{background:linear-gradient(90deg,#ffc861,#ffe2a0)}
+.barSm{height:16px}
+.barLabel{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800;text-shadow:0 1px 0 #fff}
+
+/* ============ BUTTONS ============ */
+button{font-family:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;border:3px solid var(--ink);border-radius:999px;padding:9px 18px;font-weight:800;font-size:15px;color:var(--ink);background:#fff;cursor:pointer;box-shadow:0 4px 0 rgba(61,74,122,.30);transition:transform .08s,box-shadow .08s;position:relative;overflow:hidden}
+.btn::after{content:"";position:absolute;left:8px;right:8px;top:4px;height:30%;border-radius:999px;background:rgba(255,255,255,.45);pointer-events:none}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(61,74,122,.30)}
+.btn.p{background:var(--pink);color:#fff}.btn.v{background:var(--purple);color:#fff}
+.btn.b{background:var(--blue);color:#fff}.btn.m{background:var(--mint);color:#fff}
+.btn.y{background:var(--yellow)}.btn.g{background:var(--green)}
+.btn.sm{padding:6px 13px;font-size:13px;border-width:2.5px;box-shadow:0 3px 0 rgba(61,74,122,.28)}
+.btn.ghost{background:#fff}
+
+/* ============ INPUTS ============ */
+label{display:block;font-weight:800;font-size:13px;margin:0 0 5px 4px}
+input[type=text],input[type=number],input[type=url],select{width:100%;font-family:inherit;font-size:15px;font-weight:700;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:18px;padding:11px 14px;outline:none;box-shadow:inset 0 -3px 0 rgba(61,74,122,.07)}
+input::placeholder{color:#a9b3cf;font-weight:700}
+input:focus,select:focus{border-color:var(--pink);background:#fffafd}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+
+/* ============ STATS ============ */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{border:3px solid var(--ink);border-radius:22px;padding:12px 14px;background:#fff;box-shadow:0 4px 0 rgba(61,74,122,.18);overflow:hidden}
+.stat .v{font-size:25px;font-weight:800;line-height:1.1}
+.stat .k{font-size:12px;font-weight:800;color:var(--ink-soft);margin-top:3px}
+.stat.s1{background:var(--pink-lt)}.stat.s2{background:var(--blue-lt)}.stat.s3{background:var(--green-lt)}
+.stat.s4{background:var(--yellow-lt)}.stat.s5{background:var(--purple-lt)}.stat.s6{background:var(--mint-lt)}
+
+/* ============ ITEMS ============ */
+.item{border:3px solid var(--ink);border-radius:22px;background:#fff;padding:12px 14px;margin:10px 0;box-shadow:0 4px 0 rgba(61,74,122,.16)}
+.item.due{background:#fff7fb;border-color:var(--pink);box-shadow:0 4px 0 rgba(255,127,192,.35)}
+.item.winrow{background:#fffbf0}
+.item h4{margin:0;font-size:16px;font-weight:800;word-break:break-word}
+.item a{color:var(--blue);font-weight:800;font-size:12px;text-decoration:none;word-break:break-all}
+.item a:hover{text-decoration:underline}
+.price{background:var(--yellow);border:2.5px solid var(--ink);border-radius:999px;padding:2px 11px;font-weight:800;font-size:14px;white-space:nowrap}
+.chip{border:2.5px solid var(--ink);border-radius:999px;padding:2px 10px;font-size:12px;font-weight:800;background:#fff;white-space:nowrap}
+.chip.ok{background:var(--green-lt)}.chip.no{background:#ffe0e0}
+.chip.wait{background:var(--blue-lt)}.chip.win{background:var(--yellow-lt)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:2px 0 10px}
+.tab{border:3px solid var(--ink);border-radius:999px;background:#fff;padding:6px 15px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 3px 0 rgba(61,74,122,.2);color:var(--ink)}
+.tab.on{background:var(--purple);color:#fff}
+
+/* ============ BADGES ============ */
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.badge{border:3px solid var(--ink);border-radius:22px;background:#fff;padding:10px 6px;text-align:center;box-shadow:0 4px 0 rgba(61,74,122,.16)}
+.badge.locked{opacity:.42;filter:grayscale(.85)}
+.badge b{display:block;font-size:11.5px;margin-top:4px;line-height:1.25}
+.badge .em{font-size:26px;line-height:1}
+
+/* ============ MISC ============ */
+.bubble{background:#fff;border:3px solid var(--ink);border-radius:24px;padding:12px 16px;position:relative;box-shadow:0 4px 0 rgba(61,74,122,.18);font-weight:800;flex:1;min-width:180px}
+.bubble::before{content:"";position:absolute;left:-13px;top:22px;width:16px;height:16px;background:#fff;border-left:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg);border-radius:0 0 4px 0}
+@media(max-width:560px){.bubble::before{display:none}}
+.veil{position:fixed;inset:0;background:rgba(61,74,122,.45);display:none;place-items:center;z-index:50;padding:18px}
+.veil.on{display:grid}
+.modal{background:#fff;border:3px solid var(--ink);border-radius:30px;max-width:430px;width:100%;box-shadow:0 8px 0 rgba(61,74,122,.3);overflow:hidden}
+.modal .head{background:var(--pink);border-bottom:3px solid var(--ink);padding:12px 18px;color:#fff;font-weight:800;font-size:18px;display:flex;justify-content:space-between;align-items:center}
+.modal .body{padding:18px}
+.xbtn{background:var(--blue);border:3px solid var(--ink);color:#fff;width:32px;height:32px;border-radius:999px;font-weight:800;cursor:pointer;line-height:1;font-size:15px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);z-index:80;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:11px 22px;font-weight:800;box-shadow:0 5px 0 rgba(61,74,122,.28);transition:transform .35s cubic-bezier(.3,1.5,.5,1);max-width:90vw;text-align:center}
+#toast.on{transform:translate(-50%,0)}
+.conf{position:fixed;top:-30px;z-index:90;pointer-events:none;font-size:22px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.2}}
+.float{animation:bob 3.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.spark{animation:tw 2.4s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:1;transform:scale(1.1)}}
+.wag{transform-origin:60% 90%;animation:wag 1.1s ease-in-out infinite}
+@keyframes wag{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+hr.wave{border:0;height:14px;margin:22px 0;background:radial-gradient(circle at 10px -6px,transparent 12px,var(--purple-lt) 12.5px) 0 0/24px 14px repeat-x}
+footer{text-align:center;margin-top:26px}
+.warn{background:#fff2c6;border:3px solid var(--ink);border-radius:20px;padding:10px 14px;font-size:13px;font-weight:700;box-shadow:0 4px 0 rgba(61,74,122,.16)}
+  .pf-back{display:none;position:fixed;left:20px;bottom:20px;z-index:10000;align-items:center;gap:10px;padding:6px 16px 6px 6px;background:#fff;color:#2c2a4f;border-radius:999px;font:800 14px/1 "Nunito",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;text-decoration:none;box-shadow:0 10px 30px rgba(44,42,79,.18),0 0 0 1px #e6e1fa;}
+  html.pf-top .pf-back{display:inline-flex;}
+  .pf-back i{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#efebfd;color:#5a4dbd;}
+  .pf-back:focus-visible{outline:3px solid #7466cf;outline-offset:3px;}
+  @media (max-width:880px){.pf-back{left:auto;right:12px;bottom:auto;top:12px;padding:6px;}.pf-back span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}}
+</style>
+</head>
+<body>
+<script>try{if(window.top===window.self)document.documentElement.classList.add('pf-top');}catch(e){}</script>
+<a class="pf-back" href="../../work/no-buy-club.html"><i aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></i><span>Back to case study</span></a>
+
+<!-- ======== SHIBA SPRITE (a very good black shiba) ======== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="shiba" viewBox="0 0 100 100">
+    <!-- ears -->
+    <path d="M23 42 L17 9 L45 27 Z" fill="#33384f" stroke="#1b1f33" stroke-width="4.2" stroke-linejoin="round"/>
+    <path d="M77 42 L83 9 L55 27 Z" fill="#33384f" stroke="#1b1f33" stroke-width="4.2" stroke-linejoin="round"/>
+    <path d="M27 35 L24 18 L38 28 Z" fill="#ffb0cd"/>
+    <path d="M73 35 L76 18 L62 28 Z" fill="#ffb0cd"/>
+    <!-- head -->
+    <ellipse cx="50" cy="58" rx="31" ry="28" fill="#33384f" stroke="#1b1f33" stroke-width="4.2"/>
+    <!-- cream muzzle mask (black & tan shiba) -->
+    <ellipse cx="50" cy="68" rx="21.5" ry="15.5" fill="#ffe6cf"/>
+    <path d="M28 62c3 8 11 13 22 13s19-5 22-13c-4 3-12 5-22 5s-18-2-22-5z" fill="#ffefdf"/>
+    <!-- tan eyebrow dots -->
+    <ellipse cx="34" cy="44.5" rx="4.2" ry="3.1" fill="#f0c69b"/>
+    <ellipse cx="66" cy="44.5" rx="4.2" ry="3.1" fill="#f0c69b"/>
+    <!-- eyes -->
+    <ellipse cx="36.5" cy="55" rx="4.5" ry="5.2" fill="#14172a"/>
+    <ellipse cx="63.5" cy="55" rx="4.5" ry="5.2" fill="#14172a"/>
+    <circle cx="38.3" cy="52.8" r="1.7" fill="#fff"/>
+    <circle cx="65.3" cy="52.8" r="1.7" fill="#fff"/>
+    <!-- blush -->
+    <ellipse cx="25" cy="60" rx="6" ry="4" fill="#ff9db4" opacity=".45"/>
+    <ellipse cx="75" cy="60" rx="6" ry="4" fill="#ff9db4" opacity=".45"/>
+    <!-- nose + smile -->
+    <ellipse cx="50" cy="63.5" rx="5.4" ry="4" fill="#14172a"/>
+    <path d="M50 67.5v2.5" stroke="#14172a" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M50 70c-2.2 3.4-7 3.2-8.6-.2" stroke="#14172a" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path d="M50 70c2.2 3.4 7 3.2 8.6-.2" stroke="#14172a" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <!-- tongue -->
+    <path d="M46.4 74.5c1.4 3.2 5.8 3.2 7.2 0-1-1.5-6.2-1.5-7.2 0z" fill="#ff7f9f" stroke="#14172a" stroke-width="1.5"/>
+  </symbol>
+
+  <symbol id="shibaSleep" viewBox="0 0 100 100">
+    <path d="M23 42 L17 9 L45 27 Z" fill="#33384f" stroke="#1b1f33" stroke-width="4.2" stroke-linejoin="round"/>
+    <path d="M77 42 L83 9 L55 27 Z" fill="#33384f" stroke="#1b1f33" stroke-width="4.2" stroke-linejoin="round"/>
+    <path d="M27 35 L24 18 L38 28 Z" fill="#ffb0cd"/>
+    <path d="M73 35 L76 18 L62 28 Z" fill="#ffb0cd"/>
+    <ellipse cx="50" cy="58" rx="31" ry="28" fill="#33384f" stroke="#1b1f33" stroke-width="4.2"/>
+    <ellipse cx="50" cy="68" rx="21.5" ry="15.5" fill="#ffe6cf"/>
+    <ellipse cx="34" cy="44.5" rx="4.2" ry="3.1" fill="#f0c69b"/>
+    <ellipse cx="66" cy="44.5" rx="4.2" ry="3.1" fill="#f0c69b"/>
+    <path d="M31 55c2 3 8 3 10 0" stroke="#14172a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M59 55c2 3 8 3 10 0" stroke="#14172a" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <ellipse cx="25" cy="60" rx="6" ry="4" fill="#ff9db4" opacity=".45"/>
+    <ellipse cx="75" cy="60" rx="6" ry="4" fill="#ff9db4" opacity=".45"/>
+    <ellipse cx="50" cy="63.5" rx="5.4" ry="4" fill="#14172a"/>
+    <path d="M44 71c3 2.6 9 2.6 12 0" stroke="#14172a" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="shibaSit" viewBox="0 0 124 112">
+    <g class="wag"><path d="M92 84c14-1 18-15 9-20-6-3-11 2-10 8" fill="#33384f" stroke="#1b1f33" stroke-width="4.2" stroke-linejoin="round" stroke-linecap="round"/></g>
+    <ellipse cx="62" cy="84" rx="31" ry="23" fill="#33384f" stroke="#1b1f33" stroke-width="4.2"/>
+    <ellipse cx="62" cy="93" rx="18" ry="14" fill="#ffe6cf"/>
+    <ellipse cx="49" cy="103" rx="8.5" ry="6.2" fill="#ffe6cf" stroke="#1b1f33" stroke-width="3.6"/>
+    <ellipse cx="75" cy="103" rx="8.5" ry="6.2" fill="#ffe6cf" stroke="#1b1f33" stroke-width="3.6"/>
+    <use href="#shiba" xlink:href="#shiba" x="21" y="-2" width="82" height="82"/>
+  </symbol>
+</svg>
+
+<svg class="rainbow" viewBox="0 0 340 340" aria-hidden="true">
+  <g fill="none" stroke-width="26">
+    <circle cx="20" cy="320" r="300" stroke="#ff9ab3"/><circle cx="20" cy="320" r="274" stroke="#ffc48a"/>
+    <circle cx="20" cy="320" r="248" stroke="#ffe98a"/><circle cx="20" cy="320" r="222" stroke="#b6ea9a"/>
+    <circle cx="20" cy="320" r="196" stroke="#9ad4f2"/><circle cx="20" cy="320" r="170" stroke="#c3a9f0"/>
+  </g>
+</svg>
+
+<div class="wrap">
+
+  <div class="warn" style="margin:0 0 10px">Portfolio demo with made-up sample items. Anything you add or change stays in your browser only.</div>
+
+  <!-- ======== TOP BAR ======== -->
+  <div class="topbar">
+    <div class="avatarBtn float" title="hi Ami">
+      <svg width="48" height="48" viewBox="0 0 100 100" aria-label="Ami">
+        <path d="M50 12c-21 0-31 14-31 33 0 14 2 22 4 28 3 8 9 6 9-2 0-6-2-10-2-18 0-16 8-24 20-24s20 8 20 24c0 8-2 12-2 18 0 8 6 10 9 2 2-6 4-14 4-28 0-19-10-33-31-33z" fill="#5f6b8f"/>
+        <path d="M50 12c-21 0-31 14-31 33 0 6 .5 11 1.2 15 2.5-9 5-16 9-21 0 0 3 6 8 6 6 0 9-7 9-7s5 8 12 8 11-7 11-7c3 4 6 12 8 21 .8-4 1.3-9 1.3-15 0-19-10-33-31-33z" fill="#3fc0d8"/>
+        <ellipse cx="50" cy="55" rx="23" ry="25" fill="#f6ddd0"/>
+        <path d="M27 44c4-14 12-20 23-20s19 6 23 20c-5-3-9-9-13-9-3 0-4 5-9 5s-6-5-9-5c-5 0-11 6-15 9z" fill="#3fc0d8"/>
+        <path d="M31 40c3 3 5 8 5 12 0-6 2-10 5-12-4 0-8 0-10 0z" fill="#8fe3f0" opacity=".8"/>
+        <ellipse cx="33" cy="62" rx="6" ry="4" fill="#ff9db4" opacity=".55"/>
+        <ellipse cx="67" cy="62" rx="6" ry="4" fill="#ff9db4" opacity=".55"/>
+        <g fill="none" stroke="#2b3350" stroke-width="3.4" stroke-linejoin="round">
+          <path d="M30 52h16c0 6-3 9-8 9s-9-3-8-9z"/><path d="M54 52h16c1 6-3 9-8 9s-8-3-8-9z"/>
+          <path d="M46 53h8"/><path d="M30 52c-2-2-4-2-5-1"/><path d="M70 52c2-2 4-2 5-1"/>
+        </g>
+        <ellipse cx="38" cy="54" rx="3.1" ry="3.6" fill="#3a2f3f"/><ellipse cx="62" cy="54" rx="3.1" ry="3.6" fill="#3a2f3f"/>
+        <circle cx="39.2" cy="52.8" r="1.1" fill="#fff"/><circle cx="63.2" cy="52.8" r="1.1" fill="#fff"/>
+        <circle cx="47" cy="66" r="1.7" fill="none" stroke="#c9a24a" stroke-width="1.3"/>
+        <path d="M44 72c2-1.6 4-1.6 6 0 2-1.6 4-1.6 6 0-1.6 3.6-4 5-6 5s-4.4-1.4-6-5z" fill="#e2334a"/>
+        <path d="M22 100c2-11 10-16 18-18 3 4 6 6 10 6s7-2 10-6c8 2 16 7 18 18z" fill="#22243a"/>
+        <path d="M42 84c3 5 5 8 8 8s5-3 8-8" fill="none" stroke="#4b4f70" stroke-width="1.6"/>
+      </svg>
+    </div>
+    <div class="pill" title="Money kept out of shopping carts">
+      <svg class="ic" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#ffd45e" stroke="#3d4a7a" stroke-width="3"/><circle cx="20" cy="20" r="9" fill="#ffe9a3" stroke="#3d4a7a" stroke-width="2.4"/><path d="M14 12c2-2 6-3 9-2" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>
+      <span id="hdSaved">€0</span>
+    </div>
+    <div class="pill" title="Current no-buy streak">
+      <svg class="ic" viewBox="0 0 40 40"><path d="M20 5l4.8 9.9 10.9 1.5-7.9 7.6 1.9 10.8L20 29.7 10.3 34.8l1.9-10.8L4.3 16.4l10.9-1.5z" fill="#7fe0c2" stroke="#3d4a7a" stroke-width="3" stroke-linejoin="round"/></svg>
+      <span id="hdStreak">0d</span>
+    </div>
+    <div class="lvl" id="hdLevel">Lv 1</div>
+    <div style="flex:1"></div>
+    <button class="btn sm ghost" onclick="openHelp()">? how it works</button>
+  </div>
+
+  <div class="row" style="margin:10px 0 4px;align-items:flex-start">
+    <svg width="70" height="70" class="float" style="flex:0 0 70px" viewBox="0 0 100 100" aria-hidden="true">
+      <use id="mascotDog" href="#shiba" xlink:href="#shiba" width="100" height="100"/>
+    </svg>
+    <div class="bubble" id="mascotSay">Let's keep that money in your pocket ♡</div>
+  </div>
+
+  <h1 style="margin:14px 0 2px;font-size:27px">Ami's No-Buy Club <span class="spark">✦</span></h1>
+  <div class="tape" style="background:var(--pink-lt)">Log the impulse. Wait it out. Save by not spending!</div>
+
+  <!-- ======== GOAL ======== -->
+  <div class="card pink">
+    <div class="goalTitle">
+      <svg width="52" height="40" viewBox="0 0 60 46" aria-hidden="true">
+        <path d="M8 30a10 10 0 0 1 2-19 13 13 0 0 1 24-3 11 11 0 0 1 16 12 9 9 0 0 1-2 10z" fill="#fff" stroke="#3d4a7a" stroke-width="3"/>
+        <g stroke-width="4" fill="none"><path d="M14 34c6-9 15-14 26-14" stroke="#ff9ab3"/><path d="M14 39c7-11 17-16 30-16" stroke="#ffd45e"/><path d="M14 44c8-13 19-19 34-19" stroke="#8fc2f7"/></g>
+      </svg>
+      <div>
+        <div class="muted tiny" style="font-weight:800">MY GOAL</div>
+        <h2 id="goalName" style="font-size:19px">Tokyo trip! </h2>
+      </div>
+      <div style="flex:1"></div>
+      <button class="btn sm ghost" onclick="editGoal()">✎ edit</button>
+    </div>
+    <div class="row" style="align-items:flex-end;margin:12px 0 8px;gap:14px;flex-wrap:wrap">
+      <div><span class="bigNum" id="goalHave">€0</span><span class="muted" style="font-weight:800"> / <span id="goalTarget">€5.000</span></span></div>
+      <div style="flex:1"></div>
+      <div class="muted" style="font-weight:800" id="goalLeft"></div>
+    </div>
+    <div class="bar"><i id="goalBar" style="width:0%"></i><span class="barLabel" id="goalPct">0%</span></div>
+    <div class="muted tiny" id="goalEta" style="margin-top:9px"></div>
+  </div>
+
+  <!-- ======== LOG FORM ======== -->
+  <div class="card blue">
+    <div class="row" style="margin-bottom:12px">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="16" fill="#ffd6ec" stroke="#3d4a7a" stroke-width="3"/><path d="M20 12v16M12 20h16" stroke="#3d4a7a" stroke-width="4" stroke-linecap="round"/></svg>
+      <h2 style="font-size:18px">I want to buy something…</h2>
+    </div>
+    <div class="grid2">
+      <div><label for="fName">What is it? *</label><input id="fName" type="text" placeholder="pink platform boots"></div>
+      <div><label for="fPrice">Price (<span id="fPriceCur">€</span>) *</label><input id="fPrice" type="number" min="0" step="0.01" placeholder="89.90"></div>
+    </div>
+    <div style="margin-top:12px"><label for="fUrl">Link (optional)</label><input id="fUrl" type="url" placeholder="https://…"></div>
+    <div style="margin-top:12px"><label for="fNote">Why do I want it right now? (optional, but revealing)</label><input id="fNote" type="text" placeholder="bored / bad day / saw an ad / it's on sale"></div>
+    <div class="row wrap-r" style="margin-top:14px">
+      <button class="btn p" onclick="addItem()">❄ Put it on ice</button>
+      <span class="muted tiny"><b id="coolLbl">15</b> days on ice. Then I ask if you still want it.</span>
+    </div>
+  </div>
+
+  <hr class="wave">
+
+  <div id="dueWrap"></div>
+
+  <!-- ======== LISTS ======== -->
+  <div class="card lav">
+    <div class="spread" style="margin-bottom:6px">
+      <h2 style="font-size:18px">My list</h2>
+      <span class="muted tiny" id="listCount"></span>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab on" data-t="open" onclick="setTab('open')">❄ On ice</button>
+      <button class="tab" data-t="letgo" onclick="setTab('letgo')">💚 Let go</button>
+      <button class="tab" data-t="bought" onclick="setTab('bought')">🛍 Bought</button>
+    </div>
+    <div id="list"></div>
+  </div>
+
+  <!-- ======== STATS ======== -->
+  <div class="card">
+    <div class="row" style="margin-bottom:12px">
+      <svg width="32" height="32" viewBox="0 0 40 40" aria-hidden="true"><rect x="6" y="20" width="7" height="14" rx="3" fill="#8fc2f7" stroke="#3d4a7a" stroke-width="2.6"/><rect x="16.5" y="12" width="7" height="22" rx="3" fill="#ff9ad2" stroke="#3d4a7a" stroke-width="2.6"/><rect x="27" y="6" width="7" height="28" rx="3" fill="#7fe0c2" stroke="#3d4a7a" stroke-width="2.6"/></svg>
+      <h2 style="font-size:18px">My numbers</h2>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <!-- ======== BADGES ======== -->
+  <div class="card mint">
+    <div class="row" style="margin-bottom:12px">
+      <svg width="32" height="32" viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3L20 27.6l-9.3 4.9 1.8-10.3L5 14.9l10.4-1.5z" fill="#ffd45e" stroke="#3d4a7a" stroke-width="3" stroke-linejoin="round"/></svg>
+      <h2 style="font-size:18px">Achievements</h2>
+    </div>
+    <div class="badges" id="badges"></div>
+  </div>
+
+  <!-- ======== SLIP + BACKUP ======== -->
+  <div class="card">
+    <h2 style="font-size:17px;margin-bottom:6px">Honesty & backups</h2>
+    <p class="muted" style="margin:6px 0 12px">Buying isn't failure, it's data. Log it — your longest streak is kept forever and your goal total never goes backwards.</p>
+    <div class="row wrap-r">
+      <button class="btn y" onclick="openSlip()">🛍 I bought something</button>
+      <button class="btn m" onclick="exportData()">⬇ Save backup</button>
+      <button class="btn b" onclick="document.getElementById('fileIn').click()">⬆ Restore backup</button>
+      <button class="btn ghost sm" onclick="copyBackup()">⧉ copy to clipboard</button>
+      <input type="file" id="fileIn" accept=".json,application/json" style="display:none" onchange="importData(event)">
+    </div>
+    <div class="warn" style="margin-top:14px">
+      <b>Read me once:</b> your data lives inside this browser. If you clear browsing data, switch browser or move
+      computer, it's gone — so hit <b>Save backup</b> now and then (the 1st of each month is a nice habit).
+      Keep the downloaded <code>.json</code> next to this file.
+    </div>
+    <div class="muted tiny" id="lastBackup" style="margin-top:8px"></div>
+  </div>
+
+  <footer>
+    <svg width="104" height="94" viewBox="0 0 124 112" aria-hidden="true"><use href="#shibaSit" xlink:href="#shibaSit" width="124" height="112"/></svg>
+    <div class="muted tiny">made with love by Ami ♡ emotional support by Saori</div>
+  </footer>
+</div>
+
+<div class="veil" id="veil" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="head"><span id="mTitle">Title</span><button class="xbtn" onclick="closeModal()">✕</button></div>
+    <div class="body" id="mBody"></div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+/* ================= STATE ================= */
+var KEY='amiNoBuyClub_portfolioDemo_v1';
+/* currencies you can switch between — display only, no conversion */
+var CUR={
+  EUR:{symbol:'€',  locale:'de-DE', name:'Euro (€)'},
+  BRL:{symbol:'R$ ',locale:'pt-BR', name:'Brazilian Real (R$)'},
+  USD:{symbol:'$',  locale:'en-US', name:'US Dollar ($)'}
+};
+var DEF={
+  currency:'EUR',
+  goal:{amount:5000,label:'Tokyo trip!'},
+  coolingDays:15,     /* days on ice */
+  buyDays:7,          /* if you still want it: a week to actually buy it */
+  startDate:today(),
+  lastSlip:null,
+  longest:0,
+  lastBackup:null,
+  items:[],
+  v:2
+};
+var S=load();
+var TAB='open';
+
+function today(){return iso(new Date());}
+function iso(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function pad(n){return (n<10?'0':'')+n;}
+function parseISO(s){var p=String(s).split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+/* Math.round, not floor — so the March/October clock change can't eat a day */
+function daysBetween(a,b){return Math.round((parseISO(b)-parseISO(a))/86400000);}
+function addDays(s,n){var d=parseISO(s);d.setDate(d.getDate()+n);return iso(d);}
+/* Monday counts as the first day of the week */
+function startOfWeek(s){var d=parseISO(s);return addDays(s,-((d.getDay()+6)%7));}
+/* older entries have no impulse flag — infer it from whether a buy-week was ever granted */
+function isImpulse(i){return i.impulse===undefined?((i.windows||0)===0):!!i.impulse;}
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function cur(){ return CUR[(S&&S.currency)||'EUR']||CUR.EUR; }
+function curSymbol(){ return cur().symbol.trim(); }
+/* keeps the old name so every call site still works — now currency-aware */
+function eur(n){
+  var c=cur();
+  var v=Math.round((+n||0)*100)/100;
+  return c.symbol+v.toLocaleString(c.locale,{minimumFractionDigits:(v%1?2:0),maximumFractionDigits:2});
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(!raw) return demoState();
+    var s=JSON.parse(raw);
+    var wasVersion=s.v;                                   /* read BEFORE defaults fill it in */
+    for(var k in DEF){ if(!(k in s)) s[k]=clone(DEF[k]); }
+    /* migrate v1 (30-day ice / 14-day extend) to v2 (15 / 7) */
+    if(wasVersion!==2){
+      if(s.coolingDays===30) s.coolingDays=15;
+      s.buyDays=(s.extendDays===14||!s.extendDays)?7:s.extendDays;
+      (s.items||[]).forEach(function(i){
+        if(i.status==='waiting'&&daysBetween(i.loggedAt,i.reviewAt)===30) i.reviewAt=addDays(i.loggedAt,15);
+        if(i.windows===undefined) i.windows=i.extensions||0;
+      });
+      s.v=2;
+    }
+    return s;
+  }catch(e){ return clone(DEF); }
+}
+/* portfolio demo: fictional sample data, dates relative to today so the app always looks lived in */
+function demoState(){
+  var t=today(), d=function(n){return addDays(t,n);};
+  var it=function(name,price,note,logged,status,extra){
+    var o={id:uid(),name:name,price:price,url:'',note:note,loggedAt:d(logged),reviewAt:d(logged+15),
+      status:status,resolvedAt:null,windows:0};
+    for(var k in (extra||{})) o[k]=extra[k];
+    return o;
+  };
+  var s=clone(DEF);
+  s.goal={amount:5000,label:'Tokyo trip!'};
+  s.startDate=d(-35); s.lastSlip=d(-6); s.longest=14;
+  s.items=[
+    it('Pink platform boots',89.9,'saw them in an ad at 1am',-3,'waiting'),
+    it('Autumn linen jacket',74,'new season, everyone has one',-9,'waiting'),
+    it('Wireless earbuds',129,'40% off, today only!',-16,'waiting'),
+    it('Ceramic pour-over set',38,'my coffee habit deserves it',-22,'window',{windows:1,reviewAt:d(3)}),
+    it('Limited edition sneakers',160,'bad day at work',-32,'letgo',{resolvedAt:d(-17)}),
+    it('Mini projector',219,'movie nights would be so cosy',-28,'letgo',{windows:1,resolvedAt:d(-6),reviewAt:d(-6)}),
+    it('Skincare haul',52.5,'it was in my cart anyway',-24,'letgo',{resolvedAt:d(-9)}),
+    it('Phone case set',24,'bored on the train',-20,'letgo',{resolvedAt:d(-5)}),
+    it('Late-night snack box',12,'bought without cooling off',-6,'bought',{resolvedAt:d(-6),reviewAt:d(-6),impulse:true}),
+    it('Birthday gift for mum',45,'thought it through, still wanted it',-18,'bought',{windows:1,resolvedAt:d(-8),reviewAt:d(-8),impulse:false})
+  ];
+  return s;
+}
+function save(){
+  try{ localStorage.setItem(KEY,JSON.stringify(S)); }
+  catch(e){ toast('⚠ could not save — export a backup!'); }
+}
+
+/* ================= ACTIONS ================= */
+function addItem(){
+  var n=document.getElementById('fName').value.trim();
+  var p=parseFloat(document.getElementById('fPrice').value);
+  if(!n){ toast('give it a name first ♡'); return; }
+  if(!(p>=0)||isNaN(p)){ toast('how much does it cost?'); return; }
+  S.items.push({id:uid(),name:n,price:p,
+    url:document.getElementById('fUrl').value.trim(),
+    note:document.getElementById('fNote').value.trim(),
+    loggedAt:today(),reviewAt:addDays(today(),S.coolingDays),
+    status:'waiting',resolvedAt:null,windows:0});
+  save();
+  ['fName','fPrice','fUrl','fNote'].forEach(function(i){document.getElementById(i).value='';});
+  TAB='open'; render();
+  toast('on ice ❄ '+eur(p)+' still yours');
+  sparkle(10);
+}
+function letGo(id){
+  var it=find(id); if(!it) return;
+  var hadPermission=it.status==='window';
+  it.status='letgo'; it.resolvedAt=today();
+  save(); render(); sparkle(26);
+  toast(hadPermission
+    ? '🦋 you had permission and still passed. '+eur(it.price)+' saved!'
+    : '💚 '+eur(it.price)+' added to your '+S.goal.label);
+}
+/* still want it → a week to actually go buy it */
+function openWindow(id){
+  var it=find(id); if(!it) return;
+  it.status='window'; it.reviewAt=addDays(today(),S.buyDays); it.windows=(it.windows||0)+1;
+  save(); render();
+  toast('ok! you have '+S.buyDays+' days to buy it. I\'ll ask what you decided.');
+}
+function backToIce(id){
+  var it=find(id); if(!it) return;
+  it.status='waiting'; it.reviewAt=addDays(today(),S.coolingDays);
+  save(); render();
+  toast('back on ice ❄ for '+S.coolingDays+' more days');
+}
+function markBought(id){
+  var it=find(id); if(!it) return;
+  /* impulse = bought while still on ice (or straight away); a green-lit buy-week purchase is a considered one */
+  it.impulse=(it.status!=='window');
+  it.status='bought'; it.resolvedAt=today(); S.lastSlip=today();
+  save(); render();
+  toast('logged honestly. streak restarts, goal keeps its total ♡');
+}
+function removeItem(id){
+  var it=find(id);
+  if(it&&!confirm('Delete "'+it.name+'" completely? This removes it from your numbers too.')) return;
+  S.items=S.items.filter(function(i){return i.id!==id;});
+  save(); render(); toast('deleted');
+}
+function find(id){for(var i=0;i<S.items.length;i++){if(S.items[i].id===id)return S.items[i];}return null;}
+
+function openSlip(){
+  modal('I bought something',
+    '<p class="muted" style="margin-top:0">No lecture here. Log it so your numbers stay true.</p>'+
+    '<label>What did you buy?</label><input id="sName" type="text" placeholder="another pair of boots">'+
+    '<div style="height:10px"></div><label>Price ('+esc(curSymbol())+')</label><input id="sPrice" type="number" step="0.01" min="0" placeholder="0">'+
+    '<div style="height:16px"></div><button class="btn y" onclick="doSlip()">Log it & restart my streak</button>');
+}
+function doSlip(){
+  var n=document.getElementById('sName').value.trim()||'unnamed purchase';
+  var p=parseFloat(document.getElementById('sPrice').value)||0;
+  S.items.push({id:uid(),name:n,price:p,url:'',note:'bought without cooling off',
+    loggedAt:today(),reviewAt:today(),status:'bought',resolvedAt:today(),windows:0,impulse:true});
+  S.lastSlip=today(); save(); closeModal(); TAB='bought'; render();
+  toast('logged. new streak starts today — that counts too ♡');
+}
+function editGoal(){
+  var opts='';
+  for(var k in CUR){
+    opts+='<option value="'+k+'"'+(S.currency===k?' selected':'')+'>'+esc(CUR[k].name)+'</option>';
+  }
+  modal('My goal',
+    '<label>Goal name</label><input id="gName" type="text" value="'+esc(S.goal.label)+'">'+
+    '<div style="height:10px"></div>'+
+    '<div class="grid2" style="align-items:end">'+
+      '<div><label for="gAmt">Target amount</label><input id="gAmt" type="number" step="1" min="1" value="'+S.goal.amount+'"></div>'+
+      '<div><label for="gCur">Currency</label><select id="gCur">'+opts+'</select></div>'+
+    '</div>'+
+    '<div class="muted tiny" style="margin-top:6px">Changes the symbol &amp; number format everywhere. It doesn\'t convert amounts you already logged.</div>'+
+    '<div style="height:10px"></div><label>Days on ice</label><input id="gCool" type="number" step="1" min="1" value="'+S.coolingDays+'">'+
+    '<div style="height:10px"></div><label>Days to buy, if you still want it</label><input id="gBuy" type="number" step="1" min="1" value="'+S.buyDays+'">'+
+    '<div style="height:16px"></div><button class="btn p" onclick="saveGoal()">Save ♡</button>');
+}
+function saveGoal(){
+  S.goal.label=document.getElementById('gName').value.trim()||'My goal';
+  S.goal.amount=Math.max(1,parseFloat(document.getElementById('gAmt').value)||1);
+  var c=document.getElementById('gCur');
+  if(c&&CUR[c.value]) S.currency=c.value;
+  S.coolingDays=Math.max(1,parseInt(document.getElementById('gCool').value)||15);
+  S.buyDays=Math.max(1,parseInt(document.getElementById('gBuy').value)||7);
+  save(); closeModal(); render(); toast('updated ✿');
+}
+
+/* ================= METRICS ================= */
+function metrics(){
+  var t=today();
+  var f=function(st){return S.items.filter(function(i){return i.status===st;});};
+  var letgo=f('letgo'), waiting=f('waiting'), win=f('window'), bought=f('bought');
+  var open=waiting.concat(win);
+  var sum=function(a){return a.reduce(function(x,i){return x+(+i.price||0);},0);};
+
+  var saved=sum(letgo), onIce=sum(open), spent=sum(bought);
+
+  var streak=Math.max(0,daysBetween(S.lastSlip||S.startDate,t));
+  if(streak>(S.longest||0)){ S.longest=streak; save(); }
+
+  var resolved=letgo.length+bought.length;
+  var fadePct=resolved?Math.round(letgo.length/resolved*100):null;
+  var fadeDays=letgo.map(function(i){return Math.max(0,daysBetween(i.loggedAt,i.resolvedAt||t));});
+  var avgFade=fadeDays.length?Math.round(fadeDays.reduce(function(a,b){return a+b;},0)/fadeDays.length):null;
+
+  var thisMonth=sum(letgo.filter(function(i){return (i.resolvedAt||'').slice(0,7)===t.slice(0,7);}));
+  var wkStart=startOfWeek(t);
+  var thisWeek=sum(letgo.filter(function(i){return (i.resolvedAt||'')>=wkStart;}));
+  /* delusion index: IMPULSE buys this month only — a purchase that survived ice + buy-week was a considered one */
+  var boughtMonth=bought.filter(function(i){return (i.resolvedAt||'').slice(0,7)===t.slice(0,7);});
+  var impulseMonth=boughtMonth.filter(isImpulse);
+  var delusion=impulseMonth.length, delusionEur=sum(impulseMonth);
+  var due=open.filter(function(i){return daysBetween(i.reviewAt,t)>=0;});
+  var biggest=letgo.slice().sort(function(a,b){return b.price-a.price;})[0]||null;
+  /* had a green light to buy and still walked away */
+  var permWins=letgo.filter(function(i){return (i.windows||0)>0;}).length;
+
+  var elapsed=Math.max(1,daysBetween(S.startDate,t));
+  var mature=elapsed>=14;                 /* don't extrapolate from 2 days of data */
+  var rate=mature?saved/elapsed:0;
+  var remaining=Math.max(0,S.goal.amount-saved);
+  var eta=(rate>0.01&&remaining>0)?addDays(t,Math.ceil(remaining/rate)):null;
+  var level=1+Math.floor(letgo.length/3)+Math.floor(streak/14);
+
+  return {letgo:letgo,waiting:waiting,win:win,bought:bought,open:open,saved:saved,onIce:onIce,
+    spent:spent,streak:streak,longest:S.longest||0,fadePct:fadePct,avgFade:avgFade,thisMonth:thisMonth,
+    thisWeek:thisWeek,delusion:delusion,delusionEur:delusionEur,
+    due:due,biggest:biggest,permWins:permWins,rate:rate,remaining:remaining,eta:eta,level:level,elapsed:elapsed};
+}
+
+/* ================= RENDER ================= */
+function render(){
+  var m=metrics();
+  document.getElementById('hdSaved').textContent=eur(m.saved);
+  document.getElementById('hdStreak').textContent=m.streak+'d';
+  document.getElementById('hdLevel').textContent='Lv '+m.level;
+  document.getElementById('coolLbl').textContent=S.coolingDays;
+  document.getElementById('fPriceCur').textContent=curSymbol();
+
+  var pct=Math.min(100,m.saved/S.goal.amount*100);
+  document.getElementById('goalName').textContent=S.goal.label;
+  document.getElementById('goalHave').textContent=eur(m.saved);
+  document.getElementById('goalTarget').textContent=eur(S.goal.amount);
+  document.getElementById('goalBar').style.width=(pct>0&&pct<1.5?1.5:pct)+'%';
+  document.getElementById('goalPct').textContent=(pct<10?pct.toFixed(1):Math.round(pct))+'%';
+  document.getElementById('goalLeft').textContent=m.remaining>0?eur(m.remaining)+' to go':'GOAL REACHED! 🎉';
+  var eta=document.getElementById('goalEta');
+  if(m.eta){
+    eta.innerHTML='At your current pace (<b>'+eur(m.rate*30)+'/month</b> resisted) you get there around <b>'+
+      parseISO(m.eta).toLocaleDateString('en-GB',{month:'long',year:'numeric'})+'</b>.';
+  } else {
+    eta.textContent=m.elapsed<14?'After two weeks of data I\'ll start predicting your finish date. ✦'
+                                :'Let one thing go and I\'ll start predicting your finish date. ✦';
+  }
+
+  /* mascot mood */
+  document.getElementById('mascotSay').innerHTML=mascotLine(m);
+  var dog=document.getElementById('mascotDog');
+  var sym=(m.streak===0&&m.letgo.length===0)?'#shibaSleep':'#shiba';
+  dog.setAttribute('href',sym);
+  dog.setAttributeNS('http://www.w3.org/1999/xlink','xlink:href',sym);  /* older Safari */
+
+  /* due for decision */
+  var dw=document.getElementById('dueWrap');
+  if(m.due.length){
+    dw.innerHTML='<div class="card" style="background:#fff4fa;border-color:var(--pink)">'+
+      '<div class="row" style="margin-bottom:4px">'+
+      '<svg width="30" height="30" viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" fill="#ffd6ec" stroke="#3d4a7a" stroke-width="3"/><path d="M20 11v10l7 4" stroke="#3d4a7a" stroke-width="3.4" fill="none" stroke-linecap="round"/></svg>'+
+      '<h2 style="font-size:18px">Time to decide ('+m.due.length+')</h2></div>'+
+      m.due.map(dueCard).join('')+'</div>';
+  } else dw.innerHTML='';
+
+  /* list */
+  var arr=S.items.filter(function(i){return TAB==='open'?(i.status==='waiting'||i.status==='window'):i.status===TAB;});
+  arr.sort(function(a,b){
+    if(TAB==='open') return parseISO(a.reviewAt)-parseISO(b.reviewAt);
+    return parseISO(b.resolvedAt||b.loggedAt)-parseISO(a.resolvedAt||a.loggedAt);
+  });
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.toggle('on',t.dataset.t===TAB);});
+  var lbl={open:eur(m.onIce)+' undecided',letgo:eur(m.saved)+' kept',bought:eur(m.spent)+' spent'};
+  document.getElementById('listCount').textContent=arr.length+' item'+(arr.length===1?'':'s')+' · '+lbl[TAB];
+  document.getElementById('list').innerHTML=arr.length?arr.map(itemCard).join(''):emptyState();
+
+  /* stats */
+  var st=[
+    ['s1',eur(m.saved),'kept out of carts'],
+    ['s2',m.streak+' days','current no-buy streak'],
+    ['s3',m.longest+' days','longest streak ever'],
+    ['s4',m.open.length,'undecided ('+eur(m.onIce)+')'],
+    ['s5',(m.fadePct===null?'—':m.fadePct+'%'),'of urges just… faded'],
+    ['s6',(m.avgFade===null?'—':m.avgFade+' days'),'avg time to stop wanting it'],
+    ['s6',eur(m.thisWeek),'resisted this week'],
+    ['s1',eur(m.thisMonth),'resisted this month'],
+    ['s2',m.permWins,'times you had the green light & still passed'],
+    ['s3',(m.biggest?eur(m.biggest.price):'—'),(m.biggest?'biggest win: '+trunc(m.biggest.name,20):'biggest single win')],
+    ['s4',m.delusion,'<b>THE DELUSION INDEX</b><br>'+(m.delusion===0
+       ?'you &lsquo;needed&rsquo; nothing this month ✨'
+       :'things you convinced yourself you &lsquo;needed&rsquo; this month ('+eur(m.delusionEur)+')')],
+    ['s5',m.win.length,'in your buy-week right now'],
+    ['s6',m.elapsed+' days','since you started this']
+  ];
+  document.getElementById('stats').innerHTML=st.map(function(x){
+    return '<div class="stat '+x[0]+'"><div class="v">'+x[1]+'</div><div class="k">'+x[2]+'</div></div>';}).join('');
+
+  document.getElementById('badges').innerHTML=badges(m).map(function(b){
+    return '<div class="badge'+(b.got?'':' locked')+'"><div class="em">'+b.em+'</div><b>'+b.t+'</b></div>';}).join('');
+
+  document.getElementById('lastBackup').textContent=S.lastBackup?('last backup saved: '+S.lastBackup)
+    :'no backup saved yet — maybe do one now ♡';
+}
+
+function mascotLine(m){
+  if(m.due.length) return 'You have '+m.due.length+' thing'+(m.due.length===1?'':'s')+' waiting for a verdict ↓';
+  if(m.win.length) return 'Your buy-week is ticking. Passing on it now counts double ✦';
+  if(m.streak===0) return 'Fresh start today. Day one counts as much as day fifty ♡';
+  if(m.streak<3) return 'Day '+m.streak+'. The temptation passes faster than you think.';
+  if(m.streak<14) return m.streak+' days strong! '+eur(m.saved)+' still yours.';
+  if(m.streak<30) return m.streak+' days! This is a habit now, not just willpower. ✦';
+  return m.streak+' days. '+eur(m.saved)+' toward '+esc(S.goal.label)+'. Look at you. ✿';
+}
+function dueCard(i){
+  var isWin=i.status==='window';
+  var waited=daysBetween(i.loggedAt,today());
+  var head=isWin?'Your buy-week is up — what happened?':'Do you still want this?';
+  return '<div class="item due">'+
+    '<div class="muted tiny" style="font-weight:800;margin-bottom:5px">'+head+'</div>'+
+    '<div class="spread"><h4>'+esc(i.name)+'</h4><span class="price">'+eur(i.price)+'</span></div>'+
+    '<div class="muted tiny" style="margin:4px 0 2px">first wanted it '+waited+' days ago'+(i.note?' · "'+esc(i.note)+'"':'')+'</div>'+
+    (i.url?'<a href="'+esc(i.url)+'" target="_blank" rel="noopener">'+trunc(i.url,54)+'</a>':'')+
+    '<div class="row wrap-r" style="margin-top:11px">'+
+      (isWin
+        ? '<button class="btn ghost sm" onclick="markBought(\''+i.id+'\')">🛍 I bought it</button>'+
+          '<button class="btn m sm" onclick="letGo(\''+i.id+'\')">💚 I didn\'t buy it — let it go</button>'+
+          '<button class="btn b sm" onclick="backToIce(\''+i.id+'\')">❄ back on ice '+S.coolingDays+'d</button>'
+        : '<button class="btn m sm" onclick="letGo(\''+i.id+'\')">💚 I don\'t want it anymore</button>'+
+          '<button class="btn y sm" onclick="openWindow(\''+i.id+'\')">🛒 yes — give me '+S.buyDays+' days to buy it</button>'+
+          '<button class="btn ghost sm" onclick="markBought(\''+i.id+'\')">already bought it</button>')+
+    '</div></div>';
+}
+function itemCard(i){
+  var right='',meta='',acts='',cls='';
+  if(i.status==='waiting'||i.status==='window'){
+    var isWin=i.status==='window';
+    var total=Math.max(1,daysBetween(i.loggedAt,i.reviewAt));
+    if(isWin) total=Math.max(1,S.buyDays);
+    var from=isWin?addDays(i.reviewAt,-S.buyDays):i.loggedAt;
+    var done=Math.min(total,Math.max(0,daysBetween(from,today())));
+    var left=Math.max(0,daysBetween(today(),i.reviewAt));
+    cls=isWin?' winrow':'';
+    right='<span class="chip '+(isWin?'win':'wait')+'">'+(isWin?'🛒 '+left+'d to buy':left+'d on ice')+'</span>';
+    meta='<div class="bar barSm '+(isWin?'win':'ice')+'" style="margin-top:9px"><i style="width:'+(done/total*100)+'%"></i></div>'+
+         '<div class="muted tiny" style="margin-top:5px">logged '+fmt(i.loggedAt)+' · '+
+         (isWin?'decide by ':'verdict on ')+fmt(i.reviewAt)+((i.windows||0)?' · green-lit '+i.windows+'×':'')+'</div>';
+    acts=(isWin
+      ? '<button class="btn m sm" onclick="letGo(\''+i.id+'\')">💚 pass on it</button>'+
+        '<button class="btn b sm" onclick="backToIce(\''+i.id+'\')">❄ back on ice</button>'
+      : '<button class="btn m sm" onclick="letGo(\''+i.id+'\')">💚 let it go now</button>')+
+      '<button class="btn ghost sm" onclick="markBought(\''+i.id+'\')">I bought it</button>';
+  } else if(i.status==='letgo'){
+    right='<span class="chip ok">let go ✓</span>';
+    meta='<div class="muted tiny" style="margin-top:7px">wanted it for '+daysBetween(i.loggedAt,i.resolvedAt||today())+
+      ' days, then didn\'t · '+fmt(i.resolvedAt)+((i.windows||0)?' · walked away with permission 🦋':'')+'</div>';
+  } else {
+    right='<span class="chip no">'+(isImpulse(i)?'impulse buy':'thought it through')+'</span>';
+    meta='<div class="muted tiny" style="margin-top:7px">'+fmt(i.resolvedAt)+(i.note?' · '+esc(i.note):'')+
+      (isImpulse(i)?'':' · waited it out first, so it doesn\'t count as a delusion ♡')+'</div>';
+  }
+  return '<div class="item'+cls+'"><div class="spread"><h4>'+esc(i.name)+'</h4>'+
+    '<div class="row" style="gap:7px">'+right+'<span class="price">'+eur(i.price)+'</span></div></div>'+
+    (i.url?'<a href="'+esc(i.url)+'" target="_blank" rel="noopener">'+trunc(i.url,54)+'</a>':'')+
+    (i.note&&(i.status==='waiting'||i.status==='window')?'<div class="muted tiny" style="margin-top:4px">"'+esc(i.note)+'"</div>':'')+
+    meta+'<div class="row wrap-r" style="margin-top:10px">'+acts+
+    '<button class="btn ghost sm" onclick="removeItem(\''+i.id+'\')">🗑</button></div></div>';
+}
+function emptyState(){
+  var t={open:['nothing on ice right now','Next time you feel the itch, park it up there ↑'],
+         letgo:['no wins logged yet','When the ice melts and you don\'t want it anymore, it lands here.'],
+         bought:['nothing bought yet','And if that changes some day, log it honestly. No shame here.']}[TAB];
+  return '<div style="text-align:center;padding:24px 10px">'+
+   '<svg width="78" height="78" viewBox="0 0 100 100"><use href="#shibaSleep" xlink:href="#shibaSleep" width="100" height="100"/></svg>'+
+   '<div style="font-weight:800;margin-top:8px">'+t[0]+'</div><div class="muted tiny">'+t[1]+'</div></div>';
+}
+function badges(m){
+  return [
+    {got:m.letgo.length>=1,em:'🌱',t:'First let-go'},
+    {got:m.longest>=7,em:'🐾',t:'7-day streak'},
+    {got:m.longest>=30,em:'🌸',t:'30 days clean'},
+    {got:m.longest>=100,em:'👑',t:'100 days'},
+    {got:m.saved>=100,em:'🍬',t:eur(100)+' kept'},
+    {got:m.saved>=500,em:'🎀',t:eur(500)+' kept'},
+    {got:m.saved>=1000,em:'💎',t:eur(1000)+' kept'},
+    {got:m.saved>=S.goal.amount/2,em:'🌈',t:'Halfway there'},
+    {got:m.saved>=S.goal.amount,em:'🏆',t:'GOAL!'},
+    {got:m.letgo.length>=10,em:'🧊',t:'10 urges iced'},
+    {got:m.permWins>=1,em:'🦋',t:'Passed with permission'},
+    {got:m.permWins>=5,em:'🐕',t:'5× green light, 5× no'},
+    {got:m.fadePct!==null&&m.fadePct>=80&&m.letgo.length>=5,em:'✨',t:'80% fade rate'},
+    {got:!!(m.biggest&&m.biggest.price>=150),em:'🐉',t:'Resisted a big one'}
+  ];
+}
+
+/* ================= BACKUP ================= */
+function exportData(){
+  S.lastBackup=today(); save();
+  var blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='no-buy-club-backup-'+today()+'.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+  render(); toast('backup downloaded ♡ keep it somewhere safe');
+}
+function copyBackup(){
+  var txt=JSON.stringify(S);
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){toast('copied! paste it somewhere safe');},function(){fallbackCopy(txt);});
+  } else fallbackCopy(txt);
+}
+function fallbackCopy(txt){
+  modal('Your data','<p class="muted" style="margin-top:0">Select it all and copy:</p>'+
+    '<textarea style="width:100%;height:170px;font-family:monospace;font-size:11px;border:3px solid var(--ink);border-radius:16px;padding:10px">'+esc(txt)+'</textarea>');
+}
+function importData(ev){
+  var f=ev.target.files[0]; if(!f) return;
+  var r=new FileReader();
+  r.onload=function(){
+    try{
+      var d=JSON.parse(r.result);
+      if(!d||!Array.isArray(d.items)) throw 0;
+      if(!confirm('Restore this backup? It replaces everything currently in here ('+S.items.length+' items).')) return;
+      for(var k in DEF){ if(!(k in d)) d[k]=clone(DEF[k]); }
+      S=d; save(); render(); toast('restored! welcome back ♡');
+    }catch(e){ toast('⚠ that file didn\'t look right'); }
+  };
+  r.readAsText(f); ev.target.value='';
+}
+
+/* ================= UI HELPERS ================= */
+function setTab(t){TAB=t;render();}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function trunc(s,n){s=String(s);return s.length>n?s.slice(0,n-1)+'…':s;}
+function fmt(d){return d?parseISO(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'—';}
+function modal(t,html){document.getElementById('mTitle').textContent=t;
+  document.getElementById('mBody').innerHTML=html;document.getElementById('veil').classList.add('on');}
+function closeModal(){document.getElementById('veil').classList.remove('on');}
+function openHelp(){
+  modal('How this works',
+   '<ol style="margin:0 0 12px 18px;padding:0;line-height:1.7">'+
+   '<li><b>Feel the impulse?</b> Type the thing and its price. Nothing is bought.</li>'+
+   '<li>It sits <b>on ice for '+S.coolingDays+' days</b>.</li>'+
+   '<li>Then I ask: <b>do you still want it?</b> If no → the money joins your '+esc(S.goal.label)+'.</li>'+
+   '<li>If yes → you get <b>'+S.buyDays+' days to actually buy it</b>. No fight, no guilt.</li>'+
+   '<li>When that week ends I ask what you decided: bought it, passed on it (worth double — you had permission!), '+
+   'or straight back on ice.</li></ol>'+
+   '<p class="muted" style="margin:0">Everything is stored in this browser only. Nothing leaves your computer. '+
+   'Use <b>Save backup</b> so a cleared cache can never erase your progress.</p>');
+}
+var tt;
+function toast(msg){
+  var el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('on');
+  clearTimeout(tt); tt=setTimeout(function(){el.classList.remove('on');},3400);
+}
+function sparkle(n){
+  var em=['✿','✦','♡','★','❀','✧','🎀','🐾'];
+  for(var i=0;i<n;i++){
+    var s=document.createElement('div');
+    s.className='conf'; s.textContent=em[Math.floor(Math.random()*em.length)];
+    s.style.left=(Math.random()*96)+'vw';
+    s.style.animationDuration=(1.6+Math.random()*1.6)+'s';
+    s.style.animationDelay=(Math.random()*.35)+'s';
+    s.style.color=['#ff7fc0','#a68cf0','#6fabf2','#5fd6b4','#ffd45e'][i%5];
+    document.body.appendChild(s);
+    setTimeout(function(el){return function(){el.remove();};}(s),3600);
+  }
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape') closeModal();
+  if(e.key==='Enter'&&document.activeElement&&
+     ['fName','fPrice','fUrl','fNote'].indexOf(document.activeElement.id)>=0) addItem();
+});
+save(); render();
+</script>
+</body>
+</html>
