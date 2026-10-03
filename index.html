@@ -1107,12 +1107,26 @@
     /* saori-treats: opens a small video window next to the trash */
     var vidWin = document.querySelector('.win[data-window="saori"]');
     var vid = vidWin && vidWin.querySelector('video');
-    function openSaoriVideo(){
+    function openSaoriVideo(fileEl){
       if (!vidWin) return;
+      var nav = document.querySelector('.navbar');
+      var navH = nav ? nav.getBoundingClientRect().bottom : 0;
+      var d = document.getElementById('desktop'), dr = d.getBoundingClientRect();
+      var vh = window.innerHeight;
+      var visTop = Math.max(navH, 0) + 10 - dr.top, visBottom = vh - 10 - dr.top; /* visible band, in stage coordinates */
+      /* fit the player in the visible band: shrink the width on short screens (chrome + padding ~ 90px) */
+      var vidH = visBottom - visTop - 90;
+      var w = Math.max(190, Math.min(280, Math.round(vidH * 464 / 848) + 20));
+      vidWin.style.width = w + 'px';
       if (typeof openBase === 'function') openBase('saori');
-      var w = vidWin.offsetWidth;
-      vidWin.style.left = Math.max(8, win.offsetLeft - w - 16) + 'px';
-      vidWin.style.top = Math.max(8, Math.min(win.offsetTop - 60, window.innerHeight - vidWin.offsetHeight - 70)) + 'px';
+      var h = vidWin.offsetHeight;
+      var fr = fileEl ? fileEl.getBoundingClientRect() : null;
+      var rowY = fr ? (fr.top + fr.height / 2 - dr.top) : (win.offsetTop + 40);
+      var top = Math.min(Math.max(rowY - h / 2, visTop), Math.max(visTop, visBottom - h));
+      var left = win.offsetLeft - w - 16; /* to the left of the trash window, beside the file */
+      if (left < 8) left = Math.min(win.offsetLeft + win.offsetWidth + 16, d.clientWidth - w - 8); /* no room: go right */
+      vidWin.style.left = Math.max(8, left) + 'px';
+      vidWin.style.top = top + 'px';
       if (typeof bringToFront === 'function') bringToFront(vidWin);
       if (vid){ try { vid.currentTime = 0; var pr = vid.play(); if (pr && pr.catch) pr.catch(function(){}); } catch(e){} }
     }
@@ -1126,7 +1140,7 @@
         setStatus(f.getAttribute('data-joke'));
         var href = f.getAttribute('data-href');
         if (href) window.open(href, '_blank', 'noopener');
-        if (f.getAttribute('data-open-win')) openSaoriVideo();
+        if (f.getAttribute('data-open-win')) openSaoriVideo(f);
       });
     });
     function showMenu(e){
