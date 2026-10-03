@@ -296,7 +296,7 @@
   .win[data-window="network"] .mail-reveal__out{ position:static; display:none; margin:0; width:100%; min-width:260px }
   .win[data-window="network"] .mail-reveal__out:not([hidden]){ display:block }
   .backdrop.backdrop--dim.show{ background:rgba(37,40,61,.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px) }
-  /* ---- recycle bin ---- */
+  /* ---- trash ---- */
   .bin-list{ list-style:none; margin:0; padding:8px; background:#fff; border-bottom:2px solid var(--indigo); max-height:300px; overflow:auto }
   .bin-file{ display:flex; align-items:center; gap:10px; width:100%; padding:7px 8px; background:none; border:0; text-align:left; cursor:pointer; font:600 14px var(--font-body); color:var(--indigo); transition:opacity .35s ease, translate .35s ease }
   .bin-file:hover, .bin-file:focus-visible{ background:var(--blue-soft, #dfe9ff); outline:none }
@@ -518,8 +518,8 @@
 </div>
 
 <div class="trash-icon">
-  <button class="icon" type="button" data-open="trash" title="Recycle Bin">
-    <div class="glyph"><img class="icon-art" src="assets/img/y2k/trash.png" alt="Recycle Bin"></div>
+  <button class="icon" type="button" data-open="trash" title="Trash">
+    <div class="glyph"><img class="icon-art" src="assets/img/y2k/trash.png" alt="Trash"></div>
     <span>TRASH</span>
   </button>
 </div>
@@ -697,10 +697,10 @@
 </div>
 </div>
 
-<!-- ============ RECYCLE BIN: opened from the trash icon (click). Right-click the icon for "Empty Recycle Bin" ============ -->
+<!-- ============ TRASH: opened from the trash icon (click). Right-click the icon for "Empty Trash" ============ -->
 <div class="win win--notice desktop-only" data-window="trash" style="top:260px; left:560px; z-index:40; width:440px">
   <div class="bar">
-    <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">recycle-bin.exe</span></span>
+    <span class="titlewrap"><img src="assets/img/y2k/early-work.png" alt="" width="20" height="20" style="flex:none; object-fit:contain"><span class="title">Trash</span></span>
     <span class="btns"><i data-min>_</i><i>▢</i><i data-close>x</i></span>
   </div>
   <div class="body" style="padding:0">
@@ -721,7 +721,7 @@
 <div class="ctx-menu" id="binMenu" role="menu" hidden>
   <button type="button" role="menuitem" data-act="open">Open</button>
   <hr>
-  <button type="button" role="menuitem" data-act="empty">Empty Recycle Bin</button>
+  <button type="button" role="menuitem" data-act="empty">Empty Trash</button>
 </div>
 
 <!-- ============ NETWORK: opened from the desktop icon. A small alert window with the contact email (obfuscated, revealed by JS) ============ -->
@@ -998,7 +998,7 @@
     document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && netWin.classList.contains('open')) netClose(); });
   }
 
-  /* ---- recycle bin: click opens the file list; right-click the icon for "Empty Recycle Bin" ---- */
+  /* ---- trash: click opens the file list; right-click the icon for "Empty Trash" ---- */
   (function(){
     var win = document.querySelector('.win[data-window="trash"]');
     var icon = document.querySelector('[data-open="trash"]');
@@ -1021,7 +1021,7 @@
       emptied = true; hideMenu();
       setArt(true);
       files.forEach(function(f, i){ setTimeout(function(){ f.classList.add('gone'); }, i * 110); });
-      setTimeout(function(){ files.forEach(function(f){ f.hidden = true; f.classList.remove('sel'); }); setStatus('0 items. The Recycle Bin is empty. Peaceful.'); }, files.length * 110 + 380);
+      setTimeout(function(){ files.forEach(function(f){ f.hidden = true; f.classList.remove('sel'); }); setStatus('0 items. The trash is empty. Peaceful.'); }, files.length * 110 + 380);
       /* ...and they come back, like an alert would */
       setTimeout(function(){
         files.forEach(function(f, i){
@@ -1032,7 +1032,7 @@
         setStatus('Wait. They came back.');
         if (window.saori && window.saori.say) window.saori.say('Nice try.', 7000);
         emptied = false;
-      }, 4800);
+      }, 2500);
     }
     files.forEach(function(f){
       f.addEventListener('click', function(){
@@ -1058,6 +1058,15 @@
       menu.style.top = Math.max(4, Math.min(y, vh - h - 4)) + 'px';
       menu.querySelector('button').focus();
     }
+    /* open the window right next to the bin (to its left, bottom edges aligned) so it can't get lost */
+    icon.addEventListener('click', function(){
+      var d = document.getElementById('desktop'), dr = d.getBoundingClientRect(), r = icon.getBoundingClientRect();
+      var vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+      var w = win.offsetWidth, h = win.offsetHeight;
+      var x = Math.max(8, Math.min(r.left - w - 14, vw - w - 8));
+      var y = Math.max(8, Math.min(r.bottom - h, vh - h - 8));
+      win.style.left = x + 'px'; win.style.top = (y - dr.top) + 'px';
+    });
     icon.addEventListener('contextmenu', showMenu);
     win.querySelector('.body').addEventListener('contextmenu', showMenu);
     menu.addEventListener('click', function(e){
