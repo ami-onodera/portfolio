@@ -38,9 +38,12 @@
   @media (max-width:1023px) and (min-width:641px){ .status__places{ flex-wrap:wrap; } }
   .status__places li{ display:inline-flex; align-items:center; gap:4px; font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:rgba(255,255,255,.7); border:1.5px solid var(--indigo); padding:4px 6px; }
   .status__places li svg{ width:12px; height:12px; flex:none; }
-  .status__menu{ list-style:none; margin:2px 0 0; padding:6px 0 0; border-top:2px solid rgba(37,40,61,.18); display:flex; flex-direction:column; }
-  .status__menu a{ display:flex; justify-content:space-between; align-items:center; padding:7px 4px; font-family:var(--font-body); font-weight:700; font-size:15px; color:var(--ink); text-decoration:none; transition:background-color .12s ease; }
-  .status__menu a:hover, .status__menu a:focus-visible{ background:rgba(255,255,255,.75); }
+  .status__menu{ list-style:none; margin:2px 0 0; padding:8px 0 0; border-top:2px solid rgba(37,40,61,.18); display:grid; grid-template-columns:minmax(0,1fr); gap:2px; }
+  .status__menu a{ display:flex; align-items:center; gap:9px; width:100%; min-width:0; padding:6px 8px; font-family:var(--font-body); font-weight:700; font-size:15px; line-height:1.25; color:var(--indigo); background:none; border:1.5px solid transparent; text-decoration:none; transition:none; }
+  .status__menu a:hover{ background:rgba(255,255,255,.55); color:var(--indigo); }
+  .status__menu a[aria-current="true"]{ background:var(--purple); border-color:var(--indigo); box-shadow:2px 2px 0 var(--indigo); }
+  .status__menu a:focus-visible{ outline:3px solid var(--accent); outline-offset:1px; }
+  .status__menu .status__key{ margin-left:auto; flex:none; }
   .bubble .bubble__link{ margin-top:10px; font-family:var(--font-pixel); font-size:14px; }
   .bubble .bubble__link a{ color:var(--accent-ink); text-decoration:underline; text-underline-offset:3px; }
   section[id]{ scroll-margin-top:72px; }
@@ -633,7 +636,7 @@
               <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.8a10 10 0 0 1 13 0M9 16.5a5 5 0 0 1 6 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>Remote</li>
             </ul>
             <ul class="status__menu" aria-label="On this page">
-              <li><a href="#experience">Experience<span class="status__key" aria-hidden="true">↓</span></a></li>
+              <li><a href="#experience" aria-current="true">Experience<span class="status__key" aria-hidden="true">↓</span></a></li>
               <li><a href="#skills">Skills<span class="status__key" aria-hidden="true">↓</span></a></li>
               <li><a href="#education">Education<span class="status__key" aria-hidden="true">↓</span></a></li>
               <li><a href="#contact">Say hi<span class="status__key" aria-hidden="true">↓</span></a></li>
@@ -1119,6 +1122,18 @@
       es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); ioW.unobserve(e.target); } });
     }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
     targets.forEach(function(t){ t.classList.add('rv-win'); ioW.observe(t); });
+  })();
+</script>
+<script>
+  /* status.tmp menu: the clicked item stays highlighted (Experience is pre-selected) */
+  (function(){
+    var links = [].slice.call(document.querySelectorAll('.status__menu a'));
+    links.forEach(function(a){
+      a.addEventListener('click', function(){
+        links.forEach(function(l){ l.removeAttribute('aria-current'); });
+        a.setAttribute('aria-current','true');
+      });
+    });
   })();
 </script>
 <script src="assets/js/saori.js?v=4" defer></script>
