@@ -654,22 +654,9 @@
 </div>
 </div>
 
-<!-- ============ MODAL: the "are you sure" confirm dialog, appears once on load then vanishes ============ -->
+<!-- backdrop kept for modal windows; the old first-visit confirm dialog was replaced by Saori's welcome -->
 <div class="backdrop" id="backdrop"></div>
 
-<div class="win win--dialog" data-window="dialog" style="top:120px; left:820px; z-index:110">
-  <div class="bar">
-    <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">confirm.exe</span></span>
-    <span class="btns"><i data-modal-close>x</i></span>
-  </div>
-  <div class="body">
-    <p>Execute dazzling sequence?</p>
-    <div class="row">
-      <span class="dbtn dbtn--yes" data-modal-close>YES</span>
-      <span class="dbtn" data-modal-close>PROCEED</span>
-    </div>
-  </div>
-</div>
 
 <script src="assets/js/contact.js" defer></script>
 <script>
@@ -758,7 +745,6 @@
     el.classList.remove('open');
     openModals = Math.max(0, openModals - 1);
     if (id !== 'dialog') setTabState(id, false, false);
-    else { try { localStorage.setItem(INTRO_SEEN_KEY, '1'); } catch (e) { /* privacy mode etc: no-op */ } }
     if (openModals <= 0) backdrop.classList.remove('show');
   }
   function closeModalById(id){ closeModal(document.querySelector('.win[data-window="'+id+'"]')); }
@@ -873,15 +859,6 @@
     el.style.left = Math.round((window.innerWidth - w) / 2) + 'px';
     el.style.top = Math.round((window.innerHeight - h) / 2) + 'px';
   }
-  var INTRO_SEEN_KEY = 'portfolioIntroSeen';
-  var introAlreadySeen = false;
-  try { introAlreadySeen = !!localStorage.getItem(INTRO_SEEN_KEY); } catch (e) { /* privacy mode etc: fall through and show it */ }
-  if (!introAlreadySeen){
-    var dialogEl = document.querySelector('.win[data-window="dialog"]');
-    openModal('dialog');
-    if (dialogEl) centerDialog(dialogEl);
-  }
-
   /* start button (shiba icon): close whatever's open and return to the initial home cascade */
   function goHome(){
     closeModalById('dialog');
