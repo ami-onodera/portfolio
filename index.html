@@ -496,17 +496,17 @@
 
 <!-- ============ DESKTOP ICONS ============ -->
 <div class="icons">
-  <button class="icon" data-open="about" title="About">
+  <button class="icon" data-open="about" data-href="about.html" title="About">
     <div class="glyph"><img class="icon-art" src="assets/img/y2k/about.png" alt="About"></div>
     <span>ABOUT</span>
   </button>
 
-  <button class="icon" data-open="work" title="Selected work">
+  <button class="icon" data-open="work" data-href="selected-work.html" title="Selected work">
     <div class="glyph"><img class="icon-art" src="assets/img/y2k/selected-work.png" alt="Selected work"></div>
     <span>SELECTED<br>WORK</span>
   </button>
 
-  <button class="icon" data-open="early" title="Early work">
+  <button class="icon" data-open="early" data-href="earlier-work.html" title="Early work">
     <div class="glyph"><img class="icon-art" src="assets/img/y2k/floppy.png" alt="Early work"></div>
     <span>EARLY<br>WORK</span>
   </button>
@@ -1078,6 +1078,14 @@
     document.addEventListener('keydown', function(e){ if (e.key === 'Escape') hideMenu(); });
     window.addEventListener('scroll', hideMenu, { passive: true });
   })();
+
+  /* desktop icons: a single click brings the window forward, a double-click goes to the page itself */
+  document.querySelectorAll('.icons .icon[data-href]').forEach(function(ic){
+    ic.addEventListener('dblclick', function(e){
+      e.preventDefault();
+      window.location.href = ic.getAttribute('data-href');
+    });
+  });
 
   var HOME_WINDOWS = ['about', 'work', 'early'];
   HOME_WINDOWS.forEach(function(id){ setTabState(id, true, false); });
