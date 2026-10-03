@@ -9,7 +9,7 @@
   if (/[?&]saori-test/.test(location.search) && window.console) console.log('[saori] loaded. reduced motion:', REDUCED);
   var base = script ? script.src.replace(/assets\/js\/saori\.js.*$/, '') : '';
   var IDLE_MS = 45000;      /* second appearance: only if the screen is idle this long */
-  var FIRST_MIN = 20000, FIRST_MAX = 25000; /* first appearance: a few seconds after arriving */
+  var FIRST_MIN = 8000, FIRST_MAX = 12000; /* first appearance: shortly after arriving, before most people bounce */
   var TESTING = /[?&]saori-test/.test(location.search); /* add ?saori-test to the URL: short timers (3s / 8s) and ignores the session limits */
   if (TESTING){ IDLE_MS = 8000; FIRST_MIN = FIRST_MAX = 3000; }
 
@@ -77,14 +77,14 @@
   function say(text, ms){
     msg.textContent = text; bub.style.display = '';
     el.classList.add('on');
-    clearTimeout(hideT); hideT = setTimeout(hide, ms || 9000);
+    clearTimeout(hideT); hideT = setTimeout(hide, ms || 16000);
   }
   function hide(){ el.classList.remove('on'); }
   el.querySelector('.saori__x').addEventListener('click', function(){ hide(); store('sessionStorage','saori-off','1'); });
   var woofs = ["Bork", "AwAwooo!", "much click!", "Mlem", "fomfom"], wi = 0;
   dog.addEventListener('click', function(){
     dog.classList.remove('woof'); void dog.offsetWidth; dog.classList.add('woof');
-    say(woofs[wi++ % woofs.length], 3000);
+    say(woofs[wi++ % woofs.length], 5000);
   });
 
   function pick(pool){ return pool[Math.floor(Math.random() * pool.length)]; }
@@ -101,7 +101,7 @@
       if (store('localStorage','saori-seen')) text = pick(welcomeBack);
       else { text = welcomeFirst; store('localStorage','saori-seen','1'); }
     } else text = pick(lines[key] || lines.other);
-    say(text, 10000);
+    say(text, 16000);
     firstShown = true;
     armIdle();
   }, FIRST_MIN + Math.random() * (FIRST_MAX - FIRST_MIN));
@@ -113,7 +113,7 @@
     if (!firstShown || idleDone || off()) return;
     idleTimer = setTimeout(function(){
       idleDone = true;
-      say(pick(lines[key] || lines.other), 11000);
+      say(pick(lines[key] || lines.other), 16000);
     }, IDLE_MS);
   }
   ['mousemove','scroll','keydown','pointerdown','touchstart'].forEach(function(ev){

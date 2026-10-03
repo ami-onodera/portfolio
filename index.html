@@ -284,6 +284,10 @@
   .dbtn--yes:hover{ background:var(--pink-dark); color:#fff; box-shadow:none; }
 
   .win--notice{ font-family:var(--font-body) }
+  .notice-stack.notice-gone{ display:none !important }
+  .notice-stack.notice-pop{ animation:noticePop .32s var(--pd,0ms) cubic-bezier(.2,1.4,.4,1) both }
+  @keyframes noticePop{ from{ opacity:0; scale:.85 } to{ opacity:1; scale:1 } }
+  @media (prefers-reduced-motion:reduce){ .notice-stack.notice-pop{ animation:none } }
   .win--notice p{font-family:var(--font-head); font-weight:600; font-size:13.5px; color:var(--indigo); line-height:1.5}
 
   /* decorative title-bar-only "ghosts" behind the notice popup, purely visual (not part of the .win system, so they can't be dragged or closed) */
@@ -834,6 +838,7 @@
     });
 
     function tick(){
+      if (front.offsetParent === null){ requestAnimationFrame(tick); return; } /* front window hidden (closed notice): leave the ghosts where they are */
       var prevLeft = front.offsetLeft, prevTop = front.offsetTop;
       state.forEach(function(s){
         s.left += (prevLeft - STEP - s.left) * EASE;
@@ -847,6 +852,35 @@
     requestAnimationFrame(tick);
   }
   setupCascadeTrail('.win[data-window="notice"]');
+
+  /* notice.exe can't be dismissed for good: close (x) or minimise (_) it and the whole
+     stack disappears, then pops back a few seconds later, like an alert would. */
+  (function(){
+    var front = document.querySelector('.win[data-window="notice"]');
+    if (!front) return;
+    var stack = Array.prototype.slice.call(document.querySelectorAll('.notice-stack'));
+    var REAPPEAR_MS = 6000, gone = false;
+    var btns = front.querySelectorAll('.btns i');
+    function vanish(e){
+      e.stopPropagation();
+      if (gone) return; gone = true;
+      stack.forEach(function(n){ n.classList.remove('notice-pop'); n.classList.add('notice-gone'); });
+      setTimeout(function(){
+        gone = false;
+        stack.forEach(function(n, i){
+          n.classList.remove('notice-gone');
+          void n.offsetWidth;
+          n.style.setProperty('--pd', (i * 90) + 'ms');
+          n.classList.add('notice-pop');
+        });
+        bringToFront(front);
+      }, REAPPEAR_MS);
+    }
+    if (btns[0]) btns[0].addEventListener('click', vanish);
+    if (btns[2]) btns[2].addEventListener('click', vanish);
+    [btns[0], btns[2]].forEach(function(b){ if (b){ b.style.cursor = 'pointer'; b.setAttribute('role','button'); b.setAttribute('tabindex','0');
+      b.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); vanish(e); } }); } });
+  })();
 
   var HOME_WINDOWS = ['about', 'work', 'early'];
   HOME_WINDOWS.forEach(function(id){ setTabState(id, true, false); });
