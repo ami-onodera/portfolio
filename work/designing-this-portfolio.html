@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designing this portfolio | Camila Massa</title>
+<meta name="description" content="Case study: how this portfolio grew from a tidy pastel grid into a playable Y2K desktop, from wireframes and concepts to style, live demos and easter eggs.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@500;700&family=Press+Start+2P&family=Rationale&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/cascade.css">
+<link rel="stylesheet" href="../assets/css/y2k.css">
+<style>
+  .section-head{ margin-bottom:26px; }
+  .section-head .lead{ margin-top:14px; font-family:var(--font-body); font-weight:500; max-width:62ch; }
+  .section-win{ transform:none; }
+  .live-frame{ aspect-ratio:16 / 10; }
+  .live-frame--live iframe, .live-frame--scroll iframe, .live-frame--desk iframe, #c-frame{ pointer-events:auto; }
+  .small-note{ margin-top:12px; font-size:14px; color:var(--muted); }
+
+  /* numbers */
+  .stat-strip{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(5, minmax(0,1fr)); gap:var(--gap); }
+  .stat-strip li{ padding:18px 18px 16px; display:flex; flex-direction:column; gap:6px; }
+  .stat-strip li:nth-child(odd){ transform:rotate(-.4deg); }
+  .stat-strip li:nth-child(even){ transform:rotate(.35deg); }
+  .stat-strip b{ font-family:var(--font-head); font-size:clamp(34px,4vw,48px); font-weight:800; line-height:1; color:var(--ink); }
+  .stat-strip span{ font-family:var(--font-pixel); font-size:13px; line-height:1.4; color:var(--indigo); }
+
+  /* version 1 */
+  .v1{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:clamp(22px,3.5vw,44px); align-items:center; }
+  .v1 .prose p{ margin-top:12px; }
+  .note-line{ padding:10px 14px; background:var(--yellow); border:2px solid var(--indigo); box-shadow:3px 3px 0 var(--indigo); color:var(--ink); }
+  .v1-shot{ margin:0; transform:rotate(1deg); }
+  .v1-shot img{ display:block; width:100%; height:auto; border:3px solid var(--indigo); box-shadow:6px 8px 0 rgba(37,40,61,.16); filter:saturate(.75); }
+  .v1-shot figcaption{ margin-top:10px; font-family:var(--font-pixel); font-size:13px; color:var(--muted); }
+
+  /* demo windows (wireframes, concepts, desktop) */
+  .demo-tile{ padding:clamp(18px,3vw,36px); }
+  .demo-tile > .win-bar{ margin:calc(-1 * clamp(18px,3vw,36px)) calc(-1 * clamp(18px,3vw,36px)) 20px; }
+  .demo{ display:grid; grid-template-columns:280px minmax(0,1fr); gap:clamp(18px,3vw,32px); margin-top:26px; align-items:start; }
+  .controls{ position:sticky; top:80px; }
+  .controls h4{ font-family:var(--font-pixel); font-size:13px; font-weight:600; letter-spacing:.5px; text-transform:uppercase; color:var(--accent-ink); margin-bottom:12px; }
+  .swatch-btn{
+    display:flex; align-items:center; gap:12px; width:100%; margin-bottom:10px; padding:10px 12px; text-align:left; cursor:pointer;
+    font-family:var(--font-body); font-size:15px; font-weight:700; color:var(--ink); background:var(--chrome);
+    border-top:2px solid #fff; border-left:2px solid #fff; border-right:2px solid var(--indigo); border-bottom:2px solid var(--indigo);
+    box-shadow:2px 3px 0 rgba(37,40,61,.2); transition:none;
+  }
+  .swatch-btn:hover{ background:#fff; }
+  .swatch-btn:focus-visible{ outline:3px solid var(--accent); outline-offset:2px; }
+  .swatch-btn[aria-pressed="true"]{
+    background:var(--purple); border-top-color:var(--indigo); border-left-color:var(--indigo); border-right-color:#fff; border-bottom-color:#fff;
+    box-shadow:inset 2px 2px 4px rgba(37,40,61,.35);
+  }
+  .swatch-btn small{ display:block; font-weight:600; font-size:13px; color:var(--muted); }
+  .cbadge{ flex:none; width:30px; height:30px; display:grid; place-items:center; font-family:var(--font-pixel); font-weight:700; font-size:15px; color:var(--indigo); background:var(--yellow); border:2px solid var(--indigo); }
+  .concept-btn[data-concept="R"] .cbadge{ background:var(--pink); color:#fff; }
+  .readout{ margin-top:16px; font-size:14px; font-weight:600; line-height:1.6; color:var(--body); background:#fff; border:2px solid var(--indigo); box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); padding:12px 14px; }
+  .readout b{ color:var(--ink); font-weight:800; }
+  .readout .verdict{ display:inline-block; margin-top:8px; font-family:var(--font-pixel); font-size:12px; padding:3px 8px; border:1.5px solid var(--indigo); background:var(--chrome); }
+  .readout .verdict--won{ background:var(--pink); color:#fff; }
+  .demo-foot{ display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px 20px; margin-top:14px; }
+  .demo-foot figcaption{ margin:0; }
+
+  /* style */
+  .style-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); align-items:start; }
+  .style-grid .tile:nth-child(1){ transform:rotate(-.35deg); }
+  .style-grid .tile:nth-child(2){ transform:rotate(.3deg); }
+  .style-grid .tile:nth-child(3){ transform:rotate(-.2deg); }
+  .style-grid h3, .choice-grid h3, .trio h3{ font-family:var(--font-head); font-size:20px; margin:10px 0 6px; }
+  .style-grid p, .choice-grid p, .trio p{ font-size:16px; }
+  .swatches{ list-style:none; padding:0; margin:16px 0 0; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .swatches li{ display:flex; align-items:center; gap:8px; font-weight:700; font-size:14px; color:var(--ink); }
+  .swatches i{ flex:none; width:26px; height:26px; border:2px solid var(--indigo); box-shadow:2px 2px 0 rgba(37,40,61,.25); }
+  .swatches code{ margin-left:auto; font-family:var(--font-pixel); font-size:11px; color:var(--muted); }
+  .sky-strip{ margin-top:16px; height:34px; border:2px solid var(--indigo); background:linear-gradient(90deg,#cfe3fb 0%,#d9d3f2 32%,#eccbe4 58%,#f6d9e4 78%,#fbe7d9 100%); }
+  .font-trail{ list-style:none; padding:0; margin:14px 0 0; counter-reset:f; }
+  .font-trail li{ position:relative; display:flex; flex-direction:column; padding:8px 10px 8px 34px; border-left:2px dashed var(--indigo); }
+  .font-trail li::before{ counter-increment:f; content:counter(f); position:absolute; left:-12px; top:9px; width:22px; height:22px; display:grid; place-items:center; font:600 11px var(--font-pixel); background:var(--chrome); border:2px solid var(--indigo); }
+  .font-trail li span{ font-size:17px; color:var(--ink); line-height:1.3; }
+  .font-trail li em{ font-style:normal; font-size:13px; color:var(--muted); }
+  .font-trail li.won::before{ background:var(--pink); color:#fff; }
+  .font-trail li.won span{ font-size:19px; }
+  .rules{ list-style:none; padding:0; margin:10px 0 0; display:grid; gap:12px; }
+  .rules li{ font-size:15.5px; padding-left:26px; position:relative; }
+  .rules li::before{ content:""; position:absolute; left:0; top:5px; width:12px; height:12px; background:var(--pink); border:2px solid var(--indigo); }
+  .rules b{ color:var(--ink); }
+  .rules code, .choice-grid code, .egg code{ font-family:var(--font-pixel); font-size:.86em; background:rgba(255,255,255,.7); padding:0 4px; border:1px solid rgba(37,40,61,.25); }
+
+  /* choices */
+  .choice-grid{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); }
+  .choice-grid .tile:nth-child(odd){ transform:rotate(-.3deg); }
+  .choice-grid .tile:nth-child(even){ transform:rotate(.3deg); }
+
+  /* easter eggs */
+  .eggs-win{ padding:clamp(18px,3vw,36px); }
+  .eggs-win > .win-bar{ margin:calc(-1 * clamp(18px,3vw,36px)) calc(-1 * clamp(18px,3vw,36px)) 20px; }
+  .eggs-head .lead{ margin-top:14px; max-width:60ch; }
+  .eggs{ margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:12px 18px; align-items:start; }
+  .egg{ background:var(--chrome); border:2px solid var(--indigo); box-shadow:3px 3px 0 rgba(37,40,61,.25); }
+  .egg summary{ list-style:none; display:flex; align-items:center; gap:12px; padding:10px 12px; cursor:pointer; }
+  .egg summary::-webkit-details-marker{ display:none; }
+  .egg summary img{ flex:none; width:28px; height:28px; object-fit:contain; }
+  .egg-name{ font-family:var(--font-pixel); font-weight:600; font-size:15px; color:var(--indigo); min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .egg-hint{ margin-left:auto; flex:none; font-family:var(--font-pixel); font-size:11px; color:var(--indigo); padding:3px 7px; background:var(--yellow); border:1.5px solid var(--indigo); }
+  .egg summary::after{ content:"+"; flex:none; width:20px; height:20px; display:grid; place-items:center; font:600 14px var(--font-pixel); color:var(--indigo); background:#fff; border:1.5px solid var(--indigo); }
+  .egg[open] summary::after{ content:"−"; background:var(--pink); color:#fff; }
+  .egg summary:hover{ background:#fff; }
+  .egg summary:focus-visible{ outline:3px solid var(--accent); outline-offset:2px; }
+  .egg[open]{ background:#fff; }
+  .egg p{ padding:4px 14px 14px 52px; font-size:15.5px; }
+
+  /* icon evolution */
+  .evo{ list-style:none; padding:0; margin:28px 0 0; display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:14px; }
+  .evo li{ position:relative; display:flex; flex-direction:column; align-items:center; gap:8px; padding:12px 6px 10px; background:var(--chrome); border:2px solid var(--indigo); box-shadow:3px 3px 0 rgba(37,40,61,.2); }
+  .evo li:not(:last-child)::after{ content:"→"; position:absolute; right:-13px; top:42%; font:600 14px var(--font-pixel); color:var(--indigo); z-index:1; }
+  .evo img{ width:100%; max-width:84px; height:auto; aspect-ratio:1; object-fit:contain; image-rendering:pixelated; }
+  .evo span{ font-family:var(--font-pixel); font-size:12px; color:var(--indigo); }
+  .evo .final{ background:var(--purple-soft); }
+  .evo .final span{ background:var(--pink); color:#fff; padding:1px 6px; border:1.5px solid var(--indigo); }
+  .img-cta{ margin-top:26px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px 24px; padding:16px 18px; background:var(--blue-soft); border:2px solid var(--indigo); }
+  .img-cta p{ margin:0; font-weight:600; color:var(--ink); max-width:52ch; }
+
+  /* build */
+  .trio{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); }
+  .trio .tile:nth-child(odd){ transform:rotate(-.3deg); }
+  .trio .tile:nth-child(even){ transform:rotate(.3deg); }
+  .wip-row{ margin-top:var(--gap); display:flex; align-items:center; gap:16px; padding:16px 20px; border-style:dashed; }
+  .wip-row p{ margin:0; }
+  .wip-row .chip--wip{ flex:none; font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:#fff; border:1.5px dashed var(--indigo); padding:5px 9px; }
+
+  /* related case study */
+  .next-card{ display:grid; grid-template-columns:2fr 3fr; grid-template-rows:auto 1fr; align-items:stretch; }
+  .next-card > .win-bar{ grid-column:1 / -1; margin:0; }
+  .next-card .work-card__media{ aspect-ratio:auto; height:100%; min-height:300px; border-bottom:0; border-right:2px solid var(--indigo); }
+  .next-card .work-card__media .live-frame{ position:absolute; inset:0; aspect-ratio:auto; }
+  .next-card .live-frame iframe{ width:1440px; height:900px; max-width:none; }
+  .next-card .work-card__body{ justify-content:center; padding:30px 34px; }
+
+  /* keep the hire-me ghost windows inside the screen on narrow widths */
+  @media (max-width:1240px){ .contact-cascade .cascade-clone{ width:calc(100% - 48px); } }
+  @media (max-width:1100px){
+    .stat-strip{ grid-template-columns:repeat(3, minmax(0,1fr)); }
+    .style-grid{ grid-template-columns:1fr 1fr; }
+    .style-grid .rules-win{ grid-column:1 / -1; }
+    .evo{ grid-template-columns:repeat(4, minmax(0,1fr)); }
+    .evo li:nth-child(4)::after{ display:none; }
+  }
+  @media (max-width:900px){
+    .v1{ grid-template-columns:1fr; }
+    .v1-shot{ transform:none; }
+    .demo{ grid-template-columns:1fr; }
+    .controls{ position:static; }
+    .style-grid, .choice-grid, .trio, .eggs{ grid-template-columns:1fr; }
+    .style-grid .tile, .choice-grid .tile, .trio .tile{ transform:none !important; }
+    .next-card{ grid-template-columns:1fr; grid-template-rows:auto; }
+    .next-card .work-card__media{ aspect-ratio:16 / 10; height:auto; min-height:0; border-right:0; border-bottom:2px solid var(--indigo); }
+  }
+  @media (max-width:640px){
+    .stat-strip{ grid-template-columns:1fr 1fr; }
+    .stat-strip li{ transform:none !important; }
+    .stat-strip li:last-child{ grid-column:1 / -1; }
+    .evo{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; }
+    .evo li::after{ display:none; }
+    .egg p{ padding-left:14px; }
+    .egg-hint{ display:none; }
+    .wip-row{ flex-direction:column; align-items:flex-start; }
+    .next-card .work-card__body{ padding:22px 20px; }
+  }
+</style>
+
+</head>
+<body>
+<div class="bg-decor" aria-hidden="true">
+  <div class="grid-floor"></div>
+  <svg class="bgstar" style="top:6%; left:9%; width:13px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:14%; left:22%; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:9%; left:38%; width:9px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:5%; left:58%; width:15px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:22%; left:6%; width:11px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:18%; left:82%; width:14px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:30%; left:93%; width:8px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:40%; left:4%; width:8px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:52%; left:91%; width:13px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:64%; left:8%; width:10px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:72%; left:96%; width:6px; opacity:.6" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:80%; left:14%; width:12px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:88%; left:88%; width:9px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <a class="brand nav-start" href="../index.html" title="Home" aria-label="Home">
+      <img src="../assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn nav-util" href="../assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.pdf
+      </a>
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" title="Open LinkedIn" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+          <img src="../assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
+        </span>
+        <span class="navtray-icon" title="Connected">
+          <img src="../assets/img/y2k/nav-wifi.png" alt="" width="13" height="10">
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
+</header>
+<main id="main">
+
+  <!-- Hero -->
+  <section class="cs-hero sky-decor">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" style="top:-6px; left:2%; width:130px; opacity:.95">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-m-twin-sparkle.png" alt="" style="top:-18px; right:3%; width:160px">
+    <svg class="deco" aria-hidden="true" style="top:12px; left:46%; width:16px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+    <div class="wrap"><div class="tile tile--sky cs-win">
+    <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">this-portfolio.case</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+    <h1>This portfolio: from a tidy grid to a desktop you can play with</h1>
+    <p class="lead">You’re standing inside this case study. Here is how the site you’re clicking around grew from a calm pastel grid into a pastel Y2K desktop, with wireframes, the concepts I threw away, how the style was settled, and a few things you might not have found yet.</p>
+    <dl class="facts">
+      <div class="fact"><dt>Role</dt><dd>Everything: concept, art direction, UI design, copy and build</dd></div>
+      <div class="fact"><dt>For</dt><dd>Hiring teams, and anyone who likes clicking things</dd></div>
+      <div class="fact"><dt>Tools</dt><dd>Vibe coding with Claude, HTML, CSS, vanilla JS, GitHub Pages</dd></div>
+      <div class="fact"><dt>Output</dt><dd>A static site with a desktop home, four pages and live case studies</dd></div>
+    </dl>
+    </div></div>
+  </section>
+
+  <!-- Numbers -->
+  <section class="block" style="padding-top:24px" aria-label="The project in numbers"><div class="wrap">
+    <ul class="stat-strip">
+      <li class="tile tile--sky"><b>8</b><span>days, 26 Sep – 3 Oct 2026</span></li>
+      <li class="tile tile--blue"><b>82</b><span>commits, all vibe-coded with Claude</span></li>
+      <li class="tile tile--peri"><b>5</b><span>concepts kept as live sketches</span></li>
+      <li class="tile tile--lav"><b>7</b><span>versions of one minesweeper icon</span></li>
+      <li class="tile tile--lilac"><b>1</b><span>shiba, who runs the place</span></li>
+    </ul>
+  </div></section>
+
+  <!-- Version 1 -->
+  <section class="block" style="padding-top:0" aria-labelledby="v1-title"><div class="wrap">
+    <div class="tile tile--white section-win v1-win">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">version-1.bak</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="v1">
+        <div class="prose">
+          <h2 id="v1-title" class="h-bar">It started out polite</h2>
+          <p>The first version went live on 26 September. Soft blue to purple tiles, rounded everything, Nunito, a clear headline and two strong case studies. It matched my CV and it did its job.</p>
+          <p>It also looked like a lot of other portfolios. I design interfaces for a living, so the site itself should be the first proof of that, before anyone reads a word. I wanted something with personality, something people would remember and want to poke at.</p>
+          <p class="note-line">The brief I gave myself: <strong>make the portfolio the first piece of work.</strong></p>
+        </div>
+        <figure class="v1-shot">
+          <img src="../assets/img/y2k/process/v1-home.jpg" width="1200" height="750" alt="Version 1 of the portfolio home page: a pale blue hero tile with a big headline, rounded pastel stat tiles below" loading="lazy">
+          <figcaption>Version 1, home page. Calm, rounded, forgettable.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Wireframes -->
+  <section class="block" style="padding-top:0" id="wireframes" aria-labelledby="wf-title"><div class="wrap">
+    <div class="tile tile--white demo-tile">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">wireframes.sketch</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head" style="margin-bottom:0">
+        <h2 id="wf-title" class="h-bar" style="margin-top:14px">The bones of a desktop</h2>
+        <p class="lead">Before any colour, the structure: a home page that behaves like a desktop, where every section is a window, and ordinary scrolling pages behind it. Scroll inside the sheet to see the home, mobile, About, Selected work and case study frames.</p>
+      </div>
+      <figure class="shot" style="margin:26px 0 0">
+        <div class="frame">
+          <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>wireframes.sketch</span></div>
+          <div class="live-frame live-frame--scroll"><iframe src="../presentations/portfolio-wireframes.html" title="Wireframes of the portfolio, scaled" loading="lazy"></iframe></div>
+        </div>
+        <div class="demo-foot">
+          <figcaption>Low-fidelity wireframes of the home desktop, mobile and inner pages.</figcaption>
+          <a class="btn btn--primary" href="../presentations/portfolio-wireframes.html" target="_blank" rel="noopener">Open wireframes ↗<span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </figure>
+    </div>
+  </div></section>
+
+  <!-- Concepts -->
+  <section class="block" style="padding-top:0" id="concepts" aria-labelledby="concepts-title"><div class="wrap">
+    <div class="tile tile--white demo-tile">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">concepts/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head" style="margin-bottom:0">
+        <h2 id="concepts-title" class="h-bar" style="margin-top:14px">Concepts I tried on</h2>
+        <p class="lead">I explored directions as quick, clickable sketches instead of static boards, because a portfolio is something you use, not just look at. Five of them are still live. Pick one.</p>
+      </div>
+      <div class="demo">
+        <div class="controls" role="group" aria-label="Choose a concept">
+          <h4>Concept sketches</h4>
+          <button class="swatch-btn concept-btn" type="button" data-concept="H" aria-pressed="true"><span class="cbadge">H</span><span>A book you leaf through<small>Page-turn spreads</small></span></button>
+          <button class="swatch-btn concept-btn" type="button" data-concept="I" aria-pressed="false"><span class="cbadge">I</span><span>A book with a pop-out demo<small>One chapter per project</small></span></button>
+          <button class="swatch-btn concept-btn" type="button" data-concept="L" aria-pressed="false"><span class="cbadge">L</span><span>Y2K desktop, first try<small>Working navigation</small></span></button>
+          <button class="swatch-btn concept-btn" type="button" data-concept="Q" aria-pressed="false"><span class="cbadge">Q</span><span>Vaporwave taskbar + shiba<small>Saori arrives</small></span></button>
+          <button class="swatch-btn concept-btn" type="button" data-concept="R" aria-pressed="false"><span class="cbadge">R</span><span>The desktop as Home<small>The one that won</small></span></button>
+          <div class="readout" id="c-readout" aria-live="polite"></div>
+        </div>
+        <figure class="shot" style="margin:0">
+          <div class="frame">
+            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span id="c-url">concept-h.html</span></div>
+            <div class="live-frame"><iframe id="c-frame" src="../mockups-preview/page-flip/index.html" title="Concept sketch preview, scaled" loading="lazy" tabindex="-1"></iframe></div>
+          </div>
+          <div class="demo-foot">
+            <figcaption>Early sketches, kept as they were. Some buttons go nowhere on purpose.</figcaption>
+            <a class="btn btn--primary" id="c-open" href="../mockups-preview/page-flip/index.html" target="_blank" rel="noopener">Open concept ↗<span class="sr-only"> (opens in a new tab)</span></a>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Style -->
+  <section class="block" style="padding-top:0" id="style" aria-labelledby="style-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="style-title" class="h-bar">Finding the look</h2>
+      <p class="lead">The desktop won because it turns a portfolio into a place: every section becomes a window, and the interface itself shows my UI skills. Then came the harder part, making nostalgia readable.</p>
+    </div>
+    <div class="style-grid">
+      <div class="tile tile--sky c-br palette-win">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">palette.bmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>A pastel Windows 95</h3>
+        <p>Old desktops were grey. I kept their grammar (bevels, title bars, taskbar) and swapped the colour for a sunset sky: blue, lilac, pink and butter yellow, with one dark indigo for every outline and every word.</p>
+        <ul class="swatches" aria-label="Main colours">
+          <li><i style="background:#adcfed"></i>Sky<code>#adcfed</code></li>
+          <li><i style="background:#d7bce8"></i>Lilac<code>#d7bce8</code></li>
+          <li><i style="background:#ef798a"></i>Pink<code>#ef798a</code></li>
+          <li><i style="background:#f4eea9"></i>Butter<code>#f4eea9</code></li>
+          <li><i style="background:#f4f1fb"></i>Chrome<code>#f4f1fb</code></li>
+          <li><i style="background:#25283d"></i>Indigo<code>#25283d</code></li>
+        </ul>
+        <div class="sky-strip" aria-hidden="true"></div>
+        <p class="small-note">The page background is a five-stop sky, from morning blue to peach, with a grid floor fading in at the bottom.</p>
+      </div>
+      <div class="tile tile--blue c-tl c-br type-win">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">fonts.ttf</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>Five pixel fonts later</h3>
+        <p>The label font took the longest. A literal 8-bit face looked great in the sketches and was tiring to read, so I went looking for something that feels like software at a comfortable size.</p>
+        <ol class="font-trail">
+          <li><span style="font-family:'Press Start 2P',monospace;font-size:11px">Press Start 2P</span><em>Concepts. Charming, too tiny.</em></li>
+          <li><span style="font-family:'Rationale',sans-serif">Rationale</span><em>Bigger titles, still not right.</em></li>
+          <li><span style="font-family:'Space Grotesk',sans-serif">Space Grotesk</span><em>Clean, but lost the software feel.</em></li>
+          <li><span style="font-family:'IBM Plex Mono',monospace">IBM Plex Mono</span><em>Software, and readable at 16px.</em></li>
+          <li><span style="font-family:'MS Sans Serif',Tahoma,Verdana,sans-serif;letter-spacing:.5px">R95 Sans Serif</span><em>A Win95 lookalike. Tried, then reverted.</em></li>
+          <li class="won"><span style="font-family:'IBM Plex Mono',monospace;font-weight:600">IBM Plex Mono</span><em>Back again, for good.</em></li>
+        </ol>
+        <p class="small-note">Silkscreen stays on the taskbar only. Headings are Baloo 2, reading text is Quicksand.</p>
+      </div>
+      <div class="tile tile--peri c-tl rules-win">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">house-rules.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>Four house rules</h3>
+        <ul class="rules">
+          <li><b>No border radius.</b> Windows, buttons, chips and fields are all square. Chat bubbles are the only soft thing on the screen.</li>
+          <li><b>Double borders, hard shadows.</b> A 4px double indigo outline and a shadow with no blur, like windows stacked on a real desk.</li>
+          <li><b>Everything is a file.</b> Titles are lowercase filenames: <code>experience.log</code>, <code>hire-me.lnk</code>, <code>skills_and_tools.bmp</code>.</li>
+          <li><b>Buttons press in.</b> On hover the shadow disappears, so every button feels like a key going down.</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Live desktop -->
+  <section class="block" style="padding-top:0" id="desktop" aria-labelledby="desk-title"><div class="wrap">
+    <div class="tile tile--white demo-tile">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--player"></span><span class="title">desktop.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head" style="margin-bottom:0">
+        <h2 id="desk-title" class="h-bar" style="margin-top:14px">The desktop, live</h2>
+        <p class="lead">This is the real home page, running inside a window. Drag the windows by their title bars, minimise them to the taskbar, open the icons. Yes, it works in here too.</p>
+      </div>
+      <figure class="shot" style="margin:26px 0 0">
+        <div class="frame">
+          <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>ami-onodera.github.io/portfolio</span></div>
+          <div class="live-frame live-frame--desk"><iframe src="../index.html" title="The portfolio home desktop, live and interactive" loading="lazy"></iframe></div>
+        </div>
+        <div class="demo-foot">
+          <figcaption>Best on a wide screen. On phones the windows stack into a simple scrolling page.</figcaption>
+          <a class="btn btn--primary" href="../index.html" target="_blank" rel="noopener">Open the desktop ↗<span class="sr-only"> (opens in a new tab)</span></a>
+        </div>
+      </figure>
+    </div>
+  </div></section>
+
+  <!-- Design choices -->
+  <section class="block" style="padding-top:0" id="choices" aria-labelledby="choices-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="choices-title" class="h-bar">Small decisions, on purpose</h2>
+      <p class="lead">A desktop can turn into chaos quickly. Most of the design work was about keeping the play without losing the visitor.</p>
+    </div>
+    <div class="choice-grid">
+      <div class="tile tile--sky c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">stacking.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Hierarchy</span><h3>Biggest window on top</h3><p>Selected work is the largest window and sits in front. About and Early work peek out from behind it, so nothing is fully hidden and the most important thing is the first thing you see.</p></div>
+      <div class="tile tile--blue c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">icons.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Navigation</span><h3>Click to open, double-click to go</h3><p>A single click on a desktop icon opens its window, a double-click opens the full page, just like the real thing. The taskbar always has a way home.</p></div>
+      <div class="tile tile--peri c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">saori.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Onboarding</span><h3>A shiba instead of a popup</h3><p>The first version greeted you with a <code>confirm.exe</code> dialog asking “Execute dazzling sequence?”. Fun once, a blocker every time after. Saori now says hello from the corner instead, and never gets in the way.</p></div>
+      <div class="tile tile--lav-soft c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">mobile.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Responsive</span><h3>Phones stop pretending</h3><p>Dragging windows on a phone is no fun. Below 640px the desktop becomes a stacked, scrolling page that keeps the windows’ look and drops the tricks.</p></div>
+      <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">layouts.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Craft</span><h3>Arranged by hand, per screen</h3><p>Windows are placed in five breakpoint tiers, and the small 12-inch laptop got its own hand-arranged layout, so the cascade looks composed at every size instead of just squeezed.</p></div>
+      <div class="tile tile--lilac c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">a11y.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Accessibility</span><h3>Retro, not unreadable</h3><p>Reading text stays at 16px or more in a soft sans, indigo on pastel. Decorative windows are hidden from screen readers, tooltips work on keyboard focus, and motion calms down for reduced-motion users.</p></div>
+    </div>
+  </div></section>
+
+  <!-- Easter eggs -->
+  <section class="block" style="padding-top:0" id="eggs" aria-labelledby="eggs-title"><div class="wrap">
+    <div class="tile tile--white eggs-win">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">easter-eggs/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="eggs-head">
+        <h2 id="eggs-title" class="h-bar">Things you might have missed</h2>
+        <p class="lead">Nothing on this site is decoration only. Spoilers below, so open them one at a time if you like hunting.</p>
+      </div>
+      <div class="eggs">
+        <details class="egg"><summary><img src="../assets/img/y2k/shiba.png" alt="" width="28" height="28"><span class="egg-name">saori.exe</span><span class="egg-hint">Every page</span></summary><p>Saori says hello when you land on the desktop, nudges you if the screen goes quiet, welcomes you back on a second visit and woofs if you click her. Each page has its own lines.</p></details>
+        <details class="egg"><summary><img src="../assets/img/y2k/trash.png" alt="" width="28" height="28"><span class="egg-name">Trash</span><span class="egg-hint">Home desktop</span></summary><p>Click the bin to open it and click the files: each one has a story, like <code>border-radius-everything.css</code>. Right-click the bin for “Empty Trash” and watch everything come back (Saori: “Nice try.”). The best file in there, <code>zumzumzum.mp4</code>, plays a short video of her.</p></details>
+        <details class="egg"><summary><img src="../assets/img/y2k/mine-dark.png" alt="" width="28" height="28"><span class="egg-name">minesweeper.exe</span><span class="egg-hint">Home desktop</span></summary><p>A real, simplified game on one fixed 8 by 8 map, so the smiley button replays the same board. Right-click to flag. Clear every safe square and confetti falls.</p></details>
+        <details class="egg"><summary><img src="../assets/img/y2k/about.png" alt="" width="28" height="28"><span class="egg-name">skills_and_tools.bmp</span><span class="egg-hint">About</span></summary><p>The Paint window actually paints: brush, eraser, eyedropper, shapes and more. Click a colour in the palette and the skill pills repaint themselves.</p></details>
+        <details class="egg"><summary><img src="../assets/img/y2k/selected-work.png" alt="" width="28" height="28"><span class="egg-name">experience.log</span><span class="egg-hint">About</span></summary><p>My experience is a chat window, and the message box at the bottom works. Send one message and you get a reply.</p></details>
+        <details class="egg"><summary><img src="../assets/img/y2k/network.png" alt="" width="28" height="28"><span class="egg-name">network.exe</span><span class="egg-hint">Home desktop</span></summary><p>The network icon opens a dialog with my email. The address is never written in the page source: it is stored backwards and put together when you ask for it.</p></details>
+        <details class="egg"><summary><img src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="egg-name">notice.exe</span><span class="egg-hint">Home desktop</span></summary><p>The stack of warnings in the corner can be closed. It just comes back a little later, like every good nag window.</p></details>
+        <details class="egg"><summary><img src="../assets/img/y2k/nav-claude.png" alt="" width="28" height="28"><span class="egg-name">tray</span><span class="egg-hint">Taskbar</span></summary><p>Hover the little icon next to the wifi in the taskbar. The clock is real too.</p></details>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Imagery -->
+  <section class="block" style="padding-top:0" id="imagery" aria-labelledby="img-title"><div class="wrap">
+    <div class="tile tile--white demo-tile">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">iterations.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head" style="margin-bottom:0">
+        <h2 id="img-title" class="h-bar" style="margin-top:14px">Seven tries for one icon</h2>
+        <p class="lead">Icons are small, so they have to be right. The minesweeper icon went from a flag to a pixel mine, a cartoon bomb and a spiky mine before landing on a pastel mine with a dark purple outline that matches the rest of the desktop.</p>
+      </div>
+      <ol class="evo" aria-label="Minesweeper icon versions">
+        <li><img src="../assets/img/y2k/process/mine-v1-flag.png" width="208" height="208" alt="Version 1: a striped flag" loading="lazy"><span>Flag</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v2-flag.png" width="208" height="208" alt="Version 2: new flag art" loading="lazy"><span>New flag</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v3-pixel.png" width="224" height="224" alt="Version 3: a simple pixel mine" loading="lazy"><span>Pixel mine</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v4-bomb.png" width="248" height="248" alt="Version 4: a cartoon bomb" loading="lazy"><span>Bomb</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v5-spiky.png" width="212" height="212" alt="Version 5: a grey spiky mine" loading="lazy"><span>Spiky</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v6-pastel.png" width="249" height="249" alt="Version 6: a pastel spiky mine" loading="lazy"><span>Pastel</span></li>
+        <li class="final"><img src="../assets/img/y2k/process/mine-v7-final.png" width="249" height="249" alt="Final version: pastel mine with a dark purple outline" loading="lazy"><span>Final</span></li>
+      </ol>
+      <div class="img-cta">
+        <p>Saori, every desktop icon, each type of window, the clouds and the buttons are collected in one place.</p>
+        <a class="btn btn--primary" href="portfolio-imagery.html">See the imagery and components →</a>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Built with Claude -->
+  <section class="block" style="padding-top:0" id="build" aria-labelledby="build-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="build-title" class="h-bar">Designed in the browser, with Claude</h2>
+      <p class="lead">There was no handoff, because I was on both sides of it. I designed straight in code, vibe coding with Claude, and judged every change in the browser.</p>
+    </div>
+    <div class="trio">
+      <div class="tile tile--lav-soft c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">sketch.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Explore</span><h3>Sketches you can click</h3><p>Concepts were working pages from day one, so I could feel the navigation, not just look at it. Weak ideas showed themselves fast.</p></div>
+      <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">commits.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Iterate</span><h3>Small steps, 82 times</h3><p>Every change was its own commit: a font swap, a new icon, a pixel nudge for a 12-inch screen. Easy to try, easy to undo, and the history became this case study.</p></div>
+      <div class="tile tile--lilac c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">y2k-desktop.skill</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Systemise</span><h3>The style became a skill</h3><p>I wrote the whole system down as a Claude skill: colours, type, window chrome, buttons and responsive rules. New pages come out on brand from the first draft.</p></div>
+    </div>
+    <div class="tile tile--white wip-row">
+      <span class="chip chip--wip">In progress</span>
+      <p><strong>Next up: Figma mockups.</strong> The key screens rebuilt as a Figma file, to close the loop from wireframe to mockup to code.</p>
+    </div>
+  </div></section>
+
+  <!-- Related -->
+  <section class="block" style="padding-top:0" aria-labelledby="prev-title"><div class="wrap">
+    <h2 id="prev-title" class="sr-only">Related case study</h2>
+    <a class="work-card next-card" href="one-template-many-brands.html">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">related-case-study.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="work-card__media">
+        <div class="live-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Preview of the Orbeo Mobile portal" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
+      </div>
+      <div class="work-card__body">
+        <span class="tag">Related case study</span>
+        <h3 style="font-size:28px;margin-top:6px">One template, many brands</h3>
+        <p>Three refer-a-friend portals, a single template. Only the client’s assets, copy and design identity change.</p>
+        <span class="work-card__cta">Read the case study →</span>
+      </div>
+    </a>
+    <p class="back-row"><a class="back-link" href="../selected-work.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to all work</a></p>
+  </div></section>
+
+</main>
+
+<!-- contact band (every page, above footer) -->
+<!-- contact band (every page, above footer) -->
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h2 class="h-bar">Let’s build something good.</h2>
+      <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
+    </div>
+    <div class="contact-cascade">
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--bottom" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--middle" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+</div></footer>
+<script>
+  (function () {
+    var frames = document.querySelectorAll('.live-frame');
+    function fit() {
+      frames.forEach(function (el) {
+        var f = el.querySelector('iframe');
+        if (f) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
+      });
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(fit);
+      frames.forEach(function (el) { ro.observe(el); });
+    }
+  })();
+
+  (function () {
+    var concepts = {
+      H: { path:'page-flip', name:'A book you leaf through', idea:'The portfolio as a printed book: contents page, chapters, page-turn spreads.', type:'Fraunces and EB Garamond on warm paper', verdict:'Kept as a sketch' },
+      I: { path:'popout', name:'A book with a pop-out demo', idea:'One chapter per project, with a live demo that pops out of the page.', type:'Fraunces and EB Garamond on warm paper', verdict:'Kept as a sketch' },
+      L: { path:'y2k-desktop', name:'Y2K desktop, first try', idea:'A pastel desktop with a working taskbar at the bottom, a START button and a confirm.exe dialog.', type:'Press Start 2P, Baloo 2 and Quicksand', verdict:'Direction picked' },
+      Q: { path:'y2k-about', name:'Vaporwave taskbar and a shiba', idea:'The taskbar moves to the top with a vaporwave gradient, and a shiba becomes the start button.', type:'Press Start 2P and Silkscreen, Baloo 2, Quicksand', verdict:'Saori arrives' },
+      R: { path:'y2k-home', name:'The desktop as Home', idea:'The desktop becomes the home page: about, selected work and early work as overlapping windows.', type:'Press Start 2P and Silkscreen, Baloo 2, Quicksand', verdict:'The one that won', won:true }
+    };
+    var frame = document.getElementById('c-frame');
+    var open = document.getElementById('c-open');
+    var url = document.getElementById('c-url');
+    var out = document.getElementById('c-readout');
+    var btns = document.querySelectorAll('.concept-btn');
+    function apply(k) {
+      var c = concepts[k], src = '../mockups-preview/' + c.path + '/index.html';
+      if (frame.getAttribute('src') !== src) frame.setAttribute('src', src);
+      open.setAttribute('href', src);
+      url.textContent = 'concept-' + k.toLowerCase() + '.html';
+      out.innerHTML = '<b>Concept ' + k + ':</b> ' + c.idea + '<br><b>Type:</b> ' + c.type +
+        '<br><span class="verdict' + (c.won ? ' verdict--won' : '') + '">' + c.verdict + '</span>';
+      btns.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.concept === k ? 'true' : 'false'); });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.concept); }); });
+    apply('H');
+  })();
+</script>
+
+<script src="../assets/js/contact.js" defer></script>
+<script src="../assets/js/cascade.js" defer></script>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+<script src="../assets/js/saori.js?v=4" defer></script>
+</body>
+</html>
