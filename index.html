@@ -296,6 +296,25 @@
   .win[data-window="network"] .mail-reveal__out{ position:static; display:none; margin:0; width:100%; min-width:260px }
   .win[data-window="network"] .mail-reveal__out:not([hidden]){ display:block }
   .backdrop.backdrop--dim.show{ background:rgba(37,40,61,.5); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px) }
+  /* ---- recycle bin ---- */
+  .bin-list{ list-style:none; margin:0; padding:8px; background:#fff; border-bottom:2px solid var(--indigo); max-height:300px; overflow:auto }
+  .bin-file{ display:flex; align-items:center; gap:10px; width:100%; padding:7px 8px; background:none; border:0; text-align:left; cursor:pointer; font:600 14px var(--font-body); color:var(--indigo); transition:opacity .35s ease, translate .35s ease }
+  .bin-file:hover, .bin-file:focus-visible{ background:var(--blue-soft, #dfe9ff); outline:none }
+  .bin-file.sel{ background:var(--indigo); color:#fff }
+  .bin-ico{ flex:none; width:16px; height:20px; border:2px solid var(--indigo); background:linear-gradient(180deg,#fff,var(--purple-soft, #eadcff)) }
+  .bin-ico--star{ background:var(--yellow) }
+  .bin-name{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+  .bin-size{ flex:none; font:600 12px var(--font-pixel); opacity:.7 }
+  .bin-file--secret .bin-name::after{ content:" \2728"; }
+  .bin-file.gone{ opacity:0; translate:0 -6px; pointer-events:none }
+  .bin-status{ margin:0; padding:10px 12px; min-height:44px; font:600 14px/1.4 var(--font-body); color:var(--indigo); background:var(--chrome) }
+  .ctx-menu{ position:fixed; z-index:200; min-width:190px; padding:4px; background:var(--chrome); border:2px solid var(--indigo); box-shadow:4px 4px 0 rgba(37,40,61,.25) }
+  .ctx-menu[hidden]{ display:none }
+  .ctx-menu button{ display:block; width:100%; text-align:left; padding:7px 12px; background:none; border:0; cursor:pointer; font:600 14px var(--font-pixel); color:var(--indigo) }
+  .ctx-menu button:hover, .ctx-menu button:focus-visible{ background:var(--indigo); color:#fff; outline:none }
+  .ctx-menu button[disabled]{ opacity:.45; cursor:default; background:none; color:var(--indigo) }
+  .ctx-menu hr{ border:0; border-top:2px solid var(--indigo); margin:4px 2px; opacity:.25 }
+  @media (prefers-reduced-motion:reduce){ .bin-file{ transition:none } }
   .notice-stack.notice-gone{ display:none !important }
   .notice-stack.notice-pop{ animation:noticePop .32s var(--pd,0ms) cubic-bezier(.2,1.4,.4,1) both }
   @keyframes noticePop{ from{ opacity:0; scale:.85 } to{ opacity:1; scale:1 } }
@@ -496,10 +515,10 @@
 </div>
 
 <div class="trash-icon">
-  <div class="icon" title="Trash (decorative)">
-    <div class="glyph"><img class="icon-art" src="assets/img/y2k/trash.png" alt="Trash"></div>
+  <button class="icon" type="button" data-open="trash" title="Recycle Bin">
+    <div class="glyph"><img class="icon-art" src="assets/img/y2k/trash.png" alt="Recycle Bin"></div>
     <span>TRASH</span>
-  </div>
+  </button>
 </div>
 
 <div class="desktop" id="desktop">
@@ -673,6 +692,33 @@
 </div>
 
 </div>
+</div>
+
+<!-- ============ RECYCLE BIN: opened from the trash icon (click). Right-click the icon for "Empty Recycle Bin" ============ -->
+<div class="win win--notice desktop-only" data-window="trash" style="top:260px; left:560px; z-index:40; width:440px">
+  <div class="bar">
+    <span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">recycle-bin.exe</span></span>
+    <span class="btns"><i data-min>_</i><i>▢</i><i data-close>x</i></span>
+  </div>
+  <div class="body" style="padding:0">
+    <ul class="bin-list" id="binList">
+      <li><button type="button" class="bin-file" data-joke="Bad idea #1: a carousel. On a portfolio. For one project."><span class="bin-ico"></span><span class="bin-name">bad-ideas-v1.psd</span><span class="bin-size">48 MB</span></button></li>
+      <li><button type="button" class="bin-file" data-joke="Never again. Okay, once, as a joke."><span class="bin-ico"></span><span class="bin-name">comic-sans-logo.png</span><span class="bin-size">212 KB</span></button></li>
+      <li><button type="button" class="bin-file" data-joke="It was never final. It is now on version 14."><span class="bin-ico"></span><span class="bin-name">lorem-ipsum-final-FINAL.txt</span><span class="bin-size">3 KB</span></button></li>
+      <li><button type="button" class="bin-file" data-joke="&ldquo;Can you make it pop more?&rdquo; Pop how? Pop where?"><span class="bin-ico"></span><span class="bin-name">client-feedback-3am.txt</span><span class="bin-size">1 KB</span></button></li>
+      <li><button type="button" class="bin-file" data-joke="They all looked the same on Monday."><span class="bin-ico"></span><span class="bin-name">47-shades-of-blue.fig</span><span class="bin-size">9 MB</span></button></li>
+      <li><button type="button" class="bin-file" data-joke="Not in this house. Square corners only."><span class="bin-ico"></span><span class="bin-name">border-radius-everything.css</span><span class="bin-size">2 KB</span></button></li>
+      <!-- placeholder: swap data-href for a real link (a favourite project, say) and update the joke -->
+      <li><button type="button" class="bin-file bin-file--secret" data-joke="Psst. Something good will live here soon." data-href=""><span class="bin-ico bin-ico--star"></span><span class="bin-name">hidden-gem.txt</span><span class="bin-size">? KB</span></button></li>
+    </ul>
+    <p class="bin-status" id="binStatus" aria-live="polite">7 items. Click a file to inspect it.</p>
+  </div>
+</div>
+
+<div class="ctx-menu" id="binMenu" role="menu" hidden>
+  <button type="button" role="menuitem" data-act="open">Open</button>
+  <hr>
+  <button type="button" role="menuitem" data-act="empty">Empty Recycle Bin</button>
 </div>
 
 <!-- ============ NETWORK: opened from the desktop icon. A small alert window with the contact email (obfuscated, revealed by JS) ============ -->
@@ -948,6 +994,65 @@
     backdrop.addEventListener('click', function(){ if (netWin.classList.contains('open')) netClose(); });
     document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && netWin.classList.contains('open')) netClose(); });
   }
+
+  /* ---- recycle bin: click opens the file list; right-click the icon for "Empty Recycle Bin" ---- */
+  (function(){
+    var win = document.querySelector('.win[data-window="trash"]');
+    var icon = document.querySelector('[data-open="trash"]');
+    var list = document.getElementById('binList'), status = document.getElementById('binStatus');
+    var menu = document.getElementById('binMenu');
+    if (!win || !icon || !list || !menu) return;
+    var files = Array.prototype.slice.call(list.querySelectorAll('.bin-file'));
+    var emptied = false;
+    function setStatus(s){ status.textContent = s; }
+    function hideMenu(){ menu.hidden = true; }
+    function emptyBin(){
+      if (emptied) return;
+      emptied = true; hideMenu();
+      files.forEach(function(f, i){ setTimeout(function(){ f.classList.add('gone'); }, i * 110); });
+      setTimeout(function(){ files.forEach(function(f){ f.hidden = true; f.classList.remove('sel'); }); setStatus('0 items. The Recycle Bin is empty. Peaceful.'); }, files.length * 110 + 380);
+      /* ...and they come back, like an alert would */
+      setTimeout(function(){
+        files.forEach(function(f, i){
+          f.hidden = false;
+          setTimeout(function(){ f.classList.remove('gone'); }, 30 + i * 90);
+        });
+        setStatus('Wait. They came back.');
+        if (window.saori && window.saori.say) window.saori.say('Nice try.', 7000);
+        emptied = false;
+      }, 4800);
+    }
+    files.forEach(function(f){
+      f.addEventListener('click', function(){
+        files.forEach(function(o){ o.classList.remove('sel'); });
+        f.classList.add('sel');
+        setStatus(f.getAttribute('data-joke') + (f.classList.contains('bin-file--secret') && !f.getAttribute('data-href') ? ' (placeholder)' : ''));
+        var href = f.getAttribute('data-href');
+        if (href) window.open(href, '_blank', 'noopener');
+      });
+    });
+    function showMenu(e){
+      e.preventDefault();
+      var x = e.clientX || 0, y = e.clientY || 0;
+      if (!x && !y){ var r = icon.getBoundingClientRect(); x = r.left; y = r.top; }
+      menu.hidden = false;
+      menu.querySelector('[data-act="empty"]').disabled = emptied;
+      var w = menu.offsetWidth, h = menu.offsetHeight;
+      menu.style.left = Math.max(4, Math.min(x, window.innerWidth - w - 4)) + 'px';
+      menu.style.top = Math.max(4, Math.min(y - h, window.innerHeight - h - 4)) + 'px';
+      menu.querySelector('button').focus();
+    }
+    icon.addEventListener('contextmenu', showMenu);
+    win.querySelector('.body').addEventListener('contextmenu', showMenu);
+    menu.addEventListener('click', function(e){
+      var b = e.target.closest('button'); if (!b || b.disabled) return;
+      if (b.getAttribute('data-act') === 'empty') emptyBin();
+      else { hideMenu(); openBase('trash'); }
+    });
+    document.addEventListener('click', function(e){ if (!menu.hidden && !menu.contains(e.target)) hideMenu(); });
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape') hideMenu(); });
+    window.addEventListener('scroll', hideMenu, { passive: true });
+  })();
 
   var HOME_WINDOWS = ['about', 'work', 'early'];
   HOME_WINDOWS.forEach(function(id){ setTabState(id, true, false); });

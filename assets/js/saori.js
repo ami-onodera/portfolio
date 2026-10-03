@@ -61,7 +61,7 @@
   '.saori.on .saori__dog{animation:saoriHop .6s .25s 2}'+
   '.saori__dog.woof{animation:saoriHop .45s 1}'+
   '@keyframes saoriHop{0%,100%{transform:translateY(0)}40%{transform:translateY(-10px) rotate(-6deg)}}'+
-  '@media (max-width:640px){.saori{right:16px;bottom:24px}.saori__bubble{max-width:170px}}';
+  '.saori--home{bottom:165px}@media (max-width:640px){.saori{right:16px;bottom:24px}.saori--home{bottom:24px}.saori__bubble{max-width:170px}}';
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
   if (REDUCED) st.textContent += '.saori,.saori.on{transition:none;translate:none}.saori.on .saori__dog,.saori__dog.woof{animation:none}';
 
@@ -80,6 +80,8 @@
     clearTimeout(hideT); hideT = setTimeout(hide, ms || 16000);
   }
   function hide(){ el.classList.remove('on'); }
+  window.saori = { say: function(text, ms){ say(text, ms); } };
+  if (key === 'home') el.classList.add('saori--home'); /* the desktop has the trash icon bottom right: sit above it */
   el.querySelector('.saori__x').addEventListener('click', function(){ hide(); store('sessionStorage','saori-off','1'); });
   var woofs = ["Bork", "AwAwooo!", "much click!", "Mlem", "fomfom"], wi = 0;
   dog.addEventListener('click', function(){
