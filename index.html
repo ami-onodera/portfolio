@@ -1092,6 +1092,7 @@
   }
   /* start button (shiba icon): close whatever's open and return to the initial home cascade */
   function goHome(){
+    if (window.saori && window.saori.say) window.saori.say('Home sweet home. Now click somewhere else!', 7000);
     closeModalById('dialog');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     HOME_WINDOWS.forEach(function(id){
@@ -1110,6 +1111,6 @@
   }
   tick(); setInterval(tick, 15000);
 </script>
-<script src="assets/js/saori.js?v=3" defer></script>
+<script src="assets/js/saori.js?v=4" defer></script>
 </body>
 </html>
