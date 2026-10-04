@@ -17,8 +17,6 @@
 <style>
   .fig-win{ transform:none; }
   .fig-win .lead{ max-width:62ch; margin-top:12px; font-family:var(--font-body); font-weight:500; }
-  .fig-tabs{ display:flex; flex-wrap:wrap; gap:10px; margin:22px 0 14px; }
-  .fig-tabs .btn[aria-pressed="true"]{ background:var(--pink); color:#fff; box-shadow:none; transform:translate(3px,3px); }
   .fig-frame{ position:relative; width:100%; height:clamp(460px,78vh,860px); border:2px solid var(--indigo); box-shadow:6px 8px 0 rgba(37,40,61,.2); background:#fff; }
   .fig-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
   .fig-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; align-items:center; }
@@ -97,28 +95,15 @@
     <div class="wrap"><div class="tile tile--sky fig-win">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">this-portfolio.fig</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <h1>This portfolio in Figma</h1>
-      <p class="lead">The Figma file behind this site: the design system (colour, type, effects, spacing, border and every component) and the pages built from it, on desktop and mobile. Pick a view, then pan and zoom like you would in Figma. I built it with Claude as my sidekick for the repetitive parts.</p>
-
-      <div class="fig-tabs" role="group" aria-label="Choose a view">
-        <button class="btn btn--soft" type="button" data-node="2002-39" aria-pressed="true">Style elements</button>
-        <button class="btn btn--soft" type="button" data-node="2003-10" aria-pressed="false">Components</button>
-        <button class="btn btn--soft" type="button" data-node="6-5" aria-pressed="false">Home</button>
-        <button class="btn btn--soft" type="button" data-node="14-85" aria-pressed="false">Home, mobile</button>
-        <button class="btn btn--soft" type="button" data-node="2011-842" aria-pressed="false">About</button>
-        <button class="btn btn--soft" type="button" data-node="2011-2465" aria-pressed="false">About, mobile</button>
-        <button class="btn btn--soft" type="button" data-node="2011-1680" aria-pressed="false">Selected work</button>
-        <button class="btn btn--soft" type="button" data-node="2012-2" aria-pressed="false">Earlier work</button>
-        <button class="btn btn--soft" type="button" data-node="2013-2" aria-pressed="false">Case study 1</button>
-        <button class="btn btn--soft" type="button" data-node="2014-213" aria-pressed="false">Case study 2</button>
-      </div>
+      <p class="lead">The Figma file behind this site, on one canvas: the design system (style elements and components), then Home, About, Selected work, Earlier work and the case studies, on desktop and mobile. Pan and zoom like you would in Figma. I built it with Claude as my sidekick for the repetitive parts.</p>
 
       <div class="fig-frame">
-        <iframe id="fig-embed" title="Figma file for this portfolio" loading="lazy" allowfullscreen
-          src="https://embed.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?node-id=2002-39&amp;embed-host=portfolio"></iframe>
+        <iframe title="Figma file for this portfolio" loading="lazy" allowfullscreen
+          src="https://embed.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?node-id=2023-341&amp;embed-host=portfolio"></iframe>
       </div>
 
       <div class="fig-actions">
-        <a class="btn btn--primary" id="fig-open" href="https://www.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?node-id=2002-39" target="_blank" rel="noopener">Open in Figma ↗</a>
+        <a class="btn btn--primary" href="https://www.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?node-id=2023-341" target="_blank" rel="noopener">Open in Figma ↗</a>
       </div>
       <p class="fig-note">Images in the mockups are placeholders. The live pages use real screenshots.</p>
     </div></div>
@@ -187,21 +172,6 @@
 <footer class="site-footer"><div class="wrap">
   <span>© 2026 Camila Massa · Berlin</span>
 </div></footer>
-<script>
-  (function () {
-    var base = 'https://embed.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?embed-host=portfolio&node-id=';
-    var openBase = 'https://www.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?node-id=';
-    var frame = document.getElementById('fig-embed'), open = document.getElementById('fig-open');
-    var btns = document.querySelectorAll('.fig-tabs [data-node]');
-    btns.forEach(function (b) {
-      b.addEventListener('click', function () {
-        frame.setAttribute('src', base + b.dataset.node);
-        open.setAttribute('href', openBase + b.dataset.node);
-        btns.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
-      });
-    });
-  })();
-</script>
 <script src="../assets/js/contact.js" defer></script>
 <script src="../assets/js/cascade.js" defer></script>
 <script>
