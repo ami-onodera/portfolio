@@ -337,6 +337,12 @@
   .proj__cta:hover{ box-shadow:none; transform:translate(3px,3px); }
   .proj__cta:active{ transform:translate(3px,3px); }
   .proj__cta:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; }
+  /* two buttons side by side (primary + secondary) */
+  .proj__actions{ display:flex; flex-wrap:wrap; gap:10px; align-self:flex-start; margin-top:auto; }
+  .proj__actions .proj__cta{ margin-top:0; }
+  .proj__cta--alt{ color:var(--indigo); background:var(--chrome); }
+  .proj__cta--alt:hover{ background:#fff; }
+  .proj--gallery .proj__actions{ order:4; margin-top:6px; }
 
   /* wide: spans the full row, media left, text right */
   .proj--wide{ grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); grid-template-areas:"bar bar" "media body"; }
@@ -655,7 +661,10 @@
                 <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip">UI design</span><span class="chip">Art direction</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
                 <h3>Designing this portfolio</h3>
                 <p>How this site grew from a tidy pastel grid into a playable Y2K desktop: wireframes, the concepts I tried, how the style was settled, the imagery and the easter eggs.</p>
-                <a class="proj__cta" href="work/designing-this-portfolio.html" target="_blank" rel="noopener">Open case study →</a>
+                <div class="proj__actions">
+                  <a class="proj__cta" href="work/designing-this-portfolio.html" target="_blank" rel="noopener">Open case study →</a>
+                  <a class="proj__cta proj__cta--alt" href="work/portfolio-in-figma.html" target="_blank" rel="noopener">Figma file ↗</a>
+                </div>
               </div>
             </article>
 
