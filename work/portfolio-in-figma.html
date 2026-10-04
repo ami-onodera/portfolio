@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>This portfolio in Figma | Camila Massa</title>
+<title>Figma and imagery | Camila Massa</title>
 <meta name="description" content="The Figma file behind this portfolio: the design system and every page, desktop and mobile, to pan and zoom.">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
 <link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
@@ -21,6 +21,22 @@
   .fig-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
   .fig-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; align-items:center; }
   .fig-note{ margin-top:12px; font-size:14px; color:var(--muted); }
+  .section-head{ margin-bottom:26px; }
+  .section-head .lead{ margin-top:14px; font-family:var(--font-body); font-weight:500; max-width:62ch; }
+  .demo-tile{ padding:clamp(18px,3vw,36px); }
+  .demo-tile > .win-bar{ margin:calc(-1 * clamp(18px,3vw,36px)) calc(-1 * clamp(18px,3vw,36px)) 20px; }
+  .evo{ list-style:none; padding:0; margin:28px 0 0; display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:14px; }
+  .evo li{ position:relative; display:flex; flex-direction:column; align-items:center; gap:8px; padding:12px 6px 10px; background:var(--chrome); border:2px solid var(--indigo); box-shadow:3px 3px 0 rgba(37,40,61,.2); }
+  .evo li:not(:last-child)::after{ content:"→"; position:absolute; right:-13px; top:42%; font:600 14px var(--font-pixel); color:var(--indigo); z-index:1; }
+  .evo img{ width:100%; max-width:84px; height:auto; aspect-ratio:1; object-fit:contain; image-rendering:pixelated; }
+  .evo span{ font-family:var(--font-pixel); font-size:12px; color:var(--indigo); }
+  .evo .final{ background:var(--purple-soft); }
+  .evo .final span{ background:var(--pink); color:#fff; padding:1px 6px; border:1.5px solid var(--indigo); }
+  .img-cta{ margin-top:26px; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px 24px; padding:16px 18px; background:var(--blue-soft); border:2px solid var(--indigo); }
+  .img-cta p{ margin:0; font-weight:600; color:var(--ink); max-width:52ch; }
+  .img-sec{ padding-top:0; }
+  @media (max-width:1100px){ .evo{ grid-template-columns:repeat(4, minmax(0,1fr)); } .evo li:nth-child(4)::after{ display:none; } }
+  @media (max-width:640px){ .evo{ grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; } .evo li::after{ display:none; } }
 </style>
 </head>
 <body>
@@ -94,7 +110,7 @@
     <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-m-twin-sparkle.png" alt="" style="top:-18px; right:3%; width:160px">
     <div class="wrap"><div class="tile tile--sky fig-win">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">this-portfolio.fig</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-      <h1>This portfolio in Figma</h1>
+      <h1>This portfolio in Figma, and its imagery</h1>
       <p class="lead">The Figma file behind this site, on one canvas: the design system (style elements and components), then Home, About, Selected work, Earlier work and the case studies, on desktop and mobile. Pan and zoom like you would in Figma. I built it with Claude as my sidekick for the repetitive parts.</p>
 
       <div class="fig-frame">
@@ -107,8 +123,35 @@
       </div>
       <p class="fig-note">Images in the mockups are placeholders. The live pages use real screenshots.</p>
     </div></div>
-    <p class="back-row wrap"><a class="back-link" href="designing-this-portfolio.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to the case study</a></p>
   </section>
+
+  <!-- Imagery (moved from the case study) -->
+  <section class="block img-sec" id="imagery" aria-labelledby="img-title"><div class="wrap">
+    <div class="tile tile--white demo-tile">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">iterations.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head" style="margin-bottom:0">
+        <h2 id="img-title" class="h-bar" style="margin-top:14px">Seven tries for one icon</h2>
+        <p class="lead">Icons are small, so they have to be right. The minesweeper icon went from a flag to a pixel mine, a cartoon bomb and a spiky mine before landing on a pastel mine with a dark purple outline that matches the rest of the desktop.</p>
+      </div>
+      <ol class="evo" aria-label="Minesweeper icon versions">
+        <li><img src="../assets/img/y2k/process/mine-v1-flag.png" width="208" height="208" alt="Version 1: a striped flag" loading="lazy"><span>Flag</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v2-flag.png" width="208" height="208" alt="Version 2: new flag art" loading="lazy"><span>New flag</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v3-pixel.png" width="224" height="224" alt="Version 3: a simple pixel mine" loading="lazy"><span>Pixel mine</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v4-bomb.png" width="248" height="248" alt="Version 4: a cartoon bomb" loading="lazy"><span>Bomb</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v5-spiky.png" width="212" height="212" alt="Version 5: a grey spiky mine" loading="lazy"><span>Spiky</span></li>
+        <li><img src="../assets/img/y2k/process/mine-v6-pastel.png" width="249" height="249" alt="Version 6: a pastel spiky mine" loading="lazy"><span>Pastel</span></li>
+        <li class="final"><img src="../assets/img/y2k/process/mine-v7-final.png" width="249" height="249" alt="Final version: pastel mine with a dark purple outline" loading="lazy"><span>Final</span></li>
+      </ol>
+      <div class="img-cta">
+        <p>Saori, every desktop icon, each type of window, the clouds and the buttons are collected in one place.</p>
+        <a class="btn btn--primary" href="portfolio-imagery.html">See the imagery and components →</a>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="block img-sec"><div class="wrap">
+<p class="back-row"><a class="back-link" href="designing-this-portfolio.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to the case study</a></p>
+  </div></section>
 
 </main>
 
