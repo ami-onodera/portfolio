@@ -911,7 +911,6 @@
     var list = document.getElementById('side-cases');
     function icon(id){ return '<svg class="ico" aria-hidden="true"><use href="#' + id + '"/></svg>'; }
     cards.forEach(function(c){
-      if (!c.classList.contains('proj--case')) return; /* the list under Case studies: only cards tagged Case study */
       var h = c.querySelector('h3'), a = c.querySelector('.proj__cta'), li = document.createElement('li');
       li.innerHTML = a
         ? '<a class="side-item">' + icon('i-folder') + '<span class="lbl"></span></a>'
