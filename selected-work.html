@@ -329,8 +329,8 @@
   .chip--pres{ background:var(--blue); }
   /* tag colour system: one fixed colour per tag, on every card
      format:  Case study = purple, Presentation = blue, Figma and imagery = coral, In progress = white + dashed
-     topics:  UI design pink, Art direction peach, SEO mint, Content model yellow, App cyan,
-              Component lime, Internal tooling teal, AI periwinkle, QA sand, Automation magenta */
+     topics:  UI design pink, Art direction peach, SEO mint, Content model yellow, Web app cyan,
+              Component lime, GenAI periwinkle, QA sand, Automation magenta */
   .chip.chip--vis{ background:#f5a9a3; }
   .chip.chip--ui{ background:#f6bfcc; }
   .chip.chip--art{ background:#fbcfa8; }
@@ -338,7 +338,6 @@
   .chip.chip--model{ background:#f4eea9; }
   .chip.chip--app{ background:#b5e3f0; }
   .chip.chip--comp{ background:#d8eaa8; }
-  .chip.chip--tool{ background:#a6dcd6; }
   .chip.chip--ai{ background:#c0c6f5; }
   .chip.chip--qa{ background:#e4d3b6; }
   .chip.chip--auto{ background:#ecb6e0; }
@@ -655,6 +654,7 @@
                  and the link. Order on the page = order in this file.
                    .proj              half-width card (two per row)
                    .proj proj--wide   full-width row, media left, text right
+                   .proj--case        card carries the Case study tag: shows under "Case studies"
                    .proj--vis         shows the card under the "Figma and imagery" filter
                                       (it stays a case study too)
                    .proj--pres        add to a published card (alongside
@@ -678,7 +678,7 @@
                 <img src="assets/img/y2k/thumb-this-portfolio.jpg" width="960" height="600" alt="The portfolio home page as a pastel Y2K desktop, with overlapping windows, desktop icons and a taskbar" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--ui">UI design</span><span class="chip chip--art">Art direction</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--ui">UI design</span><span class="chip chip--art">Art direction</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
                 <h3>Designing this portfolio</h3>
                 <p>How this site grew from a tidy pastel grid into a playable Y2K desktop: wireframes, the concepts I tried, how the style was settled, the imagery and the easter eggs.</p>
                 <div class="proj__actions">
@@ -690,7 +690,7 @@
 
 
             <!-- 2. Case study -->
-            <article class="proj proj--wide proj--gallery">
+            <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">referral-portal/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
@@ -704,7 +704,7 @@
             </article>
 
             <!-- 3. Case study -->
-            <article class="proj proj--wide proj--gallery">
+            <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">cms-structure/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <svg viewBox="0 0 480 250" role="img" aria-label="Diagram of nested content entries: a promotion contains a theme and a portal, and the portal contains an index page with five sections" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
@@ -744,7 +744,7 @@
                 <img src="assets/img/y2k/thumb-seo-landing-pages.jpg" width="1699" height="1175" alt="Hero screen of The SEO Road presentation: the headline, five KPI tiles and the first stop on the illustrated road" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--pres">Presentation</span><span class="chip chip--seo">SEO</span></dd></div><div><dt>Topics</dt><dd>Audit, Optimisation</dd></div><div><dt>Scope</dt><dd>163 pages, 7 languages</dd></div><div><dt>Format</dt><dd>Interactive presentation</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--pres">Presentation</span><span class="chip chip--seo">SEO</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Audit, Optimisation</dd></div><div><dt>Scope</dt><dd>163 pages, 7 languages</dd></div><div><dt>Format</dt><dd>Interactive presentation</dd></div></dl>
                 <h3>The SEO road: hosted landing pages</h3>
                 <p>A single-handed SEO audit and optimisation across 163 hosted landing pages in seven languages, walked through as an interactive, scroll-driven presentation.</p>
                 <a class="proj__cta" href="presentations/seo-optimised-pages.html" target="_blank" rel="noopener">Open presentation ↗</a>
@@ -753,13 +753,13 @@
 
 
             <!-- 5. Case study, internal tooling -->
-            <article class="proj proj--wide proj--gallery">
+            <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">sales-tools/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-mockup-maker.jpg" width="960" height="614" alt="Desktop preview of the Voltwell Energy referral portal, a mockup generated from a prospect's website" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--tool">Internal tooling</span><span class="chip chip--ai">AI</span></dd></div><div><dt>Topics</dt><dd>Claude skill, Automation</dd></div><div><dt>Scope</dt><dd>Fixed template, any brand</dd></div><div><dt>Used by</dt><dd>Sales team</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--app">Web app</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Claude skill, Automation</dd></div><div><dt>Scope</dt><dd>Fixed template, any brand</dd></div><div><dt>Used by</dt><dd>Sales team</dd></div></dl>
                 <h3>Mockup maker</h3>
                 <p>A guided tool that turns a prospect's website into a branded portal preview, built on a fixed template and a Claude skill, so Sales can make mockups without a designer.</p>
                 <a class="proj__cta" href="work/mockup-maker.html" target="_blank" rel="noopener">Open case study →</a>
@@ -774,7 +774,7 @@
                 <img src="assets/img/y2k/thumb-no-buy-club.jpg" width="960" height="614" alt="The No-Buy Club app: a goal bar for a Tokyo trip, a shiba mascot and a form to log an impulse" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--app">App</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Behaviour, Gamification</dd></div><div><dt>Scope</dt><dd>Concept, design and build</dd></div><div><dt>Format</dt><dd>One HTML file</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--app">Web app</span><span class="chip chip--ui">UI design</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Behaviour, Gamification</dd></div><div><dt>Scope</dt><dd>Concept, design and build</dd></div><div><dt>Format</dt><dd>One HTML file</dd></div></dl>
                 <h3>No-Buy Club</h3>
                 <p>A small app that helps people wait out impulse purchases: a cooling-off period, honest numbers and a savings goal, wrapped in a kind, kawaii interface.</p>
                 <a class="proj__cta" href="work/no-buy-club.html" target="_blank" rel="noopener">Open case study →</a>
@@ -926,15 +926,16 @@
     var viewBtns = [].slice.call(ex.querySelectorAll('[data-view]'));
     function n(id, v, one, many){ var el = document.getElementById(id); if (el) el.textContent = v + ' ' + (v === 1 ? one : many); }
     function apply(){
-      var all = 0, wip = 0, pres = 0, vis = 0;
+      var all = 0, wip = 0, pres = 0, vis = 0, cs = 0;
       cards.forEach(function(c){
         var isWip = c.classList.contains('proj--wip');
         var isPres = c.classList.contains('proj--pres');
         var isVis = c.classList.contains('proj--vis');
-        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'vis' ? isVis : view === 'done' ? !isWip : true);
+        var isCase = c.classList.contains('proj--case');
+        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'vis' ? isVis : view === 'done' ? isCase : true);
         var okText = !q || c.textContent.toLowerCase().indexOf(q) > -1;
         c.hidden = !(okView && okText);
-        if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; if (isVis) vis++; }
+        if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; if (isVis) vis++; if (isCase) cs++; }
       });
       [].forEach.call(ex.querySelectorAll('.proj-grid'), function(g){
         g.hidden = !g.querySelector('.proj:not([hidden])');
@@ -942,7 +943,7 @@
         if (prev && prev.classList.contains('proj-divider')) prev.hidden = g.hidden;
       });
       document.getElementById('fm-empty').hidden = all > 0;
-      n('count-all', all, 'object', 'objects'); n('count-done', all - wip, 'case study', 'case studies'); n('count-pres', pres, 'presentation', 'presentations'); n('count-wip', wip, 'in progress', 'in progress');
+      n('count-all', all, 'object', 'objects'); n('count-done', cs, 'case study', 'case studies'); n('count-pres', pres, 'presentation', 'presentations'); n('count-wip', wip, 'in progress', 'in progress');
     }
     viewBtns.forEach(function(b){ b.addEventListener('click', function(){
       view = b.getAttribute('data-view');
