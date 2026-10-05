@@ -618,13 +618,12 @@
             <symbol id="i-user" viewBox="0 0 16 16"><g fill="#ef798a" stroke="#25283d" stroke-width="1.3"><circle cx="8" cy="5.2" r="2.7"/><path d="M3 14c0-3 2-4.6 5-4.6s5 1.6 5 4.6z" stroke-linejoin="round"/></g></symbol>
             <symbol id="i-box" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><rect x="2" y="3" width="12" height="4" fill="#d7bce8"/><path d="M3 7h10v7H3z" fill="#f4f1fb"/><path d="M6.5 10h3" fill="none"/></g></symbol>
             <symbol id="i-doc" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><path d="M3.5 1.5h6l3 3v10h-9z" fill="#fff"/><path d="M5.5 8h5M5.5 10.5h5" fill="none"/></g></symbol>
-            <symbol id="i-star" viewBox="0 0 16 16"><path d="M8 1.5l1.9 4.1 4.5.5-3.3 3.1.9 4.4L8 11.3l-4 2.3.9-4.4L1.6 6.1l4.5-.5z" fill="#ef798a" stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+            <symbol id="i-image" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><rect x="1.8" y="2.8" width="12.4" height="10.4" fill="#cfe3f5"/><circle cx="5.4" cy="6.2" r="1.3" fill="#f4eea9"/><path d="M2 12.6l3.8-3.8 2.6 2.6 2.2-2.2 3.4 3.4" fill="#d7bce8"/></g></symbol>
             <symbol id="i-play" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="#f4eea9" stroke="#25283d" stroke-width="1.3"/><path d="M6.4 5.3 11 8l-4.6 2.7z" fill="#25283d"/></symbol>
           </svg>
-            <p class="side-h">Browse</p>
+            <p class="side-h">Favourites</p>
             <ul class="side-list" id="side-views">
               <li><button type="button" class="side-item" data-view="all" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl">All projects</span></button></li>
-              <li><button type="button" class="side-item" data-view="fav" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-star"/></svg><span class="lbl">Favourites</span></button></li>
               <li><button type="button" class="side-item" data-view="done" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg><span class="lbl">Case studies</span></button></li>
               <li><button type="button" class="side-item" data-view="presentation" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg><span class="lbl">Presentations</span></button></li>
               <li><button type="button" class="side-item" data-view="wip" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><span class="lbl">In progress</span></button></li>
@@ -632,6 +631,10 @@
             <p class="side-h side-extra">Case studies</p>
             <!-- filled in by the script at the bottom: one entry per project card below -->
             <ul class="side-list side-extra" id="side-cases"></ul>
+            <p class="side-h side-extra">Visuals</p>
+            <ul class="side-list side-extra">
+              <li><a class="side-item" href="work/portfolio-in-figma.html" target="_blank" rel="noopener"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg><span class="lbl">Figma and imagery</span></a></li>
+            </ul>
             <p class="side-h side-extra">Locations</p>
             <ul class="side-list side-extra">
               <li><a class="side-item" href="index.html"><svg class="ico" aria-hidden="true"><use href="#i-home"/></svg><span class="lbl">Home</span></a></li>
@@ -669,7 +672,7 @@
                  ================================================================ -->
 
             <!-- 1. Feature case study: this portfolio -->
-            <article class="proj proj--wide proj--gallery proj--fav">
+            <article class="proj proj--wide proj--gallery">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">this-portfolio/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-this-portfolio.jpg" width="960" height="600" alt="The portfolio home page as a pastel Y2K desktop, with overlapping windows, desktop icons and a taskbar" loading="lazy">
@@ -686,7 +689,7 @@
             </article>
 
             <!-- 2. Case study -->
-            <article class="proj proj--wide proj--gallery proj--fav">
+            <article class="proj proj--wide proj--gallery">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">referral-portal/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
@@ -734,7 +737,7 @@
             </article>
 
             <!-- 4. Case study, delivered as a standalone interactive presentation -->
-            <article class="proj proj--wide proj--gallery proj--pres proj--fav">
+            <article class="proj proj--wide proj--gallery proj--pres">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">organic-search/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-seo-landing-pages.jpg" width="1699" height="1175" alt="Hero screen of The SEO Road presentation: the headline, five KPI tiles and the first stop on the illustrated road" loading="lazy">
@@ -926,7 +929,7 @@
       cards.forEach(function(c){
         var isWip = c.classList.contains('proj--wip');
         var isPres = c.classList.contains('proj--pres');
-        var okView = view === 'all' || (view === 'fav' ? c.classList.contains('proj--fav') : view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'done' ? !isWip : true);
+        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'done' ? !isWip : true);
         var okText = !q || c.textContent.toLowerCase().indexOf(q) > -1;
         c.hidden = !(okView && okText);
         if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; }
