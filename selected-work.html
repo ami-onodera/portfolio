@@ -655,8 +655,8 @@
                  and the link. Order on the page = order in this file.
                    .proj              half-width card (two per row)
                    .proj proj--wide   full-width row, media left, text right
-                   .proj--vis         the Figma and imagery card: own filter, own chip colour,
-                                      not counted as a case study
+                   .proj--vis         shows the card under the "Figma and imagery" filter
+                                      (it stays a case study too)
                    .proj--pres        add to a published card (alongside
                                       proj--wide) to also tag it as a
                                       Presentation chip "Presentation" +
@@ -672,13 +672,13 @@
                  ================================================================ -->
 
             <!-- 1. Feature case study: this portfolio -->
-            <article class="proj proj--wide proj--gallery">
+            <article class="proj proj--wide proj--gallery proj--vis">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">this-portfolio/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-this-portfolio.jpg" width="960" height="600" alt="The portfolio home page as a pastel Y2K desktop, with overlapping windows, desktop icons and a taskbar" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--ui">UI design</span><span class="chip chip--art">Art direction</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--ui">UI design</span><span class="chip chip--art">Art direction</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
                 <h3>Designing this portfolio</h3>
                 <p>How this site grew from a tidy pastel grid into a playable Y2K desktop: wireframes, the concepts I tried, how the style was settled, the imagery and the easter eggs.</p>
                 <div class="proj__actions">
@@ -688,19 +688,6 @@
               </div>
             </article>
 
-            <!-- 1b. Visuals: the Figma file and the imagery library -->
-            <article class="proj proj--wide proj--gallery proj--vis">
-              <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">figma-and-imagery/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
-              <div class="proj__media">
-                <img src="assets/img/y2k/thumb-figma-imagery.jpg" width="960" height="600" alt="Saori the shiba above the desktop icons: about, selected work, floppy disk, network, minesweeper and two trash cans, on a pastel sky" loading="lazy">
-              </div>
-              <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Mockups, Icons, Style elements</dd></div><div><dt>Scope</dt><dd>Design system, 5 pages, 2 mobile</dd></div><div><dt>Demos</dt><dd>Live Figma embed, icon library</dd></div></dl>
-                <h3>Figma and imagery</h3>
-                <p>The Figma file behind this site, with the design system and every page on desktop and mobile, plus every icon, window, cloud and button as live HTML.</p>
-                <a class="proj__cta" href="work/portfolio-in-figma.html" target="_blank" rel="noopener">Open Figma and imagery ↗</a>
-              </div>
-            </article>
 
             <!-- 2. Case study -->
             <article class="proj proj--wide proj--gallery">
@@ -921,7 +908,6 @@
     var list = document.getElementById('side-cases');
     function icon(id){ return '<svg class="ico" aria-hidden="true"><use href="#' + id + '"/></svg>'; }
     cards.forEach(function(c){
-      if (c.classList.contains('proj--vis')) return; /* lives under its own filter, not in the case list */
       var h = c.querySelector('h3'), a = c.querySelector('.proj__cta'), li = document.createElement('li');
       li.innerHTML = a
         ? '<a class="side-item">' + icon('i-folder') + '<span class="lbl"></span></a>'
@@ -945,7 +931,7 @@
         var isWip = c.classList.contains('proj--wip');
         var isPres = c.classList.contains('proj--pres');
         var isVis = c.classList.contains('proj--vis');
-        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'vis' ? isVis : view === 'done' ? !isWip && !isVis : true);
+        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'vis' ? isVis : view === 'done' ? !isWip : true);
         var okText = !q || c.textContent.toLowerCase().indexOf(q) > -1;
         c.hidden = !(okView && okText);
         if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; if (isVis) vis++; }
@@ -956,7 +942,7 @@
         if (prev && prev.classList.contains('proj-divider')) prev.hidden = g.hidden;
       });
       document.getElementById('fm-empty').hidden = all > 0;
-      n('count-all', all, 'object', 'objects'); n('count-done', all - wip - vis, 'case study', 'case studies'); n('count-pres', pres, 'presentation', 'presentations'); n('count-wip', wip, 'in progress', 'in progress');
+      n('count-all', all, 'object', 'objects'); n('count-done', all - wip, 'case study', 'case studies'); n('count-pres', pres, 'presentation', 'presentations'); n('count-wip', wip, 'in progress', 'in progress');
     }
     viewBtns.forEach(function(b){ b.addEventListener('click', function(){
       view = b.getAttribute('data-view');
