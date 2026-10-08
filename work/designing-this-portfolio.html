@@ -128,11 +128,13 @@
   .trio{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); }
   .trio .tile:nth-child(odd){ transform:rotate(-.3deg); }
   .trio .tile:nth-child(even){ transform:rotate(.3deg); }
-  .figma-banner{ display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px 30px; }
+  .figma-banner{ display:grid; grid-template-columns:5fr 6fr; align-items:center; gap:28px; padding:26px 30px; }
   .figma-banner h3{ margin:8px 0 6px; font-size:24px; }
-  .figma-banner p{ margin:0; }
-  .figma-banner .btn{ flex:none; }
-  @media (max-width:760px){ .figma-banner{ flex-direction:column; align-items:flex-start; } }
+  .figma-banner p{ margin:0 0 16px; }
+  .figma-banner__preview{ position:relative; aspect-ratio:16 / 10; border:2px solid var(--indigo); background:var(--blue-soft); overflow:hidden; box-shadow:4px 4px 0 rgba(37,40,61,.25); }
+  .figma-banner__preview iframe{ position:absolute; inset:0; width:100%; height:100%; max-width:none; border:0; pointer-events:none; }
+  .figma-banner__link{ position:absolute; inset:0; display:block; }
+  @media (max-width:760px){ .figma-banner{ grid-template-columns:1fr; } }
   .next-card .work-card__media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
   .wip-row{ margin-top:var(--gap); display:flex; align-items:center; gap:16px; padding:16px 20px; border-style:dashed; }
   .wip-row p{ margin:0; }
@@ -266,8 +268,8 @@
   <!-- Numbers -->
   <section class="block" style="padding-top:24px" aria-label="The project in numbers"><div class="wrap">
     <ul class="stat-strip">
-      <li class="tile tile--sky"><b>8</b><span>days, 26 Sep – 3 Oct 2026</span></li>
-      <li class="tile tile--blue"><b>82</b><span>commits, all vibe-coded with Claude</span></li>
+      <li class="tile tile--sky"><b>13</b><span>days, 26 Sep – 8 Oct 2026</span></li>
+      <li class="tile tile--blue"><b>114</b><span>commits, all vibe-coded with Claude</span></li>
       <li class="tile tile--peri"><b>5</b><span>concepts kept as live sketches</span></li>
       <li class="tile tile--lav"><b>7</b><span>versions of one minesweeper icon</span></li>
       <li class="tile tile--lilac"><b>1</b><span>shiba, who runs the place</span></li>
@@ -349,12 +351,17 @@
   <!-- Figma and imagery banner -->
   <section class="block" style="padding-top:0" id="figma-banner" aria-label="This portfolio in Figma, and its imagery"><div class="wrap">
     <div class="tile tile--lav-soft figma-banner">
-      <div>
+      <div class="figma-banner__text">
         <span class="tag">Behind the scenes</span>
         <h3>Want to see the Figma file and the imagery?</h3>
         <p>The concept and the first structure started in Figma, and the desktop is full of hand-made pixel art. Come and have a look at both.</p>
+        <a class="btn btn--primary" href="portfolio-in-figma.html">See Figma and imagery →</a>
       </div>
-      <a class="btn btn--primary" href="portfolio-in-figma.html">See Figma and imagery →</a>
+      <div class="figma-banner__preview">
+        <iframe title="Preview of the Figma file for this portfolio" loading="lazy" tabindex="-1" aria-hidden="true"
+          src="https://embed.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?node-id=2023-341&amp;embed-host=portfolio"></iframe>
+        <a class="figma-banner__link" href="portfolio-in-figma.html" aria-label="See Figma and imagery"></a>
+      </div>
     </div>
   </div></section>
 
@@ -452,7 +459,7 @@
     </div>
     <div class="trio">
       <div class="tile tile--lav-soft c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">sketch.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Explore</span><h3>Sketches you can click</h3><p>Concepts were working pages from day one, so I could feel the navigation, not just look at it. Weak ideas showed themselves fast.</p></div>
-      <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">commits.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Iterate</span><h3>Small steps, 82 times</h3><p>Every change was its own commit: a font swap, a new icon, a pixel nudge for a 12-inch screen. Easy to try, easy to undo, and the history became this case study.</p></div>
+      <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">commits.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Iterate</span><h3>Small steps, 114 times</h3><p>Every change was its own commit: a font swap, a new icon, a pixel nudge for a 12-inch screen. Easy to try, easy to undo, and the history became this case study.</p></div>
       <div class="tile tile--lilac c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">y2k-desktop.skill</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Systemise</span><h3>The style became a skill</h3><p>I wrote the whole system down as a Claude skill: colours, type, window chrome, buttons and responsive rules. New pages come out on brand from the first draft.</p></div>
     </div>
   </div></section>
