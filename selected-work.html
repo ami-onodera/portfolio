@@ -477,6 +477,7 @@
   .side-item .ico{ width:16px; height:16px; flex:none; }
   .side-item .lbl{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .side-item em{ margin-left:auto; flex:none; font-style:normal; font-family:var(--font-pixel); font-size:10px; font-weight:600; text-transform:uppercase; color:var(--muted); }
+  .side-dot{ width:12px; height:12px; flex:none; margin:0 2px; border:1.5px solid var(--indigo); }
   .side-item.is-soon{ cursor:default; opacity:.65; }
   .side-item.is-soon:hover{ background:none; }
   .fm-search{ display:flex; align-items:center; gap:6px; background:#fff; border:1.5px solid var(--indigo); padding:3px 8px; box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); }
@@ -500,8 +501,8 @@
     .fm{ grid-template-columns:minmax(0,1fr); }
     .fm__side{ border-right:0; border-bottom:2px solid var(--indigo); padding:10px; }
     .side-extra{ display:none; }
-    #side-views{ display:flex; flex-wrap:wrap; gap:6px; }
-    #side-views .side-item{ width:auto; }
+    #side-views, #side-types{ display:flex; flex-wrap:wrap; gap:6px; }
+    #side-views .side-item, #side-types .side-item{ width:auto; }
     .fm-search input{ width:110px; }
   }
 </style>
@@ -628,11 +629,13 @@
             <ul class="side-list" id="side-views">
               <li><button type="button" class="side-item" data-view="all" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl">All projects</span></button></li>
               <li><button type="button" class="side-item" data-view="done" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg><span class="lbl">Case studies</span></button></li>
+              <li><button type="button" class="side-item" data-view="presentation" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg><span class="lbl">Presentations</span></button></li>
               <li><button type="button" class="side-item" data-view="vis" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg><span class="lbl">Figma and imagery</span></button></li>
-              <li><button type="button" class="side-item" data-view="genai" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg><span class="lbl">GenAI</span></button></li>
-              <li><button type="button" class="side-item" data-view="ui" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ui"/></svg><span class="lbl">UI design</span></button></li>
               <li><button type="button" class="side-item" data-view="wip" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><span class="lbl">In progress</span></button></li>
             </ul>
+            <p class="side-h">Types</p>
+            <!-- filled in by the script at the bottom: one entry per tag used on the cards, with its colour and count -->
+            <ul class="side-list" id="side-types"></ul>
             <p class="side-h side-extra">Folders</p>
             <!-- filled in by the script at the bottom: one entry per project card below -->
             <ul class="side-list side-extra" id="side-cases"></ul>
@@ -694,16 +697,19 @@
 
 
             <!-- 2. Case study -->
-            <article class="proj proj--wide proj--gallery proj--case">
+            <article class="proj proj--wide proj--gallery proj--case proj--vis">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">referral-portal/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Theming, Brand elements</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Theming, Brand elements</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
                 <h3>One template, many brands</h3>
                 <p>A single referral portal template, themed for three different (fictional) brands. The markup stays the same: only the brand elements, copy and client assets change.</p>
-                <a class="proj__cta" href="work/one-template-many-brands.html" target="_blank" rel="noopener">Open case study →</a>
+                <div class="proj__actions">
+                  <a class="proj__cta" href="work/one-template-many-brands.html" target="_blank" rel="noopener">Open case study →</a>
+                  <a class="proj__cta proj__cta--alt" href="work/referral-portal-figma.html" target="_blank" rel="noopener">Open figma ↗</a>
+                </div>
               </div>
             </article>
 
@@ -926,9 +932,43 @@
       }
       list.appendChild(li);
     });
+    /* Types: every tag used on the cards (UI design, SEO, GenAI ...) becomes a filter, with the tag's own colour and a count.
+       The format tags (Case study, Presentation, Figma and imagery, In progress) already have their own filters above. */
+    var FORMATS = ['case study', 'presentation', 'figma and imagery', 'in progress'];
+    function typesOf(c){
+      return [].map.call(c.querySelectorAll('.proj__specs > div:first-child .chip'), function(x){ return x.textContent.trim(); })
+        .filter(function(t, i, arr){ return arr.indexOf(t) === i; });
+    }
+    var typeMeta = {};
+    cards.forEach(function(c){
+      [].forEach.call(c.querySelectorAll('.proj__specs > div:first-child .chip'), function(chip){
+        var t = chip.textContent.trim();
+        if (FORMATS.indexOf(t.toLowerCase()) > -1 || typeMeta[t]) return;
+        typeMeta[t] = getComputedStyle(chip).backgroundColor;
+      });
+    });
+    var typeList = document.getElementById('side-types');
+    Object.keys(typeMeta).sort(function(x, y){ return x.localeCompare(y); }).forEach(function(t){
+      var li = document.createElement('li');
+      li.innerHTML = '<button type="button" class="side-item" aria-pressed="false"><span class="side-dot" aria-hidden="true"></span><span class="lbl"></span><em></em></button>';
+      var btn = li.firstChild;
+      btn.setAttribute('data-view', 'type:' + t);
+      btn.querySelector('.side-dot').style.background = typeMeta[t];
+      btn.querySelector('.lbl').textContent = t;
+      typeList.appendChild(li);
+    });
     var view = 'all', q = '', input = document.getElementById('fm-q');
     var viewBtns = [].slice.call(ex.querySelectorAll('[data-view]'));
     function n(id, v, one, many){ var el = document.getElementById(id); if (el) el.textContent = v + ' ' + (v === 1 ? one : many); }
+    function matches(c, v){
+      if (v === 'all') return true;
+      if (v === 'wip') return c.classList.contains('proj--wip');
+      if (v === 'presentation') return c.classList.contains('proj--pres');
+      if (v === 'vis') return c.classList.contains('proj--vis');
+      if (v === 'done') return c.classList.contains('proj--case');
+      if (v.indexOf('type:') === 0) return typesOf(c).indexOf(v.slice(5)) > -1;
+      return true;
+    }
     function apply(){
       var all = 0, wip = 0, pres = 0, vis = 0, cs = 0;
       cards.forEach(function(c){
@@ -936,9 +976,7 @@
         var isPres = c.classList.contains('proj--pres');
         var isVis = c.classList.contains('proj--vis');
         var isCase = c.classList.contains('proj--case');
-        var isAi = !!c.querySelector('.chip--ai');
-        var isUi = !!c.querySelector('.chip--ui');
-        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'vis' ? isVis : view === 'genai' ? isAi : view === 'ui' ? isUi : view === 'done' ? isCase : true);
+        var okView = matches(c, view);
         var okText = !q || c.textContent.toLowerCase().indexOf(q) > -1;
         c.hidden = !(okView && okText);
         if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; if (isVis) vis++; if (isCase) cs++; }
@@ -950,6 +988,12 @@
       });
       document.getElementById('fm-empty').hidden = all > 0;
       n('count-all', all, 'object', 'objects'); n('count-done', cs, 'case study', 'case studies'); n('count-pres', pres, 'presentation', 'presentations'); n('count-wip', wip, 'in progress', 'in progress');
+      /* counts next to each type (ignoring the current view, so you can see what a type would give you) */
+      [].forEach.call(typeList.querySelectorAll('[data-view]'), function(b){
+        var v = b.getAttribute('data-view'), k = 0;
+        cards.forEach(function(c){ if (matches(c, v) && (!q || c.textContent.toLowerCase().indexOf(q) > -1)) k++; });
+        b.querySelector('em').textContent = k;
+      });
     }
     viewBtns.forEach(function(b){ b.addEventListener('click', function(){
       view = b.getAttribute('data-view');

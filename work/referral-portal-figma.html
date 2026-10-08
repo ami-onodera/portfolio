@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referral portals in Figma | Camila Massa</title>
+<meta name="description" content="The Figma file behind the one-template-many-brands case study: a three-brand variable collection, the component library and the referral journey for each fictional brand.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@500;700&family=Press+Start+2P&family=Rationale&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/cascade.css">
+<link rel="stylesheet" href="../assets/css/y2k.css">
+
+<style>
+  .fig-win{ transform:none; }
+  .fig-win .lead{ max-width:none; margin-top:12px; font-family:var(--font-body); font-weight:500; }
+  .fig-frame{ position:relative; margin-top:24px; width:100%; height:clamp(460px,78vh,860px); border:2px solid var(--indigo); box-shadow:6px 8px 0 rgba(37,40,61,.2); background:#fff; }
+  .fig-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .fig-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; align-items:center; }
+  .fig-note{ margin-top:12px; font-size:14px; color:var(--muted); }
+  /* ---------- header images and their prompts ---------- */
+  .prm-sec{ padding-top:24px; padding-bottom:clamp(40px,6vw,72px); }
+  .prm-win .lead{ max-width:none; margin-top:12px; font-family:var(--font-body); font-weight:500; }
+  .prm-list{ display:grid; gap:clamp(28px,4vw,44px); margin-top:28px; }
+  .prm-row{ display:grid; grid-template-columns:minmax(0,1fr); gap:clamp(18px,2.6vw,26px); align-items:start; }
+  .prm-fig{ margin:0; }
+  .prm-fig img{ display:block; width:100%; height:auto; aspect-ratio:1440/560; border:2px solid var(--indigo); box-shadow:6px 8px 0 rgba(37,40,61,.2); background:#fff; }
+  .prm-fig figcaption{ margin-top:14px; font-family:var(--font-pixel); font-size:13px; font-weight:600; color:var(--indigo); }
+  .prm-fig figcaption span{ color:var(--muted); font-weight:500; }
+  .prm-prompt{ margin:0; }
+  .prm-text{ background:#fff; border:2px solid var(--indigo); padding:16px 18px; font-family:var(--font-pixel); font-size:14px; line-height:1.55; color:var(--indigo); columns:2 340px; column-gap:32px; }
+  .prm-text p{ margin:0 0 12px; break-inside:avoid; }
+  .prm-text p:last-child{ margin-bottom:0; }
+  .prm-k{ font-weight:700; color:var(--accent-ink); }
+  .prm-actions{ margin-top:12px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  /* keep the hire-me back windows inside the page (cascade.css's width:100% otherwise wins) */
+  @media (max-width:1240px){ .contact-cascade .cascade-clone{ width:calc(100% - 48px); } }
+</style>
+</head>
+<body>
+<div class="bg-decor" aria-hidden="true">
+  <div class="grid-floor"></div>
+  <svg class="bgstar" style="top:6%; left:9%; width:13px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:14%; left:22%; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:9%; left:38%; width:9px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:5%; left:58%; width:15px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:22%; left:6%; width:11px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:18%; left:82%; width:14px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:30%; left:93%; width:8px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:40%; left:4%; width:8px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:52%; left:91%; width:13px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:64%; left:8%; width:10px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:72%; left:96%; width:6px; opacity:.6" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:80%; left:14%; width:12px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:88%; left:88%; width:9px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <a class="brand nav-start" href="../index.html" title="Home" aria-label="Home">
+      <img src="../assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn nav-util" href="../assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.pdf
+      </a>
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" title="Open LinkedIn" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+          <img src="../assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
+        </span>
+        <span class="navtray-icon" title="Connected">
+          <img src="../assets/img/y2k/nav-wifi.png" alt="" width="13" height="10">
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
+</header>
+<main id="main" class="lib">
+
+  <section class="cs-hero sky-decor">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" style="top:-6px; left:2%; width:130px; opacity:.95">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-m-twin-sparkle.png" alt="" style="top:-18px; right:3%; width:160px">
+    <div class="wrap"><div class="tile tile--sky fig-win">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">referral-portals.fig</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h1>One template, many brands, in Figma</h1>
+      <p class="lead">The Figma file behind the referral portal case study. It holds one variable collection with three brand modes (Nimbelo Fibre, Voltwell Energy and Orbeo Mobile), a component library bound to it, and the referral journey for each brand, from landing to rewards. Change the brand mode and the same components pick up new colours, fonts and border radius. Pan and zoom the Showcase board like you would in Figma.</p>
+
+      <div class="fig-frame">
+        <iframe title="Figma Showcase board for the one template, many brands case study" loading="lazy" allowfullscreen
+          src="https://embed.figma.com/design/b97XdJ5ayuLc2QPIGDQVHR/One-template--many-brands--referral-portals?node-id=0-1&amp;embed-host=portfolio"></iframe>
+      </div>
+
+      <div class="fig-actions">
+        <a class="btn btn--primary" href="https://www.figma.com/design/b97XdJ5ayuLc2QPIGDQVHR/One-template--many-brands--referral-portals?node-id=0-1" target="_blank" rel="noopener">Open in Figma ↗</a>
+        <a class="btn btn--soft" href="one-template-many-brands.html">Back to the case study</a>
+      </div>
+      <p class="fig-note">Fictional brands, built to show the system without exposing client work. Visual assets made with AI for illustrative purposes.</p>
+    </div></div>
+  </section>
+
+
+  <!-- Header images and the prompts behind them -->
+  <section class="block prm-sec" aria-labelledby="prm-title"><div class="wrap">
+    <div class="tile tile--white prm-win">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">header-prompts.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h2 id="prm-title" class="h-bar">Three header images, three prompts</h2>
+      <p class="lead">The header image on each portal comes from a written brief to a generative AI. A good one is specific about four things: the scene, a composition that leaves room for the referral card, the brand’s own palette, and a few hard limits. Here is the prompt behind each image, next to the result.</p>
+      <div class="prm-list">
+      <div class="prm-row">
+        <figure class="prm-fig">
+          <img src="../assets/img/referral-heroes/hero-nimbelo.svg" width="1440" height="560" alt="Night-time hills with a cosy house under a full moon; four glowing lime light trails arc across a teal sky and meet at the house" loading="lazy">
+          <figcaption>Nimbelo Fibre <span>· header image · 1440 × 560 SVG · 8.8 KB</span></figcaption>
+        </figure>
+        <div class="tile tile--violet prm-prompt">
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">nimbelo-hero.prompt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <div class="prm-text" id="p-nimbelo">
+          <p><span class="prm-k">Brief:</span> Create a hero illustration for a fictional full-fibre broadband brand called Nimbelo Fibre. Mood: calm, modern, airy and friendly. Output one self-contained SVG, viewBox 0 0 1440 560.</p>
+          <p><span class="prm-k">Scene:</span> A quiet night over rolling hills. A cosy house with glowing windows sits on the right, under a full moon and a few soft, translucent clouds. Four thin light trails arc across the sky and meet at the house, each with small bright nodes along the way, so it reads as fibre reaching the home.</p>
+          <p><span class="prm-k">Composition:</span> Keep the left 40% calm and low in detail, fading to a pale teal, because a white referral card will sit on top of it. Put the focal point (house, moon, trails) on the right.</p>
+          <p><span class="prm-k">Palette:</span> Teal #0B7285, deep ink #0B2530, soft tint #E6F6F7, and lime #C6F432 for the light trails and the window glow. Use gradients and soft glows for depth.</p>
+          <p><span class="prm-k">Limits:</span> No text, no logos, no people. Under 10 KB. Decorative only, so no title or description inside the file.</p>
+          </div>
+          <div class="prm-actions"><button class="btn btn--soft" type="button" data-copy="#p-nimbelo">Copy prompt</button></div>
+        </div>
+      </div>
+      <div class="prm-row">
+        <figure class="prm-fig">
+          <img src="../assets/img/referral-heroes/hero-voltwell.svg" width="1440" height="560" alt="Golden hour over layered green hills with a low sun and fanning rays, three wind turbines, small trees, birds and a field of solar panels" loading="lazy">
+          <figcaption>Voltwell Energy <span>· header image · 1440 × 560 SVG · 9.4 KB</span></figcaption>
+        </figure>
+        <div class="tile tile--violet prm-prompt">
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">voltwell-hero.prompt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <div class="prm-text" id="p-voltwell">
+          <p><span class="prm-k">Brief:</span> Create a hero illustration for a fictional renewable energy supplier called Voltwell Energy. Mood: warm, optimistic and grounded, with a slightly editorial feel. Output one self-contained SVG, viewBox 0 0 1440 560.</p>
+          <p><span class="prm-k">Scene:</span> Golden hour over layered, rolling green hills. A low sun glows behind them with soft rays fanning out across the sky. Three wind turbines stand at different heights and blade angles, a few small trees and a flock of birds sit around them, and a field of solar panels fills the bottom right.</p>
+          <p><span class="prm-k">Composition:</span> Keep the left side open and light, a pale cream to green wash, because a referral card will sit over it. Build the turbine once (tower, rotor, blade) and reuse it at different scales and rotations so the file stays small.</p>
+          <p><span class="prm-k">Palette:</span> Forest green #1F6F43, sun yellow #FFC53D, pale green tint #EEF6EC, ink #10261A. Warm cream in the sky, deeper greens toward the bottom edge.</p>
+          <p><span class="prm-k">Limits:</span> No text, no logos, no people. Under 10 KB where possible. Include a short accessible description of the scene.</p>
+          </div>
+          <div class="prm-actions"><button class="btn btn--soft" type="button" data-copy="#p-voltwell">Copy prompt</button></div>
+        </div>
+      </div>
+      <div class="prm-row">
+        <figure class="prm-fig">
+          <img src="../assets/img/referral-heroes/hero-orbeo.svg" width="1440" height="560" alt="A large violet and coral planet with a tilted orbit ring, a small moon, a SIM card and a glowing phone floating in orbit among stars" loading="lazy">
+          <figcaption>Orbeo Mobile <span>· header image · 1440 × 560 SVG · 11.9 KB</span></figcaption>
+        </figure>
+        <div class="tile tile--violet prm-prompt">
+          <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">orbeo-hero.prompt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+          <div class="prm-text" id="p-orbeo">
+          <p><span class="prm-k">Brief:</span> Create a hero illustration for a fictional SIM-only mobile network called Orbeo Mobile. Mood: bold, playful and youthful. Output one self-contained SVG, viewBox 0 0 1440 560.</p>
+          <p><span class="prm-k">Scene:</span> A large gas-giant planet with soft violet-to-coral bands, circled by a tilted orbit ring. A small pale moon, a SIM card and a phone with a glowing screen drift in orbit, with a few signal arcs by the phone. Faint dotted orbit lines, twinkling four-point stars and tiny dots fill the space.</p>
+          <p><span class="prm-k">Composition:</span> Planet and objects on the right half. The left fades into a pale lilac with a few oversized, soft circles, leaving room for a referral card on top.</p>
+          <p><span class="prm-k">Palette:</span> Electric violet #5B2EFF, coral #FF6B4A, deep night #140B33, pale lilac #F1EDFF. Use gradients for the planet bands and a glow around the phone.</p>
+          <p><span class="prm-k">Limits:</span> No text, no logos, no people. Keep the file light. Include a short accessible description of the scene.</p>
+          </div>
+          <div class="prm-actions"><button class="btn btn--soft" type="button" data-copy="#p-orbeo">Copy prompt</button></div>
+        </div>
+      </div>
+      </div>
+      <p class="fig-note">Visual assets made with AI for illustrative purposes. Brands are fictional.</p>
+    </div>
+  </div></section>
+
+</main>
+
+<!-- contact band (every page, above footer) -->
+<!-- contact band (every page, above footer) -->
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h2 class="h-bar">Let’s build something good.</h2>
+      <p class="lead" style="margin-top:14px">Open to Web Design and UI Design roles in Berlin or remote.</p>
+    </div>
+    <div class="contact-cascade">
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--bottom" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--middle" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+</div></footer>
+<script>
+  /* Copy prompt buttons */
+  (function(){
+    [].forEach.call(document.querySelectorAll('[data-copy]'), function(b){
+      var label = b.textContent;
+      b.addEventListener('click', function(){
+        var el = document.querySelector(b.getAttribute('data-copy')); if (!el) return;
+        var txt = el.innerText.replace(/\n{2,}/g, '\n');
+        function done(ok){ b.textContent = ok ? 'Copied' : 'Select and copy'; setTimeout(function(){ b.textContent = label; }, 1600); }
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(txt).then(function(){ done(true); }, function(){ done(false); }); }
+        else { try { var r = document.createRange(); r.selectNodeContents(el); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); done(document.execCommand('copy')); } catch(e){ done(false); } }
+      });
+    });
+  })();
+</script>
+<script src="../assets/js/contact.js" defer></script>
+<script src="../assets/js/cascade.js" defer></script>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+<script src="../assets/js/saori.js?v=4" defer></script>
+</body>
+</html>
