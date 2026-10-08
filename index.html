@@ -150,19 +150,34 @@
   .win--case{ width:640px }
   .win--early{ width:320px }
 
+  .notice-stack{ width:360px }
+  .case-item{ min-width:0 }
+  .case-name{ font-family:var(--font-head); font-weight:700; font-size:14px; line-height:1.3; color:var(--indigo); margin-top:10px }
+  .case-tag{ display:inline-block; margin-top:8px; font-family:var(--font-pixel); font-size:11px; color:var(--indigo); background:var(--purple); border:1.5px solid var(--indigo); padding:3px 8px }
+  .cta-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:14px }
+  .cta-row .modal-cta{ margin-top:0 }
+  .modal-cta.modal-cta--ghost{ background:#fff; color:var(--indigo) }
+
   /* ================= RESPONSIVE TIERS =================
      Standard breakpoint scale: 640 / 768 / 1024 / 1280 / 1536.
      ≥1536 ("very large desktop") is the unchanged base styling above.
      Below 640px the separate stacked mobile layout (further down) takes over
      entirely, unaffected by any of this. ================= */
 
-  /* ---- 1280-1535px: "large desktop" — same full-size windows as the base
-     tier, just pulled in from the right edge. ---- */
+  /* ---- 1280-1535px: "large desktop" — compact windows, arranged as in Camila's
+     1512x982 setup (About top-left, Selected work below it, notice + floppy on the right). ---- */
   @media (max-width:1535px) and (min-width:1280px){
-    .win[data-window="about"]{ top:120px; left:186px }
-    .win[data-window="work"]{ top:324px; left:526px }
-    .win[data-window="early"]{ top:523px; left:1050px }
-    .win[data-window="mines"]{ top:162px; left:1053px }
+    .win--about{ width:500px }
+    .win--case{ width:610px }
+    .win--early{ width:300px }
+    .notice-stack{ width:340px }
+    .win[data-window="about"]{ top:108px; left:190px }
+    .win[data-window="work"]{ top:470px; left:190px }
+    .win[data-window="early"]{ top:415px; left:965px }
+    .win[data-window="mines"]{ top:150px; left:1000px }
+    .notice-stack--back{ left:804px; top:179px }
+    .notice-stack--mid{ left:822px; top:197px }
+    .notice-stack--front{ left:840px; top:215px }
   }
 
   /* ---- 640-1279px: shared across "desktop" (1024-1279) and "tablet" /
@@ -466,7 +481,7 @@
     .win .body{ padding:16px 14px; }
   }
   @media (max-width:480px){
-    .case-grid{ grid-template-columns:1fr 1fr; }
+    .case-grid{ grid-template-columns:1fr; }
   }
   @media (max-width:440px){
     .navbtn{ font-size:8px; padding:0 6px; gap:4px; }
@@ -633,7 +648,7 @@
         <span class="chip chip--purple">FIGMA</span>
         <span class="chip chip--blue">CMS</span>
       </div>
-      <a class="modal-cta" href="about.html" style="margin-top:14px">See more →</a>
+      <div class="cta-row"><a class="modal-cta" href="about.html">See more →</a><a class="modal-cta modal-cta--ghost" href="assets/Camila-Massa-CV.pdf" download>Download CV</a></div>
     </div>
   </div>
 </div>
@@ -645,12 +660,21 @@
   </div>
   <div class="body">
     <div class="case-grid">
-      <div class="case-thumb"><img src="assets/img/y2k/thumb-this-portfolio.jpg" alt="This portfolio as a pastel Y2K desktop, from the designing this portfolio case study"></div>
-      <div class="case-thumb"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" alt="Nimbelo Fibre referral portal, from the one template, many brands case study"></div>
-      <div class="case-thumb"><img src="assets/img/y2k/thumb-seo-landing-pages.jpg" alt="The SEO road, an interactive presentation on hosted landing pages"></div>
-      <div class="case-thumb"><img src="assets/img/y2k/model-map-preview.jpg" alt="Content model map of a portal built from nested CMS entries"></div>
-      <div class="case-thumb"><img src="assets/img/y2k/thumb-mockup-maker.jpg" alt="Mockup maker, a branded portal preview generated from a prospect website"></div>
-      <div class="case-thumb"><img src="assets/img/y2k/thumb-no-buy-club.jpg" alt="No-Buy Club, an app that helps people wait out impulse purchases"></div>
+      <div class="case-item">
+        <div class="case-thumb"><img src="assets/img/y2k/thumb-this-portfolio.jpg" alt="This portfolio as a pastel Y2K desktop, from the designing this portfolio case study"></div>
+        <p class="case-name">Designing this portfolio</p>
+        <span class="case-tag">CASE STUDY</span>
+      </div>
+      <div class="case-item">
+        <div class="case-thumb"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" alt="Nimbelo Fibre referral portal, from the one template, many brands case study"></div>
+        <p class="case-name">One template, many brands</p>
+        <span class="case-tag">CASE STUDY</span>
+      </div>
+      <div class="case-item">
+        <div class="case-thumb"><img src="assets/img/y2k/thumb-seo-landing-pages.jpg" alt="The SEO road, an interactive presentation on hosted landing pages"></div>
+        <p class="case-name">The SEO road: hosted landing pages</p>
+        <span class="case-tag">PRESENTATION</span>
+      </div>
     </div>
     <p class="modal-note">I design it, I build it, I wire it to the CMS, and I check it works. These are the projects I'd show you over coffee!</p>
     <a class="modal-cta" href="selected-work.html">See portfolio →</a>
@@ -675,13 +699,13 @@
 </div>
 
 <!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
-<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="z-index:14; width:360px; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="z-index:14; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="z-index:15; width:360px; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="z-index:15; height:143px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="win win--notice open desktop-only notice-stack notice-stack--front" data-window="notice" style="z-index:16; width:360px">
+<div class="win win--notice open desktop-only notice-stack notice-stack--front" data-window="notice" style="z-index:16">
   <div class="bar">
     <span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span>
     <span class="btns"><i>_</i><i>▢</i><i>x</i></span>
