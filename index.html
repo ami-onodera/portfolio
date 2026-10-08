@@ -248,26 +248,33 @@
     #desktop{ height:100vh; min-height:740px }
     #stage{ height:100%; min-height:740px }
     .case-name, .case-tag{ display:none }
+    .icons{ top:76px; left:20px; gap:18px }
+    .icon{ width:64px; padding:4px }
+    .icon .glyph{ width:45px; height:45px }
+    .icon .icon-art, .trash-icon .icon-art{ width:45px; height:auto }
+    .icon[data-open="network"] .glyph{ height:70px }
+    .icon[data-open="network"] .icon-art{ width:auto; height:70px }
+    .trash-icon{ right:20px; bottom:20px }
   }
   @media (max-width:1535px) and (min-width:1280px){
     .win--case{ width:580px }
     .win[data-window="work"]{ top:200px; left:662px }
-    .notice-stack--back{ left:174px; top:444px }
-    .notice-stack--mid{ left:192px; top:462px }
-    .notice-stack--front{ left:210px; top:480px }
+    .notice-stack--back{ left:214px; top:444px }
+    .notice-stack--mid{ left:232px; top:462px }
+    .notice-stack--front{ left:250px; top:480px }
   }
   @media (max-width:1279px) and (min-width:1200px){
     .win--case{ width:520px }
     .win[data-window="work"]{ top:190px; left:642px }
-    .notice-stack--back{ left:114px; top:404px }
-    .notice-stack--mid{ left:132px; top:422px }
-    .notice-stack--front{ left:150px; top:440px }
+    .notice-stack--back{ left:154px; top:404px }
+    .notice-stack--mid{ left:172px; top:422px }
+    .notice-stack--front{ left:190px; top:440px }
   }
   @media (max-width:1199px) and (min-width:1024px){
     .win[data-window="work"]{ top:220px; left:540px }
-    .notice-stack--back{ left:132px; top:524px }
-    .notice-stack--mid{ left:150px; top:542px }
-    .notice-stack--front{ left:168px; top:560px }
+    .notice-stack--back{ left:172px; top:524px }
+    .notice-stack--mid{ left:190px; top:542px }
+    .notice-stack--front{ left:208px; top:560px }
   }
 
   /* ================= WINDOW CHROME (squared) ================= */
