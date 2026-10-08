@@ -240,6 +240,36 @@
     .win[data-window="mines"]{ top:150px; left:560px }
   }
 
+  /* ---- 1024-1535px: static one-screen desktop. About stays put; Selected work sits to its right,
+     slightly overlapping it (no captions or tags); the notice drops to the bottom-left; the
+     floppy window starts closed (JS). The desktop is exactly one viewport tall (no scrolling)
+     and only gets a scrollbar when the browser window is smaller than the windows need. ---- */
+  @media (max-width:1535px) and (min-width:1024px){
+    #desktop{ height:100vh; min-height:740px }
+    #stage{ height:100%; min-height:740px }
+    .case-name, .case-tag{ display:none }
+  }
+  @media (max-width:1535px) and (min-width:1280px){
+    .win--case{ width:580px }
+    .win[data-window="work"]{ top:200px; left:662px }
+    .notice-stack--back{ left:174px; top:444px }
+    .notice-stack--mid{ left:192px; top:462px }
+    .notice-stack--front{ left:210px; top:480px }
+  }
+  @media (max-width:1279px) and (min-width:1200px){
+    .win--case{ width:520px }
+    .win[data-window="work"]{ top:190px; left:642px }
+    .notice-stack--back{ left:114px; top:404px }
+    .notice-stack--mid{ left:132px; top:422px }
+    .notice-stack--front{ left:150px; top:440px }
+  }
+  @media (max-width:1199px) and (min-width:1024px){
+    .win[data-window="work"]{ top:220px; left:540px }
+    .notice-stack--back{ left:132px; top:524px }
+    .notice-stack--mid{ left:150px; top:542px }
+    .notice-stack--front{ left:168px; top:560px }
+  }
+
   /* ================= WINDOW CHROME (squared) ================= */
   .win{
     position:absolute; z-index:10; background:var(--chrome); display:none;
@@ -866,6 +896,7 @@
      mobile flow. ---- */
   var MOBILE_MQ = window.matchMedia('(max-width: 639px)');
   function isMobile(){ return MOBILE_MQ.matches; }
+  var STATIC_MQ = window.matchMedia('(min-width: 1024px) and (max-width: 1535px)');
   var DESIGN_H = 1240, stageScale = 1;
   function layoutStage(){
     var stage = document.getElementById('stage'), desk = document.getElementById('desktop');
@@ -876,6 +907,7 @@
       return;
     }
     stage.style.width = '';
+    if (STATIC_MQ.matches){ stage.style.height = ''; stage.style.transform = ''; desk.style.height = ''; return; }
     /* tall screens: never let the desktop end above the bottom of the viewport */
     var h = Math.max(DESIGN_H, window.innerHeight);
     stage.style.height = h + 'px';
@@ -884,6 +916,7 @@
   }
   window.addEventListener('resize', layoutStage);
   layoutStage();
+  if (STATIC_MQ.addEventListener) STATIC_MQ.addEventListener('change', layoutStage);
   function scrollToWindow(id){
     var el = document.querySelector('.win[data-window="'+id+'"]');
     var nav = document.querySelector('.navbar');
@@ -1221,6 +1254,10 @@
 
   var HOME_WINDOWS = ['about', 'work', 'early'];
   HOME_WINDOWS.forEach(function(id){ setTabState(id, true, false); });
+  /* compact desktops (1024-1535px): the floppy window starts closed (still reachable from its icon / tab) */
+  function closeFloppyWhenCompact(){ if (STATIC_MQ.matches) minimizeBase('early'); }
+  closeFloppyWhenCompact();
+  if (STATIC_MQ.addEventListener) STATIC_MQ.addEventListener('change', function(e){ if (e.matches) closeFloppyWhenCompact(); });
 
   /* confirm dialog opens on load, centered on the viewport, but only the first time
      a visitor sees it: once dismissed, we remember that in localStorage so it doesn't
@@ -1236,6 +1273,7 @@
     closeModalById('dialog');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     HOME_WINDOWS.forEach(function(id){
+      if (id === 'early' && STATIC_MQ.matches) return;
       var el = document.querySelector('.win[data-window="'+id+'"]');
       if (el){ el.classList.add('open'); bringToFront(el); }
     });
