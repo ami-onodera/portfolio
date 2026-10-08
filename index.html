@@ -211,15 +211,23 @@
     .win[data-window="mines"]{ top:150px; left:700px }
   }
 
-  /* ---- 1200-1279px: MacBook 12" — Camila's hand-arranged layout ---- */
+  /* ---- 1200-1279px: same composition as the 1512 setup, fitted to ~1260px
+     (also what a 1512px screen at ~120% browser zoom reports). ---- */
   @media (max-width:1279px) and (min-width:1200px){
+    .win--about{ width:540px }
+    .win--case{ width:550px }
+    .win--early{ width:270px }
+    .notice-stack{ width:320px }
+    .about-photo{ width:110px; height:110px }
+    .about-grid{ gap:16px }
+    .about-text h1{ font-size:22px }
     .win[data-window="about"]{ top:92px; left:130px }
-    .win[data-window="work"]{ top:265px; left:370px }
-    .win[data-window="early"]{ top:450px; left:760px }
-    .win[data-window="mines"]{ top:510px; left:175px }
-    .notice-stack--back{ left:642px; top:165px }
-    .notice-stack--mid{ left:660px; top:183px }
-    .notice-stack--front{ left:678px; top:201px }
+    .win[data-window="work"]{ top:410px; left:130px }
+    .win[data-window="early"]{ top:380px; left:810px }
+    .win[data-window="mines"]{ top:150px; left:850px }
+    .notice-stack--back{ left:726px; top:140px }
+    .notice-stack--mid{ left:744px; top:158px }
+    .notice-stack--front{ left:762px; top:176px }
   }
 
   /* ---- 640-1023px: "tablet" and "large mobile / small tablet" (same
