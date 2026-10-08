@@ -3,17 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Imagery and components | Camila Massa</title>
-<meta name="description" content="The imagery and components behind my Y2K desktop portfolio: Saori the shiba, desktop icons and their iterations, every window type, pixel clouds, buttons, palette and type.">
+<title>Figma and imagery | Camila Massa</title>
+<meta name="description" content="The Figma file behind this portfolio, plus every icon, window, cloud and button that makes it feel like a little desktop, all in one place.">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
 <link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@500;700&family=Press+Start+2P&family=Rationale&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/site.css">
 <link rel="stylesheet" href="../assets/css/cascade.css">
 <link rel="stylesheet" href="../assets/css/y2k.css">
+
 <style>
+  .fig-win{ transform:none; }
+  .fig-win .lead{ max-width:62ch; margin-top:12px; font-family:var(--font-body); font-weight:500; }
+  .fig-frame{ position:relative; margin-top:24px; width:100%; height:clamp(460px,78vh,860px); border:2px solid var(--indigo); box-shadow:6px 8px 0 rgba(37,40,61,.2); background:#fff; }
+  .fig-frame iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+  .fig-actions{ display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; align-items:center; }
+  .fig-note{ margin-top:12px; font-size:14px; color:var(--muted); }
+
+  /* ============ visuals: imagery and components (merged from the former imagery page) ============ */
   /* ============ imagery library: page-only styles (all prefixed lib- or scoped under .gal) ============ */
   .section-win{ transform:none; }
   section.block.lib-sec{ padding-top:0; padding-bottom:clamp(24px,3.4vw,40px); }
@@ -413,28 +422,39 @@
 </header>
 <main id="main" class="lib">
 
-  <!-- Hero -->
   <section class="cs-hero sky-decor">
-    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-g-puff-pinkwhite.png" alt="" style="top:-6px; left:2%; width:120px; opacity:.95">
-    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-m-twin-sparkle.png" alt="" style="top:-20px; right:3%; width:170px">
-    <svg class="deco" aria-hidden="true" style="top:12px; left:46%; width:16px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
-    <div class="wrap"><div class="tile tile--sky cs-win">
-    <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">imagery.lib</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-    <span class="tag">Library</span>
-    <h1>The pieces: icons, windows and a shiba</h1>
-    <p class="lead">Every image, window and button that makes this portfolio feel like a little desktop, laid out in one place. The windows below are live HTML using the site’s own CSS, not screenshots, so what you see here is exactly what ships. I vibe coded all of it with Claude, one window at a time.</p>
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" style="top:-6px; left:2%; width:130px; opacity:.95">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-m-twin-sparkle.png" alt="" style="top:-18px; right:3%; width:160px">
+    <div class="wrap"><div class="tile tile--sky fig-win">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">this-portfolio.fig</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h1>This portfolio in Figma, and its imagery</h1>
+      <p class="lead">The Figma file behind this site, on one canvas: the design system (style elements and components), then Home, About, Selected work, Earlier work and the case studies, on desktop and mobile. Pan and zoom like you would in Figma. I built it with Claude as my sidekick for the repetitive parts. Below the canvas you will find every icon, window, cloud and button.</p>
+
+      <div class="fig-frame">
+        <iframe title="Figma file for this portfolio" loading="lazy" allowfullscreen
+          src="https://embed.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?node-id=2023-341&amp;embed-host=portfolio"></iframe>
+      </div>
+
+      <div class="fig-actions">
+        <a class="btn btn--primary" href="https://www.figma.com/design/W5k6ExJdRN5SJVsNS8azJm/Portfolio-2026?node-id=2023-341" target="_blank" rel="noopener">Open in Figma ↗</a>
+      </div>
+      <p class="fig-note">Images in the mockups are placeholders. The live pages use real screenshots.</p>
+    </div></div>
+  </section>
+
+
+
+  <!-- Visuals: imagery and components -->
+  <section class="block lib-sec" style="padding-top:24px" aria-labelledby="vis-title"><div class="wrap">
+    <h2 id="vis-title" class="lib-h2 h-bar">The pieces: Mockups, icons, and a shiba</h2>
+    <p class="lib-intro">Every image, window and button that makes this portfolio feel like a little desktop, laid out in one place. The windows below are live HTML using the site’s own CSS, not screenshots, so what you see here is exactly what ships. I vibe coded all of it with Claude, one window at a time.</p>
     <dl class="facts lib-facts">
       <div class="fact"><dt>Icons</dt><dd>7 desktop icons, 6 small ones</dd></div>
       <div class="fact"><dt>Windows</dt><dd>13 window types</dd></div>
       <div class="fact"><dt>Clouds</dt><dd>14 pixel clouds</dd></div>
       <div class="fact"><dt>Border radius</dt><dd>0px, everywhere</dd></div>
     </dl>
-    <div class="lib-actions">
-      <a class="btn btn--primary" href="designing-this-portfolio.html">Read the case study →</a>
-      <a class="back-link" href="../selected-work.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back</a>
-    </div>
-    </div></div>
-  </section>
+  </div></section>
 
   <!-- Saori -->
   <section class="block lib-sec" style="padding-top:24px" aria-labelledby="saori-title"><div class="wrap">
@@ -911,23 +931,12 @@
     </div>
   </div></section>
 
-  <!-- Related -->
-  <section class="block lib-sec lib-sec--last" aria-labelledby="rel-title"><div class="wrap">
-    <h2 id="rel-title" class="sr-only">Related case study</h2>
-    <a class="tile tile--white work-card lib-related" href="designing-this-portfolio.html">
-      <div class="win-bar" style="margin-bottom:0"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">related-case-study.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-      <img src="../assets/img/y2k/shiba.png" alt="" width="96" height="96" loading="lazy">
-      <div>
-        <span class="tag">Case study</span>
-        <h3>Designing this portfolio</h3>
-        <p>How a calm pastel bento site turned into a Y2K desktop in eight days, and why the shiba stayed.</p>
-        <span class="work-card__cta">Read the case study →</span>
-      </div>
-    </a>
-    <p class="back-row"><a class="back-link" href="../selected-work.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to all work</a></p>
+  <section class="block lib-sec lib-sec--last"><div class="wrap">
+<p class="back-row"><a class="back-link" href="designing-this-portfolio.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to the case study</a></p>
   </div></section>
 
 </main>
+
 <!-- contact band (every page, above footer) -->
 <!-- contact band (every page, above footer) -->
 <section class="block sky-decor" id="contact">
@@ -1065,7 +1074,6 @@
     var d = new Date();
     var el = document.getElementById('clockText');
     if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
-    document.querySelectorAll(".lib-clock").forEach(function (c) { if (el) c.textContent = el.textContent; });
   }
   tick(); setInterval(tick, 15000);
 </script>

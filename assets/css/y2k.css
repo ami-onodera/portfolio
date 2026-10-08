@@ -259,7 +259,7 @@
   .cs-hero{ padding:clamp(20px,3.4vw,40px) 0 24px; }
   .cs-hero h1, .cs-win h1{ font-family:var(--font-head); font-weight:800; font-size:clamp(36px,5.4vw,60px); letter-spacing:-.02em; max-width:none; margin:14px 0 16px; }
   .cs-win{ transform:rotate(-.25deg); }
-  .cs-win .lead{ font-family:var(--font-body); font-weight:500; max-width:68ch; }
+  .cs-win .lead{ font-family:var(--font-body); font-weight:500; max-width:none; }
   .facts{ gap:12px; margin-top:26px; }
   .fact{ background:#fff; border:2px solid var(--indigo); box-shadow:3px 3px 0 rgba(37,40,61,.16); padding:14px 16px 16px; }
   .fact dt{ font-family:var(--font-pixel); font-size:13px; font-weight:600; letter-spacing:.5px; color:var(--accent-ink); }

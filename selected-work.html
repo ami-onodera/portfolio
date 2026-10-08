@@ -327,6 +327,20 @@
   .chip--status{ background:var(--purple); }
   .chip--wip{ background:#fff; border-style:dashed; }
   .chip--pres{ background:var(--blue); }
+  /* tag colour system: one fixed colour per tag, on every card
+     format:  Case study = purple, Presentation = blue, Figma and imagery = coral, In progress = white + dashed
+     topics:  UI design pink, Art direction peach, SEO mint, Content model yellow, Web app cyan,
+              Component lime, GenAI periwinkle, QA sand, Automation magenta */
+  .chip.chip--vis{ background:#f5a9a3; }
+  .chip.chip--ui{ background:#f6bfcc; }
+  .chip.chip--art{ background:#fbcfa8; }
+  .chip.chip--seo{ background:#bfe8cf; }
+  .chip.chip--model{ background:#f4eea9; }
+  .chip.chip--app{ background:#b5e3f0; }
+  .chip.chip--comp{ background:#d8eaa8; }
+  .chip.chip--ai{ background:#c0c6f5; }
+  .chip.chip--qa{ background:#e4d3b6; }
+  .chip.chip--auto{ background:#ecb6e0; }
   .proj__body h3{ font-family:var(--font-head); font-weight:800; font-size:clamp(22px,2.4vw,27px); line-height:1.12; }
   .proj__body p{ font-size:16px; line-height:1.55; color:var(--body); font-weight:500; }
   .proj__cta{
@@ -337,6 +351,13 @@
   .proj__cta:hover{ box-shadow:none; transform:translate(3px,3px); }
   .proj__cta:active{ transform:translate(3px,3px); }
   .proj__cta:focus-visible{ outline:3px solid var(--accent); outline-offset:3px; }
+  /* two buttons side by side (primary + secondary) */
+  .proj__actions{ display:flex; flex-wrap:nowrap; gap:8px; align-self:flex-start; margin-top:auto; }
+  .proj__actions .proj__cta{ margin-top:0; white-space:nowrap; font-size:12px; padding:7px 9px; }
+  @media (max-width:520px){ .proj__actions{ flex-wrap:wrap; } }
+  .proj__cta--alt{ color:var(--indigo); background:var(--chrome); }
+  .proj__cta--alt:hover{ background:#fff; }
+  .proj--gallery .proj__actions{ order:4; margin-top:6px; }
 
   /* wide: spans the full row, media left, text right */
   .proj--wide{ grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); grid-template-areas:"bar bar" "media body"; }
@@ -561,8 +582,8 @@
       <div class="bento hub-bento">
         <div class="tile tile--sky hub-title c-br">
           <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">selected-work/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-          <h1 id="hub-title">Things I’ve designed and built</h1>
-          <p class="lead">Case studies from my work on branded web experiences: referral landing pages, customer portals and widgets. Pick one to see how it was designed, themed and shipped.</p>
+          <h1 id="hub-title">Things worth clicking</h1>
+          <p class="lead">A few case studies from my work on web experiences: scalable landing pages, creative UIs and content models. Pick one and I’ll walk you through it, from first concept to live in prod.</p>
           <ul class="pills" aria-label="What the work covers">
             <li class="pill">UI design</li>
             <li class="pill">Material UI theming</li>
@@ -573,9 +594,10 @@
         </div>
         <aside class="tile tile--violet hub-note c-tl" aria-label="About these projects">
           <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">readme.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-          <p>Fictional brands, built to show the system without exposing client work.</p>
-          <p class="small">Visual assets in the demos were made with AI for illustrative purposes.</p>
-          <a class="btn btn--soft" href="earlier-work.html">Earlier work <span class="arrow" aria-hidden="true">→</span></a>
+          <p><strong>A quick note on what you’re looking at.</strong></p>
+          <p>Original brands and client assets were replaced for compliance, so you’ll meet Nimbelo Fibre, Voltwell Energy and Orbeo Mobile instead. The brands are made up, but the cases behind them are real, and so is the work.</p>
+          <p>My own projects are a different story. That’s where the very pretty pixels live.</p>
+          <p>Now go click some stuff!</p>
         </aside>
       </div>
     </div>
@@ -597,16 +619,21 @@
             <symbol id="i-user" viewBox="0 0 16 16"><g fill="#ef798a" stroke="#25283d" stroke-width="1.3"><circle cx="8" cy="5.2" r="2.7"/><path d="M3 14c0-3 2-4.6 5-4.6s5 1.6 5 4.6z" stroke-linejoin="round"/></g></symbol>
             <symbol id="i-box" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><rect x="2" y="3" width="12" height="4" fill="#d7bce8"/><path d="M3 7h10v7H3z" fill="#f4f1fb"/><path d="M6.5 10h3" fill="none"/></g></symbol>
             <symbol id="i-doc" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><path d="M3.5 1.5h6l3 3v10h-9z" fill="#fff"/><path d="M5.5 8h5M5.5 10.5h5" fill="none"/></g></symbol>
+            <symbol id="i-image" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><rect x="1.8" y="2.8" width="12.4" height="10.4" fill="#cfe3f5"/><circle cx="5.4" cy="6.2" r="1.3" fill="#f4eea9"/><path d="M2 12.6l3.8-3.8 2.6 2.6 2.2-2.2 3.4 3.4" fill="#d7bce8"/></g></symbol>
+            <symbol id="i-spark" viewBox="0 0 16 16"><path d="M8 1.5l1.7 4.8 4.8 1.7-4.8 1.7L8 14.5l-1.7-4.8L1.5 8l4.8-1.7z" fill="#c0c6f5" stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"/></symbol>
+            <symbol id="i-ui" viewBox="0 0 16 16"><g stroke="#25283d" stroke-width="1.3" stroke-linejoin="round"><rect x="1.8" y="2.8" width="12.4" height="10.4" fill="#fff"/><path d="M1.8 2.8h12.4v3H1.8z" fill="#f6bfcc"/><rect x="4" y="8" width="3.4" height="3.2" fill="#cfe3f5"/><path d="M9.4 8.4h2.6M9.4 10.6h2.6" fill="none"/></g></symbol>
             <symbol id="i-play" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.3" fill="#f4eea9" stroke="#25283d" stroke-width="1.3"/><path d="M6.4 5.3 11 8l-4.6 2.7z" fill="#25283d"/></symbol>
           </svg>
             <p class="side-h">Favourites</p>
             <ul class="side-list" id="side-views">
               <li><button type="button" class="side-item" data-view="all" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl">All projects</span></button></li>
               <li><button type="button" class="side-item" data-view="done" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg><span class="lbl">Case studies</span></button></li>
-              <li><button type="button" class="side-item" data-view="presentation" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg><span class="lbl">Presentations</span></button></li>
+              <li><button type="button" class="side-item" data-view="vis" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg><span class="lbl">Figma and imagery</span></button></li>
+              <li><button type="button" class="side-item" data-view="genai" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg><span class="lbl">GenAI</span></button></li>
+              <li><button type="button" class="side-item" data-view="ui" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ui"/></svg><span class="lbl">UI design</span></button></li>
               <li><button type="button" class="side-item" data-view="wip" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><span class="lbl">In progress</span></button></li>
             </ul>
-            <p class="side-h side-extra">Case studies</p>
+            <p class="side-h side-extra">Folders</p>
             <!-- filled in by the script at the bottom: one entry per project card below -->
             <ul class="side-list side-extra" id="side-cases"></ul>
             <p class="side-h side-extra">Locations</p>
@@ -631,6 +658,9 @@
                  and the link. Order on the page = order in this file.
                    .proj              half-width card (two per row)
                    .proj proj--wide   full-width row, media left, text right
+                   .proj--case        card carries the Case study tag: shows under "Case studies"
+                   .proj--vis         shows the card under the "Figma and imagery" filter
+                                      (it stays a case study too)
                    .proj--pres        add to a published card (alongside
                                       proj--wide) to also tag it as a
                                       Presentation chip "Presentation" +
@@ -646,35 +676,39 @@
                  ================================================================ -->
 
             <!-- 1. Feature case study: this portfolio -->
-            <article class="proj proj--wide proj--gallery">
+            <article class="proj proj--wide proj--gallery proj--vis">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">this-portfolio/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-this-portfolio.jpg" width="960" height="600" alt="The portfolio home page as a pastel Y2K desktop, with overlapping windows, desktop icons and a taskbar" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip">UI design</span><span class="chip">Art direction</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--ui">UI design</span><span class="chip chip--art">Art direction</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
                 <h3>Designing this portfolio</h3>
-                <p>How this site grew from a tidy pastel grid into a playable Y2K desktop: wireframes, the concepts I tried, how the style was settled, the imagery and the easter eggs.</p>
-                <a class="proj__cta" href="work/designing-this-portfolio.html" target="_blank" rel="noopener">Open case study →</a>
+                <p>How this site grew from a tidy pastel grid into a playable and whimsical desktop: wireframes, the concepts I tried, how the style was settled, the imagery and the easter eggs too!</p>
+                <div class="proj__actions">
+                  <a class="proj__cta" href="work/designing-this-portfolio.html" target="_blank" rel="noopener">Open case study →</a>
+                  <a class="proj__cta proj__cta--alt" href="work/portfolio-in-figma.html" target="_blank" rel="noopener">Figma and imagery ↗</a>
+                </div>
               </div>
             </article>
 
+
             <!-- 2. Case study -->
-            <article class="proj proj--wide proj--gallery">
+            <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">referral-portal/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip">UI design</span></dd></div><div><dt>Topics</dt><dd>Theming, Brand elements</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Theming, Brand elements</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
                 <h3>One template, many brands</h3>
-                <p>A single referral portal template, themed for three fictional brands. The markup stays the same; only the brand elements, copy and client assets change.</p>
+                <p>A single referral portal template, themed for three different (fictional) brands. The markup stays the same: only the brand elements, copy and client assets change.</p>
                 <a class="proj__cta" href="work/one-template-many-brands.html" target="_blank" rel="noopener">Open case study →</a>
               </div>
             </article>
 
             <!-- 3. Case study -->
-            <article class="proj proj--wide proj--gallery">
+            <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">cms-structure/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <svg viewBox="0 0 480 250" role="img" aria-label="Diagram of nested content entries: a promotion contains a theme and a portal, and the portal contains an index page with five sections" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
@@ -700,9 +734,9 @@
                 </svg>
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip">Content model</span></dd></div><div><dt>Topics</dt><dd>CSS, CMS</dd></div><div><dt>Scope</dt><dd>1 portal, 5 sections</dd></div><div><dt>Demos</dt><dd>X-ray view, model map</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--model">Content model</span></dd></div><div><dt>Topics</dt><dd>CSS, CMS</dd></div><div><dt>Scope</dt><dd>1 portal, 5 sections</dd></div><div><dt>Demos</dt><dd>X-ray view, model map</dd></div></dl>
                 <h3>Designing the content model</h3>
-                <p>How a portal is assembled from nested CMS entries, with an interactive x-ray view and a map of the model.</p>
+                <p>How a landing page can be assembled from nested CMS entries, with an interactive x-ray view and a map of the model.</p>
                 <a class="proj__cta" href="work/content-architecture.html" target="_blank" rel="noopener">Open case study →</a>
               </div>
             </article>
@@ -714,24 +748,24 @@
                 <img src="assets/img/y2k/thumb-seo-landing-pages.jpg" width="1699" height="1175" alt="Hero screen of The SEO Road presentation: the headline, five KPI tiles and the first stop on the illustrated road" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--pres">Presentation</span><span class="chip">SEO</span></dd></div><div><dt>Topics</dt><dd>Audit, Optimisation</dd></div><div><dt>Scope</dt><dd>163 pages, 7 languages</dd></div><div><dt>Format</dt><dd>Interactive presentation</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--pres">Presentation</span><span class="chip chip--seo">SEO</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Audit, Optimisation</dd></div><div><dt>Scope</dt><dd>163 pages, 7 languages</dd></div><div><dt>Format</dt><dd>Interactive presentation</dd></div></dl>
                 <h3>The SEO road: hosted landing pages</h3>
-                <p>A single-handed SEO audit and optimisation across 163 hosted landing pages in seven languages, walked through as an interactive, scroll-driven presentation.</p>
+                <p>A single-handed SEO optimisation across 163 hosted landing pages in seven languages, walked through as an interactive, scroll-driven, AI-made presentation.</p>
                 <a class="proj__cta" href="presentations/seo-optimised-pages.html" target="_blank" rel="noopener">Open presentation ↗</a>
               </div>
             </article>
 
 
             <!-- 5. Case study, internal tooling -->
-            <article class="proj proj--wide proj--gallery">
+            <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">sales-tools/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-mockup-maker.jpg" width="960" height="614" alt="Desktop preview of the Voltwell Energy referral portal, a mockup generated from a prospect's website" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip">Internal tooling</span><span class="chip">AI</span></dd></div><div><dt>Topics</dt><dd>Claude skill, Automation</dd></div><div><dt>Scope</dt><dd>Fixed template, any brand</dd></div><div><dt>Used by</dt><dd>Sales team</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--app">Web app</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Claude skill, Automation</dd></div><div><dt>Scope</dt><dd>Fixed template, any brand</dd></div><div><dt>Used by</dt><dd>Sales team</dd></div></dl>
                 <h3>Mockup maker</h3>
-                <p>A guided tool that turns a prospect's website into a branded portal preview, built on a fixed template and a Claude skill, so Sales can make mockups without a designer.</p>
+                <p>A guided tool that turns a prospect's website into a branded landing page preview, built on a fixed template and a Claude skill, so Sales can make mockups without a designer.</p>
                 <a class="proj__cta" href="work/mockup-maker.html" target="_blank" rel="noopener">Open case study →</a>
               </div>
             </article>
@@ -744,9 +778,9 @@
                 <img src="assets/img/y2k/thumb-no-buy-club.jpg" width="960" height="614" alt="The No-Buy Club app: a goal bar for a Tokyo trip, a shiba mascot and a form to log an impulse" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip">App</span><span class="chip">UI design</span></dd></div><div><dt>Topics</dt><dd>Behaviour, Gamification</dd></div><div><dt>Scope</dt><dd>Concept, design and build</dd></div><div><dt>Format</dt><dd>One HTML file</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--app">Web app</span><span class="chip chip--ui">UI design</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Behaviour, Gamification</dd></div><div><dt>Scope</dt><dd>Concept, design and build</dd></div><div><dt>Format</dt><dd>One HTML file</dd></div></dl>
                 <h3>No-Buy Club</h3>
-                <p>A small app that helps people wait out impulse purchases: a cooling-off period, honest numbers and a savings goal, wrapped in a kind, kawaii interface.</p>
+                <p>A small app that helps people (mainly myself) wait out impulse purchases: a cooling-off period, honest numbers and a savings goal, wrapped in a kind, kawaii interface.</p>
                 <a class="proj__cta" href="work/no-buy-club.html" target="_blank" rel="noopener">Open case study →</a>
               </div>
             </article>
@@ -764,7 +798,7 @@
                 <div class="load-bar"><span class="load-bar__fill" style="width:40%"></span></div>
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--wip">In progress</span><span class="chip">Component</span></dd></div><div><dt>Topics</dt><dd>States, Theming</dd></div><div><dt>Scope</dt><dd>Desktop and mobile, 3 themes</dd></div><div><dt>Status</dt><dd>Coming soon</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--wip">In progress</span><span class="chip chip--comp">Component</span></dd></div><div><dt>Topics</dt><dd>States, Theming</dd></div><div><dt>Scope</dt><dd>Desktop and mobile, 3 themes</dd></div><div><dt>Status</dt><dd>Coming soon</dd></div></dl>
                 <h3>The referral widget, as a component</h3>
                 <p>Its states, on desktop and mobile, in three brand themes.</p>
                 
@@ -779,7 +813,7 @@
                 <div class="load-bar"><span class="load-bar__fill" style="width:20%"></span></div>
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--wip">In progress</span><span class="chip">QA</span><span class="chip">Automation</span></dd></div><div><dt>Topics</dt><dd>Quality, Claude skill</dd></div><div><dt>Scope</dt><dd>40+ pages, 67 tickets</dd></div><div><dt>Status</dt><dd>Coming soon</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--wip">In progress</span><span class="chip chip--qa">QA</span><span class="chip chip--auto">Automation</span></dd></div><div><dt>Topics</dt><dd>Quality, Claude skill</dd></div><div><dt>Scope</dt><dd>40+ pages, 67 tickets</dd></div><div><dt>Status</dt><dd>Coming soon</dd></div></dl>
                 <h3>Design QA at volume</h3>
                 <p>How I keep quality steady across 40+ hosted pages and 67 integration tickets, including QA automation built with Claude.</p>
                 
@@ -896,14 +930,18 @@
     var viewBtns = [].slice.call(ex.querySelectorAll('[data-view]'));
     function n(id, v, one, many){ var el = document.getElementById(id); if (el) el.textContent = v + ' ' + (v === 1 ? one : many); }
     function apply(){
-      var all = 0, wip = 0, pres = 0;
+      var all = 0, wip = 0, pres = 0, vis = 0, cs = 0;
       cards.forEach(function(c){
         var isWip = c.classList.contains('proj--wip');
         var isPres = c.classList.contains('proj--pres');
-        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'done' ? !isWip : true);
+        var isVis = c.classList.contains('proj--vis');
+        var isCase = c.classList.contains('proj--case');
+        var isAi = !!c.querySelector('.chip--ai');
+        var isUi = !!c.querySelector('.chip--ui');
+        var okView = view === 'all' || (view === 'wip' ? isWip : view === 'presentation' ? isPres : view === 'vis' ? isVis : view === 'genai' ? isAi : view === 'ui' ? isUi : view === 'done' ? isCase : true);
         var okText = !q || c.textContent.toLowerCase().indexOf(q) > -1;
         c.hidden = !(okView && okText);
-        if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; }
+        if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; if (isVis) vis++; if (isCase) cs++; }
       });
       [].forEach.call(ex.querySelectorAll('.proj-grid'), function(g){
         g.hidden = !g.querySelector('.proj:not([hidden])');
@@ -911,7 +949,7 @@
         if (prev && prev.classList.contains('proj-divider')) prev.hidden = g.hidden;
       });
       document.getElementById('fm-empty').hidden = all > 0;
-      n('count-all', all, 'object', 'objects'); n('count-done', all - wip, 'case study', 'case studies'); n('count-pres', pres, 'presentation', 'presentations'); n('count-wip', wip, 'in progress', 'in progress');
+      n('count-all', all, 'object', 'objects'); n('count-done', cs, 'case study', 'case studies'); n('count-pres', pres, 'presentation', 'presentations'); n('count-wip', wip, 'in progress', 'in progress');
     }
     viewBtns.forEach(function(b){ b.addEventListener('click', function(){
       view = b.getAttribute('data-view');

@@ -45,6 +45,9 @@
   .tokens__note { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 18px; font-weight: 700; color: var(--ink); }
   .tokens__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
   .tcard { background: #fff; border: 3px solid var(--indigo); box-shadow: 4px 5px 0 rgba(37, 40, 61, .16); padding: 16px 18px 22px; display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+  .tcard { transition: transform .25s ease, box-shadow .25s ease; position: relative; }
+  .tcard:hover { transform: scale(1.025); box-shadow: 6px 8px 0 rgba(37, 40, 61, .22); z-index: 1; }
+  @media (prefers-reduced-motion: reduce) { .tcard { transition: none; } .tcard:hover { transform: none; } }
   .tcard > .win-bar { margin: -16px -18px 0; }
   .tcard__head h3 { font-size: 22px; }
   .tcard__head p { font-size: 14px; color: var(--muted); }
@@ -111,15 +114,28 @@
   .gal__stage { display: flex; flex-direction: column; gap: 18px; padding-right: clamp(18px, 3vw, 36px); min-width: 0; }
   .gal__shot { margin: 0; }
   .gal__shot .frame { overflow: hidden; background: #fff; border: 3px solid var(--indigo); box-shadow: 6px 8px 0 rgba(37,40,61,.2); }
-  .gal__thumbs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .gal__thumb { display: flex; flex-direction: column; gap: 8px; padding: 6px 6px 8px; background: var(--chrome); border: 2px solid var(--indigo); box-shadow: 3px 4px 0 rgba(37,40,61,.18); cursor: pointer; text-align: left; font: inherit; color: var(--indigo); }
-  .gal__thumb img { display: block; width: 100%; height: auto; border: 1.5px solid var(--indigo); }
-  .gal__thumb span { font-family: var(--font-pixel); font-weight: 600; font-size: 13px; }
-  .gal__thumb:hover { background: var(--yellow); }
-  .gal__thumb:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  /* behind the scenes: cropped model map preview */
+  .map-crop .frame { position: relative; overflow: hidden; }
+  .map-crop__view { position: relative; aspect-ratio: 16 / 5.5; overflow: hidden; background: #e9e1f7; }
+  .map-crop__view img { display: block; width: 100%; height: auto; }
+  .map-crop__view::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 28%; background: linear-gradient(to bottom, rgba(233,225,247,0), #e9e1f7); pointer-events: none; }
+  .frame-link { position: absolute; inset: 0; z-index: 3; }
+  .frame-link:focus-visible { outline: 3px solid var(--pink); outline-offset: -3px; }
+  .frame-link:hover { background: rgba(165, 120, 214, .08); }
+  .feature__foot { display: flex; align-items: center; justify-content: space-between; gap: 18px 28px; flex-wrap: wrap; padding: 18px 0 0; }
+  .feature__foot figcaption { margin: 0; font-size: 15px; color: var(--body); flex: 1 1 320px; }
+  .btn--big { font-size: 16px; padding: 14px 22px 15px; }
+  @media (max-width: 640px) { .map-crop__view { aspect-ratio: 16 / 9; } .feature__foot .btn { width: 100%; } }
+  /* browser tabs: sit on top of the browser frame, the active one merges into it */
+  .gal__tabs { display: flex; align-items: flex-end; gap: 4px; padding: 0 10px; margin-bottom: -18px; position: relative; z-index: 2; }
+  .gal__tab { flex: 0 1 190px; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #d8d2f0; border: 3px solid var(--indigo); border-bottom: 0; cursor: pointer; font-family: var(--font-pixel); font-weight: 600; font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gal__tab:hover { background: var(--yellow); color: var(--indigo); }
+  .gal__tab[aria-selected="true"] { background: #f3f1fb; color: var(--indigo); position: relative; top: 3px; padding-top: 11px; padding-bottom: 11px; }
+  .gal__tab:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+  .gal__tab .gal__sw { margin: 0; flex: none; }
   .gal__info { border-left: 2px solid var(--indigo); padding-left: clamp(18px, 3vw, 36px); display: flex; flex-direction: column; justify-content: center; min-width: 0; }
   .gal__desc { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; width: 100%; }
-  .gal__desc[hidden], .gal__shot[hidden], .gal__thumb[hidden] { display: none; }
+  .gal__desc[hidden], .gal__shot[hidden] { display: none; }
   .gal__folder { display: flex; align-items: center; gap: 10px; margin: 0; font-family: var(--font-pixel); font-weight: 600; font-size: 15px; color: var(--indigo); }
   .gal__desc h3 { font-family: var(--font-pixel); font-weight: 700; font-size: clamp(17px, 1.7vw, 20px); line-height: 1.3; }
   .gal__desc .proj__specs { width: 100%; }
@@ -226,12 +242,13 @@
     <div class="tile tile--sky cs-win">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-template-many-brands.case</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
     <h1>One template, many brands</h1>
-    <p class="lead">Three different refer-a-friend portals, a single template. The page structure stays the same for every brand; each one brings its own assets, copy, logo and design identity. It’s how I build real portals: brand styling set in a Material UI theme and managed in a headless CMS.</p>
+    <p class="lead">Three different refer-a-friend portals, a single template. The page structure stays the same for every brand, but each one brings its own assets, copy, logo and design identity. It’s how I build real portals: brand styling set in a Material UI theme and managed in a headless CMS.</p>
+    <p style="margin:28px 0 28px;font-size:.9rem;color:#5f5c86">Visual assets in the demos were made with AI for illustrative purposes.</p>
     <dl class="facts">
       <div class="fact"><dt>Role</dt><dd>Web designer, from UI design to code implementation</dd></div>
       <div class="fact"><dt>For</dt><dd>Partner brands in telecom, energy, banking, insurance and more</dd></div>
-      <div class="fact"><dt>Tools</dt><dd>Contentful, Figma, Material UI theme JSON, HTML/CSS, vibe coding with Claude</dd></div>
-      <div class="fact"><dt>Output</dt><dd>One shared portal template, themed for three fictional brands</dd></div>
+      <div class="fact"><dt>Tools</dt><dd>Contentful, Figma, Material UI theme JSON, HTML/CSS</dd></div>
+      <div class="fact"><dt>Output</dt><dd>Each portal feels custom, while using the same shared template</dd></div>
     </dl>
     </div>
   </div></section>
@@ -245,7 +262,7 @@
         <p class="lead"><strong>Every partner brand needs a portal that feels like its own</strong></p>
       </div>
       <div class="prose">
-        <p>Styling, assets and tone of voice should all belong to the partner, so a partner’s customers never feel they have left the brand. At the same time, the platform has to ship every portal from one codebase and one content model. So the question becomes: how much can change, and where exactly should it change?</p>
+        <p>Styling, assets and tone of voice should all belong to the partner brand, so their customers never feel they have left the brand. At the same time, the platform has to ship every portal from one codebase and one content model. So the question becomes: how much can change, and where exactly should it change?</p>
       </div>
       <div class="three" style="margin-top:22px">
         <div class="tile tile--white"><span class="tag">Brand fit</span><h3>It has to feel native</h3><p>Each partner needs its own styling, assets and tone of voice, in every portal.</p></div>
@@ -262,6 +279,11 @@
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">brand-portals/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="gal__body">
         <div class="gal__stage">
+          <div class="gal__tabs" role="tablist" aria-label="Choose a brand portal">
+            <button type="button" role="tab" class="gal__tab" data-id="nimbelo" aria-selected="true"><i class="gal__sw" style="background:#0B7285"></i>Nimbelo Fibre</button>
+            <button type="button" role="tab" class="gal__tab" data-id="voltwell" aria-selected="false" tabindex="-1"><i class="gal__sw" style="background:#1F6F43"></i>Voltwell Energy</button>
+            <button type="button" role="tab" class="gal__tab" data-id="orbeo" aria-selected="false" tabindex="-1"><i class="gal__sw" style="background:#5B2EFF"></i>Orbeo Mobile</button>
+          </div>
           <div class="gal__main">
           <figure class="gal__shot" data-id="nimbelo">
             <div class="frame">
@@ -281,17 +303,6 @@
               <div class="live-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Orbeo Mobile referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
             </div>
           </figure>
-          </div>
-          <div class="gal__thumbs" role="group" aria-label="Choose a brand portal">
-          <button type="button" class="gal__thumb" data-id="nimbelo" aria-label="Show Nimbelo Fibre" hidden>
-            <img src="../assets/img/y2k/thumb-nimbelo-fibre.jpg" width="480" height="300" alt="" loading="lazy"><span>Nimbelo Fibre</span>
-          </button>
-          <button type="button" class="gal__thumb" data-id="voltwell" aria-label="Show Voltwell Energy">
-            <img src="../assets/img/y2k/thumb-voltwell-energy.jpg" width="480" height="300" alt="" loading="lazy"><span>Voltwell Energy</span>
-          </button>
-          <button type="button" class="gal__thumb" data-id="orbeo" aria-label="Show Orbeo Mobile">
-            <img src="../assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="" loading="lazy"><span>Orbeo Mobile</span>
-          </button>
           </div>
         </div>
         <div class="gal__info" aria-live="polite">
@@ -333,7 +344,7 @@
           </div>
         </div>
       </div>
-      <p class="gal__cap">Three fictional brands, one template. Pick a portal to preview it, then open the live demo to scroll the full page. Visual assets made with AI for illustrative purposes.</p>
+      <p class="gal__cap">Three fictional brands, one template. Pick a tab to preview a portal, then open the live demo to scroll the full page. Visual assets made with AI for illustrative purposes.</p>
     </div>
   </div></section>
 
@@ -341,9 +352,9 @@
   <section class="block" style="padding-top:0" aria-labelledby="approach-title"><div class="wrap">
     <div class="tile tile--sky approach-win">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">approach.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-      <div class="prose">
+      <div class="prose" style="max-width:none">
       <h2 id="approach-title" class="h-bar">The approach</h2>
-      <p>I treat a brand as a set of design decisions, not a set of pages. I read the brand guidelines and the assets the client provides (colours, typefaces, button style, tone of voice) and turn them into a small set of style elements: colours, fonts, weights and border radius, designed in CSS and set in Material UI theme JSON in production. The shared template reads those values and renders the portal, with no new markup and no new components. Layout, components and interactions are designed once, in Figma and in CSS; each brand only brings its own values.</p>
+      <p>I treat a brand as a set of design decisions, not a set of pages. Clients send very different amounts of material, so I boil each brand down to a few style elements: colours, fonts, weights and border radius. The layout, components and interactions are designed once, in Figma and CSS. Each brand only brings its own values, set in a Material UI theme in production. The shared template reads them and renders the portal, with no new markup and no new components.</p>
       </div>
     </div>
 
@@ -460,9 +471,9 @@
         <ul class="checklist">
           <li>Page layout</li>
           <li>Section designs: hero, how it works, products, rewards</li>
-          <li>Components: referral card, step, product tile, rewards table</li>
+          <li>Components: header, footer, steppers, product tiles and carousel, rewards table</li>
           <li>Accessibility: headings, labels, focus states</li>
-          <li>Interaction: the referral widget, where users add their email and get their personal link, plus copy link and show more</li>
+          <li>Main interaction: CTAs open a referral widget, where users add their email and get their personal link, plus copy link</li>
         </ul>
       </div>
       <div class="tile tile--lav">
@@ -472,11 +483,12 @@
         <ul class="checklist checklist--swap">
           <li>Colours</li>
           <li>Typefaces and weights</li>
-          <li>Border radius</li>
+          <li>Border radius and CTA style</li>
           <li>Copy and reward values</li>
           <li>Order of page sections, interchangeable per brand</li>
           <li>Logo</li>
           <li>Assets</li>
+          <li>Custom sections are evaluated case by case</li>
         </ul>
       </div>
     </div>
@@ -489,7 +501,7 @@
       <div class="tile tile--lilac">
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">client-assets.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <h3>Designed around client assets</h3>
-        <p>Each brand provides its own imagery and logo. I place and crop them so the brand leads and the referral widget stays clear and readable on top.</p>
+        <p>Each brand provides its own images and logo, and I make them look good. I go through their website to understand their design, then apply it to our portal, so the UX feels seamless.</p>
       </div>
       <div class="tile tile--lilac">
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">responsive.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
@@ -499,19 +511,31 @@
       <div class="tile tile--violet">
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">custom-sections.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <h3>Customized sections</h3>
-        <p>Custom sections and elements can be decided case by case, which makes each portal feel tailor made.</p>
+        <p>Custom sections and elements can be decided case by case, which makes each portal feel tailor made. Examples: banners, different ways to display products and extra CTAs.</p>
       </div>
     </div>
   </div></section>
 
-  <!-- What was delivered -->
+  <!-- Behind the scenes: link to the content model case -->
   <section class="block" style="padding-top:0" aria-labelledby="delivered-title"><div class="wrap">
-    <div class="section-head"><h2 id="delivered-title" class="h-bar">What was delivered</h2></div>
-    <div class="three">
-      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">shared-template.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>One shared template</h3><p>Page layout, section designs, components and the referral widget, designed once and reused by every brand.</p></div>
-      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">themed-portals.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>Three themed portals</h3><p>Live demos of three fictional brands, each built only from its own brand elements, copy, logo and client assets.</p></div>
-      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">theme-setup.cfg</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>Styling set in the CMS</h3><p>Brand styling lives in a Material UI theme and is managed in a headless CMS, the way I build real portals.</p></div>
+    <div class="section-head">
+      <h2 id="delivered-title" class="h-bar">What’s happening in the background</h2>
+      <p class="lead">Every portal is held together by three layers. The template decides how a page looks, the CMS holds each brand’s values, copy and assets, and the content model decides how it all nests together. Change an entry and the page updates, with no new markup. Curious how that structure was designed? Take a look at the model.</p>
     </div>
+    <figure class="shot map-crop tile tile--sky">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">model-map.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="frame">
+        <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>content model map</span></div>
+        <div class="map-crop__view">
+          <img src="../assets/img/y2k/model-map-preview.jpg" width="1466" height="822" alt="Part of the content model map: a Theme entry and a Portal entry at the top, with an Index page below" loading="lazy">
+        </div>
+        <a class="frame-link" href="content-architecture.html"><span class="sr-only">Read the case study: Designing the content model</span></a>
+      </div>
+      <div class="feature__foot">
+        <figcaption>A small part of the content model map. The case study walks through the full structure.</figcaption>
+        <a class="btn btn--primary btn--big" href="content-architecture.html">Read how the content model was designed →</a>
+      </div>
+    </figure>
   </div></section>
 
   <!-- Problem solved -->
@@ -520,12 +544,12 @@
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">problem-solved.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="section-head">
         <h2 id="outcome-title" class="h-bar">Problem solved</h2>
-        <p class="lead">Designing the system instead of the page makes web pages scalable, with a high quality outcome every time.</p>
+        <p class="lead">A pretty page is not scalable without a consistent template and content design supporting it. This is how you get a high quality outcome every time.</p>
       </div>
       <div class="three">
-        <div class="tile tile--white"><span class="tag">Brand fit</span><h3>Feels native, every time</h3><p>Each portal looks like the partner’s own, because every brand brings its own colours, fonts, border radius, logo and assets.</p></div>
-        <div class="tile tile--white"><span class="tag">Speed</span><h3>Ready on day one</h3><p>A new brand starts from a working, tested portal, so the design effort goes into getting the brand right.</p></div>
-        <div class="tile tile--white"><span class="tag">Maintenance</span><h3>One system to maintain</h3><p>Layout, components and accessibility are designed once, so quality stays the same across every portal.</p></div>
+        <div class="tile tile--white"><span class="tag">Brand fit</span><h3>Feels native, every time</h3><p>Each portal looks like the partner’s own, because I understood the brand’s design and applied it to a reliable template.</p></div>
+        <div class="tile tile--white"><span class="tag">Speed</span><h3>Ready on day one</h3><p>A new brand starts from a working, tested portal, so the design effort is focused on getting the brand right, not the structure.</p></div>
+        <div class="tile tile--white"><span class="tag">Maintenance</span><h3>One system to maintain</h3><p>Layout, components and template are designed once, so quality stays the same across every portal.</p></div>
       </div>
     </div>
   </div></section>
@@ -618,16 +642,27 @@
       });
     }
     function show(id) {
-      ['.gal__shot', '.gal__desc', '.gal__thumb'].forEach(function (sel) {
+      ['.gal__shot', '.gal__desc'].forEach(function (sel) {
         g.querySelectorAll(sel).forEach(function (el) {
-          var on = el.getAttribute('data-id') === id;
-          el.hidden = sel === '.gal__thumb' ? on : !on;
+          el.hidden = el.getAttribute('data-id') !== id;
         });
+      });
+      g.querySelectorAll('.gal__tab').forEach(function (el) {
+        var on = el.getAttribute('data-id') === id;
+        el.setAttribute('aria-selected', on ? 'true' : 'false');
+        el.tabIndex = on ? 0 : -1;
       });
       fit();
     }
-    g.querySelectorAll('.gal__thumb').forEach(function (b) {
+    var tabs = Array.prototype.slice.call(g.querySelectorAll('.gal__tab'));
+    tabs.forEach(function (b, i) {
       b.addEventListener('click', function () { show(b.getAttribute('data-id')); });
+      b.addEventListener('keydown', function (e) {
+        var n = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : null;
+        if (n === null) return;
+        n = (n + tabs.length) % tabs.length; e.preventDefault();
+        tabs[n].focus(); show(tabs[n].getAttribute('data-id'));
+      });
     });
     fit();
     window.addEventListener('resize', fit);
