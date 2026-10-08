@@ -128,6 +128,12 @@
   .trio{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:var(--gap); }
   .trio .tile:nth-child(odd){ transform:rotate(-.3deg); }
   .trio .tile:nth-child(even){ transform:rotate(.3deg); }
+  .figma-banner{ display:flex; align-items:center; justify-content:space-between; gap:24px; padding:26px 30px; }
+  .figma-banner h3{ margin:8px 0 6px; font-size:24px; }
+  .figma-banner p{ margin:0; }
+  .figma-banner .btn{ flex:none; }
+  @media (max-width:760px){ .figma-banner{ flex-direction:column; align-items:flex-start; } }
+  .next-card .work-card__media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
   .wip-row{ margin-top:var(--gap); display:flex; align-items:center; gap:16px; padding:16px 20px; border-style:dashed; }
   .wip-row p{ margin:0; }
   .wip-row .chip--wip{ flex:none; font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:#fff; border:1.5px dashed var(--indigo); padding:5px 9px; }
@@ -340,6 +346,18 @@
     </div>
   </div></section>
 
+  <!-- Figma and imagery banner -->
+  <section class="block" style="padding-top:0" id="figma-banner" aria-label="This portfolio in Figma, and its imagery"><div class="wrap">
+    <div class="tile tile--lav-soft figma-banner">
+      <div>
+        <span class="tag">Behind the scenes</span>
+        <h3>Want to see the Figma file and the imagery?</h3>
+        <p>The concept and the first structure started in Figma, and the desktop is full of hand-made pixel art. Come and have a look at both.</p>
+      </div>
+      <a class="btn btn--primary" href="portfolio-in-figma.html">See Figma and imagery →</a>
+    </div>
+  </div></section>
+
   <!-- Style -->
   <section class="block" style="padding-top:0" id="style" aria-labelledby="style-title"><div class="wrap">
     <div class="section-head">
@@ -389,27 +407,6 @@
     </div>
   </div></section>
 
-  <!-- Live desktop -->
-  <section class="block" style="padding-top:0" id="desktop" aria-labelledby="desk-title"><div class="wrap">
-    <div class="tile tile--white demo-tile">
-      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--player"></span><span class="title">desktop.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-      <div class="section-head" style="margin-bottom:0">
-        <h2 id="desk-title" class="h-bar" style="margin-top:14px">The desktop, live</h2>
-        <p class="lead">This is the real home page, running inside a window. Drag the windows by their title bars, minimise them to the taskbar, open the icons. Yes, it works in here too.</p>
-      </div>
-      <figure class="shot" style="margin:26px 0 0">
-        <div class="frame">
-          <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>ami-onodera.github.io/portfolio</span></div>
-          <div class="live-frame live-frame--desk"><iframe src="../index.html" title="The portfolio home desktop, live and interactive" loading="lazy"></iframe></div>
-        </div>
-        <div class="demo-foot">
-          <figcaption>Best on a wide screen. On phones the windows stack into a simple scrolling page.</figcaption>
-          <a class="btn btn--primary" href="../index.html" target="_blank" rel="noopener">Open the desktop ↗<span class="sr-only"> (opens in a new tab)</span></a>
-        </div>
-      </figure>
-    </div>
-  </div></section>
-
   <!-- Design choices -->
   <section class="block" style="padding-top:0" id="choices" aria-labelledby="choices-title"><div class="wrap">
     <div class="section-head">
@@ -421,7 +418,7 @@
       <div class="tile tile--blue c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">icons.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Navigation</span><h3>Click to open, double-click to go</h3><p>A single click on a desktop icon opens its window, a double-click opens the full page, just like the real thing. The taskbar always has a way home.</p></div>
       <div class="tile tile--peri c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">saori.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Onboarding</span><h3>A shiba instead of a popup</h3><p>The first version greeted you with a <code>confirm.exe</code> dialog asking “Execute dazzling sequence?”. Fun once, a blocker every time after. Saori now says hello from the corner instead, and never gets in the way.</p></div>
       <div class="tile tile--lav-soft c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">mobile.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Responsive</span><h3>Phones stop pretending</h3><p>Dragging windows on a phone is no fun. Below 640px the desktop becomes a stacked, scrolling page that keeps the windows’ look and drops the tricks.</p></div>
-      <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">layouts.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Craft</span><h3>Arranged by hand, per screen</h3><p>Windows are placed in five breakpoint tiers, and the small 12-inch laptop got its own hand-arranged layout, so the cascade looks composed at every size instead of just squeezed.</p></div>
+      <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">layouts.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Craft</span><h3>Arranged by hand, per screen</h3><p>Windows are placed in five breakpoint tiers, all hand-arranged. Some sections are closed in small screens, but loaded open on bigger ones!</p></div>
       <div class="tile tile--lilac c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">a11y.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Accessibility</span><h3>Retro, not unreadable</h3><p>Reading text stays at 16px or more in a soft sans, indigo on pastel. Decorative windows are hidden from screen readers, tooltips work on keyboard focus, and motion calms down for reduced-motion users.</p></div>
     </div>
   </div></section>
@@ -450,32 +447,28 @@
   <!-- Built with Claude -->
   <section class="block" style="padding-top:0" id="build" aria-labelledby="build-title"><div class="wrap">
     <div class="section-head">
-      <h2 id="build-title" class="h-bar">Designed in the browser, with Claude</h2>
-      <p class="lead">There was no handoff, because I was on both sides of it. I designed straight in code, vibe coding with Claude, and judged every change in the browser.</p>
+      <h2 id="build-title" class="h-bar">Designed in the browser, going with the vibe</h2>
+      <p class="lead">There was no handoff, because I was on both sides of it. After coming up with the visual concept and the initial structure on Figma, I designed straight in code, vibe coding with generative AI, and judged every little change in the browser.</p>
     </div>
     <div class="trio">
       <div class="tile tile--lav-soft c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">sketch.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Explore</span><h3>Sketches you can click</h3><p>Concepts were working pages from day one, so I could feel the navigation, not just look at it. Weak ideas showed themselves fast.</p></div>
       <div class="tile tile--lav c-tl c-br"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">commits.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Iterate</span><h3>Small steps, 82 times</h3><p>Every change was its own commit: a font swap, a new icon, a pixel nudge for a 12-inch screen. Easy to try, easy to undo, and the history became this case study.</p></div>
       <div class="tile tile--lilac c-tl"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">y2k-desktop.skill</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><span class="tag">Systemise</span><h3>The style became a skill</h3><p>I wrote the whole system down as a Claude skill: colours, type, window chrome, buttons and responsive rules. New pages come out on brand from the first draft.</p></div>
     </div>
-    <div class="tile tile--white wip-row">
-      <span class="chip chip--wip">In progress</span>
-      <p><strong>Next up: Figma mockups.</strong> The key screens rebuilt as a Figma file, to close the loop from wireframe to mockup to code.</p>
-    </div>
   </div></section>
 
   <!-- Related -->
   <section class="block" style="padding-top:0" aria-labelledby="prev-title"><div class="wrap">
     <h2 id="prev-title" class="sr-only">Related case study</h2>
-    <a class="work-card next-card" href="one-template-many-brands.html">
+    <a class="work-card next-card" href="no-buy-club.html">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">related-case-study.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="work-card__media">
-        <div class="live-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Preview of the Orbeo Mobile portal" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
+        <img src="../assets/img/y2k/thumb-no-buy-club.jpg" alt="No-Buy Club, an app that helps people wait out impulse purchases" loading="lazy">
       </div>
       <div class="work-card__body">
         <span class="tag">Related case study</span>
-        <h3 style="font-size:28px;margin-top:6px">One template, many brands</h3>
-        <p>Three refer-a-friend portals, a single template. Only the client’s assets, copy and design identity change.</p>
+        <h3 style="font-size:28px;margin-top:6px">No-Buy Club: from “I want it now” to “do I still want it?”</h3>
+        <p>A small app that helps people wait out impulse purchases, with a cooling-off period, honest numbers and a savings goal.</p>
         <span class="work-card__cta">Read the case study →</span>
       </div>
     </a>
