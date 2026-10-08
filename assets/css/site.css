@@ -81,6 +81,7 @@ strong, b { color: var(--ink); font-weight: 800; }
   background: var(--accent); opacity: .55; margin-top: 14px;
 }
 .lead { font-size: clamp(18px, 2vw, 21px); color: var(--body); max-width: 62ch; }
+.section-head .lead { max-width: none; } /* text in big containers runs full width */
 .muted { color: var(--muted); }
 
 /* ---------- nav ---------- */
@@ -178,7 +179,7 @@ section.block { padding: clamp(48px, 7vw, 88px) 0; }
 .fact { padding: 18px 20px; border-radius: 22px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
 .fact dt { font-size: 12px; font-weight: 800; letter-spacing: .5px; text-transform: uppercase; color: var(--muted); }
 .fact dd { margin-top: 4px; font-weight: 800; color: var(--ink); line-height: 1.35; }
-.prose { max-width: 70ch; }
+.prose { max-width: none; } /* big content containers: text runs full width */
 .prose h2 { margin: 0 0 14px; }
 .prose h3 { margin: 26px 0 8px; }
 .prose ul { padding-left: 1.2em; margin-top: .6em; }
