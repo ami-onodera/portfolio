@@ -24,10 +24,10 @@
 
   .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
   .three .tile h3 { font-size: 20px; margin: 10px 0 6px; }
-  .three .tile p { font-size: 15px; }
+  .three .tile p { font-size: 16px; }
   .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
   .two .tile h3 { font-size: 20px; margin: 10px 0 6px; }
-  .two .tile p, .two .tile li { font-size: 15px; }
+  .two .tile p, .two .tile li { font-size: 16px; }
   .two .tile ul { margin: 8px 0 0; padding-left: 20px; }
   .two .tile li + li { margin-top: 4px; }
 
@@ -40,28 +40,30 @@
   .tile .ai-note { padding: 0 clamp(6px, 2.4vw, 30px); }
   .ph { margin: 0; background: #fff; border: 2px solid var(--indigo); box-shadow: 4px 4px 0 var(--indigo); display: flex; flex-direction: column; min-width: 0; }
   .ph img { display: block; width: 100%; height: auto; border-bottom: 2px solid var(--indigo); }
-  .ph figcaption { padding: 10px 12px 12px; font-size: 14px; line-height: 1.45; color: var(--body); }
+  .ph figcaption { padding: 10px 12px 12px; font-size: 16px; line-height: 1.45; color: var(--body); }
   .ph figcaption b { font-family: var(--font-pixel); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .3px; color: var(--accent-ink); display: block; margin-bottom: 2px; }
-  .ai-note { margin: 22px 0 0; font-size: 14px; color: var(--body); }
+  .ai-note { margin: 22px 0 0; font-size: 16px; color: var(--body); }
   .ai-note strong { font-family: var(--font-pixel); font-weight: 600; color: var(--indigo); }
 
   /* documentation */
-  .spec { margin: 12px 0 0; padding: 14px 16px; background: #fff; border: 2px solid var(--indigo); font-family: "IBM Plex Mono", monospace; font-size: 13px; line-height: 1.6; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .spec { margin: 12px 0 0; padding: 14px 16px; background: #fff; border: 2px solid var(--indigo); font-family: "IBM Plex Mono", monospace; font-size: 16px; line-height: 1.6; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
   .spec em { font-style: normal; background: var(--yellow); padding: 0 3px; }
-  .spec-key { margin: 10px 0 0; font-size: 13.5px; color: var(--body); }
+  .spec-key { margin: 10px 0 0; font-size: 16px; color: var(--body); }
   .spec-key em { font-style: normal; background: var(--yellow); padding: 0 4px; border: 1px solid var(--indigo); }
 
   /* design in use: layouts built in HTML and CSS from the generated images */
   .lay { margin: 0; }
   .lay__stage { position: relative; overflow: hidden; border: 2px solid var(--indigo); box-shadow: 4px 4px 0 var(--indigo); background-size: cover; background-position: center; }
-  .lay figcaption { margin-top: 12px; font-size: 14px; color: var(--body); }
+  .lay figcaption { margin-top: 12px; font-size: 16px; color: var(--body); }
   .lay--post .lay__stage { aspect-ratio: 1 / 1; background-image: url("../assets/img/ai-food/food-garlic-chicken.jpg"); }
   .lay--post .lay__panel { position: absolute; left: 6%; right: 6%; bottom: 6%; background: #fffdf6; border: 2px solid var(--indigo); padding: 14px 16px 16px; }
-  .lay--ad .lay__stage { aspect-ratio: 1 / 1; background-image: url("../assets/img/ai-food/life-doorstep-box.jpg"); background-position: 66% 50%; }
-  .lay--ad .lay__panel { position: absolute; left: 6%; right: 6%; bottom: 6%; background: #fffdf6; border: 2px solid var(--indigo); padding: 14px 16px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
-  .lay__brand { font-family: var(--font-pixel); font-size: 11px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: var(--accent-ink); }
-  .lay__head { font-family: var(--font-head); font-weight: 800; color: var(--ink); line-height: 1.1; font-size: clamp(20px, 3vw, 32px); margin: 0; }
-  .lay__btn { align-self: flex-start; font-family: var(--font-pixel); font-weight: 600; font-size: 12px; color: var(--indigo); background: var(--yellow); border: 2px solid var(--indigo); box-shadow: 2px 2px 0 var(--indigo); padding: 5px 10px; }
+  .lay--ad .lay__stage { aspect-ratio: 1 / 1; display: flex; flex-direction: column; background: #fffdf6; }
+  .lay--ad .lay__photo { flex: 0 0 58%; background: url("../assets/img/ai-food/life-cooking-with-child.jpg") center / cover no-repeat; border-bottom: 2px solid var(--indigo); }
+  .lay--ad .lay__panel { flex: 1; padding: 14px 18px 16px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 8px; }
+  .lay__brand { font-family: var(--font-pixel); font-size: 16px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: #000; }
+  .lay__head { font-family: var(--font-head); font-weight: 800; color: #418515; text-transform: uppercase; line-height: 1.1; font-size: clamp(20px, 3vw, 32px); margin: 0; }
+  .lay--ad .lay__head { font-size: clamp(18px, 2.4vw, 28px); }
+  .lay__btn { align-self: flex-start; font-family: var(--font-pixel); font-weight: 600; font-size: 16px; color: #fff; background: #95DC13; border: 0; box-shadow: none; padding: 7px 14px; }
 
   /* prev case study */
   .next-card { display: grid; grid-template-columns: 2fr 3fr; align-items: stretch; text-decoration: none; color: inherit; }
@@ -79,6 +81,8 @@
   }
   @media (max-width: 640px) {
     .ph-grid--2, .ph-grid--3 { grid-template-columns: 1fr; }
+    .lay--ad .lay__stage { aspect-ratio: auto; }
+    .lay--ad .lay__photo { flex: none; aspect-ratio: 3 / 2; }
   }
 </style>
 </head>
@@ -286,7 +290,7 @@
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">series-bible.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <span class="tag">Series bible</span>
         <h3>Locked for every shot</h3>
-        <ul style="margin:8px 0 0;padding-left:20px;font-size:15px">
+        <ul style="margin:8px 0 0;padding-left:20px;font-size:16px">
           <li><strong>Setting:</strong> bright Scandinavian-style kitchen, white shaker cabinets, light oak worktops, sage green tiles, brass pendant lamp, large window on the left.</li>
           <li><strong>Family:</strong> father in his 40s, short dark hair, trimmed beard, navy sweater. Mother in her late 30s, wavy auburn hair, mustard cardigan. Son aged 8, curly light-brown hair, green t-shirt.</li>
           <li><strong>Light and palette:</strong> soft warm morning light from the left. Sage, oak, cream, mustard.</li>
@@ -310,7 +314,7 @@ No text, no logos</div>
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">realism-checklist.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
         <span class="tag">Realism checklist</span>
         <h3>Checked on every image</h3>
-        <ul style="margin:8px 0 0;padding-left:20px;font-size:15px">
+        <ul style="margin:8px 0 0;padding-left:20px;font-size:16px">
           <li><strong>Hands:</strong> five fingers, a natural grip, nothing fused to a utensil.</li>
           <li><strong>Food:</strong> steam, sauce and browning behave, with one deliberate imperfection.</li>
           <li><strong>Light:</strong> one direction, and the shadows agree.</li>
@@ -338,10 +342,11 @@ No text, no logos</div>
         <figcaption>Square social post. The overhead plate leaves room for a copy panel along the bottom edge.</figcaption>
       </figure>
       <figure class="lay lay--ad">
-        <div class="lay__stage" role="img" aria-label="Square ad: the delivery box photograph with a panel reading Your week of dinners, delivered, and a menu button">
-          <div class="lay__panel"><span class="lay__brand">Fresh Table</span><p class="lay__head">Your week of dinners, delivered.</p><span class="lay__btn">See this week's menu</span></div>
+        <div class="lay__stage" role="img" aria-label="Square ad: a mother and daughter cooking together above a copy panel reading Cook together tonight, with a menu button">
+          <div class="lay__photo"></div>
+          <div class="lay__panel"><span class="lay__brand">Fresh Table</span><p class="lay__head">Cook together tonight.</p><span class="lay__btn">See this week's menu</span></div>
         </div>
-        <figcaption>Square ad with a button. A crop of the doorstep scene keeps the subject visible above the copy panel.</figcaption>
+        <figcaption>Square ad with a button. The photo sits above its own copy panel, so nothing in the picture is covered.</figcaption>
       </figure>
     </div>
   </div></div></section>
@@ -375,7 +380,7 @@ No text, no logos</div>
     <div class="tile tile--lilac" style="margin-top:var(--gap)">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">next-tests.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <h3 style="font-size:20px;margin:10px 0 6px">What I would test next</h3>
-      <p style="font-size:15px">The same brief across several image models, side by side, with a verdict on realism and consistency. A reference-image workflow to lock faces, which prompts alone cannot do. And short motion tests, to see which stills hold up when they move.</p>
+      <p style="font-size:16px">The same brief across several image models, side by side, with a verdict on realism and consistency. A reference-image workflow to lock faces, which prompts alone cannot do. And short motion tests, to see which stills hold up when they move.</p>
     </div>
   </div></section>
 
