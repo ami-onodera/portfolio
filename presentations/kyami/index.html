@@ -75,8 +75,8 @@
   .hero__head h1{font-size:clamp(40px,7.4vw,108px);font-weight:800}
   .hero__head h1 em{font-style:normal;color:var(--blush)}
   .hero__head .eyebrow{display:block;margin-bottom:14px}
-  .hero__late{position:absolute;left:0;right:0;bottom:8vh;text-align:center;color:var(--on-dark);padding-inline:var(--gutter);opacity:calc((var(--p,0) - .72) * 4)}
-  .hero__late p{font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:700;text-shadow:0 2px 24px rgba(67,54,51,.35)}
+  .hero__late{position:absolute;left:0;right:0;bottom:8vh;text-align:center;color:var(--beni);padding-inline:var(--gutter);opacity:calc((var(--p,0) - .72) * 4)}
+  .hero__late p{font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:800}
   .scroll-cue{position:absolute;bottom:3vh;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha-soft);opacity:calc(1 - var(--p,0) * 5)}
 
   /* 2. manifesto through sakura branches */
@@ -98,6 +98,10 @@
   .turn__bottle{position:relative;height:min(78svh,720px);aspect-ratio:928/1152;max-width:100%;transform:rotate(calc(-14deg * (1 - var(--p,0)))) scale(calc(1.12 - .12 * var(--p,0))) translateY(calc(6vh * (1 - var(--p,0))));transform-origin:50% 80%;will-change:transform}
   .turn__bottle img{width:100%;height:100%;object-fit:cover;border-radius:28px;box-shadow:0 40px 80px -40px rgba(168,33,63,.35)}
   .turn__bottle::after{content:"";position:absolute;inset:0;border-radius:28px;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 48%,transparent 60%);transform:translateX(calc(-60% + 120% * var(--p,0)));mix-blend-mode:soft-light;pointer-events:none}
+  .turn__bottle.is-3d{transform:none;aspect-ratio:3/4}
+  .turn__bottle.is-3d::after,.turn__bottle.is-3d img{display:none}
+  .turn__bottle canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .turn__hint{position:absolute;left:50%;bottom:4vh;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha-soft)}
   .callouts{display:grid;gap:clamp(28px,6vh,64px);position:relative;z-index:2}
   .callout{max-width:260px}
   .callout b{display:block;font-family:var(--f-display);font-size:clamp(34px,4vw,56px);font-weight:800;color:var(--blush);line-height:1}
@@ -241,8 +245,8 @@
   <ul>
     <li><a href="#serum">The serum</a></li>
     <li><a href="#ingredients">Ingredients</a></li>
-    <li><a href="#ritual">Ritual</a></li>
     <li><a href="#results">Results</a></li>
+    <li><a href="#ritual">Ritual</a></li>
   </ul>
   <a class="pill" href="#shop">Shop · €34</a>
 </header>
@@ -252,7 +256,7 @@
   <!-- 1. hero -->
   <section class="scene hero" data-scrub="hero" aria-labelledby="hero-title">
     <div class="stage">
-      <div class="hero__media"><img src="img/hero-bottle.jpg" width="1264" height="848" alt="A small clear glass dropper bottle of pale pink serum on a glossy pink surface, with gel drops around it and a cherry blossom branch above"></div>
+      <div class="hero__media"><img src="img/hero-bottle.jpg" width="1264" height="848" alt="A small clear glass dropper bottle of pale pink serum on a glossy pink surface, with drops of serum around it and a cherry blossom branch above"></div>
       <div class="hero__head">
         <span class="eyebrow">New · Spring 2027</span>
         <h1 id="hero-title">Rice <em>&amp;</em> Sakura<br>Glow Serum</h1>
@@ -281,13 +285,14 @@
     <div class="stage">
       <div class="callouts callouts--left">
         <p class="callout" data-at=".18"><b>30 ml</b><span>About two months of mornings and nights.</span></p>
-        <p class="callout" data-at=".42"><b>Gel</b><span>Pale pink and weightless. It turns to water on skin.</span></p>
+        <p class="callout" data-at=".42"><b>Serum</b><span>Pale pink and weightless. It sinks in like water.</span></p>
       </div>
-      <div class="turn__bottle"><img src="img/dropper.jpg" width="928" height="1152" alt="The dropper lifted above the open bottle, a single drop of pink serum falling" loading="lazy"></div>
+      <div class="turn__bottle" id="bottle3d"><img src="img/dropper.jpg" width="928" height="1152" alt="The dropper lifted above the open bottle, a single drop of pink serum falling" loading="lazy"></div>
       <div class="callouts">
         <p class="callout" data-at=".62"><b>3 drops</b><span>Enough for the whole face and neck.</span></p>
         <p class="callout" data-at=".8"><b>0%</b><span>Added fragrance. The scent is the ingredients.</span></p>
       </div>
+      <span class="turn__hint" aria-hidden="true">Scroll to turn</span>
     </div>
   </section>
 
@@ -324,9 +329,9 @@
   <!-- 5. texture unfolds -->
   <section class="scene unfold" data-scrub="unfold" aria-labelledby="tex-title">
     <div class="stage">
-      <div class="unfold__media"><img src="img/texture.jpg" width="1264" height="848" alt="A dome-shaped drop and a smeared swatch of clear pink gel on glass, with two sakura petals" loading="lazy"></div>
+      <div class="unfold__media"><img src="img/texture.jpg" width="1264" height="848" alt="A dome-shaped drop and a smeared swatch of clear pink serum on glass, with two sakura petals" loading="lazy"></div>
       <div class="unfold__copy">
-        <h2 id="tex-title">A gel you can see through.</h2>
+        <h2 id="tex-title">A serum you can see through.</h2>
         <p>No oils, no shine left behind. Just a dewy skin finish that sits well under sunscreen and make-up.</p>
       </div>
     </div>
@@ -383,8 +388,8 @@
       <div class="ritual__grid">
         <div class="ritual__pic rv"><img src="img/model-applying.jpg" width="928" height="1152" alt="A young woman with her hair in a bun applies a drop of serum to her cheek with the dropper, holding the bottle in her other hand, under cherry blossoms" loading="lazy"></div>
         <ol class="steps">
-          <li class="rv"><div><h3>Cleanse and pat dry</h3><p>Start on clean skin, still a little damp, so the gel spreads further.</p></div></li>
-          <li class="rv"><div><h3>Three drops</h3><p>Warm them between your fingertips for a second. The gel melts as it warms.</p></div></li>
+          <li class="rv"><div><h3>Cleanse and pat dry</h3><p>Start on clean skin, still a little damp, so the serum spreads further.</p></div></li>
+          <li class="rv"><div><h3>Three drops</h3><p>Warm them between your fingertips for a second. Warm serum spreads further and sinks in faster.</p></div></li>
           <li class="rv"><div><h3>Press, do not rub</h3><p>Press your palms gently over cheeks, forehead and neck. Follow with moisturiser, and sunscreen in the morning.</p></div></li>
         </ol>
       </div>
@@ -452,6 +457,104 @@
 
 <a class="pf-back" href="../../selected-work.html">← Back to portfolio</a>
 
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="module">
+/* 3D bottle: the camera travels around a real-time glass bottle as the page scrolls. The photo stays as fallback. */
+import * as THREE from 'three';
+import { RoomEnvironment } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js';
+function init(){
+  const wrap = document.getElementById('bottle3d'), sec = document.querySelector('.turn');
+  if (!wrap || !sec) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({antialias:true}); } catch (e) { return; }
+  renderer.setPixelRatio(Math.min(2, devicePixelRatio || 1));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  wrap.appendChild(renderer.domElement);
+  wrap.classList.add('is-3d');
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xF4DCE4); /* same as the section, so the bottle floats on the page */
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.02).texture;
+  const camera = new THREE.PerspectiveCamera(28, 3/4, 0.1, 100);
+  const key = new THREE.DirectionalLight(0xffffff, 2.0); key.position.set(4, 8, 7); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffe6ee, 1.2); rim.position.set(-6, 3, -5); scene.add(rim);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xe7a9bb, 0.5));
+
+  const V = (x, y) => new THREE.Vector2(x, y);
+  const bottle = new THREE.Group(); bottle.position.y = -3.4; scene.add(bottle);
+  /* the serum refracts; the glass is a thin reflective shell (three.js cannot refract through two glass layers) */
+  const liquid = new THREE.MeshPhysicalMaterial({color:0xFFE3EA, roughness:0.02, transmission:1, thickness:2.4, ior:1.33, attenuationColor:new THREE.Color(0xF4A3BA), attenuationDistance:4.5, envMapIntensity:1.2, specularIntensity:1});
+  bottle.add(new THREE.Mesh(new THREE.LatheGeometry([V(0,0.31),V(1.24,0.31),V(1.28,0.4),V(1.29,3.75),V(0,3.75)], 128), liquid));
+  const pipIn = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 3.6, 24), liquid); pipIn.position.y = 3.0; bottle.add(pipIn);
+  const bubbleMat = new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.05, transparent:true, opacity:0.35, envMapIntensity:2.5});
+  const bubbleGeo = new THREE.SphereGeometry(1, 14, 14);
+  for (let i = 0; i < 45; i++){
+    const b = new THREE.Mesh(bubbleGeo, bubbleMat), r = 0.25 + Math.sqrt(Math.random()) * 0.95, a = Math.random() * Math.PI * 2, s = 0.014 + Math.random() * 0.032;
+    b.scale.setScalar(s); b.position.set(Math.cos(a) * r, 0.5 + Math.random() * 3.1, Math.sin(a) * r); bottle.add(b);
+  }
+  const glass = new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.02, transparent:true, opacity:0.16, clearcoat:1, clearcoatRoughness:0, envMapIntensity:2.6, specularIntensity:1, depthWrite:false, side:THREE.DoubleSide});
+  const shell = [V(0,0.02),V(1.2,0),V(1.3,0.06),V(1.34,0.22),V(1.34,4.25),V(1.3,4.45),V(1.16,4.56),V(0.58,4.62),V(0.52,4.7),V(0.52,5.0)];
+  const sh = new THREE.Mesh(new THREE.LatheGeometry(shell, 128), glass); sh.renderOrder = 2; bottle.add(sh);
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(1.26, 1.3, 0.3, 96), new THREE.MeshPhysicalMaterial({color:0xF9E3EA, roughness:0.05, transmission:1, thickness:0.6, ior:1.5, envMapIntensity:1.5})); base.position.y = 0.15; bottle.add(base);
+  const pip = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 3.7, 32, 1, true), glass); pip.position.y = 3.05; pip.renderOrder = 3; bottle.add(pip);
+  const white = new THREE.MeshPhysicalMaterial({color:0xFDFBF7, roughness:0.35, clearcoat:0.4, clearcoatRoughness:0.3});
+  const rubber = new THREE.MeshPhysicalMaterial({color:0xFBF8F3, roughness:0.7, sheen:0.4, sheenColor:new THREE.Color(0xffffff)});
+  const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.66, 0.66, 1.0, 96), white); collar.position.y = 5.45; bottle.add(collar);
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 0.16, 64), rubber); neck.position.y = 6.03; bottle.add(neck);
+  const bulb = new THREE.Mesh(new THREE.CapsuleGeometry(0.38, 0.62, 12, 48), rubber); bulb.position.y = 6.62; bottle.add(bulb);
+
+  /* petals and rice grains floating around the bottle */
+  const ps = new THREE.Shape();
+  ps.moveTo(0, 1); ps.bezierCurveTo(0.9, 0.5, 0.7, -0.8, 0.14, -1); ps.lineTo(0, -0.78); ps.lineTo(-0.14, -1); ps.bezierCurveTo(-0.7, -0.8, -0.9, 0.5, 0, 1);
+  const pg = new THREE.ShapeGeometry(ps, 16), pos = pg.attributes.position;
+  for (let i = 0; i < pos.count; i++){ const x = pos.getX(i), y = pos.getY(i); pos.setZ(i, 0.28 * x * x + 0.06 * y); }
+  pg.computeVertexNormals();
+  const tints = [0xF2A7BD, 0xEB93AE, 0xF7C2D1, 0xE57E9E];
+  const floaters = [];
+  for (let i = 0; i < 14; i++){
+    const m = new THREE.Mesh(pg, new THREE.MeshStandardMaterial({color:tints[i % 4], roughness:0.55, side:THREE.DoubleSide}));
+    const a = (i / 14) * Math.PI * 2 + Math.random() * 0.3, r = 2.6 + Math.random() * 1.8;
+    m.position.set(Math.cos(a) * r, -2.8 + Math.random() * 5.6, Math.sin(a) * r);
+    m.scale.setScalar(0.2 + Math.random() * 0.15);
+    m.rotation.set(Math.random() * 6, Math.random() * 6, Math.random() * 6);
+    m.userData = {spin:new THREE.Vector3((Math.random() - .5) * .01, (Math.random() - .5) * .012, (Math.random() - .5) * .01), bob:Math.random() * 6, y0:m.position.y};
+    scene.add(m); floaters.push(m);
+  }
+  const rice = new THREE.MeshStandardMaterial({color:0xFFFBF0, roughness:0.4});
+  const grain = new THREE.CapsuleGeometry(0.05, 0.13, 6, 12);
+  for (let i = 0; i < 10; i++){
+    const g = new THREE.Mesh(grain, rice), a = Math.random() * Math.PI * 2, r = 2.3 + Math.random() * 1.6;
+    g.position.set(Math.cos(a) * r, -2.6 + Math.random() * 5, Math.sin(a) * r); g.rotation.set(Math.random() * 6, Math.random() * 6, 0);
+    g.userData = {spin:new THREE.Vector3(.006, .008, 0), bob:Math.random() * 6, y0:g.position.y};
+    scene.add(g); floaters.push(g);
+  }
+
+  function resize(){
+    const w = wrap.clientWidth, h = wrap.clientHeight; if (!w || !h) return;
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(wrap); resize();
+
+  let visible = false, t = 0;
+  function progress(){ const r = sec.getBoundingClientRect(), total = sec.offsetHeight - innerHeight; return total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0; }
+  function draw(){
+    const p = reduce ? 0.12 : progress();
+    const th = -0.35 + p * Math.PI * 2, R = 15.5;
+    camera.position.set(Math.sin(th) * R, 2.2 - p * 1.6, Math.cos(th) * R);
+    camera.lookAt(0, 0, 0);
+    floaters.forEach(f => { const u = f.userData; f.rotation.x += u.spin.x; f.rotation.y += u.spin.y; f.rotation.z += u.spin.z; f.position.y = u.y0 + Math.sin(t * 0.8 + u.bob) * 0.18; });
+    renderer.render(scene, camera);
+  }
+  function loop(){ if (!visible) return; t += 0.016; draw(); requestAnimationFrame(loop); }
+  new IntersectionObserver(es => { es.forEach(e => { visible = e.isIntersecting; if (visible && !reduce) requestAnimationFrame(loop); }); }).observe(sec);
+  draw();
+}
+init();
+</script>
 <script>
 (function(){
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
