@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kyami Rice &amp; Sakura</title>
+<meta name="description" content="Kyami, a fictional Japanese skincare brand: a scroll-driven launch page for the Rice &amp; Sakura Glow Serum, with AI-generated imagery.">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: one long scroll story. Pinned scenes scrub on scroll (hero opens to full bleed, a manifesto drifts through
+     sakura branches, the bottle turns upright, the texture shot unfolds), between quieter editorial sections.
+     Single light brand world, sampled from a sakura branch: paper white, petal pinks, a crimson heart, mocha ink. */
+  :root{
+    --paper:#FFFDF3;      /* Floral White */
+    --petal:#F4DCE4;      /* Petal Frost, nudged towards real sakura */
+    --sakura:#E7A9BB;     /* mid petal */
+    --blush:#D2557E;      /* Blush Rose */
+    --beni:#A8213F;       /* the crimson at the heart of each blossom */
+    --mocha:#433633;      /* Deep Mocha, all text */
+    --mocha-soft:#7A6762;
+    --apricot:#F5CD93;    /* Apricot Cream, warmth of rice */
+    --line:rgba(67,54,51,.14);
+    --on-dark:#FFFDF3;
+    --f-display:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",Georgia,"Times New Roman",serif;
+    --f-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --gutter:clamp(16px,4vw,56px);
+    --max:1180px;
+    color-scheme:light;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--mocha);font-family:var(--f-body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:clip}
+  img{max-width:100%;display:block}
+  h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+  p{margin:0}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--blush);outline-offset:3px}
+  .wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blush)}
+  .jp{font-family:var(--f-display);font-weight:500;letter-spacing:.12em}
+  .seal{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:7px;background:var(--beni);color:var(--paper);font-family:var(--f-display);font-weight:700;font-size:13px;line-height:1;writing-mode:vertical-rl;letter-spacing:.05em}
+
+  /* petals: one canvas across the page */
+  #petals{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+
+  /* nav */
+  .nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:calc(env(safe-area-inset-top,0px) + 14px) var(--gutter) 14px;display:flex;align-items:center;gap:20px;transition:background .3s,box-shadow .3s}
+  .nav.is-solid{background:rgba(255,253,243,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line)}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand b{font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:.32em}
+  .nav ul{display:flex;gap:26px;list-style:none;margin:0 auto 0 28px;padding:0}
+  .nav ul a{text-decoration:none;font-size:14px;font-weight:500;color:var(--mocha-soft)}
+  .nav ul a:hover{color:var(--blush)}
+  .pill{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;background:var(--blush);color:var(--paper);font:700 14px/1 var(--f-body);padding:12px 18px;text-decoration:none;cursor:pointer;transition:background .2s,transform .2s}
+  .pill:hover{background:var(--beni);transform:translateY(-1px)}
+  .pill--ghost{background:transparent;color:var(--mocha);box-shadow:inset 0 0 0 1.5px var(--mocha)}
+  .pill--ghost:hover{background:var(--mocha);color:var(--paper)}
+  @media (max-width:860px){ .nav ul{display:none} .nav .pill{margin-left:auto} }
+
+  /* scrubbed scenes: tall track, sticky stage */
+  .scene{position:relative}
+  .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+
+  /* 1. hero: the bottle opens out to full bleed */
+  .hero{height:220vh}
+  .hero .stage{display:grid;place-items:center;background:var(--paper)}
+  .hero{--top:40%;--side:22%}
+  .hero__media{position:absolute;inset:0;clip-path:inset(calc(var(--top) * (1 - var(--p,0))) calc(var(--side) * (1 - var(--p,0))) calc(5% * (1 - var(--p,0))) round calc(40px * (1 - var(--p,0))));will-change:clip-path}
+  @media (max-width:860px){ .hero{--top:30%;--side:8%} }
+  .hero__media img{width:100%;height:100%;object-fit:cover;object-position:50% 60%;transform:scale(calc(1.18 - .18 * var(--p,0)))}
+  .hero__head{position:absolute;top:calc(env(safe-area-inset-top,0px) + 92px);left:0;right:0;text-align:center;padding-inline:var(--gutter);transform:translateY(calc(var(--p,0) * -22vh));opacity:calc(1 - var(--p,0) * 3)}
+  .hero__head h1{font-size:clamp(40px,7.4vw,108px);font-weight:800}
+  .hero__head h1 em{font-style:normal;color:var(--blush)}
+  .hero__head .eyebrow{display:block;margin-bottom:14px}
+  .hero__late{position:absolute;left:0;right:0;bottom:8vh;text-align:center;color:var(--on-dark);padding-inline:var(--gutter);opacity:calc((var(--p,0) - .72) * 4)}
+  .hero__late p{font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:700;text-shadow:0 2px 24px rgba(67,54,51,.35)}
+  .scroll-cue{position:absolute;bottom:3vh;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha-soft);opacity:calc(1 - var(--p,0) * 5)}
+
+  /* 2. manifesto through sakura branches */
+  .mani{height:320vh}
+  .mani .stage{background:linear-gradient(180deg,var(--paper),var(--petal));display:grid;place-items:center}
+  .branches{position:absolute;inset:0;pointer-events:none}
+  .branches svg{position:absolute;height:auto;will-change:transform}
+  .mani__lines{position:relative;z-index:2;text-align:center;padding:clamp(20px,4vw,48px) var(--gutter);max-width:980px;background:radial-gradient(closest-side,rgba(255,253,243,.92),rgba(255,253,243,.7) 60%,rgba(255,253,243,0))}
+  .mani__line{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.6vw,64px);line-height:1.15;display:block}
+  .mani__line + .mani__line{margin-top:.35em}
+  .mani__line:last-child{color:var(--blush)}
+  .motion .mani__line{opacity:.08;transform:translateY(18px);transition:opacity .5s ease,transform .6s ease}
+  .motion .mani__line.on{opacity:1;transform:none}
+  .mani__kanji{position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:var(--f-display);font-size:clamp(18px,2vw,26px);letter-spacing:.6em;color:var(--beni);opacity:.75}
+
+  /* 3. the bottle turns upright, three drops */
+  .turn{height:300vh}
+  .turn .stage{background:var(--petal);display:grid;grid-template-columns:1fr minmax(0,auto) 1fr;align-items:center;gap:clamp(12px,3vw,48px);padding-inline:var(--gutter)}
+  .turn__bottle{position:relative;height:min(78svh,720px);aspect-ratio:928/1152;max-width:100%;transform:rotate(calc(-14deg * (1 - var(--p,0)))) scale(calc(1.12 - .12 * var(--p,0))) translateY(calc(6vh * (1 - var(--p,0))));transform-origin:50% 80%;will-change:transform}
+  .turn__bottle img{width:100%;height:100%;object-fit:cover;border-radius:28px;box-shadow:0 40px 80px -40px rgba(168,33,63,.35)}
+  .turn__bottle::after{content:"";position:absolute;inset:0;border-radius:28px;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 48%,transparent 60%);transform:translateX(calc(-60% + 120% * var(--p,0)));mix-blend-mode:soft-light;pointer-events:none}
+  .callouts{display:grid;gap:clamp(28px,6vh,64px);position:relative;z-index:2}
+  .callout{max-width:260px}
+  .callout b{display:block;font-family:var(--f-display);font-size:clamp(34px,4vw,56px);font-weight:800;color:var(--blush);line-height:1}
+  .callout span{display:block;margin-top:8px;font-size:15px;color:var(--mocha-soft)}
+  .callouts--left{justify-items:end;text-align:right}
+  .motion .callout{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .6s ease}
+  .motion .callout.on{opacity:1;transform:none}
+  @media (max-width:860px){
+    .turn .stage{grid-template-columns:1fr;grid-template-rows:auto 1fr auto;justify-items:center;padding-block:84px 24px;gap:10px}
+    .turn__bottle{height:46svh}
+    .callouts{grid-auto-flow:column;gap:20px}
+    .callouts--left{justify-items:start;text-align:left}
+    .callout b{font-size:28px}
+    .callout span{font-size:13px;margin-top:4px}
+  }
+
+  /* editorial blocks */
+  .block{padding-block:clamp(80px,13vw,160px)}
+  .block__head{max-width:760px;margin-bottom:clamp(36px,6vw,72px)}
+  .block__head h2{font-size:clamp(34px,5vw,64px);margin-top:14px}
+  .block__head p{margin-top:18px;font-size:18px;color:var(--mocha-soft);max-width:60ch}
+  .motion .rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+  .motion .rv.on{opacity:1;transform:none}
+
+  /* 4. ingredients: sticky picture, two stories */
+  .ingr__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px)}
+  .ingr__pics{position:sticky;top:12vh;height:76vh;border-radius:32px;overflow:hidden;background:var(--petal)}
+  .ingr__pics img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .9s ease,transform 1.4s ease}
+  .ingr__pics img.on{opacity:1;transform:none}
+  .ingr__pics .tag{position:absolute;left:18px;bottom:18px;background:rgba(255,253,243,.9);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700}
+  .story{min-height:76vh;display:flex;flex-direction:column;justify-content:center;gap:18px;min-width:0}
+  .story__kanji{font-family:var(--f-display);font-size:clamp(84px,11vw,150px);line-height:1;color:var(--sakura)}
+  .story h3{font-size:clamp(28px,3.4vw,44px)}
+  .story p{max-width:52ch;color:var(--mocha-soft)}
+  .story ul{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+  .story li{border:1.5px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:500}
+  @media (max-width:860px){
+    .ingr__grid{grid-template-columns:1fr}
+    .ingr__pics{position:relative;top:auto;height:auto;aspect-ratio:4/3}
+    .story{min-height:0;padding-block:28px}
+  }
+
+  /* 5. texture: the shot unfolds to full screen */
+  .unfold{height:240vh}
+  .unfold .stage{background:var(--paper)}
+  .unfold__media{position:absolute;inset:0;clip-path:inset(calc(22% * (1 - var(--p,0))) calc(28% * (1 - var(--p,0))) round calc(48px * (1 - var(--p,0))))}
+  .unfold__media img{width:100%;height:100%;object-fit:cover;transform:scale(calc(1.25 - .25 * var(--p,0)))}
+  .unfold__copy{position:absolute;left:var(--gutter);right:var(--gutter);bottom:clamp(40px,9vh,96px);max-width:640px;opacity:calc((var(--p,0) - .55) * 3);transform:translateY(calc(30px * (1 - var(--p,0))))}
+  .unfold__copy h2{font-size:clamp(32px,4.6vw,60px)}
+  .unfold__copy p{margin-top:12px;font-size:18px;max-width:46ch}
+
+  /* 6. results (illustrative) */
+  .results{background:var(--petal)}
+  .note{display:inline-flex;align-items:center;gap:8px;margin-top:18px;border-radius:999px;background:var(--paper);padding:8px 14px;font-size:13px;font-weight:700;color:var(--beni)}
+  .res__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+  .bars{display:grid;gap:30px}
+  .bar__top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .bar__top h3{font-family:var(--f-body);font-size:16px;font-weight:700}
+  .bar__top strong{font-family:var(--f-display);font-size:clamp(34px,4vw,52px);font-weight:800;color:var(--blush);font-variant-numeric:tabular-nums;line-height:1}
+  .bar__track{margin-top:10px;display:grid;gap:6px}
+  .bar__row{display:grid;grid-template-columns:72px 1fr;align-items:center;gap:12px;font-size:13px;color:var(--mocha-soft)}
+  .bar__fill{height:12px;border-radius:999px;background:rgba(67,54,51,.12);overflow:hidden}
+  .bar__fill i{display:block;height:100%;border-radius:inherit;background:var(--sakura);width:var(--w);transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+  .bar__row--after .bar__fill i{background:var(--blush)}
+  .motion .bars:not(.on) .bar__fill i{width:0}
+  .radar{background:var(--paper);border-radius:32px;padding:clamp(16px,3vw,32px)}
+  .radar svg{width:100%;height:auto;overflow:visible}
+  .radar__legend{display:flex;gap:18px;justify-content:center;margin-top:10px;font-size:13px;color:var(--mocha-soft)}
+  .radar__legend span{display:inline-flex;align-items:center;gap:8px}
+  .radar__legend i{width:14px;height:14px;border-radius:4px;display:inline-block}
+  .fine{margin-top:clamp(28px,4vw,48px);font-size:13px;color:var(--mocha-soft);max-width:80ch}
+  @media (max-width:860px){ .res__grid{grid-template-columns:1fr} }
+
+  /* 7. ritual: real steps, so they are numbered */
+  .ritual__grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:start}
+  .ritual__pic{position:sticky;top:12vh;border-radius:32px;overflow:hidden;aspect-ratio:928/1152}
+  .ritual__pic img{width:100%;height:100%;object-fit:cover}
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:clamp(40px,8vh,90px);counter-reset:step}
+  .steps li{counter-increment:step;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start}
+  .steps li::before{content:counter(step);display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--petal);color:var(--beni);font-family:var(--f-display);font-weight:800;font-size:22px}
+  .steps h3{font-size:clamp(24px,2.6vw,32px)}
+  .steps p{margin-top:8px;color:var(--mocha-soft);max-width:44ch}
+  @media (max-width:860px){ .ritual__grid{grid-template-columns:1fr} .ritual__pic{position:relative;top:auto;max-height:70vh} }
+
+  /* 8. lifestyle, full bleed with parallax */
+  .life{height:180vh}
+  .life .stage img{position:absolute;inset:-8% 0;width:100%;height:116%;object-fit:cover;transform:translateY(calc(-6% * var(--p,0)))}
+  .life__quote{position:absolute;right:var(--gutter);bottom:calc(env(safe-area-inset-bottom,0px) + 9vh);max-width:min(440px,calc(100% - 2 * var(--gutter)));background:rgba(255,253,243,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:28px;padding:clamp(20px,3vw,32px)}
+  .life__quote p{font-family:var(--f-display);font-weight:800;font-size:clamp(30px,3.6vw,52px);line-height:1.04;color:var(--mocha)}
+  .life__quote span{display:block;margin-top:12px;font-size:15px;font-weight:500;color:var(--mocha-soft)}
+
+  /* 9. campaign strip with placeholders */
+  .strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2vw,24px)}
+  .strip figure{margin:0;border-radius:24px;overflow:hidden;aspect-ratio:4/5;position:relative;background:var(--petal)}
+  .strip img{width:100%;height:100%;object-fit:cover}
+  .ph{display:grid;place-items:center;text-align:center;border:2px dashed var(--sakura);padding:24px;color:var(--mocha-soft);font-size:14px}
+  .ph b{display:block;font-family:var(--f-display);font-size:20px;color:var(--mocha);margin-bottom:6px}
+  .strip figcaption{position:absolute;left:14px;bottom:14px;background:rgba(255,253,243,.9);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700}
+  @media (max-width:860px){ .strip{grid-template-columns:1fr 1fr} .strip figure:first-child{grid-column:1 / -1;aspect-ratio:4/3} }
+
+  /* 10. shop */
+  .shop__card{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);border-radius:36px;overflow:hidden;background:var(--petal)}
+  .shop__pic{min-height:420px;position:relative}
+  .shop__pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .shop__body{padding:clamp(28px,5vw,64px);display:flex;flex-direction:column;gap:18px;min-width:0}
+  .shop__body h2{font-size:clamp(30px,3.6vw,46px)}
+  .price{font-family:var(--f-display);font-size:34px;font-weight:800;font-variant-numeric:tabular-nums}
+  .price small{font-family:var(--f-body);font-size:14px;font-weight:500;color:var(--mocha-soft);margin-left:8px}
+  .sizes{display:flex;gap:10px;flex-wrap:wrap}
+  .size{border:1.5px solid var(--mocha);background:transparent;border-radius:999px;padding:10px 18px;font:700 14px/1 var(--f-body);color:var(--mocha);cursor:pointer}
+  .size[aria-pressed="true"]{background:var(--mocha);color:var(--paper)}
+  .shop__chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0;padding:0}
+  .shop__chips li{background:var(--paper);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:500}
+  .shop__cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  .shop__status{font-size:14px;color:var(--beni);font-weight:700;min-height:1.4em}
+  @media (max-width:860px){ .shop__card{grid-template-columns:1fr} .shop__pic{min-height:0;aspect-ratio:4/3} }
+
+  /* footer */
+  .foot{padding-block:64px 96px;border-top:1px solid var(--line)}
+  .foot__grid{display:flex;flex-wrap:wrap;gap:24px 48px;align-items:flex-start;justify-content:space-between}
+  .foot__brand b{font-family:var(--f-display);font-weight:800;font-size:28px;letter-spacing:.32em}
+  .foot__brand p{margin-top:10px;font-size:14px;color:var(--mocha-soft);max-width:52ch}
+  .pf-back{position:fixed;left:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:60;display:inline-flex;align-items:center;gap:8px;background:var(--mocha);color:var(--paper);border-radius:999px;padding:10px 16px;font:700 13px/1 var(--f-body);text-decoration:none;box-shadow:0 10px 30px -10px rgba(67,54,51,.5)}
+  .pf-back:hover{background:var(--beni)}
+
+  /* reduced motion: every scene shown in its finished state, no petals */
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .hero,.mani,.turn,.unfold,.life{height:auto}
+    .stage{position:relative;height:auto;min-height:100svh}
+    .scene{--p:1 !important}
+    #petals{display:none}
+  }
+</style>
+</head>
+<body>
+<canvas id="petals" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Kyami, back to top"><span class="seal" aria-hidden="true">米桜</span><b>KYAMI</b></a>
+  <ul>
+    <li><a href="#serum">The serum</a></li>
+    <li><a href="#ingredients">Ingredients</a></li>
+    <li><a href="#ritual">Ritual</a></li>
+    <li><a href="#results">Results</a></li>
+  </ul>
+  <a class="pill" href="#shop">Shop · €34</a>
+</header>
+
+<main id="top">
+
+  <!-- 1. hero -->
+  <section class="scene hero" data-scrub="hero" aria-labelledby="hero-title">
+    <div class="stage">
+      <div class="hero__media"><img src="img/hero-bottle.jpg" width="1264" height="848" alt="A small clear glass dropper bottle of pale pink serum on a glossy pink surface, with gel drops around it and a cherry blossom branch above"></div>
+      <div class="hero__head">
+        <span class="eyebrow">New · Spring 2027</span>
+        <h1 id="hero-title">Rice <em>&amp;</em> Sakura<br>Glow Serum</h1>
+      </div>
+      <div class="hero__late"><p>Tokyo spring, in a single drop.</p></div>
+      <span class="scroll-cue" aria-hidden="true">Scroll</span>
+    </div>
+  </section>
+
+  <!-- 2. manifesto through branches -->
+  <section class="scene mani" data-scrub="mani" id="serum" aria-label="About the serum">
+    <div class="stage">
+      <div class="branches" id="branches" aria-hidden="true"></div>
+      <div class="mani__lines">
+        <span class="mani__line">Two Japanese rituals.</span>
+        <span class="mani__line">Rice water, a Japanese beauty habit for centuries.</span>
+        <span class="mani__line">Sakura, for one short week of spring.</span>
+        <span class="mani__line">One pale pink drop.</span>
+      </div>
+      <span class="mani__kanji" aria-hidden="true">米と桜</span>
+    </div>
+  </section>
+
+  <!-- 3. the bottle turns -->
+  <section class="scene turn" data-scrub="turn" aria-label="The bottle">
+    <div class="stage">
+      <div class="callouts callouts--left">
+        <p class="callout" data-at=".18"><b>30 ml</b><span>About two months of mornings and nights.</span></p>
+        <p class="callout" data-at=".42"><b>Gel</b><span>Pale pink and weightless. It turns to water on skin.</span></p>
+      </div>
+      <div class="turn__bottle"><img src="img/dropper.jpg" width="928" height="1152" alt="The dropper lifted above the open bottle, a single drop of pink serum falling" loading="lazy"></div>
+      <div class="callouts">
+        <p class="callout" data-at=".62"><b>3 drops</b><span>Enough for the whole face and neck.</span></p>
+        <p class="callout" data-at=".8"><b>0%</b><span>Added fragrance. The scent is the ingredients.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. ingredients -->
+  <section class="block" id="ingredients" aria-labelledby="ingr-title">
+    <div class="wrap">
+      <div class="block__head rv">
+        <span class="eyebrow">Ingredients</span>
+        <h2 id="ingr-title">Two ingredients you already know from Japan.</h2>
+      </div>
+      <div class="ingr__grid">
+        <div class="ingr__pics" aria-hidden="true">
+          <img class="on" data-pic="rice" src="img/rice-water.jpg" width="1264" height="848" alt="" loading="lazy">
+          <img data-pic="sakura" src="img/model-blossom.jpg" width="1450" height="1800" alt="" loading="lazy">
+        </div>
+        <div>
+          <article class="story rv" data-story="rice">
+            <span class="story__kanji" aria-hidden="true">米</span>
+            <h3>Fermented rice water</h3>
+            <p>The milky water left from washing rice has been a beauty habit in Japan for centuries. We ferment it slowly, so skin feels softer and looks brighter from the first week.</p>
+            <ul><li>Softness</li><li>Brightness</li><li>Comfort</li></ul>
+          </article>
+          <article class="story rv" data-story="sakura">
+            <span class="story__kanji" aria-hidden="true">桜</span>
+            <h3>Cherry blossom extract</h3>
+            <p>Picked at full bloom, when the petals hold the most colour. It gives the serum its pale pink tint and a fresh, dewy finish that lasts all day.</p>
+            <ul><li>Glow</li><li>Freshness</li><li>Calm skin</li></ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. texture unfolds -->
+  <section class="scene unfold" data-scrub="unfold" aria-labelledby="tex-title">
+    <div class="stage">
+      <div class="unfold__media"><img src="img/texture.jpg" width="1264" height="848" alt="A dome-shaped drop and a smeared swatch of clear pink gel on glass, with two sakura petals" loading="lazy"></div>
+      <div class="unfold__copy">
+        <h2 id="tex-title">A gel you can see through.</h2>
+        <p>No oils, no shine left behind. Just a dewy skin finish that sits well under sunscreen and make-up.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. results, illustrative -->
+  <section class="block results" id="results" aria-labelledby="res-title">
+    <div class="wrap">
+      <div class="block__head rv">
+        <span class="eyebrow">Results</span>
+        <h2 id="res-title">What a glow looks like, measured.</h2>
+        <span class="note">Illustrative sample data. Kyami is fictional, and no study was run.</span>
+      </div>
+      <div class="res__grid">
+        <div class="bars" id="bars">
+          <div class="bar">
+            <div class="bar__top"><h3>Skin hydration</h3><strong data-count="38">+38%</strong></div>
+            <div class="bar__track">
+              <div class="bar__row"><span>Day 1</span><span class="bar__fill"><i style="--w:44%"></i></span></div>
+              <div class="bar__row bar__row--after"><span>Week 4</span><span class="bar__fill"><i style="--w:82%"></i></span></div>
+            </div>
+          </div>
+          <div class="bar">
+            <div class="bar__top"><h3>Radiance</h3><strong data-count="24">+24%</strong></div>
+            <div class="bar__track">
+              <div class="bar__row"><span>Day 1</span><span class="bar__fill"><i style="--w:50%"></i></span></div>
+              <div class="bar__row bar__row--after"><span>Week 4</span><span class="bar__fill"><i style="--w:74%"></i></span></div>
+            </div>
+          </div>
+          <div class="bar">
+            <div class="bar__top"><h3>Smoothness</h3><strong data-count="19">+19%</strong></div>
+            <div class="bar__track">
+              <div class="bar__row"><span>Day 1</span><span class="bar__fill"><i style="--w:52%"></i></span></div>
+              <div class="bar__row bar__row--after"><span>Week 4</span><span class="bar__fill"><i style="--w:71%"></i></span></div>
+            </div>
+          </div>
+        </div>
+        <figure class="radar rv" style="margin:0">
+          <svg id="radar" viewBox="-190 -170 380 345" role="img" aria-label="Radar chart of seven skin measures on a 0 to 10 scale, comparing day 1 with week 4. Every measure is higher at week 4."></svg>
+          <figcaption class="radar__legend"><span><i style="background:var(--sakura)"></i>Day 1</span><span><i style="background:var(--blush)"></i>Week 4</span></figcaption>
+        </figure>
+      </div>
+      <p class="fine">Example layout for a 4-week self-assessment with 30 participants, scored from 0 to 10. All figures on this page are invented to show how results would be presented.</p>
+    </div>
+  </section>
+
+  <!-- 7. ritual -->
+  <section class="block" id="ritual" aria-labelledby="rit-title">
+    <div class="wrap">
+      <div class="block__head rv">
+        <span class="eyebrow">Ritual</span>
+        <h2 id="rit-title">Morning and night, in under a minute.</h2>
+      </div>
+      <div class="ritual__grid">
+        <div class="ritual__pic rv"><img src="img/model-applying.jpg" width="928" height="1152" alt="A young woman with her hair in a bun applies a drop of serum to her cheek with the dropper, holding the bottle in her other hand, under cherry blossoms" loading="lazy"></div>
+        <ol class="steps">
+          <li class="rv"><div><h3>Cleanse and pat dry</h3><p>Start on clean skin, still a little damp, so the gel spreads further.</p></div></li>
+          <li class="rv"><div><h3>Three drops</h3><p>Warm them between your fingertips for a second. The gel melts as it warms.</p></div></li>
+          <li class="rv"><div><h3>Press, do not rub</h3><p>Press your palms gently over cheeks, forehead and neck. Follow with moisturiser, and sunscreen in the morning.</p></div></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. lifestyle -->
+  <section class="scene life" data-scrub="life" aria-label="Spring mornings">
+    <div class="stage">
+      <img src="img/lifestyle-vanity.jpg" width="1264" height="848" alt="A young woman at a vanity by an open window, eyes closed, holding a cup of matcha, with cherry blossoms outside and the serum on the table" loading="lazy">
+      <div class="life__quote"><p>Spring, every morning.</p><span>Kyami, made for the week the blossoms fall.</span></div>
+    </div>
+  </section>
+
+  <!-- 9. campaign strip -->
+  <section class="block" aria-labelledby="camp-title">
+    <div class="wrap">
+      <div class="block__head rv">
+        <span class="eyebrow">Campaign</span>
+        <h2 id="camp-title">Under the blossoms.</h2>
+      </div>
+      <div class="strip">
+        <figure class="rv"><img src="img/model-blossom.jpg" width="1450" height="1800" alt="The Kyami model with eyes closed and a happy smile under a cherry blossom tree, petals falling" loading="lazy"><figcaption>Hanami</figcaption></figure>
+        <figure class="rv ph" role="img" aria-label="Image coming soon"><div><b>Portrait with the bottle</b>Image coming soon</div></figure>
+        <figure class="rv ph" role="img" aria-label="Image coming soon"><div><b>Bottle on rice</b>Image coming soon</div></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. shop -->
+  <section class="block" id="shop" aria-labelledby="shop-title" style="padding-top:0">
+    <div class="wrap">
+      <div class="shop__card rv">
+        <div class="shop__pic"><img src="img/hero-bottle.jpg" width="1264" height="848" alt="The Kyami serum bottle on a glossy pink surface" loading="lazy"></div>
+        <form class="shop__body" id="shopForm">
+          <span class="eyebrow">Kyami</span>
+          <h2 id="shop-title">Rice &amp; Sakura Glow Serum</h2>
+          <p class="price"><span id="price">€34</span><small id="perml">€1.13 per ml</small></p>
+          <div class="sizes" role="group" aria-label="Size">
+            <button type="button" class="size" id="size30" data-ml="30" data-price="34" aria-pressed="true">30 ml</button>
+            <button type="button" class="size" id="size50" data-ml="50" data-price="49" aria-pressed="false">50 ml</button>
+          </div>
+          <ul class="shop__chips"><li>Fermented rice water</li><li>Cherry blossom</li><li>No added fragrance</li><li>All skin types</li></ul>
+          <div class="shop__cta">
+            <button class="pill" type="submit" id="addBtn">Add to bag</button>
+            <a class="pill pill--ghost" href="#ritual">See the ritual</a>
+          </div>
+          <p class="shop__status" id="shopStatus" role="status"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand">
+      <b>KYAMI</b>
+      <p>Kyami is a fictional brand, created as a portfolio case study by Camila Massa. All imagery is AI-generated, and every figure on this page is illustrative.</p>
+    </div>
+    <span class="seal" aria-hidden="true">米桜</span>
+  </div>
+</footer>
+
+<a class="pf-back" href="../../selected-work.html">← Back to portfolio</a>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var root = document.documentElement;
+  if (!reduce) root.classList.add('motion');
+
+  /* ---------- sakura branches (generated) ---------- */
+  function blossom(cx, cy, r, rot, fill, heart){
+    var s = '<g transform="translate(' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ') rotate(' + rot.toFixed(0) + ')">';
+    for (var i = 0; i < 5; i++){
+      s += '<path transform="rotate(' + (i * 72) + ')" d="M0 0 C' + (-r*.55).toFixed(1) + ' ' + (-r*.35).toFixed(1) + ' ' + (-r*.45).toFixed(1) + ' ' + (-r*.95).toFixed(1) + ' ' + (-r*.12).toFixed(1) + ' ' + (-r).toFixed(1) + ' L0 ' + (-r*.86).toFixed(1) + ' L' + (r*.12).toFixed(1) + ' ' + (-r).toFixed(1) + ' C' + (r*.45).toFixed(1) + ' ' + (-r*.95).toFixed(1) + ' ' + (r*.55).toFixed(1) + ' ' + (-r*.35).toFixed(1) + ' 0 0Z" fill="' + fill + '"/>';
+    }
+    s += '<circle r="' + (r*.22).toFixed(1) + '" fill="' + heart + '"/></g>';
+    return s;
+  }
+  function rnd(seed){ return function(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }; }
+  function branch(seed, w, h, flip){
+    var R = rnd(seed), out = '';
+    var x0 = flip ? w : 0, x1 = flip ? 0 : w;
+    var d = 'M' + x0 + ' ' + (h * .62) + ' C' + (w * .35) + ' ' + (h * .2) + ' ' + (w * .6) + ' ' + (h * .9) + ' ' + x1 + ' ' + (h * .42);
+    out += '<path d="' + d + '" stroke="#5a3f39" stroke-width="7" fill="none" stroke-linecap="round"/>';
+    var tw = [[.25,.55,.18,.2],[.48,.6,.6,.85],[.7,.52,.82,.18]];
+    tw.forEach(function(t){ out += '<path d="M' + (flip ? w - w*t[0] : w*t[0]) + ' ' + (h*t[1]) + ' Q' + (flip ? w - w*(t[0]+.05) : w*(t[0]+.05)) + ' ' + (h*((t[1]+t[3])/2)) + ' ' + (flip ? w - w*t[2] : w*t[2]) + ' ' + (h*t[3]) + '" stroke="#5a3f39" stroke-width="4" fill="none" stroke-linecap="round"/>'; });
+    var fills = ['#F4DCE4','#EFC3D0','#E7A9BB','#F8E8EE'];
+    for (var i = 0; i < 26; i++){
+      var t = R(), bx = w * t, by = h * (.25 + R() * .55);
+      if (flip) bx = w - bx;
+      out += blossom(bx, by, 16 + R() * 18, R() * 72, fills[Math.floor(R() * fills.length)], '#A8213F');
+    }
+    return '<svg viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' + out + '</svg>';
+  }
+  var br = document.getElementById('branches');
+  var layers = [];
+  if (br){
+    var cfg = [
+      {seed:11, top:'-7%', left:'-10%', width:'64%', speed:-28, op:1,   flip:false},
+      {seed:23, top:'70%', left:'42%',  width:'66%', speed: 34, op:1,   flip:true},
+      {seed:37, top:'2%',  left:'55%',  width:'44%', speed:-55, op:.4,  flip:true, blur:3},
+      {seed:51, top:'80%', left:'-8%',  width:'42%', speed: 18, op:.55, flip:false, blur:1.5}
+    ];
+    cfg.forEach(function(c){
+      var holder = document.createElement('div');
+      holder.innerHTML = branch(c.seed, 900, 360, c.flip);
+      var svg = holder.firstChild;
+      svg.style.top = c.top; svg.style.left = c.left; svg.style.width = c.width; svg.style.opacity = c.op;
+      if (c.blur) svg.style.filter = 'blur(' + c.blur + 'px)';
+      br.appendChild(svg);
+      layers.push({el:svg, speed:c.speed});
+    });
+  }
+
+  /* ---------- radar chart ---------- */
+  (function(){
+    var svg = document.getElementById('radar'); if (!svg) return;
+    var axes = ['Hydration','Radiance','Smoothness','Softness','Even tone','Comfort','Bounce'];
+    var before = [4.4, 5.0, 5.2, 4.8, 5.4, 6.0, 4.6], after = [8.2, 7.4, 7.1, 7.8, 6.9, 8.4, 7.0];
+    var R = 120, n = axes.length, NS = 'http://www.w3.org/2000/svg', html = '';
+    function pt(i, v){ var a = -Math.PI / 2 + i * 2 * Math.PI / n; return [Math.cos(a) * R * v / 10, Math.sin(a) * R * v / 10]; }
+    [2.5, 5, 7.5, 10].forEach(function(v){
+      html += '<polygon points="' + axes.map(function(_, i){ return pt(i, v).map(function(q){ return q.toFixed(1); }).join(','); }).join(' ') + '" fill="none" stroke="rgba(67,54,51,.14)" stroke-width="1"/>';
+    });
+    axes.forEach(function(a, i){
+      var p = pt(i, 10), l = pt(i, 11.6);
+      html += '<line x1="0" y1="0" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '" stroke="rgba(67,54,51,.14)"/>';
+      var anchor = Math.abs(l[0]) < 4 ? 'middle' : (l[0] > 0 ? 'start' : 'end');
+      html += '<text x="' + l[0].toFixed(1) + '" y="' + (l[1] + 4).toFixed(1) + '" text-anchor="' + anchor + '" font-size="12" font-family="Zen Kaku Gothic New, system-ui, sans-serif" fill="#7A6762">' + a + '</text>';
+    });
+    function poly(vals, fill, stroke, cls){
+      return '<polygon class="' + cls + '" points="' + vals.map(function(v, i){ return pt(i, v).map(function(q){ return q.toFixed(1); }).join(','); }).join(' ') + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="2" stroke-linejoin="round"/>';
+    }
+    html += poly(before, 'rgba(231,169,187,.35)', '#E7A9BB', 'r-before');
+    html += poly(after, 'rgba(210,85,126,.22)', '#D2557E', 'r-after');
+    html += '<text x="0" y="-' + (R * .25 + 3) + '" text-anchor="middle" font-size="10" fill="#7A6762" font-family="Zen Kaku Gothic New, system-ui, sans-serif">2.5</text>';
+    svg.innerHTML = html;
+    svg.style.setProperty('--draw', reduce ? 1 : 0);
+    var after = svg.querySelector('.r-after');
+    if (!reduce){
+      after.style.transformOrigin = '0 0'; after.style.transform = 'scale(.55)'; after.style.opacity = '.2';
+      after.style.transition = 'transform 1.4s cubic-bezier(.2,.7,.2,1), opacity 1s ease';
+      new IntersectionObserver(function(es, ob){ es.forEach(function(e){ if (e.isIntersecting){ after.style.transform = 'scale(1)'; after.style.opacity = '1'; ob.disconnect(); } }); }, {threshold:.4}).observe(svg);
+    }
+  })();
+
+  /* ---------- reveals, counters, ingredient swap ---------- */
+  if (!reduce){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } }); }, {threshold:.18, rootMargin:'0px 0px -6% 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+    var bars = document.getElementById('bars');
+    new IntersectionObserver(function(es, ob){ es.forEach(function(e){
+      if (!e.isIntersecting) return; bars.classList.add('on'); ob.disconnect();
+      bars.querySelectorAll('[data-count]').forEach(function(s){
+        var to = +s.getAttribute('data-count'), t0 = performance.now();
+        (function step(t){ var k = Math.min(1, (t - t0) / 1300); k = 1 - Math.pow(1 - k, 3); s.textContent = '+' + Math.round(to * k) + '%'; if (k < 1) requestAnimationFrame(step); })(t0);
+      });
+    }); }, {threshold:.3}).observe(bars);
+  }
+  var pics = document.querySelectorAll('[data-pic]');
+  var sio = new IntersectionObserver(function(es){ es.forEach(function(e){
+    if (!e.isIntersecting) return; var k = e.target.getAttribute('data-story');
+    pics.forEach(function(p){ p.classList.toggle('on', p.getAttribute('data-pic') === k); });
+  }); }, {threshold:.55});
+  document.querySelectorAll('[data-story]').forEach(function(s){ sio.observe(s); });
+
+  /* ---------- scroll scrubbing ---------- */
+  var scenes = [].slice.call(document.querySelectorAll('[data-scrub]'));
+  var lines = [].slice.call(document.querySelectorAll('.mani__line'));
+  var callouts = [].slice.call(document.querySelectorAll('.callout'));
+  var nav = document.getElementById('nav');
+  function clamp(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function frame(){
+    var vh = window.innerHeight;
+    nav.classList.toggle('is-solid', window.scrollY > vh * 1.6);
+    if (reduce) return;
+    scenes.forEach(function(s){
+      var r = s.getBoundingClientRect(), total = s.offsetHeight - vh;
+      if (r.bottom < -vh || r.top > vh * 1.5) return;
+      var p = total > 0 ? clamp(-r.top / total) : 1;
+      s.style.setProperty('--p', p.toFixed(4));
+      var name = s.getAttribute('data-scrub');
+      if (name === 'mani'){
+        lines.forEach(function(l, i){ l.classList.toggle('on', p > .06 + i * .2); });
+        layers.forEach(function(L){ L.el.style.transform = 'translate3d(' + (L.speed * (p - .5)).toFixed(2) + '%,' + (-6 * p).toFixed(2) + '%,0)'; });
+      } else if (name === 'turn'){
+        callouts.forEach(function(c){ c.classList.toggle('on', p >= +c.getAttribute('data-at')); });
+      }
+    });
+  }
+  var ticking = false;
+  function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(function(){ frame(); ticking = false; }); } }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  if (reduce){ lines.forEach(function(l){ l.classList.add('on'); }); callouts.forEach(function(c){ c.classList.add('on'); }); }
+  frame();
+
+  /* ---------- falling petals ---------- */
+  var cv = document.getElementById('petals');
+  if (cv && !reduce && cv.getContext){
+    var ctx = cv.getContext('2d'), dpr = Math.min(2, window.devicePixelRatio || 1), W, H, petals = [], lastY = window.scrollY, wind = 0;
+    function size(){ W = window.innerWidth; H = window.innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
+    size(); window.addEventListener('resize', size);
+    var count = W < 700 ? 11 : 20;
+    function spawn(p, top){
+      p.x = Math.random() * W; p.y = top ? -20 - Math.random() * H : Math.random() * H;
+      p.s = 7 + Math.random() * 9; p.vy = .35 + Math.random() * .6; p.vx = -.2 + Math.random() * .5;
+      p.rot = Math.random() * 6.28; p.vr = (-.5 + Math.random()) * .03; p.spin = Math.random() * 6.28; p.vs = .02 + Math.random() * .03;
+      p.c = ['#F4DCE4','#EFC3D0','#E7A9BB','#F8E8EE'][Math.floor(Math.random() * 4)]; p.a = .55 + Math.random() * .4;
+      return p;
+    }
+    for (var i = 0; i < count; i++) petals.push(spawn({}, false));
+    function petal(p){
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.scale(Math.cos(p.spin) * .9 + .1, 1);
+      var s = p.s; ctx.beginPath();
+      ctx.moveTo(0, s); ctx.bezierCurveTo(s * .9, s * .5, s * .7, -s * .8, s * .14, -s);
+      ctx.lineTo(0, -s * .78); ctx.lineTo(-s * .14, -s);
+      ctx.bezierCurveTo(-s * .7, -s * .8, -s * .9, s * .5, 0, s); ctx.closePath();
+      ctx.globalAlpha = p.a; ctx.fillStyle = p.c; ctx.fill();
+      ctx.restore();
+    }
+    var running = true;
+    document.addEventListener('visibilitychange', function(){ running = !document.hidden; if (running) requestAnimationFrame(loop); });
+    function loop(){
+      if (!running) return;
+      var y = window.scrollY, dy = y - lastY; lastY = y; wind += (dy * .04 - wind) * .08;
+      ctx.clearRect(0, 0, W, H);
+      petals.forEach(function(p){
+        p.spin += p.vs; p.rot += p.vr; p.x += p.vx + Math.sin(p.spin * .7) * .4; p.y += p.vy - wind;
+        if (p.y > H + 30 || p.x < -40 || p.x > W + 40) spawn(p, true);
+        if (p.y < -60) p.y = H + 20;
+        petal(p);
+      });
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  /* ---------- shop (demo) ---------- */
+  var form = document.getElementById('shopForm'), price = document.getElementById('price'), perml = document.getElementById('perml'), status = document.getElementById('shopStatus');
+  var sizeBtns = [].slice.call(document.querySelectorAll('.size')), chosen = sizeBtns[0];
+  sizeBtns.forEach(function(b){ b.addEventListener('click', function(){
+    chosen = b; sizeBtns.forEach(function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+    var pr = +b.getAttribute('data-price'), ml = +b.getAttribute('data-ml');
+    price.textContent = '€' + pr; perml.textContent = '€' + (pr / ml).toFixed(2) + ' per ml'; status.textContent = '';
+  }); });
+  form.addEventListener('submit', function(e){ e.preventDefault(); status.textContent = 'Added ' + chosen.getAttribute('data-ml') + ' ml to your bag. This is a demo, so nothing is charged.'; });
+})();
+</script>
+</body>
+</html>
