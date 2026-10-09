@@ -22,3 +22,67 @@
   .contact-cascade.js-cascade .cascade-clone,
   .contact-cascade.js-cascade .cascade-front:not(.cascade-clone){ transition:opacity .2s ease; translate:none; scale:none; }
 }
+
+/* ==========================================================================
+   Contact band: one centred "contact.tmp" window with the hire-me.lnk alert
+   cascade popping up over it. The headline says "click", so the alert sits on
+   the window itself (beside the text, never over it) and its buttons land where
+   the cursor already is. The selectors start with .contact-band so they beat the
+   page-level .contact-cascade / grid rules without needing !important.
+   ========================================================================== */
+.contact-band{ display:block; position:relative; max-width:960px; margin:0 auto 46px; }
+.contact-band .contact-tmp{ box-sizing:border-box; min-height:300px; }
+/* keep the copy in the left column, clear of the alert (420px card + 48px stack offset + 60px inset) */
+.contact-band .contact-tmp > :not(.win-bar){ max-width:calc(100% - 480px); }
+.contact-band .contact-tmp .h-bar{ margin:0; }
+.contact-tmp__role{
+  margin:22px 0 6px; font-family:var(--font-head); font-weight:800;
+  font-size:clamp(19px, 2vw, 22px); line-height:1.25; color:var(--indigo);
+}
+.contact-band .contact-tmp__where{ margin:0; }
+
+.contact-band .contact-cascade{
+  position:absolute; z-index:5; isolation:isolate;
+  top:80px; right:60px; width:420px; margin:0;
+}
+
+/* narrow screens: window on top, alert drops in over its bottom edge */
+@media (max-width: 860px){
+  .contact-band{ max-width:none; margin-bottom:0; }
+  .contact-band .contact-tmp{ min-height:0; padding-bottom:72px; }
+  .contact-band .contact-tmp > :not(.win-bar){ max-width:none; }
+  .contact-band .contact-cascade{
+    position:relative; top:auto; right:auto; width:min(420px, calc(100% - 60px)); margin:-52px 0 0 12px;
+  }
+}
+@media (max-width: 520px){
+  .contact-band > .tile{ transform:none !important; }
+  /* keep both buttons on one line (the ghost cards behind have a fixed height) */
+  .contact-band .cascade-front__actions .btn{ padding-left:10px; padding-right:10px; font-size:13px; }
+  .contact-band .cascade-front__actions .btn svg{ display:none; }
+}
+
+/* Click anywhere on contact.tmp: like a Windows modal refusing to let you touch the window behind it,
+   the hire-me.lnk alert shakes and blinks its title bar. assets/js/cascade.js toggles .nudge. */
+.contact-band .cascade-front.nudge{ animation:cascade-shake .45s ease-in-out; }
+.contact-band .cascade-front.nudge > .win-bar{ animation:cascade-blink .72s step-end; }
+.contact-band .cascade-front.nudge > .win-bar .title{ animation:cascade-blink-text .72s step-end; }
+@keyframes cascade-shake{
+  0%,100%{ transform:translateX(0); } 20%{ transform:translateX(-7px); } 40%{ transform:translateX(6px); }
+  60%{ transform:translateX(-4px); } 80%{ transform:translateX(3px); }
+}
+@keyframes cascade-blink{
+  0%,40%,80%{ background:var(--indigo); }
+  20%,60%,100%{ background:linear-gradient(90deg, var(--blue), var(--purple)); }
+}
+@keyframes cascade-blink-text{ 0%,40%,80%{ color:#fff; } 20%,60%,100%{ color:var(--indigo); } }
+@media (prefers-reduced-motion: reduce){
+  .contact-band .cascade-front.nudge, .contact-band .cascade-front.nudge > .win-bar,
+  .contact-band .cascade-front.nudge > .win-bar .title{ animation:none; }
+  .contact-band .cascade-front.nudge{ outline:3px solid var(--yellow); outline-offset:2px; }
+}
+
+/* alert headline: IBM Plex Mono (the window-title face), bigger */
+.contact-cascade .cascade-front__msg{ font-family:var(--font-pixel); font-weight:700; font-size:24px; }
+@media (max-width: 520px){ .contact-cascade .cascade-front__msg{ font-size:21px; } }
+.contact-cascade .cascade-front__body{ gap:13px; } /* keeps the buttons where they were with the bigger headline */
