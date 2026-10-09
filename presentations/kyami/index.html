@@ -22,6 +22,7 @@
     --mocha:#433633;      /* Deep Mocha, all text */
     --mocha-soft:#7A6762;
     --apricot:#F5CD93;    /* Apricot Cream, warmth of rice */
+    --berry:#6E2C44;      /* deep sakura bark-berry, the bottle's stage */
     --line:rgba(67,54,51,.14);
     --on-dark:#FFFDF3;
     --f-display:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",Georgia,"Times New Roman",serif;
@@ -76,15 +77,15 @@
   .hero__head h1 em{font-style:normal;color:var(--blush)}
   .hero__head .eyebrow{display:block;margin-bottom:14px}
   .hero__late{position:absolute;left:0;right:0;bottom:8vh;text-align:center;color:var(--beni);padding-inline:var(--gutter);opacity:calc((var(--p,0) - .72) * 4)}
-  .hero__late p{font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:800}
+  .hero__late p{display:inline-block;font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:800;background:rgba(255,253,243,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:999px;padding:.38em 1.1em .45em;box-shadow:0 10px 40px -18px rgba(110,44,68,.45)}
   .scroll-cue{position:absolute;bottom:3vh;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha-soft);opacity:calc(1 - var(--p,0) * 5)}
 
   /* 2. manifesto through sakura branches */
   .mani{height:320vh}
   .mani .stage{background:linear-gradient(180deg,var(--paper),var(--petal));display:grid;place-items:center}
   .branches{position:absolute;inset:0;pointer-events:none}
-  .branches .branch{position:absolute;height:auto;max-width:none;will-change:transform}
-  .mani__lines{position:relative;z-index:2;text-align:center;padding:clamp(20px,4vw,48px) var(--gutter);max-width:980px;background:radial-gradient(closest-side,rgba(255,253,243,.92),rgba(255,253,243,.7) 60%,rgba(255,253,243,0))}
+  .branches .branch{position:absolute;height:auto;max-width:none;will-change:transform;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent 98%);mask-image:linear-gradient(to bottom,#000 72%,transparent 98%)}
+  .mani__lines{position:relative;z-index:2;text-align:center;padding:clamp(24px,4vw,52px) clamp(20px,4vw,56px);max-width:980px;background:rgba(255,253,243,.76);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:36px;box-shadow:0 20px 60px -30px rgba(110,44,68,.45);margin-inline:var(--gutter)}
   .mani__line{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.6vw,64px);line-height:1.15;display:block}
   .mani__line + .mani__line{margin-top:.35em}
   .mani__line:last-child{color:var(--blush)}
@@ -94,7 +95,7 @@
 
   /* 3. the bottle turns upright, three drops */
   .turn{height:300vh}
-  .turn .stage{background:var(--petal);display:grid;grid-template-columns:1fr minmax(0,auto) 1fr;align-items:center;gap:clamp(12px,3vw,48px);padding-inline:var(--gutter)}
+  .turn .stage{background:var(--berry);color:var(--paper);display:grid;grid-template-columns:1fr minmax(0,auto) 1fr;align-items:center;gap:clamp(12px,3vw,48px);padding-inline:var(--gutter)}
   .turn__bottle{position:relative;height:min(78svh,720px);aspect-ratio:928/1152;max-width:100%;transform:rotate(calc(-14deg * (1 - var(--p,0)))) scale(calc(1.12 - .12 * var(--p,0))) translateY(calc(6vh * (1 - var(--p,0))));transform-origin:50% 80%;will-change:transform}
   .turn__bottle img{width:100%;height:100%;object-fit:cover;border-radius:28px;box-shadow:0 40px 80px -40px rgba(168,33,63,.35)}
   .turn__bottle::after{content:"";position:absolute;inset:0;border-radius:28px;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 48%,transparent 60%);transform:translateX(calc(-60% + 120% * var(--p,0)));mix-blend-mode:soft-light;pointer-events:none}
@@ -102,15 +103,15 @@
   .turn__bottle.is-3d::after,.turn__bottle.is-3d img{display:none}
   .turn__bottle canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
   .leaders{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
-  .leaders path{fill:none;stroke:var(--mocha);stroke-width:1.25;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s ease}
-  .leaders circle{fill:var(--beni);opacity:0;transition:opacity .4s ease}
+  .leaders path{fill:none;stroke:rgba(255,253,243,.7);stroke-width:1.25;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s ease}
+  .leaders circle{fill:var(--sakura);opacity:0;transition:opacity .4s ease}
   .leaders .on path{stroke-dashoffset:0}
   .leaders .on circle{opacity:1}
-  .turn__hint{position:absolute;left:50%;bottom:4vh;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha-soft)}
+  .turn__hint{position:absolute;left:50%;bottom:4vh;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,253,243,.7);z-index:2}
   .callouts{display:grid;gap:clamp(28px,6vh,64px);position:relative;z-index:2}
   .callout{max-width:260px}
-  .callout b{display:block;font-family:var(--f-display);font-size:clamp(34px,4vw,56px);font-weight:800;color:var(--blush);line-height:1}
-  .callout span{display:block;margin-top:8px;font-size:15px;color:var(--mocha-soft)}
+  .callout b{display:block;font-family:var(--f-display);font-size:clamp(34px,4vw,56px);font-weight:800;color:var(--petal);line-height:1}
+  .callout span{display:block;margin-top:8px;font-size:15px;color:rgba(255,253,243,.78)}
   .callouts--left{justify-items:end;text-align:right}
   .motion .callout{opacity:0;transform:translateY(20px);transition:opacity .5s ease,transform .6s ease}
   .motion .callout.on{opacity:1;transform:none}
@@ -277,9 +278,9 @@
       <div class="branches" id="branches" aria-hidden="true"></div>
       <div class="mani__lines">
         <span class="mani__line">Two Japanese rituals.</span>
-        <span class="mani__line">Rice water, a Japanese beauty habit for centuries.</span>
-        <span class="mani__line">Sakura, for one short week of spring.</span>
-        <span class="mani__line">One pale pink drop.</span>
+        <span class="mani__line">Rice water, a secret passed through centuries.</span>
+        <span class="mani__line">Sakura that blooms for one short week of spring.</span>
+        <span class="mani__line">All in a pink drop.</span>
       </div>
       <span class="mani__kanji" aria-hidden="true">米と桜</span>
     </div>
@@ -481,13 +482,13 @@ function init(){
   wrap.classList.add('is-3d');
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xF4DCE4); /* same as the section, so the bottle floats on the page */
+  scene.background = new THREE.Color(0x6E2C44); /* same as the section (--berry), so the bottle floats on the page */
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(renderer), 0.02).texture;
   const camera = new THREE.PerspectiveCamera(28, 3/4, 0.1, 100);
   const key = new THREE.DirectionalLight(0xffffff, 2.0); key.position.set(4, 8, 7); scene.add(key);
   const rim = new THREE.DirectionalLight(0xffe6ee, 1.2); rim.position.set(-6, 3, -5); scene.add(rim);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xe7a9bb, 0.5));
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xb0607c, 0.6));
 
   const V = (x, y) => new THREE.Vector2(x, y);
   const bottle = new THREE.Group(); bottle.position.y = -3.4; scene.add(bottle);
@@ -526,10 +527,10 @@ function init(){
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
   bottle.traverse(o => { if (o.isMesh) o.castShadow = true; });
   const sun = new THREE.DirectionalLight(0xffffff, 0.6);
-  sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.radius = 14; sun.shadow.blurSamples = 20; sun.shadow.bias = -0.0005;
+  sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.radius = 26; sun.shadow.blurSamples = 25; sun.shadow.bias = -0.0005;
   Object.assign(sun.shadow.camera, {left:-7, right:7, top:9, bottom:-7, near:1, far:60});
   scene.add(sun, sun.target);
-  const wall = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({color:0x8a3a55, opacity:0.2}));
+  const wall = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({color:0x1c0710, opacity:0.42}));
   wall.receiveShadow = true; scene.add(wall);
   const camDir = new THREE.Vector3(), camRight = new THREE.Vector3();
 
@@ -615,8 +616,8 @@ function init(){
     camera.updateMatrixWorld();
     camDir.copy(camera.position).setY(0).normalize();
     camRight.setFromMatrixColumn(camera.matrixWorld, 0).setY(0).normalize();
-    wall.position.copy(camDir).multiplyScalar(-2.4); wall.position.y = 0.4; wall.lookAt(camera.position.x, 0.4, camera.position.z);
-    sun.position.copy(camDir).multiplyScalar(10).addScaledVector(camRight, -9); sun.position.y = 5; sun.target.position.set(0, 0.4, 0);
+    wall.position.copy(camDir).multiplyScalar(-1.5); wall.position.y = 0.4; wall.lookAt(camera.position.x, 0.4, camera.position.z);
+    sun.position.copy(camDir).multiplyScalar(12).addScaledVector(camRight, -6); sun.position.y = 4; sun.target.position.set(0, 0.4, 0);
     bubbles.forEach(b => { const u = b.userData; b.position.y += reduce ? 0 : u.v; b.position.x = Math.cos(u.a) * u.r + Math.sin(t * 2 + u.w) * 0.02; if (b.position.y > 3.68) b.position.y = 0.45; });
     renderer.render(scene, camera);
     leaders();
@@ -639,9 +640,9 @@ init();
   if (br){
     var cfg = [
       {src:'img/branch-long.webp',    top:'-6%', left:'-14%', width:'72%', speed:-26, op:1,   flip:false},
-      {src:'img/branch-cluster.webp', top:'66%', left:'60%',  width:'42%', speed: 30, op:1,   flip:true},
+      {src:'img/branch-cluster.webp', top:'58%', left:'62%',  width:'38%', speed: 30, op:1,   flip:true},
       {src:'img/branch-long.webp',    top:'4%',  left:'52%',  width:'56%', speed:-48, op:.45, flip:true,  blur:4},
-      {src:'img/branch-cluster.webp', top:'74%', left:'-8%',  width:'30%', speed: 16, op:.6,  flip:false, blur:2}
+      {src:'img/branch-cluster.webp', top:'64%', left:'-8%',  width:'28%', speed: 16, op:.6,  flip:false, blur:2}
     ];
     cfg.forEach(function(c){
       var img = new Image(); img.src = c.src; img.alt = ''; img.decoding = 'async'; img.loading = 'lazy';
