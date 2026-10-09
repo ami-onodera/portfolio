@@ -339,6 +339,8 @@
   .chip.chip--app{ background:#b5e3f0; }
   .chip.chip--comp{ background:#d8eaa8; }
   .chip.chip--ai{ background:#c0c6f5; }
+  .chip.chip--img{ background:#f5a9a3; }
+  .chip.chip--figma{ background:#a7e3d8; }
   .chip.chip--qa{ background:#e4d3b6; }
   .chip.chip--auto{ background:#ecb6e0; }
   .proj__body h3{ font-family:var(--font-head); font-weight:800; font-size:clamp(22px,2.4vw,27px); line-height:1.12; }
@@ -478,6 +480,13 @@
   .side-item .lbl{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .side-item em{ margin-left:auto; flex:none; font-style:normal; font-family:var(--font-pixel); font-size:10px; font-weight:600; text-transform:uppercase; color:var(--muted); }
   .side-dot{ width:12px; height:12px; flex:none; margin:0 2px; border:1.5px solid var(--indigo); }
+  .side-toggle{ display:flex; align-items:center; justify-content:space-between; gap:8px; width:calc(100% - 16px); padding:0; background:none; border:0; cursor:pointer; text-align:left; }
+  .side-toggle:hover{ color:var(--indigo); }
+  .side-toggle:focus-visible{ outline:3px solid var(--accent); outline-offset:2px; }
+  .side-toggle .chev{ width:10px; height:10px; flex:none; transition:transform .15s ease; }
+  .side-toggle[aria-expanded="false"] .chev{ transform:rotate(-90deg); }
+  .side-list[hidden]{ display:none; }
+  @media (prefers-reduced-motion:reduce){ .side-toggle .chev{ transition:none; } }
   .side-item.is-soon{ cursor:default; opacity:.65; }
   .side-item.is-soon:hover{ background:none; }
   .fm-search{ display:flex; align-items:center; gap:6px; background:#fff; border:1.5px solid var(--indigo); padding:3px 8px; box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); }
@@ -637,14 +646,13 @@
             <ul class="side-list" id="side-views">
               <li><button type="button" class="side-item" data-view="all" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl">All projects</span></button></li>
               <li><button type="button" class="side-item" data-view="done" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg><span class="lbl">Case studies</span></button></li>
-              <li><button type="button" class="side-item" data-view="presentation" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-play"/></svg><span class="lbl">Presentations</span></button></li>
-              <li><button type="button" class="side-item" data-view="vis" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg><span class="lbl">Figma and imagery</span></button></li>
-              <li><button type="button" class="side-item" data-view="wip" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg><span class="lbl">In progress</span></button></li>
+              <li><button type="button" class="side-item" data-view="type:Gen AI" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg><span class="lbl">Generative AI</span></button></li>
+              <li><button type="button" class="side-item" data-view="type:UI design" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ui"/></svg><span class="lbl">UI Design</span></button></li>
             </ul>
-            <p class="side-h">Types</p>
-            <!-- filled in by the script at the bottom: one entry per tag used on the cards, with its colour and count -->
+            <button type="button" class="side-h side-toggle" aria-expanded="true" aria-controls="side-types"><span>Types</span><svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3 5 7l3.5-4z" fill="currentColor"/></svg></button>
+            <!-- filled in by the script at the bottom: the tags below, in this order, each with its colour and a count -->
             <ul class="side-list" id="side-types"></ul>
-            <p class="side-h side-extra">Folders</p>
+            <button type="button" class="side-h side-extra side-toggle" aria-expanded="true" aria-controls="side-cases"><span>Folders</span><svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3 5 7l3.5-4z" fill="currentColor"/></svg></button>
             <!-- filled in by the script at the bottom: one entry per project card below -->
             <ul class="side-list side-extra" id="side-cases"></ul>
             <p class="side-h side-extra">Locations</p>
@@ -670,8 +678,8 @@
                    .proj              half-width card (two per row)
                    .proj proj--wide   full-width row, media left, text right
                    .proj--case        card carries the Case study tag: shows under "Case studies"
-                   .proj--vis         shows the card under the "Figma and imagery" filter
-                                      (it stays a case study too)
+                   tags               the chips in each card's Type row are the filters in the
+                                      sidebar's Types list (and Generative AI / UI Design above it)
                    .proj--pres        add to a published card (alongside
                                       proj--wide) to also tag it as a
                                       Presentation chip "Presentation" +
@@ -687,13 +695,13 @@
                  ================================================================ -->
 
             <!-- 1. Feature case study: this portfolio -->
-            <article class="proj proj--wide proj--gallery proj--vis">
+            <article class="proj proj--wide proj--gallery">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">this-portfolio/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-this-portfolio.jpg" width="960" height="600" alt="The portfolio home page as a pastel Y2K desktop, with overlapping windows, desktop icons and a taskbar" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--ui">UI design</span><span class="chip chip--art">Art direction</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--art">Art direction</span><span class="chip chip--ui">UI design</span><span class="chip chip--figma">Figma</span><span class="chip chip--ai">Gen AI</span><span class="chip chip--img">Imagery</span></dd></div><div><dt>Topics</dt><dd>Wireframes, Concepts, Style</dd></div><div><dt>Scope</dt><dd>8 days, 82 commits</dd></div><div><dt>Demos</dt><dd>Live desktop, 5 concepts</dd></div></dl>
                 <h3>Designing this portfolio</h3>
                 <p>How this site grew from a tidy pastel grid into a playable and whimsical desktop: wireframes, the concepts I tried, how the style was settled, the imagery and the easter eggs too!</p>
                 <div class="proj__actions">
@@ -705,13 +713,13 @@
 
 
             <!-- 1b. Case study: AI food photography -->
-            <article class="proj proj--wide proj--gallery proj--case proj--vis">
+            <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">ai-food-imagery/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-ai-food-imagery.jpg" width="960" height="600" alt="AI-generated overhead photograph of creamy garlic chicken with roasted potatoes and green beans on a ceramic plate" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--art">Art direction</span></dd></div><div><dt>Topics</dt><dd>Food, Lifestyle, Consistency</dd></div><div><dt>Scope</dt><dd>13 images, 1 series</dd></div><div><dt>Docs</dt><dd>Series bible, Prompt template</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--ai">Gen AI</span><span class="chip chip--art">Art direction</span><span class="chip chip--img">Imagery</span></dd></div><div><dt>Topics</dt><dd>Food, Lifestyle, Consistency</dd></div><div><dt>Scope</dt><dd>13 images, 1 series</dd></div><div><dt>Docs</dt><dd>Series bible, Prompt template</dd></div></dl>
                 <h3>AI food photography</h3>
                 <p>From a written brief to a consistent campaign set: realistic AI-generated food and lifestyle images for a fictional meal-kit brand, plus the series bible, prompt template and realism checklist behind them.</p>
                 <div class="proj__actions">
@@ -721,13 +729,13 @@
             </article>
 
             <!-- 2. Case study -->
-            <article class="proj proj--wide proj--gallery proj--case proj--vis">
+            <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">referral-portal/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media">
                 <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--vis">Figma and imagery</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Theming, Brand elements</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--figma">Figma</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Theming, Brand elements</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
                 <h3>One template, many brands</h3>
                 <p>A single referral portal template, themed for three different (fictional) brands. The markup stays the same: only the brand elements, copy and client assets change.</p>
                 <div class="proj__actions">
@@ -778,7 +786,7 @@
                 <img src="assets/img/y2k/thumb-seo-landing-pages.jpg" width="1699" height="1175" alt="Hero screen of The SEO Road presentation: the headline, five KPI tiles and the first stop on the illustrated road" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--pres">Presentation</span><span class="chip chip--seo">SEO</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Audit, Optimisation</dd></div><div><dt>Scope</dt><dd>163 pages, 7 languages</dd></div><div><dt>Format</dt><dd>Interactive presentation</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--pres">Presentation</span><span class="chip chip--ai">Gen AI</span></dd></div><div><dt>Topics</dt><dd>Audit, Optimisation</dd></div><div><dt>Scope</dt><dd>163 pages, 7 languages</dd></div><div><dt>Format</dt><dd>Interactive presentation</dd></div></dl>
                 <h3>The SEO road: hosted landing pages</h3>
                 <p>A single-handed SEO optimisation across 163 hosted landing pages in seven languages, walked through as an interactive, scroll-driven, AI-made presentation.</p>
                 <a class="proj__cta" href="presentations/seo-optimised-pages.html" target="_blank" rel="noopener">Open presentation ↗</a>
@@ -793,7 +801,7 @@
                 <img src="assets/img/y2k/thumb-mockup-maker.jpg" width="960" height="614" alt="Desktop preview of the Voltwell Energy referral portal, a mockup generated from a prospect's website" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--app">Web app</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Claude skill, Automation</dd></div><div><dt>Scope</dt><dd>Fixed template, any brand</dd></div><div><dt>Used by</dt><dd>Sales team</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--app">Web app</span><span class="chip chip--ai">Gen AI</span></dd></div><div><dt>Topics</dt><dd>Claude skill, Automation</dd></div><div><dt>Scope</dt><dd>Fixed template, any brand</dd></div><div><dt>Used by</dt><dd>Sales team</dd></div></dl>
                 <h3>Mockup maker</h3>
                 <p>A guided tool that turns a prospect's website into a branded landing page preview, built on a fixed template and a Claude skill, so Sales can make mockups without a designer.</p>
                 <a class="proj__cta" href="work/mockup-maker.html" target="_blank" rel="noopener">Open case study →</a>
@@ -808,7 +816,7 @@
                 <img src="assets/img/y2k/thumb-no-buy-club.jpg" width="960" height="614" alt="The No-Buy Club app: a goal bar for a Tokyo trip, a shiba mascot and a form to log an impulse" loading="lazy">
               </div>
               <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--app">Web app</span><span class="chip chip--ui">UI design</span><span class="chip chip--ai">GenAI</span></dd></div><div><dt>Topics</dt><dd>Behaviour, Gamification</dd></div><div><dt>Scope</dt><dd>Concept, design and build</dd></div><div><dt>Format</dt><dd>One HTML file</dd></div></dl>
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--ai">Gen AI</span><span class="chip chip--ui">UI design</span><span class="chip chip--app">Web app</span></dd></div><div><dt>Topics</dt><dd>Behaviour, Gamification</dd></div><div><dt>Scope</dt><dd>Concept, design and build</dd></div><div><dt>Format</dt><dd>One HTML file</dd></div></dl>
                 <h3>No-Buy Club</h3>
                 <p>A small app that helps people (mainly myself) wait out impulse purchases: a cooling-off period, honest numbers and a savings goal, wrapped in a kind, kawaii interface.</p>
                 <a class="proj__cta" href="work/no-buy-club.html" target="_blank" rel="noopener">Open case study →</a>
@@ -821,21 +829,6 @@
           <div class="proj-grid proj-grid--wip">
 
             <!-- 3. In progress -->
-            <article class="proj proj--wide proj--gallery proj--wip">
-              <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">component-library/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
-              <div class="proj__media" aria-hidden="true">
-                <span class="label">Loading...</span>
-                <div class="load-bar"><span class="load-bar__fill" style="width:40%"></span></div>
-              </div>
-              <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--wip">In progress</span><span class="chip chip--comp">Component</span></dd></div><div><dt>Topics</dt><dd>States, Theming</dd></div><div><dt>Scope</dt><dd>Desktop and mobile, 3 themes</dd></div><div><dt>Status</dt><dd>Coming soon</dd></div></dl>
-                <h3>The referral widget, as a component</h3>
-                <p>Its states, on desktop and mobile, in three brand themes.</p>
-                
-              </div>
-            </article>
-
-            <!-- 4. In progress -->
             <article class="proj proj--wide proj--gallery proj--wip">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">qa-automation/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
               <div class="proj__media" aria-hidden="true">
@@ -957,30 +950,37 @@
       }
       list.appendChild(li);
     });
-    /* Types: every tag used on the cards (UI design, SEO, GenAI ...) becomes a filter, with the tag's own colour and a count.
-       The format tags (Case study, Presentation, Figma and imagery, In progress) already have their own filters above. */
-    var FORMATS = ['case study', 'presentation', 'figma and imagery', 'in progress'];
+    /* Types: the tags used on the cards, always in this order, each with its own colour and a count.
+       Case studies, Generative AI and UI Design also have shortcuts under Favourites. */
+    var TYPE_ORDER = ['Art direction', 'UI design', 'Gen AI', 'Imagery', 'Figma', 'Content model', 'Web app', 'Presentation'];
     function typesOf(c){
-      return [].map.call(c.querySelectorAll('.proj__specs > div:first-child .chip'), function(x){ return x.textContent.trim(); })
-        .filter(function(t, i, arr){ return arr.indexOf(t) === i; });
+      return [].map.call(c.querySelectorAll('.proj__specs > div:first-child .chip'), function(x){ return x.textContent.trim().toLowerCase(); });
     }
-    var typeMeta = {};
-    cards.forEach(function(c){
-      [].forEach.call(c.querySelectorAll('.proj__specs > div:first-child .chip'), function(chip){
-        var t = chip.textContent.trim();
-        if (FORMATS.indexOf(t.toLowerCase()) > -1 || typeMeta[t]) return;
-        typeMeta[t] = getComputedStyle(chip).backgroundColor;
-      });
-    });
     var typeList = document.getElementById('side-types');
-    Object.keys(typeMeta).sort(function(x, y){ return x.localeCompare(y); }).forEach(function(t){
+    TYPE_ORDER.forEach(function(t){
+      var colour = '#fff';
+      cards.some(function(c){
+        return [].some.call(c.querySelectorAll('.proj__specs > div:first-child .chip'), function(chip){
+          if (chip.textContent.trim().toLowerCase() !== t.toLowerCase()) return false;
+          colour = getComputedStyle(chip).backgroundColor; return true;
+        });
+      });
       var li = document.createElement('li');
       li.innerHTML = '<button type="button" class="side-item" aria-pressed="false"><span class="side-dot" aria-hidden="true"></span><span class="lbl"></span><em></em></button>';
       var btn = li.firstChild;
       btn.setAttribute('data-view', 'type:' + t);
-      btn.querySelector('.side-dot').style.background = typeMeta[t];
+      btn.querySelector('.side-dot').style.background = colour;
       btn.querySelector('.lbl').textContent = t;
       typeList.appendChild(li);
+    });
+    /* Types and Folders fold away on click */
+    [].forEach.call(ex.querySelectorAll('.side-toggle'), function(b){
+      var target = document.getElementById(b.getAttribute('aria-controls'));
+      b.addEventListener('click', function(){
+        var open = b.getAttribute('aria-expanded') === 'true';
+        b.setAttribute('aria-expanded', open ? 'false' : 'true');
+        if (target) target.hidden = open;
+      });
     });
     var view = 'all', q = '', input = document.getElementById('fm-q');
     var viewBtns = [].slice.call(ex.querySelectorAll('[data-view]'));
@@ -988,23 +988,20 @@
     function matches(c, v){
       if (v === 'all') return true;
       if (v === 'wip') return c.classList.contains('proj--wip');
-      if (v === 'presentation') return c.classList.contains('proj--pres');
-      if (v === 'vis') return c.classList.contains('proj--vis');
       if (v === 'done') return c.classList.contains('proj--case');
-      if (v.indexOf('type:') === 0) return typesOf(c).indexOf(v.slice(5)) > -1;
+      if (v.indexOf('type:') === 0) return typesOf(c).indexOf(v.slice(5).toLowerCase()) > -1;
       return true;
     }
     function apply(){
-      var all = 0, wip = 0, pres = 0, vis = 0, cs = 0;
+      var all = 0, wip = 0, pres = 0, cs = 0;
       cards.forEach(function(c){
         var isWip = c.classList.contains('proj--wip');
         var isPres = c.classList.contains('proj--pres');
-        var isVis = c.classList.contains('proj--vis');
         var isCase = c.classList.contains('proj--case');
         var okView = matches(c, view);
         var okText = !q || c.textContent.toLowerCase().indexOf(q) > -1;
         c.hidden = !(okView && okText);
-        if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; if (isVis) vis++; if (isCase) cs++; }
+        if (!c.hidden) { all++; if (isWip) wip++; if (isPres) pres++; if (isCase) cs++; }
       });
       [].forEach.call(ex.querySelectorAll('.proj-grid'), function(g){
         g.hidden = !g.querySelector('.proj:not([hidden])');
