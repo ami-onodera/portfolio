@@ -35,6 +35,9 @@
   .ph-grid { display: grid; gap: var(--gap); margin-top: 22px; }
   .ph-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ph-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tile .ph-grid { gap: clamp(20px, 2.6vw, 32px); padding: 0 clamp(6px, 2.4vw, 30px) 6px; }
+  .tile .two > .lay { padding: 0 clamp(6px, 2.4vw, 30px) 6px; }
+  .tile .ai-note { padding: 0 clamp(6px, 2.4vw, 30px); }
   .ph { margin: 0; background: #fff; border: 2px solid var(--indigo); box-shadow: 4px 4px 0 var(--indigo); display: flex; flex-direction: column; min-width: 0; }
   .ph img { display: block; width: 100%; height: auto; border-bottom: 2px solid var(--indigo); }
   .ph figcaption { padding: 10px 12px 12px; font-size: 14px; line-height: 1.45; color: var(--body); }
@@ -194,6 +197,8 @@
 
   <!-- Food -->
   <section class="block" style="padding-top:0" aria-labelledby="food-title"><div class="wrap">
+    <div class="tile tile--lav-soft">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">the-food.jpg</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
     <div class="section-head">
       <h2 id="food-title" class="h-bar">The food</h2>
       <p class="lead">Four dishes, four camera positions: overhead, 45 degrees, a flat lay and a close-up with a hand in frame. Each prompt names the light direction and asks for one believable imperfection, such as a spill of sauce, water droplets on vegetables or browning on the chicken, because perfect plates are what make AI food look like a render.</p>
@@ -205,10 +210,12 @@
       <figure class="ph"><img src="../assets/img/ai-food/food-buddha-bowl.jpg" width="1024" height="1024" alt="Close-up of a vegetarian bowl with sweet potato, chickpeas, avocado and cabbage, with a hand holding a spoon entering the frame" loading="lazy"><figcaption><b>Close-up with a hand</b>Backlight for rim highlights. The hand is the hardest part, so I check the fingers first.</figcaption></figure>
     </div>
     <p class="ai-note"><strong>AI-generated.</strong> Every image on this page is made with generative AI. The dishes, people, kitchens and brand shown are not real, and no real brand or client is represented.</p>
-  </div></section>
+  </div></div></section>
 
   <!-- Lifestyle -->
   <section class="block" style="padding-top:0" aria-labelledby="people-title"><div class="wrap">
+    <div class="tile tile--sky">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">the-people.jpg</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
     <div class="section-head">
       <h2 id="people-title" class="h-bar">The people</h2>
       <p class="lead">Three lifestyle scenes: cooking with a child, a weeknight dinner with friends and opening a delivery box. People are where AI work gives itself away, so the prompts ask for candid moments, natural skin texture and hands that hold things naturally, and I check every hand, face and glass before an image goes in the set.</p>
@@ -218,10 +225,12 @@
       <figure class="ph"><img src="../assets/img/ai-food/life-friends-dinner.jpg" width="1264" height="848" alt="A group of friends laughing and passing plates of pasta and salad around a wooden dining table in warm evening light" loading="lazy"><figcaption><b>Weeknight dinner</b>Warm pendant light and plates changing hands, the busiest scene to get right.</figcaption></figure>
       <figure class="ph"><img src="../assets/img/ai-food/life-doorstep-box.jpg" width="1264" height="848" alt="A man in an apron opening a cardboard delivery box of fresh vegetables on a front doorstep" loading="lazy"><figcaption><b>Delivery box</b>Soft overcast daylight. Unbranded box, with one flaw I caught (see What I tested).</figcaption></figure>
     </div>
-  </div></section>
+  </div></div></section>
 
   <!-- Series -->
   <section class="block" style="padding-top:0" aria-labelledby="series-title"><div class="wrap">
+    <div class="tile tile--lilac">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">the-series.jpg</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
     <div class="section-head">
       <h2 id="series-title" class="h-bar">The series</h2>
       <p class="lead">A campaign is a set, not a single hero. Six shots share one kitchen, one family and one light: a wide establishing frame, three medium shots of each family member, a dinner scene and a hands detail. The same locked description opened every prompt, and only the action changed.</p>
@@ -234,7 +243,7 @@
       <figure class="ph"><img src="../assets/img/ai-food/series-5-dinner.jpg" width="1264" height="848" alt="The family of three eating dinner together at an oak table in the same kitchen" loading="lazy"><figcaption><b>5 · Dinner</b>The payoff shot, same room and same clothes.</figcaption></figure>
       <figure class="ph"><img src="../assets/img/ai-food/series-6-hands.jpg" width="1264" height="848" alt="Close-up of a child's hands and an adult's hands sprinkling herbs over a pan of roasted vegetables" loading="lazy"><figcaption><b>6 · Detail</b>Green and mustard sleeves tie the close-up back to the family.</figcaption></figure>
     </div>
-  </div></section>
+  </div></div></section>
 
   <!-- Workflow -->
   <section class="block" style="padding-top:0" aria-labelledby="flow-title"><div class="wrap">
@@ -315,6 +324,8 @@ No text, no logos</div>
 
   <!-- Design in use -->
   <section class="block" style="padding-top:0" aria-labelledby="design-title"><div class="wrap">
+    <div class="tile tile--lav-soft">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">images-in-use.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
     <div class="section-head">
       <h2 id="design-title" class="h-bar">The images in use</h2>
       <p class="lead">Two quick layouts, built in HTML and CSS, to check the images work as campaign assets with copy on top. Fresh Table is a fictional brand.</p>
@@ -333,7 +344,7 @@ No text, no logos</div>
         <figcaption>Square ad with a button. A crop of the doorstep scene keeps the subject visible above the copy panel.</figcaption>
       </figure>
     </div>
-  </div></section>
+  </div></div></section>
 
   <!-- What I tested -->
   <section class="block" style="padding-top:0" aria-labelledby="tested-title"><div class="wrap">
