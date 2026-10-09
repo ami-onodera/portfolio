@@ -521,14 +521,17 @@ function init(){
   const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 0.16, 64), rubber); neck.position.y = 6.03; bottle.add(neck);
   const bulb = new THREE.Mesh(new THREE.CapsuleGeometry(0.38, 0.62, 12, 48), rubber); bulb.position.y = 6.62; bottle.add(bulb);
 
-  /* soft contact shadow: the bottle hovers just above it */
-  const sc = document.createElement('canvas'); sc.width = sc.height = 256;
-  const sx = sc.getContext('2d'), grd = sx.createRadialGradient(128, 128, 0, 128, 128, 128);
-  grd.addColorStop(0, 'rgba(120,40,70,0.42)'); grd.addColorStop(0.45, 'rgba(150,60,90,0.16)'); grd.addColorStop(1, 'rgba(150,60,90,0)');
-  sx.fillStyle = grd; sx.fillRect(0, 0, 256, 256);
-  const shadowTex = new THREE.CanvasTexture(sc); shadowTex.colorSpace = THREE.SRGBColorSpace;
-  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 5.2), new THREE.MeshBasicMaterial({map:shadowTex, transparent:true, depthWrite:false}));
-  shadow.rotation.x = -Math.PI / 2; shadow.position.y = -3.95; scene.add(shadow);
+  /* cast shadow: a light at the viewer's front-left throws the bottle's silhouette onto an invisible
+     wall behind it, so the shadow lands on the page background and follows the turn */
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.VSMShadowMap;
+  bottle.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  const sun = new THREE.DirectionalLight(0xffffff, 0.6);
+  sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); sun.shadow.radius = 14; sun.shadow.blurSamples = 20; sun.shadow.bias = -0.0005;
+  Object.assign(sun.shadow.camera, {left:-7, right:7, top:9, bottom:-7, near:1, far:60});
+  scene.add(sun, sun.target);
+  const wall = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.ShadowMaterial({color:0x8a3a55, opacity:0.2}));
+  wall.receiveShadow = true; scene.add(wall);
+  const camDir = new THREE.Vector3(), camRight = new THREE.Vector3();
 
   /* petals and rice grains floating around the bottle */
   const ps = new THREE.Shape();
@@ -609,7 +612,11 @@ function init(){
     floaters.forEach(f => { const u = f.userData; f.rotation.x += u.spin.x; f.rotation.y += u.spin.y; f.rotation.z += u.spin.z; f.position.y = u.y0 + Math.sin(t * 0.8 + u.bob) * 0.18; });
     const lift = Math.sin(t * 1.1) * 0.12;
     bottle.position.y = -3.4 + 0.18 + lift;
-    shadow.scale.setScalar(1 - lift * 0.6); shadow.material.opacity = 0.9 - lift * 1.2;
+    camera.updateMatrixWorld();
+    camDir.copy(camera.position).setY(0).normalize();
+    camRight.setFromMatrixColumn(camera.matrixWorld, 0).setY(0).normalize();
+    wall.position.copy(camDir).multiplyScalar(-2.4); wall.position.y = 0.4; wall.lookAt(camera.position.x, 0.4, camera.position.z);
+    sun.position.copy(camDir).multiplyScalar(10).addScaledVector(camRight, -9); sun.position.y = 5; sun.target.position.set(0, 0.4, 0);
     bubbles.forEach(b => { const u = b.userData; b.position.y += reduce ? 0 : u.v; b.position.x = Math.cos(u.a) * u.r + Math.sin(t * 2 + u.w) * 0.02; if (b.position.y > 3.68) b.position.y = 0.45; });
     renderer.render(scene, camera);
     leaders();
