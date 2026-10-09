@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI food photography | Camila Massa</title>
+<meta name="description" content="Case study: thirteen AI-generated food and lifestyle images for a fictional meal-kit brand, from a written brief to a consistent campaign set, with the documentation behind it.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/cascade.css">
+<link rel="stylesheet" href="../assets/css/y2k.css">
+<style>
+  .section-head { margin-bottom: 26px; }
+  .section-head .lead { margin-top: 14px; font-family: var(--font-body); font-weight: 500; }
+  .live-frame { aspect-ratio: 16 / 10; }
+  .live-frame iframe { max-width: none; }
+  .hero-sky { position: relative; }
+  .hero-sky .wrap { position: relative; z-index: 1; }
+  .hero-sky .tile { background-color: var(--blue-soft); }
+
+  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+  .three .tile h3 { font-size: 20px; margin: 10px 0 6px; }
+  .three .tile p { font-size: 15px; }
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+  .two .tile h3 { font-size: 20px; margin: 10px 0 6px; }
+  .two .tile p, .two .tile li { font-size: 15px; }
+  .two .tile ul { margin: 8px 0 0; padding-left: 20px; }
+  .two .tile li + li { margin-top: 4px; }
+
+  /* image sets */
+  .ph-grid { display: grid; gap: var(--gap); margin-top: 22px; }
+  .ph-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ph-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ph { margin: 0; background: #fff; border: 2px solid var(--indigo); box-shadow: 4px 4px 0 var(--indigo); display: flex; flex-direction: column; min-width: 0; }
+  .ph img { display: block; width: 100%; height: auto; border-bottom: 2px solid var(--indigo); }
+  .ph figcaption { padding: 10px 12px 12px; font-size: 14px; line-height: 1.45; color: var(--body); }
+  .ph figcaption b { font-family: var(--font-pixel); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .3px; color: var(--accent-ink); display: block; margin-bottom: 2px; }
+  .ai-note { margin: 22px 0 0; font-size: 14px; color: var(--body); }
+  .ai-note strong { font-family: var(--font-pixel); font-weight: 600; color: var(--indigo); }
+
+  /* documentation */
+  .spec { margin: 12px 0 0; padding: 14px 16px; background: #fff; border: 2px solid var(--indigo); font-family: "IBM Plex Mono", monospace; font-size: 13px; line-height: 1.6; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .spec em { font-style: normal; background: var(--yellow); padding: 0 3px; }
+  .spec-key { margin: 10px 0 0; font-size: 13.5px; color: var(--body); }
+  .spec-key em { font-style: normal; background: var(--yellow); padding: 0 4px; border: 1px solid var(--indigo); }
+
+  /* design in use: layouts built in HTML and CSS from the generated images */
+  .lay { margin: 0; }
+  .lay__stage { position: relative; overflow: hidden; border: 2px solid var(--indigo); box-shadow: 4px 4px 0 var(--indigo); background-size: cover; background-position: center; }
+  .lay figcaption { margin-top: 12px; font-size: 14px; color: var(--body); }
+  .lay--post .lay__stage { aspect-ratio: 1 / 1; background-image: url("../assets/img/ai-food/food-garlic-chicken.jpg"); }
+  .lay--post .lay__panel { position: absolute; left: 6%; right: 6%; bottom: 6%; background: #fffdf6; border: 2px solid var(--indigo); padding: 14px 16px 16px; }
+  .lay--ad .lay__stage { aspect-ratio: 1 / 1; background-image: url("../assets/img/ai-food/life-doorstep-box.jpg"); background-position: 66% 50%; }
+  .lay--ad .lay__panel { position: absolute; left: 6%; right: 6%; bottom: 6%; background: #fffdf6; border: 2px solid var(--indigo); padding: 14px 16px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .lay__brand { font-family: var(--font-pixel); font-size: 11px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: var(--accent-ink); }
+  .lay__head { font-family: var(--font-head); font-weight: 800; color: var(--ink); line-height: 1.1; font-size: clamp(20px, 3vw, 32px); margin: 0; }
+  .lay__btn { align-self: flex-start; font-family: var(--font-pixel); font-weight: 600; font-size: 12px; color: var(--indigo); background: var(--yellow); border: 2px solid var(--indigo); box-shadow: 2px 2px 0 var(--indigo); padding: 5px 10px; }
+
+  /* prev case study */
+  .next-card { display: grid; grid-template-columns: 2fr 3fr; align-items: stretch; text-decoration: none; color: inherit; }
+  .next-card .win-bar { grid-column: 1 / -1; margin: 0; }
+  .next-card .work-card__media { aspect-ratio: auto; height: 100%; min-height: 300px; border-bottom: 0; border-right: 2px solid var(--indigo); }
+  .next-card .work-card__media .live-frame { position: absolute; inset: 0; aspect-ratio: auto; }
+  .next-card .work-card__body { justify-content: center; padding: 30px 34px; }
+  .next-card .work-card__body h3 { font-size: 28px; margin: 6px 0 0; }
+  .next-card:hover .work-card__cta { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .three, .two, .next-card { grid-template-columns: 1fr; }
+    .ph-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .next-card .work-card__media { aspect-ratio: 16 / 10; height: auto; min-height: 0; border-right: 0; border-bottom: 2px solid var(--indigo); }
+  }
+  @media (max-width: 640px) {
+    .ph-grid--2, .ph-grid--3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<!-- soft background clouds: fixed behind the content, drift slowly -->
+<div class="bg-clouds" aria-hidden="true">
+  <img class="bg-cloud" src="../assets/img/y2k/clouds/cloud-j-wide-purple.png" alt="" style="left:1vw; top:52vh; width:clamp(110px, 12vw, 210px); opacity:.9; animation-delay:-8s">
+  <img class="bg-cloud" src="../assets/img/y2k/clouds/cloud-b-wide-pink.png" alt="" style="left:82vw; top:34vh; width:clamp(100px, 11vw, 200px); opacity:.85; animation-delay:-5s">
+  <img class="bg-cloud" src="../assets/img/y2k/clouds/cloud-k-wide-white.png" alt="" style="left:78vw; top:83vh; width:clamp(100px, 11vw, 190px); opacity:.75; animation-delay:-3s">
+  <img class="bg-cloud bg-cloud--more" src="../assets/img/y2k/clouds/cloud-g-puff-pinkwhite.png" alt="" style="left:64vw; top:91vh; width:clamp(60px, 7vw, 120px); opacity:.9; animation-delay:-6s">
+  <img class="bg-cloud bg-cloud--more" src="../assets/img/y2k/clouds/cloud-f-med-palepink.png" alt="" style="left:45vw; top:95vh; width:clamp(70px, 8vw, 150px); opacity:.9; animation-delay:-10s">
+</div>
+<div class="bg-decor" aria-hidden="true">
+  <div class="grid-floor"></div>
+  <svg class="bgstar" style="top:6%; left:9%; width:13px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:14%; left:22%; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:9%; left:38%; width:9px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:5%; left:58%; width:15px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:22%; left:6%; width:11px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:18%; left:82%; width:14px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:30%; left:93%; width:8px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:40%; left:4%; width:8px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:52%; left:91%; width:13px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:64%; left:8%; width:10px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:72%; left:96%; width:6px; opacity:.6" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:80%; left:14%; width:12px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:88%; left:88%; width:9px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <a class="brand nav-start" href="../index.html" title="Home" aria-label="Home">
+      <img src="../assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn nav-util" href="../assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.pdf
+      </a>
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" title="Open LinkedIn" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+          <img src="../assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
+        </span>
+        <span class="navtray-icon" title="Connected">
+          <img src="../assets/img/y2k/nav-wifi.png" alt="" width="13" height="10">
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
+</header>
+<main id="main">
+
+  <!-- Hero -->
+  <section class="cs-hero sky-decor hero-sky" aria-labelledby="af-title">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" aria-hidden="true" style="top:-4px; left:1%; width:120px; opacity:.95">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-h-big-pink.png" alt="" aria-hidden="true" style="top:-14px; right:1%; width:140px">
+    <svg class="deco" aria-hidden="true" style="top:10px; left:46%; width:16px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+    <div class="wrap">
+      <div class="tile tile--sky cs-win">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">ai-food-imagery.case</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h1 id="af-title">AI food photography: from a written brief to a consistent campaign set</h1>
+        <p class="lead">Thirteen photorealistic images for a fictional meal-kit brand: plated dishes, lifestyle scenes and a six-image series that keeps one kitchen, one family and one light. Made with generative AI, art directed and checked by me, and written up so another person could repeat it.</p>
+        <dl class="facts">
+          <div class="fact"><dt>Role</dt><dd>AI content creator: creative direction, prompting, realism review and documentation</dd></div>
+          <div class="fact"><dt>For</dt><dd>Studio and marketing teams that need photography-style content at volume</dd></div>
+          <div class="fact"><dt>Tools</dt><dd>Generative AI image models, Claude, HTML/CSS</dd></div>
+          <div class="fact"><dt>Output</dt><dd>13 images, a series bible, a prompt template and a realism checklist</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- The pain point -->
+  <section class="block" style="padding-top:24px" aria-labelledby="pain-title"><div class="wrap">
+    <div class="tile tile--lav-soft">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">the-pain-point.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head">
+        <h2 id="pain-title" class="h-bar">The pain point</h2>
+        <p class="lead"><strong>AI images that look generated, and sets that do not match</strong></p>
+      </div>
+      <div class="prose">
+        <p>Generative AI can produce one convincing frame in seconds. The harder jobs are making food look cooked, people look real, and ten images look like the same shoot. Without a method, quality depends on luck, and nobody else can repeat it.</p>
+      </div>
+      <div class="three" style="margin-top:22px">
+        <div class="tile tile--white"><span class="tag">Realism</span><h3>Food that looks cooked</h3><p>Steam, sauce and texture have to read as real, or the plate looks like a render.</p></div>
+        <div class="tile tile--white"><span class="tag">Consistency</span><h3>One shoot, not thirteen</h3><p>A campaign needs the same kitchen, people and light from one shot to the next.</p></div>
+        <div class="tile tile--white"><span class="tag">Scale</span><h3>Repeatable, not lucky</h3><p>A good result only helps a studio if a colleague can reproduce it from the notes.</p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Food -->
+  <section class="block" style="padding-top:0" aria-labelledby="food-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="food-title" class="h-bar">The food</h2>
+      <p class="lead">Four dishes, four camera positions: overhead, 45 degrees, a flat lay and a close-up with a hand in frame. Each prompt names the light direction and asks for one believable imperfection, such as a spill of sauce, water droplets on vegetables or browning on the chicken, because perfect plates are what make AI food look like a render.</p>
+    </div>
+    <div class="ph-grid ph-grid--2" style="margin-top:0">
+      <figure class="ph"><img src="../assets/img/ai-food/food-garlic-chicken.jpg" width="1024" height="1024" alt="Overhead photograph of creamy garlic chicken with roasted potatoes and green beans on a ceramic plate, in soft window light" loading="lazy"><figcaption><b>Overhead</b>Window light from the left, glossy sauce, browned chicken and a linen napkin for scale.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/food-tomato-pasta.jpg" width="1024" height="1024" alt="Photograph of a bowl of tomato pasta with basil and parmesan, with a forkful of spaghetti lifted above the bowl" loading="lazy"><figcaption><b>45 degrees</b>A lifted forkful shows how the sauce clings to the noodles, with a small spill on the table.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/food-salmon-flatlay.jpg" width="1024" height="1024" alt="Flat lay of salmon fillets, asparagus, cherry tomatoes, lemon halves, dill and small paper spice bags on a white marble counter" loading="lazy"><figcaption><b>Flat lay</b>Ingredients laid out as in a meal kit, with water droplets on the vegetables and unbranded paper bags.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/food-buddha-bowl.jpg" width="1024" height="1024" alt="Close-up of a vegetarian bowl with sweet potato, chickpeas, avocado and cabbage, with a hand holding a spoon entering the frame" loading="lazy"><figcaption><b>Close-up with a hand</b>Backlight for rim highlights. The hand is the hardest part, so I check the fingers first.</figcaption></figure>
+    </div>
+    <p class="ai-note"><strong>AI-generated.</strong> Every image on this page is made with generative AI. The dishes, people, kitchens and brand shown are not real, and no real brand or client is represented.</p>
+  </div></section>
+
+  <!-- Lifestyle -->
+  <section class="block" style="padding-top:0" aria-labelledby="people-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="people-title" class="h-bar">The people</h2>
+      <p class="lead">Three lifestyle scenes: cooking with a child, a weeknight dinner with friends and opening a delivery box. People are where AI work gives itself away, so the prompts ask for candid moments, natural skin texture and hands that hold things naturally, and I check every hand, face and glass before an image goes in the set.</p>
+    </div>
+    <div class="ph-grid ph-grid--3" style="margin-top:0">
+      <figure class="ph"><img src="../assets/img/ai-food/life-cooking-with-child.jpg" width="1264" height="848" alt="A mother and young daughter chopping vegetables together at a bright kitchen island" loading="lazy"><figcaption><b>Cooking together</b>Morning window light and a candid laugh.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/life-friends-dinner.jpg" width="1264" height="848" alt="A group of friends laughing and passing plates of pasta and salad around a wooden dining table in warm evening light" loading="lazy"><figcaption><b>Weeknight dinner</b>Warm pendant light and plates changing hands, the busiest scene to get right.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/life-doorstep-box.jpg" width="1264" height="848" alt="A man in an apron opening a cardboard delivery box of fresh vegetables on a front doorstep" loading="lazy"><figcaption><b>Delivery box</b>Soft overcast daylight. Unbranded box, with one flaw I caught (see What I tested).</figcaption></figure>
+    </div>
+  </div></section>
+
+  <!-- Series -->
+  <section class="block" style="padding-top:0" aria-labelledby="series-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="series-title" class="h-bar">The series</h2>
+      <p class="lead">A campaign is a set, not a single hero. Six shots share one kitchen, one family and one light: a wide establishing frame, three medium shots of each family member, a dinner scene and a hands detail. The same locked description opened every prompt, and only the action changed.</p>
+    </div>
+    <div class="ph-grid ph-grid--3" style="margin-top:0">
+      <figure class="ph"><img src="../assets/img/ai-food/series-1-wide.jpg" width="1264" height="848" alt="A father, mother and young son preparing dinner together at a kitchen island in a bright Scandinavian-style kitchen" loading="lazy"><figcaption><b>1 · Wide</b>Sets the room, the people and the light.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/series-2-chopping.jpg" width="1264" height="848" alt="The mother, in a mustard cardigan, chopping red and green peppers on a wooden board" loading="lazy"><figcaption><b>2 · Mother</b>Mustard cardigan, wavy auburn hair, chopping.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/series-3-stirring.jpg" width="1264" height="848" alt="The young son in a green t-shirt standing on a stool and stirring a pot on the stove" loading="lazy"><figcaption><b>3 · Son</b>Green t-shirt, curly hair, stirring.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/series-4-plating.jpg" width="1264" height="848" alt="The father, in a navy sweater, plating a roasted chicken and vegetable dish at the counter" loading="lazy"><figcaption><b>4 · Father</b>Navy sweater, trimmed beard, plating.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/series-5-dinner.jpg" width="1264" height="848" alt="The family of three eating dinner together at an oak table in the same kitchen" loading="lazy"><figcaption><b>5 · Dinner</b>The payoff shot, same room and same clothes.</figcaption></figure>
+      <figure class="ph"><img src="../assets/img/ai-food/series-6-hands.jpg" width="1264" height="848" alt="Close-up of a child's hands and an adult's hands sprinkling herbs over a pan of roasted vegetables" loading="lazy"><figcaption><b>6 · Detail</b>Green and mustard sleeves tie the close-up back to the family.</figcaption></figure>
+    </div>
+  </div></section>
+
+  <!-- Workflow -->
+  <section class="block" style="padding-top:0" aria-labelledby="flow-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="flow-title" class="h-bar">How it was made</h2>
+      <p class="lead">One brief, a locked spec, then a prompt where only the action changes.</p>
+    </div>
+    <div class="two">
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">workflow.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>From brief to image</h3>
+        <ul>
+          <li>Write the brief: dish or scene, camera position, light and mood.</li>
+          <li>Lock what must not change: the setting, the people, the light and the palette.</li>
+          <li>Write the prompt with a fixed part and a swappable action.</li>
+          <li>Generate, then review each image against the realism checklist.</li>
+          <li>Regenerate only what fails, and keep a note of why.</li>
+        </ul>
+      </div>
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">human-in-the-loop.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>Where a person still matters</h3>
+        <ul>
+          <li>Art direction: choosing the camera, the light and the one imperfection that sells the plate.</li>
+          <li>Judgement: spotting a bad hand, a glass that floats or text that cannot be read.</li>
+          <li>Production: the images are 1024 to 1264 px, so a campaign version needs upscaling and retouching before it ships.</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Documentation -->
+  <section class="block" style="padding-top:0" aria-labelledby="docs-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="docs-title" class="h-bar">The documentation</h2>
+      <p class="lead">What turns a good result into something a team can reuse: a series bible, a prompt template and a realism checklist.</p>
+    </div>
+    <div class="three">
+      <div class="tile tile--white">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">series-bible.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <span class="tag">Series bible</span>
+        <h3>Locked for every shot</h3>
+        <ul style="margin:8px 0 0;padding-left:20px;font-size:15px">
+          <li><strong>Setting:</strong> bright Scandinavian-style kitchen, white shaker cabinets, light oak worktops, sage green tiles, brass pendant lamp, large window on the left.</li>
+          <li><strong>Family:</strong> father in his 40s, short dark hair, trimmed beard, navy sweater. Mother in her late 30s, wavy auburn hair, mustard cardigan. Son aged 8, curly light-brown hair, green t-shirt.</li>
+          <li><strong>Light and palette:</strong> soft warm morning light from the left. Sage, oak, cream, mustard.</li>
+        </ul>
+      </div>
+      <div class="tile tile--white">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">prompt-template.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <span class="tag">Prompt template</span>
+        <h3>Fixed part, swappable part</h3>
+<div class="spec">[Format and shot size]
+<em>[Action: who does what]</em>
+[Setting, locked]
+[People, locked]
+[Light, locked]
+[Lens and mood]
+[Palette, locked]
+No text, no logos</div>
+        <p class="spec-key"><em>Highlighted</em> is the only line that changes between shots. Everything else is pasted in unchanged.</p>
+      </div>
+      <div class="tile tile--white">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">realism-checklist.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <span class="tag">Realism checklist</span>
+        <h3>Checked on every image</h3>
+        <ul style="margin:8px 0 0;padding-left:20px;font-size:15px">
+          <li><strong>Hands:</strong> five fingers, a natural grip, nothing fused to a utensil.</li>
+          <li><strong>Food:</strong> steam, sauce and browning behave, with one deliberate imperfection.</li>
+          <li><strong>Light:</strong> one direction, and the shadows agree.</li>
+          <li><strong>People:</strong> same hair, clothes and age across the set, natural skin.</li>
+          <li><strong>Scale:</strong> portions, plates and cutlery are plausible.</li>
+          <li><strong>Text:</strong> any lettering is readable or removed.</li>
+        </ul>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Design in use -->
+  <section class="block" style="padding-top:0" aria-labelledby="design-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="design-title" class="h-bar">The images in use</h2>
+      <p class="lead">Two quick layouts, built in HTML and CSS, to check the images work as campaign assets with copy on top. Fresh Table is a fictional brand.</p>
+    </div>
+    <div class="two">
+      <figure class="lay lay--post">
+        <div class="lay__stage" role="img" aria-label="Square social post: the garlic chicken photograph with a panel reading Dinner, sorted">
+          <div class="lay__panel"><span class="lay__brand">Fresh Table</span><p class="lay__head">Dinner, sorted.</p></div>
+        </div>
+        <figcaption>Square social post. The overhead plate leaves room for a copy panel along the bottom edge.</figcaption>
+      </figure>
+      <figure class="lay lay--ad">
+        <div class="lay__stage" role="img" aria-label="Square ad: the delivery box photograph with a panel reading Your week of dinners, delivered, and a menu button">
+          <div class="lay__panel"><span class="lay__brand">Fresh Table</span><p class="lay__head">Your week of dinners, delivered.</p><span class="lay__btn">See this week's menu</span></div>
+        </div>
+        <figcaption>Square ad with a button. A crop of the doorstep scene keeps the subject visible above the copy panel.</figcaption>
+      </figure>
+    </div>
+  </div></section>
+
+  <!-- What I tested -->
+  <section class="block" style="padding-top:0" aria-labelledby="tested-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="tested-title" class="h-bar">What I tested</h2>
+      <p class="lead">A first pass with one image model, using the same prompt structure across all thirteen images. Here is what held and what did not.</p>
+    </div>
+    <div class="two">
+      <div class="tile tile--lav">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">what-held.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>What held</h3>
+        <ul>
+          <li>The kitchen, tiles, pendant lamp and palette stayed the same across all six series shots.</li>
+          <li>Each family member kept the same clothes and hair colour from shot to shot.</li>
+          <li>Food texture was strong: sauce clinging to pasta, water droplets on vegetables, browned chicken.</li>
+        </ul>
+      </div>
+      <div class="tile tile--lav">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">what-i-caught.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>What I caught</h3>
+        <ul>
+          <li>Text is the weak point. The doorstep box has a garbled sticker and card, and the recipe card in the flat lay has nonsense numbers. Both would be removed or replaced in post.</li>
+          <li>The mother's hair is tied up in the dinner shot but loose in the other series shots. A locked spec reduces drift, it does not remove it.</li>
+          <li>Complex hand-offs, like passing a bowl across the friends' table, need the closest check.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tile tile--lilac" style="margin-top:var(--gap)">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">next-tests.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h3 style="font-size:20px;margin:10px 0 6px">What I would test next</h3>
+      <p style="font-size:15px">The same brief across several image models, side by side, with a verdict on realism and consistency. A reference-image workflow to lock faces, which prompts alone cannot do. And short motion tests, to see which stills hold up when they move.</p>
+    </div>
+  </div></section>
+
+  <!-- Responsible use -->
+  <section class="block" style="padding-top:0" aria-labelledby="resp-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="resp-title" class="h-bar">Using AI responsibly</h2>
+      <p class="lead">Rules I would set for a studio before any of these images were published.</p>
+    </div>
+    <div class="three">
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">disclosure.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>Say it is AI</h3>
+        <p>Label AI-generated images clearly, here and in any campaign. Labelling rules differ by market and platform and keep changing, so I would check the current ones before publishing.</p>
+      </div>
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">no-real-people.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>No real people or brands</h3>
+        <p>The people shown do not exist, and the prompts name no real person, brand or logo. Any lettering that appears by accident is removed.</p>
+      </div>
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">honest-food.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>Show what is sold</h3>
+        <p>AI food can look better than the real dish. For product shots, the image has to match what arrives in the box, so I would check portions and ingredients against the recipe.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- What was delivered -->
+  <section class="block" style="padding-top:0" aria-labelledby="delivered-title"><div class="wrap">
+    <div class="section-head"><h2 id="delivered-title" class="h-bar">What was delivered</h2></div>
+    <div class="three">
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">image-set.zip</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>13 images</h3><p>Four food shots, three lifestyle scenes and a six-image series, all for a fictional meal-kit brand.</p></div>
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">series-bible.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A series bible and prompt template</h3><p>The locked description and the fixed and swappable prompt structure, ready to reuse for the next campaign.</p></div>
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">realism-checklist.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A realism checklist</h3><p>Six checks to run on every image, plus a log of what failed and why.</p></div>
+    </div>
+  </div></section>
+
+  <!-- Problem solved -->
+  <section class="block" style="padding-top:0" aria-labelledby="solved-title"><div class="wrap">
+    <div class="tile tile--violet">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">problem-solved.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head">
+        <h2 id="solved-title" class="h-bar">Problem solved</h2>
+        <p class="lead">AI imagery that holds up as photography, stays consistent across a set and can be repeated by someone else.</p>
+      </div>
+      <div class="three">
+        <div class="tile tile--white"><span class="tag">Realism</span><h3>A review that catches the tells</h3><p>Texture, hands and light are checked on every image, and the failures are logged, so the set reads as photography.</p></div>
+        <div class="tile tile--white"><span class="tag">Consistency</span><h3>One kitchen, one family</h3><p>A locked series bible keeps the room, clothes and light the same across six shots.</p></div>
+        <div class="tile tile--white"><span class="tag">Scale</span><h3>Written down, so it repeats</h3><p>A prompt template and checklist let a colleague make the next set without starting from scratch.</p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Previous case study -->
+  <section class="block" style="padding-top:0" aria-labelledby="prev-title"><div class="wrap">
+    <h2 id="prev-title" class="sr-only">Previous case study</h2>
+    <a class="work-card next-card" href="one-template-many-brands.html">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">one-template-many-brands.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="work-card__media">
+        <div class="live-frame"><iframe src="../demos/voltwell-energy/index.html" title="Preview of the Voltwell Energy portal" loading="lazy" tabindex="-1" scrolling="no" aria-hidden="true"></iframe></div>
+      </div>
+      <div class="work-card__body">
+        <span class="tag">Previous case study</span>
+        <h3>One template, many brands</h3>
+        <p>Three refer-a-friend portals, a single template. Only the client’s assets, copy and design identity change.</p>
+        <span class="work-card__cta">Read the case study →</span>
+      </div>
+    </a>
+      <p class="back-row"><a class="back-link" href="../selected-work.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to all work</a></p>
+  </div></section>
+
+
+</main>
+<!-- contact band (every page, above footer) -->
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br contact-tmp">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h2 class="h-bar">All it takes is one good click.</h2>
+      <p class="contact-tmp__role">Digital Designer &amp; AI-powered Creative</p>
+      <p class="lead contact-tmp__where">I’m open to opportunities in Berlin, hybrid or remote.</p>
+    </div>
+    <div class="contact-cascade">
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--bottom" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me!</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--middle" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me!</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me!</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+</div></footer>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+<script>
+  (function () {
+    var frames = document.querySelectorAll('.live-frame');
+    function fit() {
+      frames.forEach(function (el) {
+        var f = el.querySelector('iframe');
+        if (f) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
+      });
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(fit);
+      frames.forEach(function (el) { ro.observe(el); });
+    }
+  })();
+</script>
+<script src="../assets/js/contact.js" defer></script>
+<script src="../assets/js/cascade.js" defer></script>
+<script src="../assets/js/saori.js?v=4" defer></script>
+</body>
+</html>
