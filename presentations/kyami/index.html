@@ -77,19 +77,19 @@
   .hero__head h1 em{font-style:normal;color:var(--blush)}
   .hero__head .eyebrow{display:block;margin-bottom:14px}
   .hero__late{position:absolute;left:0;right:0;bottom:8vh;text-align:center;color:var(--beni);padding-inline:var(--gutter);opacity:calc((var(--p,0) - .72) * 4)}
-  .hero__late p{display:inline-block;font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:800;background:rgba(255,253,243,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:999px;padding:.38em 1.1em .45em;box-shadow:0 10px 40px -18px rgba(110,44,68,.45)}
+  .hero__late p{display:inline-block;font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:800;background:rgba(255,253,243,.8);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);border-radius:999px;padding:.38em 1.1em .45em;box-shadow:0 10px 40px -18px rgba(110,44,68,.45)}
   .scroll-cue{position:absolute;bottom:3vh;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha-soft);opacity:calc(1 - var(--p,0) * 5)}
 
   /* 2. manifesto through sakura branches */
-  .mani{height:320vh}
+  .mani{height:380vh}
   .mani .stage{background:linear-gradient(180deg,var(--paper),var(--petal));display:grid;place-items:center}
-  .branches{position:absolute;inset:0;pointer-events:none}
+  .branches{position:absolute;inset:0;pointer-events:none;z-index:3}
   .branches .branch{position:absolute;height:auto;max-width:none;will-change:transform;-webkit-mask-image:linear-gradient(to bottom,#000 72%,transparent 98%);mask-image:linear-gradient(to bottom,#000 72%,transparent 98%)}
-  .mani__lines{position:relative;z-index:2;text-align:center;padding:clamp(24px,4vw,52px) clamp(20px,4vw,56px);max-width:980px;background:rgba(255,253,243,.76);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:36px;box-shadow:0 20px 60px -30px rgba(110,44,68,.45);margin-inline:var(--gutter)}
-  .mani__line{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.6vw,64px);line-height:1.15;display:block}
+  .mani__lines{position:relative;z-index:2;text-align:center;padding:0 var(--gutter);max-width:980px}
+  .mani__line{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.6vw,64px);line-height:1.15;display:block;text-shadow:0 0 14px rgba(255,253,243,.95),0 0 32px rgba(255,253,243,.9),0 0 60px rgba(255,253,243,.7)}
   .mani__line + .mani__line{margin-top:.35em}
   .mani__line:last-child{color:var(--blush)}
-  .motion .mani__line{opacity:.08;transform:translateY(18px);transition:opacity .5s ease,transform .6s ease}
+  .motion .mani__line{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .6s ease}
   .motion .mani__line.on{opacity:1;transform:none}
   .mani__kanji{position:absolute;right:var(--gutter);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-family:var(--f-display);font-size:clamp(18px,2vw,26px);letter-spacing:.6em;color:var(--beni);opacity:.75}
 
@@ -634,22 +634,34 @@ init();
   var root = document.documentElement;
   if (!reduce) root.classList.add('motion');
 
-  /* ---------- sakura branches (cut-out photos) ---------- */
+  /* ---------- sakura branches: two waves that slide in from the sides ---------- */
   var br = document.getElementById('branches');
   var layers = [];
   if (br){
+    var narrow = window.matchMedia('(max-width: 700px)').matches;
     var cfg = [
-      {src:'img/branch-long.webp',    top:'-6%', left:'-14%', width:'72%', speed:-26, op:1,   flip:false},
-      {src:'img/branch-cluster.webp', top:'58%', left:'62%',  width:'38%', speed: 30, op:1,   flip:true},
-      {src:'img/branch-long.webp',    top:'4%',  left:'52%',  width:'56%', speed:-48, op:.45, flip:true,  blur:4},
-      {src:'img/branch-cluster.webp', top:'64%', left:'-8%',  width:'28%', speed: 16, op:.6,  flip:false, blur:2}
+      /* wave 1: frames the top, before the text */
+      {src:'img/branch-long.webp',    side:'left',  top:'-7%',  w: narrow ? '120%' : '60%', rest:'-10%', from:.02, to:.24, flip:false},
+      {src:'img/branch-long.webp',    side:'right', top:'-1%',  w: narrow ? '100%' : '48%', rest:'-12%', from:.08, to:.30, flip:true},
+      /* wave 2: comes in along the bottom, after the text */
+      {src:'img/branch-cluster.webp', side:'left',  top: narrow ? '70%' : '62%', w: narrow ? '70%' : '34%', rest:'-6%', from:.60, to:.80, flip:false},
+      {src:'img/branch-cluster.webp', side:'right', top: narrow ? '66%' : '58%', w: narrow ? '76%' : '38%', rest:'-8%', from:.66, to:.88, flip:true}
     ];
     cfg.forEach(function(c){
-      var img = new Image(); img.src = c.src; img.alt = ''; img.decoding = 'async'; img.loading = 'lazy';
-      img.className = 'branch'; img.style.top = c.top; img.style.left = c.left; img.style.width = c.width; img.style.opacity = c.op;
-      if (c.blur) img.style.filter = 'blur(' + c.blur + 'px)';
+      var img = new Image(); img.src = c.src; img.alt = ''; img.decoding = 'async';
+      img.className = 'branch'; img.style.top = c.top; img.style.width = c.w; img.style[c.side] = c.rest;
       br.appendChild(img);
-      layers.push({el:img, speed:c.speed, flip:c.flip});
+      layers.push({el:img, c:c});
+    });
+  }
+  function ease(t){ return t < 0 ? 0 : t > 1 ? 1 : 1 - Math.pow(1 - t, 3); }
+  function placeBranches(p){
+    layers.forEach(function(L){
+      var c = L.c, t = ease((p - c.from) / (c.to - c.from));
+      var off = (1 - t) * (c.side === 'left' ? -70 : 70);
+      var drift = (p - .5) * -24;
+      L.el.style.opacity = Math.min(1, t * 1.6);
+      L.el.style.transform = 'translate3d(' + off.toFixed(2) + 'vw,' + drift.toFixed(1) + 'px,0) rotate(' + ((1 - t) * (c.side === 'left' ? -6 : 6)).toFixed(2) + 'deg)' + (c.flip ? ' scaleX(-1)' : '');
     });
   }
 
@@ -722,8 +734,8 @@ init();
       s.style.setProperty('--p', p.toFixed(4));
       var name = s.getAttribute('data-scrub');
       if (name === 'mani'){
-        lines.forEach(function(l, i){ l.classList.toggle('on', p > .06 + i * .2); });
-        layers.forEach(function(L){ L.el.style.transform = 'translate3d(' + (L.speed * (p - .5)).toFixed(2) + '%,' + (-6 * p).toFixed(2) + '%,0)' + (L.flip ? ' scaleX(-1)' : ''); });
+        lines.forEach(function(l, i){ l.classList.toggle('on', p > .28 + i * .07); });
+        placeBranches(p);
       } else if (name === 'turn'){
         callouts.forEach(function(c){ c.classList.toggle('on', p >= +c.getAttribute('data-at')); });
       }
@@ -733,7 +745,7 @@ init();
   function onScroll(){ if (!ticking){ ticking = true; requestAnimationFrame(function(){ frame(); ticking = false; }); } }
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', onScroll);
-  if (reduce){ lines.forEach(function(l){ l.classList.add('on'); }); callouts.forEach(function(c){ c.classList.add('on'); }); }
+  if (reduce){ lines.forEach(function(l){ l.classList.add('on'); }); callouts.forEach(function(c){ c.classList.add('on'); }); placeBranches(1); }
   frame();
 
   /* ---------- falling petals ---------- */
