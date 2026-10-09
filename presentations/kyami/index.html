@@ -495,13 +495,19 @@ function init(){
   const liquid = new THREE.MeshPhysicalMaterial({color:0xFFE3EA, roughness:0.02, transmission:1, thickness:2.4, ior:1.33, attenuationColor:new THREE.Color(0xF4A3BA), attenuationDistance:4.5, envMapIntensity:1.2, specularIntensity:1});
   bottle.add(new THREE.Mesh(new THREE.LatheGeometry([V(0,0.31),V(1.24,0.31),V(1.28,0.4),V(1.29,3.75),V(0,3.75)], 128), liquid));
   const pipIn = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 3.6, 24), liquid); pipIn.position.y = 3.0; bottle.add(pipIn);
-  const bubbleMat = new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.02, transparent:true, opacity:0.75, clearcoat:1, envMapIntensity:3});
-  const bubbleGeo = new THREE.SphereGeometry(1, 16, 16);
+  /* bubbles: camera-facing rings with a highlight, so they read like bubbles in a photo */
+  const bc = document.createElement('canvas'); bc.width = bc.height = 64;
+  const bx = bc.getContext('2d');
+  bx.fillStyle = 'rgba(255,255,255,0.18)'; bx.beginPath(); bx.arc(32, 32, 27, 0, 7); bx.fill();
+  bx.strokeStyle = 'rgba(190,80,115,0.55)'; bx.lineWidth = 3.5; bx.beginPath(); bx.arc(32, 32, 27, 0, 7); bx.stroke();
+  bx.fillStyle = 'rgba(255,255,255,0.95)'; bx.beginPath(); bx.arc(23, 22, 7, 0, 7); bx.fill();
+  const bubbleTex = new THREE.CanvasTexture(bc); bubbleTex.colorSpace = THREE.SRGBColorSpace;
+  const bubbleMat = new THREE.SpriteMaterial({map:bubbleTex, transparent:true, depthWrite:false});
   const bubbles = [];
-  for (let i = 0; i < 90; i++){
-    const b = new THREE.Mesh(bubbleGeo, bubbleMat), r = 0.15 + Math.sqrt(Math.random()) * 1.0, a = Math.random() * Math.PI * 2, s = 0.02 + Math.pow(Math.random(), 2) * 0.06;
-    b.scale.setScalar(s); b.position.set(Math.cos(a) * r, 0.5 + Math.random() * 3.1, Math.sin(a) * r);
-    b.userData = {v:0.002 + s * 0.06, a:a, r:r, w:Math.random() * 6};
+  for (let i = 0; i < 70; i++){
+    const b = new THREE.Sprite(bubbleMat), r = 0.15 + Math.sqrt(Math.random()) * 0.98, a = Math.random() * Math.PI * 2, s = 0.05 + Math.pow(Math.random(), 2) * 0.11;
+    b.scale.setScalar(s); b.position.set(Math.cos(a) * r, 0.5 + Math.random() * 3.1, Math.sin(a) * r); b.renderOrder = 1;
+    b.userData = {v:0.002 + s * 0.03, a:a, r:r, w:Math.random() * 6};
     bottle.add(b); bubbles.push(b);
   }
   const glass = new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.02, transparent:true, opacity:0.16, clearcoat:1, clearcoatRoughness:0, envMapIntensity:2.6, specularIntensity:1, depthWrite:false, side:THREE.DoubleSide});
@@ -597,9 +603,9 @@ function init(){
   function progress(){ const r = sec.getBoundingClientRect(), total = sec.offsetHeight - innerHeight; return total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0; }
   function draw(){
     const p = reduce ? 0.12 : progress();
-    const th = -0.35 + p * Math.PI * 2, R = 15.5;
-    camera.position.set(Math.sin(th) * R, 2.2 - p * 1.6, Math.cos(th) * R);
-    camera.lookAt(0, 0, 0);
+    const th = -0.35 + p * Math.PI * 2, R = 18;
+    camera.position.set(Math.sin(th) * R, 2.6 - p * 1.2, Math.cos(th) * R);
+    camera.lookAt(0, 0.35, 0);
     floaters.forEach(f => { const u = f.userData; f.rotation.x += u.spin.x; f.rotation.y += u.spin.y; f.rotation.z += u.spin.z; f.position.y = u.y0 + Math.sin(t * 0.8 + u.bob) * 0.18; });
     const lift = Math.sin(t * 1.1) * 0.12;
     bottle.position.y = -3.4 + 0.18 + lift;
@@ -626,7 +632,7 @@ init();
   if (br){
     var cfg = [
       {src:'img/branch-long.webp',    top:'-6%', left:'-14%', width:'72%', speed:-26, op:1,   flip:false},
-      {src:'img/branch-cluster.webp', top:'60%', left:'58%',  width:'46%', speed: 30, op:1,   flip:true},
+      {src:'img/branch-cluster.webp', top:'66%', left:'60%',  width:'42%', speed: 30, op:1,   flip:true},
       {src:'img/branch-long.webp',    top:'4%',  left:'52%',  width:'56%', speed:-48, op:.45, flip:true,  blur:4},
       {src:'img/branch-cluster.webp', top:'74%', left:'-8%',  width:'30%', speed: 16, op:.6,  flip:false, blur:2}
     ];
