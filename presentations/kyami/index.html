@@ -83,7 +83,7 @@
   .mani{height:320vh}
   .mani .stage{background:linear-gradient(180deg,var(--paper),var(--petal));display:grid;place-items:center}
   .branches{position:absolute;inset:0;pointer-events:none}
-  .branches svg{position:absolute;height:auto;will-change:transform}
+  .branches .branch{position:absolute;height:auto;max-width:none;will-change:transform}
   .mani__lines{position:relative;z-index:2;text-align:center;padding:clamp(20px,4vw,48px) var(--gutter);max-width:980px;background:radial-gradient(closest-side,rgba(255,253,243,.92),rgba(255,253,243,.7) 60%,rgba(255,253,243,0))}
   .mani__line{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4.6vw,64px);line-height:1.15;display:block}
   .mani__line + .mani__line{margin-top:.35em}
@@ -101,6 +101,11 @@
   .turn__bottle.is-3d{transform:none;aspect-ratio:3/4}
   .turn__bottle.is-3d::after,.turn__bottle.is-3d img{display:none}
   .turn__bottle canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .leaders{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+  .leaders path{fill:none;stroke:var(--mocha);stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s ease}
+  .leaders circle{fill:var(--beni);opacity:0;transition:opacity .4s ease}
+  .leaders .on path{stroke-dashoffset:0}
+  .leaders .on circle{opacity:1}
   .turn__hint{position:absolute;left:50%;bottom:4vh;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha-soft)}
   .callouts{display:grid;gap:clamp(28px,6vh,64px);position:relative;z-index:2}
   .callout{max-width:260px}
@@ -284,13 +289,13 @@
   <section class="scene turn" data-scrub="turn" aria-label="The bottle">
     <div class="stage">
       <div class="callouts callouts--left">
-        <p class="callout" data-at=".18"><b>30 ml</b><span>About two months of mornings and nights.</span></p>
-        <p class="callout" data-at=".42"><b>Serum</b><span>Pale pink and weightless. It sinks in like water.</span></p>
+        <p class="callout" data-at=".18" data-anchor="glass"><b>30 ml</b><span>About two months of mornings and nights.</span></p>
+        <p class="callout" data-at=".42" data-anchor="serum"><b>Serum</b><span>Pale pink and weightless. It sinks in like water.</span></p>
       </div>
       <div class="turn__bottle" id="bottle3d"><img src="img/dropper.jpg" width="928" height="1152" alt="The dropper lifted above the open bottle, a single drop of pink serum falling" loading="lazy"></div>
       <div class="callouts">
-        <p class="callout" data-at=".62"><b>3 drops</b><span>Enough for the whole face and neck.</span></p>
-        <p class="callout" data-at=".8"><b>0%</b><span>Added fragrance. The scent is the ingredients.</span></p>
+        <p class="callout" data-at=".62" data-anchor="bulb"><b>3 drops</b><span>Enough for the whole face and neck.</span></p>
+        <p class="callout" data-at=".8" data-anchor="base"><b>0%</b><span>Added fragrance. The scent is the ingredients.</span></p>
       </div>
       <span class="turn__hint" aria-hidden="true">Scroll to turn</span>
     </div>
@@ -490,11 +495,14 @@ function init(){
   const liquid = new THREE.MeshPhysicalMaterial({color:0xFFE3EA, roughness:0.02, transmission:1, thickness:2.4, ior:1.33, attenuationColor:new THREE.Color(0xF4A3BA), attenuationDistance:4.5, envMapIntensity:1.2, specularIntensity:1});
   bottle.add(new THREE.Mesh(new THREE.LatheGeometry([V(0,0.31),V(1.24,0.31),V(1.28,0.4),V(1.29,3.75),V(0,3.75)], 128), liquid));
   const pipIn = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 3.6, 24), liquid); pipIn.position.y = 3.0; bottle.add(pipIn);
-  const bubbleMat = new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.05, transparent:true, opacity:0.35, envMapIntensity:2.5});
-  const bubbleGeo = new THREE.SphereGeometry(1, 14, 14);
-  for (let i = 0; i < 45; i++){
-    const b = new THREE.Mesh(bubbleGeo, bubbleMat), r = 0.25 + Math.sqrt(Math.random()) * 0.95, a = Math.random() * Math.PI * 2, s = 0.014 + Math.random() * 0.032;
-    b.scale.setScalar(s); b.position.set(Math.cos(a) * r, 0.5 + Math.random() * 3.1, Math.sin(a) * r); bottle.add(b);
+  const bubbleMat = new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.02, transparent:true, opacity:0.75, clearcoat:1, envMapIntensity:3});
+  const bubbleGeo = new THREE.SphereGeometry(1, 16, 16);
+  const bubbles = [];
+  for (let i = 0; i < 90; i++){
+    const b = new THREE.Mesh(bubbleGeo, bubbleMat), r = 0.15 + Math.sqrt(Math.random()) * 1.0, a = Math.random() * Math.PI * 2, s = 0.02 + Math.pow(Math.random(), 2) * 0.06;
+    b.scale.setScalar(s); b.position.set(Math.cos(a) * r, 0.5 + Math.random() * 3.1, Math.sin(a) * r);
+    b.userData = {v:0.002 + s * 0.06, a:a, r:r, w:Math.random() * 6};
+    bottle.add(b); bubbles.push(b);
   }
   const glass = new THREE.MeshPhysicalMaterial({color:0xffffff, roughness:0.02, transparent:true, opacity:0.16, clearcoat:1, clearcoatRoughness:0, envMapIntensity:2.6, specularIntensity:1, depthWrite:false, side:THREE.DoubleSide});
   const shell = [V(0,0.02),V(1.2,0),V(1.3,0.06),V(1.34,0.22),V(1.34,4.25),V(1.3,4.45),V(1.16,4.56),V(0.58,4.62),V(0.52,4.7),V(0.52,5.0)];
@@ -506,6 +514,15 @@ function init(){
   const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.66, 0.66, 1.0, 96), white); collar.position.y = 5.45; bottle.add(collar);
   const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.5, 0.16, 64), rubber); neck.position.y = 6.03; bottle.add(neck);
   const bulb = new THREE.Mesh(new THREE.CapsuleGeometry(0.38, 0.62, 12, 48), rubber); bulb.position.y = 6.62; bottle.add(bulb);
+
+  /* soft contact shadow: the bottle hovers just above it */
+  const sc = document.createElement('canvas'); sc.width = sc.height = 256;
+  const sx = sc.getContext('2d'), grd = sx.createRadialGradient(128, 128, 0, 128, 128, 128);
+  grd.addColorStop(0, 'rgba(120,40,70,0.42)'); grd.addColorStop(0.45, 'rgba(150,60,90,0.16)'); grd.addColorStop(1, 'rgba(150,60,90,0)');
+  sx.fillStyle = grd; sx.fillRect(0, 0, 256, 256);
+  const shadowTex = new THREE.CanvasTexture(sc); shadowTex.colorSpace = THREE.SRGBColorSpace;
+  const shadow = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 5.2), new THREE.MeshBasicMaterial({map:shadowTex, transparent:true, depthWrite:false}));
+  shadow.rotation.x = -Math.PI / 2; shadow.position.y = -3.95; scene.add(shadow);
 
   /* petals and rice grains floating around the bottle */
   const ps = new THREE.Shape();
@@ -539,6 +556,43 @@ function init(){
   }
   new ResizeObserver(resize).observe(wrap); resize();
 
+  /* spec lines: each callout is tied to the part of the bottle it describes, and follows it as the bottle turns */
+  const stage = wrap.closest('.stage'), NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'leaders'); svg.setAttribute('aria-hidden', 'true'); stage.appendChild(svg);
+  const parts = {glass:[4.35, 1.3], serum:[2.3, 1.29], bulb:[6.62, 0.38], base:[0.9, 1.3]};
+  const links = [].slice.call(stage.querySelectorAll('.callout[data-anchor]')).map(c => {
+    const g = document.createElementNS(NS, 'g'), path = document.createElementNS(NS, 'path'), dot = document.createElementNS(NS, 'circle'), end = document.createElementNS(NS, 'circle');
+    path.setAttribute('pathLength', '1'); dot.setAttribute('r', '4'); end.setAttribute('r', '2.5');
+    g.append(path, dot, end); svg.appendChild(g);
+    return {c, g, path, dot, end, part:parts[c.getAttribute('data-anchor')]};
+  });
+  const v = new THREE.Vector3(), right = new THREE.Vector3();
+  function leaders(){
+    const sr = stage.getBoundingClientRect(), cr = renderer.domElement.getBoundingClientRect();
+    if (!cr.width) return;
+    camera.updateMatrixWorld(); right.setFromMatrixColumn(camera.matrixWorld, 0).setY(0).normalize();
+    links.forEach(L => {
+      L.g.classList.toggle('on', L.c.classList.contains('on'));
+      const b = L.c.querySelector('b').getBoundingClientRect(), box = L.c.getBoundingClientRect();
+      const leftSide = box.left + box.width / 2 < cr.left + cr.width / 2;
+      v.set(0, L.part[0], 0); bottle.localToWorld(v); v.addScaledVector(right, (leftSide ? -1 : 1) * L.part[1]); v.project(camera);
+      const ax = cr.left - sr.left + (v.x + 1) / 2 * cr.width, ay = cr.top - sr.top + (1 - v.y) / 2 * cr.height;
+      let d, ex, ey;
+      if (box.bottom < cr.top + 4 || box.top > cr.bottom - 4){
+        ex = b.left - sr.left + b.width / 2; ey = (box.bottom < cr.top + 4 ? box.bottom + 6 : box.top - 6) - sr.top;
+        d = 'M' + ax + ' ' + ay + ' L' + ex + ' ' + ey;
+      } else {
+        ex = (leftSide ? box.right + 14 : box.left - 14) - sr.left; ey = b.top - sr.top + b.height / 2;
+        const kx = ax + (ex - ax) * 0.45;
+        d = 'M' + ax.toFixed(1) + ' ' + ay.toFixed(1) + ' L' + kx.toFixed(1) + ' ' + ey.toFixed(1) + ' L' + ex.toFixed(1) + ' ' + ey.toFixed(1);
+      }
+      L.path.setAttribute('d', d);
+      L.dot.setAttribute('cx', ax.toFixed(1)); L.dot.setAttribute('cy', ay.toFixed(1));
+      L.end.setAttribute('cx', ex.toFixed(1)); L.end.setAttribute('cy', ey.toFixed(1));
+    });
+  }
+  window.addEventListener('resize', () => requestAnimationFrame(draw));
+
   let visible = false, t = 0;
   function progress(){ const r = sec.getBoundingClientRect(), total = sec.offsetHeight - innerHeight; return total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0; }
   function draw(){
@@ -547,7 +601,12 @@ function init(){
     camera.position.set(Math.sin(th) * R, 2.2 - p * 1.6, Math.cos(th) * R);
     camera.lookAt(0, 0, 0);
     floaters.forEach(f => { const u = f.userData; f.rotation.x += u.spin.x; f.rotation.y += u.spin.y; f.rotation.z += u.spin.z; f.position.y = u.y0 + Math.sin(t * 0.8 + u.bob) * 0.18; });
+    const lift = Math.sin(t * 1.1) * 0.12;
+    bottle.position.y = -3.4 + 0.18 + lift;
+    shadow.scale.setScalar(1 - lift * 0.6); shadow.material.opacity = 0.9 - lift * 1.2;
+    bubbles.forEach(b => { const u = b.userData; b.position.y += reduce ? 0 : u.v; b.position.x = Math.cos(u.a) * u.r + Math.sin(t * 2 + u.w) * 0.02; if (b.position.y > 3.68) b.position.y = 0.45; });
     renderer.render(scene, camera);
+    leaders();
   }
   function loop(){ if (!visible) return; t += 0.016; draw(); requestAnimationFrame(loop); }
   new IntersectionObserver(es => { es.forEach(e => { visible = e.isIntersecting; if (visible && !reduce) requestAnimationFrame(loop); }); }).observe(sec);
@@ -561,48 +620,22 @@ init();
   var root = document.documentElement;
   if (!reduce) root.classList.add('motion');
 
-  /* ---------- sakura branches (generated) ---------- */
-  function blossom(cx, cy, r, rot, fill, heart){
-    var s = '<g transform="translate(' + cx.toFixed(1) + ' ' + cy.toFixed(1) + ') rotate(' + rot.toFixed(0) + ')">';
-    for (var i = 0; i < 5; i++){
-      s += '<path transform="rotate(' + (i * 72) + ')" d="M0 0 C' + (-r*.55).toFixed(1) + ' ' + (-r*.35).toFixed(1) + ' ' + (-r*.45).toFixed(1) + ' ' + (-r*.95).toFixed(1) + ' ' + (-r*.12).toFixed(1) + ' ' + (-r).toFixed(1) + ' L0 ' + (-r*.86).toFixed(1) + ' L' + (r*.12).toFixed(1) + ' ' + (-r).toFixed(1) + ' C' + (r*.45).toFixed(1) + ' ' + (-r*.95).toFixed(1) + ' ' + (r*.55).toFixed(1) + ' ' + (-r*.35).toFixed(1) + ' 0 0Z" fill="' + fill + '"/>';
-    }
-    s += '<circle r="' + (r*.22).toFixed(1) + '" fill="' + heart + '"/></g>';
-    return s;
-  }
-  function rnd(seed){ return function(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }; }
-  function branch(seed, w, h, flip){
-    var R = rnd(seed), out = '';
-    var x0 = flip ? w : 0, x1 = flip ? 0 : w;
-    var d = 'M' + x0 + ' ' + (h * .62) + ' C' + (w * .35) + ' ' + (h * .2) + ' ' + (w * .6) + ' ' + (h * .9) + ' ' + x1 + ' ' + (h * .42);
-    out += '<path d="' + d + '" stroke="#5a3f39" stroke-width="7" fill="none" stroke-linecap="round"/>';
-    var tw = [[.25,.55,.18,.2],[.48,.6,.6,.85],[.7,.52,.82,.18]];
-    tw.forEach(function(t){ out += '<path d="M' + (flip ? w - w*t[0] : w*t[0]) + ' ' + (h*t[1]) + ' Q' + (flip ? w - w*(t[0]+.05) : w*(t[0]+.05)) + ' ' + (h*((t[1]+t[3])/2)) + ' ' + (flip ? w - w*t[2] : w*t[2]) + ' ' + (h*t[3]) + '" stroke="#5a3f39" stroke-width="4" fill="none" stroke-linecap="round"/>'; });
-    var fills = ['#F4DCE4','#EFC3D0','#E7A9BB','#F8E8EE'];
-    for (var i = 0; i < 26; i++){
-      var t = R(), bx = w * t, by = h * (.25 + R() * .55);
-      if (flip) bx = w - bx;
-      out += blossom(bx, by, 16 + R() * 18, R() * 72, fills[Math.floor(R() * fills.length)], '#A8213F');
-    }
-    return '<svg viewBox="0 0 ' + w + ' ' + h + '" xmlns="http://www.w3.org/2000/svg">' + out + '</svg>';
-  }
+  /* ---------- sakura branches (cut-out photos) ---------- */
   var br = document.getElementById('branches');
   var layers = [];
   if (br){
     var cfg = [
-      {seed:11, top:'-7%', left:'-10%', width:'64%', speed:-28, op:1,   flip:false},
-      {seed:23, top:'70%', left:'42%',  width:'66%', speed: 34, op:1,   flip:true},
-      {seed:37, top:'2%',  left:'55%',  width:'44%', speed:-55, op:.4,  flip:true, blur:3},
-      {seed:51, top:'80%', left:'-8%',  width:'42%', speed: 18, op:.55, flip:false, blur:1.5}
+      {src:'img/branch-long.webp',    top:'-6%', left:'-14%', width:'72%', speed:-26, op:1,   flip:false},
+      {src:'img/branch-cluster.webp', top:'60%', left:'58%',  width:'46%', speed: 30, op:1,   flip:true},
+      {src:'img/branch-long.webp',    top:'4%',  left:'52%',  width:'56%', speed:-48, op:.45, flip:true,  blur:4},
+      {src:'img/branch-cluster.webp', top:'74%', left:'-8%',  width:'30%', speed: 16, op:.6,  flip:false, blur:2}
     ];
     cfg.forEach(function(c){
-      var holder = document.createElement('div');
-      holder.innerHTML = branch(c.seed, 900, 360, c.flip);
-      var svg = holder.firstChild;
-      svg.style.top = c.top; svg.style.left = c.left; svg.style.width = c.width; svg.style.opacity = c.op;
-      if (c.blur) svg.style.filter = 'blur(' + c.blur + 'px)';
-      br.appendChild(svg);
-      layers.push({el:svg, speed:c.speed});
+      var img = new Image(); img.src = c.src; img.alt = ''; img.decoding = 'async'; img.loading = 'lazy';
+      img.className = 'branch'; img.style.top = c.top; img.style.left = c.left; img.style.width = c.width; img.style.opacity = c.op;
+      if (c.blur) img.style.filter = 'blur(' + c.blur + 'px)';
+      br.appendChild(img);
+      layers.push({el:img, speed:c.speed, flip:c.flip});
     });
   }
 
@@ -676,7 +709,7 @@ init();
       var name = s.getAttribute('data-scrub');
       if (name === 'mani'){
         lines.forEach(function(l, i){ l.classList.toggle('on', p > .06 + i * .2); });
-        layers.forEach(function(L){ L.el.style.transform = 'translate3d(' + (L.speed * (p - .5)).toFixed(2) + '%,' + (-6 * p).toFixed(2) + '%,0)'; });
+        layers.forEach(function(L){ L.el.style.transform = 'translate3d(' + (L.speed * (p - .5)).toFixed(2) + '%,' + (-6 * p).toFixed(2) + '%,0)' + (L.flip ? ' scaleX(-1)' : ''); });
       } else if (name === 'turn'){
         callouts.forEach(function(c){ c.classList.toggle('on', p >= +c.getAttribute('data-at')); });
       }
