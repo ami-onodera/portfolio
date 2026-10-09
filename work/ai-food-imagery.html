@@ -45,6 +45,15 @@
   .ai-note { margin: 22px 0 0; font-size: 16px; color: var(--body); }
   .ai-note strong { font-family: var(--font-pixel); font-weight: 600; color: var(--indigo); }
 
+
+  /* hover magnifier (people and series) */
+  .ph--zoom { cursor: zoom-in; }
+  .ph--zoom:focus-visible { outline: 3px solid var(--pink); outline-offset: 4px; }
+  .zoom-pop { position: fixed; z-index: 9999; pointer-events: none; opacity: 0; transform: scale(.96); transition: opacity .15s ease, transform .15s ease; border: 2px solid var(--indigo); background: #fff; box-shadow: 8px 8px 0 var(--indigo), 0 18px 48px rgba(37, 40, 61, .35); }
+  .zoom-pop.is-on { opacity: 1; transform: scale(1); }
+  .zoom-pop img { display: block; width: 100%; height: auto; }
+  @media (prefers-reduced-motion: reduce) { .zoom-pop { transition: none; transform: none; } }
+
   /* documentation */
   .spec { margin: 12px 0 0; padding: 14px 16px; background: #fff; border: 2px solid var(--indigo); font-family: "IBM Plex Mono", monospace; font-size: 16px; line-height: 1.6; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
   .spec em { font-style: normal; background: var(--yellow); padding: 0 3px; }
@@ -225,9 +234,9 @@
       <p class="lead">Three lifestyle scenes: cooking with a child, a weeknight dinner with friends and opening a delivery box. People are where AI work gives itself away, so the prompts ask for candid moments, natural skin texture and hands that hold things naturally, and I check every hand, face and glass before an image goes in the set.</p>
     </div>
     <div class="ph-grid ph-grid--3" style="margin-top:0">
-      <figure class="ph"><img src="../assets/img/ai-food/life-cooking-with-child.jpg" width="1264" height="848" alt="A mother and young daughter chopping vegetables together at a bright kitchen island" loading="lazy"><figcaption><b>Cooking together</b>Morning window light and a candid laugh.</figcaption></figure>
-      <figure class="ph"><img src="../assets/img/ai-food/life-friends-dinner.jpg" width="1264" height="848" alt="A group of friends laughing and passing plates of pasta and salad around a wooden dining table in warm evening light" loading="lazy"><figcaption><b>Weeknight dinner</b>Warm pendant light and plates changing hands, the busiest scene to get right.</figcaption></figure>
-      <figure class="ph"><img src="../assets/img/ai-food/life-doorstep-box.jpg" width="1264" height="848" alt="A man in an apron opening a cardboard delivery box of fresh vegetables on a front doorstep" loading="lazy"><figcaption><b>Delivery box</b>Soft overcast daylight. Unbranded box, with one flaw I caught (see What I tested).</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/life-cooking-with-child.jpg" width="1264" height="848" alt="A mother and young daughter chopping vegetables together at a bright kitchen island" loading="lazy"><figcaption><b>Cooking together</b>Morning window light and a candid laugh.</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/life-friends-dinner.jpg" width="1264" height="848" alt="A group of friends laughing and passing plates of pasta and salad around a wooden dining table in warm evening light" loading="lazy"><figcaption><b>Weeknight dinner</b>Warm pendant light and plates changing hands, the busiest scene to get right.</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/life-doorstep-box.jpg" width="1264" height="848" alt="A man in an apron opening a cardboard delivery box of fresh vegetables on a front doorstep" loading="lazy"><figcaption><b>Delivery box</b>Soft overcast daylight. Unbranded box, with one flaw I caught (see What I tested).</figcaption></figure>
     </div>
   </div></div></section>
 
@@ -240,12 +249,12 @@
       <p class="lead">A campaign is a set, not a single hero. Six shots share one kitchen, one family and one light: a wide establishing frame, three medium shots of each family member, a dinner scene and a hands detail. The same locked description opened every prompt, and only the action changed.</p>
     </div>
     <div class="ph-grid ph-grid--3" style="margin-top:0">
-      <figure class="ph"><img src="../assets/img/ai-food/series-1-wide.jpg" width="1264" height="848" alt="A father, mother and young son preparing dinner together at a kitchen island in a bright Scandinavian-style kitchen" loading="lazy"><figcaption><b>1 · Wide</b>Sets the room, the people and the light.</figcaption></figure>
-      <figure class="ph"><img src="../assets/img/ai-food/series-2-chopping.jpg" width="1264" height="848" alt="The mother, in a mustard cardigan, chopping red and green peppers on a wooden board" loading="lazy"><figcaption><b>2 · Mother</b>Mustard cardigan, wavy auburn hair, chopping.</figcaption></figure>
-      <figure class="ph"><img src="../assets/img/ai-food/series-3-stirring.jpg" width="1264" height="848" alt="The young son in a green t-shirt standing on a stool and stirring a pot on the stove" loading="lazy"><figcaption><b>3 · Son</b>Green t-shirt, curly hair, stirring.</figcaption></figure>
-      <figure class="ph"><img src="../assets/img/ai-food/series-4-plating.jpg" width="1264" height="848" alt="The father, in a navy sweater, plating a roasted chicken and vegetable dish at the counter" loading="lazy"><figcaption><b>4 · Father</b>Navy sweater, trimmed beard, plating.</figcaption></figure>
-      <figure class="ph"><img src="../assets/img/ai-food/series-5-dinner.jpg" width="1264" height="848" alt="The family of three eating dinner together at an oak table in the same kitchen" loading="lazy"><figcaption><b>5 · Dinner</b>The payoff shot, same room and same clothes.</figcaption></figure>
-      <figure class="ph"><img src="../assets/img/ai-food/series-6-hands.jpg" width="1264" height="848" alt="Close-up of a child's hands and an adult's hands sprinkling herbs over a pan of roasted vegetables" loading="lazy"><figcaption><b>6 · Detail</b>Green and mustard sleeves tie the close-up back to the family.</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/series-1-wide.jpg" width="1264" height="848" alt="A father, mother and young son preparing dinner together at a kitchen island in a bright Scandinavian-style kitchen" loading="lazy"><figcaption><b>1 · Wide</b>Sets the room, the people and the light.</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/series-2-chopping.jpg" width="1264" height="848" alt="The mother, in a mustard cardigan, chopping red and green peppers on a wooden board" loading="lazy"><figcaption><b>2 · Mother</b>Mustard cardigan, wavy auburn hair, chopping.</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/series-3-stirring.jpg" width="1264" height="848" alt="The young son in a green t-shirt standing on a stool and stirring a pot on the stove" loading="lazy"><figcaption><b>3 · Son</b>Green t-shirt, curly hair, stirring.</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/series-4-plating.jpg" width="1264" height="848" alt="The father, in a navy sweater, plating a roasted chicken and vegetable dish at the counter" loading="lazy"><figcaption><b>4 · Father</b>Navy sweater, trimmed beard, plating.</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/series-5-dinner.jpg" width="1264" height="848" alt="The family of three eating dinner together at an oak table in the same kitchen" loading="lazy"><figcaption><b>5 · Dinner</b>The payoff shot, same room and same clothes.</figcaption></figure>
+      <figure class="ph ph--zoom" tabindex="0"><img src="../assets/img/ai-food/series-6-hands.jpg" width="1264" height="848" alt="Close-up of a child's hands and an adult's hands sprinkling herbs over a pan of roasted vegetables" loading="lazy"><figcaption><b>6 · Detail</b>Green and mustard sleeves tie the close-up back to the family.</figcaption></figure>
     </div>
   </div></div></section>
 
@@ -538,6 +547,44 @@ No text, no logos</div>
       var ro = new ResizeObserver(fit);
       frames.forEach(function (el) { ro.observe(el); });
     }
+  })();
+</script>
+<script>
+  (function () {
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    var pop = document.createElement('div');
+    pop.className = 'zoom-pop';
+    pop.setAttribute('aria-hidden', 'true');
+    var big = document.createElement('img');
+    big.alt = '';
+    pop.appendChild(big);
+    document.body.appendChild(pop);
+    function show(fig) {
+      if (!fine.matches) return;
+      var img = fig.querySelector('img');
+      if (!img) return;
+      var r = img.getBoundingClientRect();
+      var ratio = (img.naturalWidth || img.width) / (img.naturalHeight || img.height);
+      var vw = window.innerWidth, vh = window.innerHeight, m = 16;
+      var w = Math.min(860, vw - 2 * m, (vh - 2 * m) * ratio);
+      var h = w / ratio;
+      var left = Math.max(m, Math.min(vw - w - m, r.left + r.width / 2 - w / 2));
+      var top = Math.max(m, Math.min(vh - h - m, r.top + r.height / 2 - h / 2));
+      big.src = img.currentSrc || img.src;
+      pop.style.width = w + 'px';
+      pop.style.left = left + 'px';
+      pop.style.top = top + 'px';
+      pop.classList.add('is-on');
+    }
+    function hide() { pop.classList.remove('is-on'); }
+    document.querySelectorAll('.ph--zoom').forEach(function (fig) {
+      fig.addEventListener('mouseenter', function () { show(fig); });
+      fig.addEventListener('mouseleave', hide);
+      fig.addEventListener('focus', function () { show(fig); });
+      fig.addEventListener('blur', hide);
+    });
+    window.addEventListener('scroll', hide, { passive: true });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
   })();
 </script>
 <script src="../assets/js/contact.js" defer></script>
