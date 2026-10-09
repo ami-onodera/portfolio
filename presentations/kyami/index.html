@@ -493,7 +493,7 @@ function init(){
   const V = (x, y) => new THREE.Vector2(x, y);
   const bottle = new THREE.Group(); bottle.position.y = -3.4; scene.add(bottle);
   /* the serum refracts; the glass is a thin reflective shell (three.js cannot refract through two glass layers) */
-  const liquid = new THREE.MeshPhysicalMaterial({color:0xFFE3EA, roughness:0.02, transmission:1, thickness:2.4, ior:1.33, attenuationColor:new THREE.Color(0xF4A3BA), attenuationDistance:4.5, envMapIntensity:1.2, specularIntensity:1});
+  const liquid = new THREE.MeshPhysicalMaterial({color:0xF8CCD8, roughness:0.04, transmission:0.42, thickness:2.4, ior:1.33, attenuationColor:new THREE.Color(0xF4A3BA), attenuationDistance:6, emissive:0x4a1a2a, emissiveIntensity:0.35, envMapIntensity:1.2, specularIntensity:1});
   bottle.add(new THREE.Mesh(new THREE.LatheGeometry([V(0,0.31),V(1.24,0.31),V(1.28,0.4),V(1.29,3.75),V(0,3.75)], 128), liquid));
   const pipIn = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 3.6, 24), liquid); pipIn.position.y = 3.0; bottle.add(pipIn);
   /* bubbles: camera-facing rings with a highlight, so they read like bubbles in a photo */
