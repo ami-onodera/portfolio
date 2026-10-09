@@ -98,11 +98,11 @@
   .turn__bottle{position:relative;height:min(78svh,720px);aspect-ratio:928/1152;max-width:100%;transform:rotate(calc(-14deg * (1 - var(--p,0)))) scale(calc(1.12 - .12 * var(--p,0))) translateY(calc(6vh * (1 - var(--p,0))));transform-origin:50% 80%;will-change:transform}
   .turn__bottle img{width:100%;height:100%;object-fit:cover;border-radius:28px;box-shadow:0 40px 80px -40px rgba(168,33,63,.35)}
   .turn__bottle::after{content:"";position:absolute;inset:0;border-radius:28px;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.55) 48%,transparent 60%);transform:translateX(calc(-60% + 120% * var(--p,0)));mix-blend-mode:soft-light;pointer-events:none}
-  .turn__bottle.is-3d{transform:none;aspect-ratio:3/4}
+  .turn__bottle.is-3d{transform:none;aspect-ratio:3/4;position:static}
   .turn__bottle.is-3d::after,.turn__bottle.is-3d img{display:none}
-  .turn__bottle canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .turn__bottle canvas{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
   .leaders{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
-  .leaders path{fill:none;stroke:var(--mocha);stroke-width:1;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s ease}
+  .leaders path{fill:none;stroke:var(--mocha);stroke-width:1.25;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .7s ease}
   .leaders circle{fill:var(--beni);opacity:0;transition:opacity .4s ease}
   .leaders .on path{stroke-dashoffset:0}
   .leaders .on circle{opacity:1}
@@ -560,10 +560,10 @@ function init(){
   }
 
   function resize(){
-    const w = wrap.clientWidth, h = wrap.clientHeight; if (!w || !h) return;
+    const host = wrap.closest('.stage') || wrap, w = host.clientWidth, h = host.clientHeight; if (!w || !h) return;
     renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
   }
-  new ResizeObserver(resize).observe(wrap); resize();
+  new ResizeObserver(resize).observe(wrap.closest('.stage') || wrap); resize();
 
   /* spec lines: each callout is tied to the part of the bottle it describes, and follows it as the bottle turns */
   const stage = wrap.closest('.stage'), NS = 'http://www.w3.org/2000/svg';
@@ -606,7 +606,7 @@ function init(){
   function progress(){ const r = sec.getBoundingClientRect(), total = sec.offsetHeight - innerHeight; return total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 0; }
   function draw(){
     const p = reduce ? 0.12 : progress();
-    const th = -0.35 + p * Math.PI * 2, R = 18;
+    const th = -0.35 + p * Math.PI * 2, R = 22;
     camera.position.set(Math.sin(th) * R, 2.6 - p * 1.2, Math.cos(th) * R);
     camera.lookAt(0, 0.35, 0);
     floaters.forEach(f => { const u = f.userData; f.rotation.x += u.spin.x; f.rotation.y += u.spin.y; f.rotation.z += u.spin.z; f.position.y = u.y0 + Math.sin(t * 0.8 + u.bob) * 0.18; });
