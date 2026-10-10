@@ -487,6 +487,26 @@
   .side-toggle[aria-expanded="false"] .chev{ transform:rotate(-90deg); }
   .side-list[hidden]{ display:none; }
   @media (prefers-reduced-motion:reduce){ .side-toggle .chev{ transition:none; } }
+
+  /* ---------- a little life: same moves as the About page ---------- */
+  /* yellow pills and type chips twitch on hover (the About skills window uses the same keyframes) */
+  .hub-title .pill, .proj__specs .chip{ position:relative; cursor:default; transition:transform .18s ease; }
+  .hub-title .pill:hover, .proj__specs .chip:hover{ z-index:2; transform:scale(1.09); animation:pill-twitch .45s ease; }
+  @keyframes pill-twitch{ 0%{transform:scale(1) rotate(0)} 20%{transform:scale(1.1) rotate(-3deg)} 45%{transform:scale(1.1) rotate(2.5deg)} 70%{transform:scale(1.09) rotate(-1.5deg)} 100%{transform:scale(1.09) rotate(0)} }
+  /* covers grow a touch when you hover a card */
+  .proj--gallery:not(.proj--wip) .proj__media{ transition:transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; }
+  .proj--gallery:not(.proj--wip):hover .proj__media{ transform:scale(1.035); box-shadow:9px 12px 0 rgba(37,40,61,.22); }
+  /* "open case study" nudges when you stop scrolling with it on screen */
+  .proj__cta.nudge{ animation:cta-nudge .7s ease; }
+  @keyframes cta-nudge{ 0%,100%{transform:rotate(0)} 15%{transform:rotate(-4deg) scale(1.04)} 30%{transform:rotate(3.5deg) scale(1.04)} 45%{transform:rotate(-2.5deg) scale(1.03)} 60%{transform:rotate(1.5deg) scale(1.02)} 75%{transform:rotate(-.5deg)} }
+  /* windows fade up the first time they come into view */
+  .js-rv2 .rv-win{ opacity:0; translate:0 22px; transition:opacity .6s ease, translate .7s cubic-bezier(.2,.8,.2,1); }
+  .js-rv2 .rv-win.in{ opacity:1; translate:0 0; }
+  @media (prefers-reduced-motion:reduce){
+    .hub-title .pill:hover, .proj__specs .chip:hover{ animation:none; transform:none; }
+    .proj--gallery:not(.proj--wip):hover .proj__media{ transform:none; }
+    .proj__cta.nudge{ animation:none; }
+  }
   .side-item.is-soon{ cursor:default; opacity:.65; }
   .side-item.is-soon:hover{ background:none; }
   .fm-search{ display:flex; align-items:center; gap:6px; background:#fff; border:1.5px solid var(--indigo); padding:3px 8px; box-shadow:inset 2px 2px 0 rgba(37,40,61,.08); }
@@ -646,8 +666,9 @@
             <ul class="side-list" id="side-views">
               <li><button type="button" class="side-item" data-view="all" aria-pressed="true"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl">All projects</span></button></li>
               <li><button type="button" class="side-item" data-view="done" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-folder"/></svg><span class="lbl">Case studies</span></button></li>
-              <li><button type="button" class="side-item" data-view="type:Gen AI" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg><span class="lbl">Generative AI</span></button></li>
               <li><button type="button" class="side-item" data-view="type:UI design" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-ui"/></svg><span class="lbl">UI Design</span></button></li>
+              <li><button type="button" class="side-item" data-view="type:Gen AI" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg><span class="lbl">Generative AI</span></button></li>
+              <li><button type="button" class="side-item" data-view="type:Imagery" aria-pressed="false"><svg class="ico" aria-hidden="true"><use href="#i-image"/></svg><span class="lbl">Imagery</span></button></li>
             </ul>
             <button type="button" class="side-h side-toggle" aria-expanded="true" aria-controls="side-types"><span>Types</span><svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3 5 7l3.5-4z" fill="currentColor"/></svg></button>
             <!-- filled in by the script at the bottom: the tags below, in this order, each with its colour and a count -->
@@ -712,6 +733,23 @@
             </article>
 
 
+            <!-- 2. Case study -->
+            <article class="proj proj--wide proj--gallery proj--case">
+              <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">referral-portal/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__media">
+                <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
+              </div>
+              <div class="proj__body">
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--figma">Figma</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Theming, Brand elements</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
+                <h3>One template, many brands</h3>
+                <p>A single referral portal template, themed for three different (fictional) brands. The markup stays the same: only the brand elements, copy and client assets change.</p>
+                <div class="proj__actions">
+                  <a class="proj__cta" href="work/one-template-many-brands.html" target="_blank" rel="noopener">Open case study →</a>
+                  <a class="proj__cta proj__cta--alt" href="work/referral-portal-figma.html" target="_blank" rel="noopener">Open figma ↗</a>
+                </div>
+              </div>
+            </article>
+
             <!-- 1a. Case study: KYAMI launch page -->
             <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">kyami/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
@@ -729,6 +767,21 @@
               </div>
             </article>
 
+            <!-- 5. Case study, internal tooling -->
+            <article class="proj proj--wide proj--gallery proj--case">
+              <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">sales-tools/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
+              <div class="proj__media">
+                <img src="assets/img/y2k/thumb-mockup-maker.jpg" width="960" height="614" alt="Desktop preview of the Voltwell Energy referral portal, a mockup generated from a prospect's website" loading="lazy">
+              </div>
+              <div class="proj__body">
+                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--app">Web app</span><span class="chip chip--ai">Gen AI</span></dd></div><div><dt>Topics</dt><dd>Claude skill, Automation</dd></div><div><dt>Scope</dt><dd>Fixed template, any brand</dd></div><div><dt>Used by</dt><dd>Sales team</dd></div></dl>
+                <h3>Mockup maker</h3>
+                <p>A guided tool that turns a prospect's website into a branded landing page preview, built on a fixed template and a Claude skill, so Sales can make mockups without a designer.</p>
+                <a class="proj__cta" href="work/mockup-maker.html" target="_blank" rel="noopener">Open case study →</a>
+              </div>
+            </article>
+
+
             <!-- 1b. Case study: AI food photography -->
             <article class="proj proj--wide proj--gallery proj--case">
               <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">ai-food-imagery/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
@@ -741,23 +794,6 @@
                 <p>From a written brief to a consistent campaign set: realistic AI-generated food and lifestyle images for a fictional meal-kit brand, plus the series bible, prompt template and realism checklist behind them.</p>
                 <div class="proj__actions">
                   <a class="proj__cta" href="work/ai-food-imagery.html" target="_blank" rel="noopener">Open case study →</a>
-                </div>
-              </div>
-            </article>
-
-            <!-- 2. Case study -->
-            <article class="proj proj--wide proj--gallery proj--case">
-              <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">referral-portal/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
-              <div class="proj__media">
-                <img src="assets/img/y2k/thumb-orbeo-mobile.jpg" width="480" height="300" alt="Desktop preview of the Orbeo Mobile referral portal" loading="lazy">
-              </div>
-              <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--figma">Figma</span><span class="chip chip--ui">UI design</span></dd></div><div><dt>Topics</dt><dd>Theming, Brand elements</dd></div><div><dt>Scope</dt><dd>3 fictional brands</dd></div><div><dt>Demos</dt><dd>Live, 3 themes</dd></div></dl>
-                <h3>One template, many brands</h3>
-                <p>A single referral portal template, themed for three different (fictional) brands. The markup stays the same: only the brand elements, copy and client assets change.</p>
-                <div class="proj__actions">
-                  <a class="proj__cta" href="work/one-template-many-brands.html" target="_blank" rel="noopener">Open case study →</a>
-                  <a class="proj__cta proj__cta--alt" href="work/referral-portal-figma.html" target="_blank" rel="noopener">Open figma ↗</a>
                 </div>
               </div>
             </article>
@@ -807,21 +843,6 @@
                 <h3>The SEO road: hosted landing pages</h3>
                 <p>A single-handed SEO optimisation across 163 hosted landing pages in seven languages, walked through as an interactive, scroll-driven, AI-made presentation.</p>
                 <a class="proj__cta" href="presentations/seo-optimised-pages.html" target="_blank" rel="noopener">Open presentation ↗</a>
-              </div>
-            </article>
-
-
-            <!-- 5. Case study, internal tooling -->
-            <article class="proj proj--wide proj--gallery proj--case">
-              <div class="proj__bar"><span class="titlewrap"><img class="bar-folder" src="assets/img/y2k/early-work.png" alt="" width="28" height="28"><span class="title">sales-tools/</span></span><span class="btns" aria-hidden="true"><i>_</i><i>▢</i><i>x</i></span></div>
-              <div class="proj__media">
-                <img src="assets/img/y2k/thumb-mockup-maker.jpg" width="960" height="614" alt="Desktop preview of the Voltwell Energy referral portal, a mockup generated from a prospect's website" loading="lazy">
-              </div>
-              <div class="proj__body">
-                <dl class="proj__specs"><div><dt>Type</dt><dd><span class="chip chip--status">Case study</span><span class="chip chip--app">Web app</span><span class="chip chip--ai">Gen AI</span></dd></div><div><dt>Topics</dt><dd>Claude skill, Automation</dd></div><div><dt>Scope</dt><dd>Fixed template, any brand</dd></div><div><dt>Used by</dt><dd>Sales team</dd></div></dl>
-                <h3>Mockup maker</h3>
-                <p>A guided tool that turns a prospect's website into a branded landing page preview, built on a fixed template and a Claude skill, so Sales can make mockups without a designer.</p>
-                <a class="proj__cta" href="work/mockup-maker.html" target="_blank" rel="noopener">Open case study →</a>
               </div>
             </article>
 
@@ -1041,6 +1062,38 @@
     }); });
     if (input) input.addEventListener('input', function(){ q = input.value.trim().toLowerCase(); apply(); });
     apply();
+  })();
+</script>
+<script>
+  /* windows fade up as they arrive, and the "Open case study" button closest to the middle
+     of the screen gives a small wiggle when scrolling stops (again every few seconds while idle) */
+  (function(){
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if ('IntersectionObserver' in window){
+      var wins = [].slice.call(document.querySelectorAll('.hub-title, .hub-note, .explorer, .proj'));
+      document.body.classList.add('js-rv2');
+      var io = new IntersectionObserver(function(es){
+        es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+      wins.forEach(function(w){ w.classList.add('rv-win'); io.observe(w); });
+    }
+    var idle, loop;
+    function nudge(){
+      var vh = window.innerHeight, best = null, bd = Infinity;
+      [].forEach.call(document.querySelectorAll('.proj:not([hidden]) .proj__cta:not(.proj__cta--alt)'), function(b){
+        var r = b.getBoundingClientRect();
+        if (r.top < vh * .12 || r.bottom > vh * .92) return;
+        var d = Math.abs(r.top + r.height / 2 - vh / 2);
+        if (d < bd){ bd = d; best = b; }
+      });
+      if (!best || best.matches(':hover')) return;
+      best.classList.remove('nudge'); void best.offsetWidth; best.classList.add('nudge');
+    }
+    function stopped(){ clearTimeout(idle); clearInterval(loop);
+      idle = setTimeout(function(){ nudge(); loop = setInterval(nudge, 5000); }, 1400); }
+    window.addEventListener('scroll', stopped, { passive: true });
+    document.addEventListener('animationend', function(e){ if (e.animationName === 'cta-nudge') e.target.classList.remove('nudge'); });
+    stopped();
   })();
 </script>
 <script src="assets/js/saori.js?v=4" defer></script>
