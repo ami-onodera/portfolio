@@ -66,14 +66,14 @@
   /* ---------- nav (ported Win95 bevel navbar — shared across all pages) ---------- */
   .site-nav{ background:linear-gradient(90deg, #ffb3e6 0%, #c9a2ff 45%, #9fc7ff 100%); border-bottom:3px solid #4a1f70; box-shadow:0 4px 14px rgba(30,10,50,.28); position:sticky; top:0; z-index:80; height:54px; display:flex; align-items:center; gap:10px; padding:0 20px; }
   .brand.nav-start{
-    width:auto; height:44px; padding:0 13px 0 8px; display:flex; align-items:center; justify-content:center; gap:8px; flex:none; text-decoration:none;
+    width:150px; height:44px; padding:0 13px 0 8px; display:flex; align-items:center; justify-content:center; gap:8px; flex:none; text-decoration:none;
     background:linear-gradient(180deg, #ffd3f2 0%, #ffa8e0 100%);
     border-top:2px solid #fff2fb; border-left:2px solid #fff2fb;
     border-right:2px solid #7a2e86; border-bottom:2px solid #7a2e86;
     box-shadow:0 3px 0 rgba(58,22,96,.35);
   }
   .brand.nav-start img{ display:block; width:32px; height:32px; object-fit:contain; filter:drop-shadow(0 1px 1px rgba(58,22,96,.4)); }
-  .nav-start-label{ font-family:"Silkscreen", monospace; font-size:12px; letter-spacing:.3px; color:#3a1660; }
+  .nav-start-label{ font-family:"Silkscreen", monospace; font-size:16px; letter-spacing:.3px; color:#3a1660; }
   .brand.nav-start:hover{ filter:brightness(1.05); }
   .brand.nav-start:active{ transform:translate(1px,1px); box-shadow:inset 2px 2px 4px rgba(58,22,96,.4); }
   .nav-divider{ width:0; height:22px; border-left:2px solid #6b3fa0; border-right:2px solid #ffe8fb; flex:none }
@@ -108,9 +108,9 @@
   }
   @media (max-width:639px){
     .site-nav{ height:auto; flex-wrap:wrap; gap:6px; padding:6px 8px; border-bottom-width:2px; }
-    .brand.nav-start{ height:36px; padding:0 9px 0 6px; gap:5px; }
+    .brand.nav-start{ width:auto; height:36px; padding:0 9px 0 6px; gap:5px; }
     .brand.nav-start img{ width:24px; height:24px; }
-    .nav-start-label{ font-size:10px; }
+    .nav-start-label{ font-size:12px; }
     .nav-divider{ display:none; }
     .nav-right{ flex:1 1 100%; justify-content:space-between; flex-wrap:wrap; gap:6px; margin-left:0; }
     .navbtn{ font-size:9px; height:24px; padding:0 8px; gap:5px; }
@@ -380,7 +380,7 @@
       </a>
       <div class="nav-divider"></div>
       <div class="nav-tray">
-        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio is vibecoded. Ask me how!" aria-label="This portfolio is vibecoded. Ask me how!" tabindex="0">
           <img src="assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
         </span>
         <span class="navtray-icon" title="Connected">
