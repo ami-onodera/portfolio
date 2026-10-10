@@ -35,6 +35,7 @@
   .ph-grid { display: grid; gap: var(--gap); margin-top: 22px; }
   .ph-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ph-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ph-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .tile .ph-grid { gap: clamp(20px, 2.6vw, 32px); padding: 0 clamp(6px, 2.4vw, 30px) 6px; }
   .tile .two > .lay { padding: 0 clamp(6px, 2.4vw, 30px) 6px; }
   .tile .ai-note { padding: 0 clamp(6px, 2.4vw, 30px); }
@@ -85,7 +86,7 @@
 
   @media (max-width: 900px) {
     .three, .two, .next-card { grid-template-columns: 1fr; }
-    .ph-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ph-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .next-card .work-card__media { aspect-ratio: 16 / 10; height: auto; min-height: 0; border-right: 0; border-bottom: 2px solid var(--indigo); }
   }
   @media (max-width: 640px) {
@@ -109,6 +110,9 @@
   .t-kanji { font-family: "Shippori Mincho B1", "Hiragino Mincho ProN", serif; font-size: 40px; color: #A8213F; letter-spacing: .2em; display: block; }
   .ph img { aspect-ratio: 4 / 3; object-fit: cover; height: auto; }
   .ph img[src*="model-"] { object-position: 50% 25%; }
+  .ph--piece img { object-fit: contain; background: #fff; }
+  .ph-grid--pieces { margin-top: clamp(20px, 2.6vw, 32px); }
+  .ph-grid--pieces .ph img { aspect-ratio: 4 / 5; }
   .live-actions { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; padding-top: 18px; }
   .live-actions figcaption { margin: 0; font-size: 16px; color: var(--body); max-width: 62ch; }
   @media (max-width: 900px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); } .type__row { grid-template-columns: 1fr; gap: 6px; } }
@@ -202,7 +206,7 @@
           <div class="fact"><dt>Role</dt><dd>Art direction, AI image creation, UI design and front-end build</dd></div>
           <div class="fact"><dt>For</dt><dd>A fictional brand, made to show a product launch from first idea to live page</dd></div>
           <div class="fact"><dt>Tools</dt><dd>Figma AI, Weave, Claude, HTML/CSS, three.js</dd></div>
-          <div class="fact"><dt>Output</dt><dd>A live launch page, 11 AI images and a real-time 3D bottle</dd></div>
+          <div class="fact"><dt>Output</dt><dd>A live launch page, 14 AI images and a real-time 3D bottle</dd></div>
         </dl>
       </div>
     </div>
@@ -220,8 +224,8 @@
         <p>Skincare sells on detail: the bottle, the texture, the skin. Generative AI can make each of those in seconds, but it redraws the product every time. And a page that only stacks images does not feel like a launch.</p>
       </div>
       <div class="three" style="margin-top:22px">
-        <div class="tile tile--white"><span class="tag">Consistency</span><h3>One bottle, every shot</h3><p>A bottle that changes shape from one image to the next breaks trust in the product straight away.</p></div>
-        <div class="tile tile--white"><span class="tag">Identity</span><h3>Japanese, not Korean, and young</h3><p>The brand needed its own world: rice and sakura, made light and fresh for people in their twenties.</p></div>
+        <div class="tile tile--white"><span class="tag">Consistency</span><h3>Same bottle, same model.</h3><p>A product or a model that changes from one image to the next breaks trust in the brand straight away.</p></div>
+        <div class="tile tile--white"><span class="tag">Identity</span><h3>Traditional but brand-new</h3><p>The brand needed its own world: a spring breeze, light and lively, aimed at young adults.</p></div>
         <div class="tile tile--white"><span class="tag">Motion</span><h3>A page that feels like a launch</h3><p>Big product moments and scroll-led scenes, the way premium launches are presented.</p></div>
       </div>
     </div>
@@ -278,6 +282,15 @@
         <figure class="ph"><img src="../presentations/kyami/img/model-blossom.jpg" width="1450" height="1800" alt="A young woman with her hair in a bun smiles with her eyes closed under a cherry blossom tree" loading="lazy"><figcaption><b>Model</b>The brand face, young and natural.</figcaption></figure>
         <figure class="ph"><img src="../presentations/kyami/img/lifestyle-vanity.jpg" width="1264" height="848" alt="A young woman at a vanity by an open window, eyes closed, holding a cup of matcha, cherry blossoms outside" loading="lazy"><figcaption><b>Lifestyle</b>A spring morning, matcha in hand.</figcaption></figure>
         <figure class="ph"><img src="../presentations/kyami/img/texture.jpg" width="1264" height="848" alt="A drop and a smeared swatch of clear pink serum on glass with two petals" loading="lazy"><figcaption><b>Texture</b>The serum, see-through and glossy.</figcaption></figure>
+        <figure class="ph"><img src="../presentations/kyami/img/model-pink.jpg" width="928" height="1152" alt="The model smiles down as she touches a dropper of serum to her cheek, petals falling on a pink background" loading="lazy"><figcaption><b>Model</b>Applying the serum, in the studio.</figcaption></figure>
+        <figure class="ph"><img src="../presentations/kyami/img/model-portrait.jpg" width="848" height="1264" alt="The model looks at the camera and holds the clear pink bottle beside her face" loading="lazy"><figcaption><b>Portrait</b>The face and the bottle in one frame.</figcaption></figure>
+        <figure class="ph"><img src="../presentations/kyami/img/model-outdoor.jpg" width="928" height="1152" alt="The model applies serum with a dropper under cherry blossoms, holding an earlier labelled version of the bottle" loading="lazy"><figcaption><b>Early round</b>The first bottle, with a label, before I simplified it.</figcaption></figure>
+      </div>
+      <div class="ph-grid ph-grid--4 ph-grid--pieces">
+        <figure class="ph"><img src="../presentations/kyami/img/dropper.jpg" width="928" height="1152" alt="A drop of serum falls from the dropper into the open bottle on a pink marble surface" loading="lazy"><figcaption><b>Dropper</b>The drop, ready for the close-up.</figcaption></figure>
+        <figure class="ph ph--piece"><img src="../presentations/kyami/img/piece-dropper.jpg" width="928" height="1152" alt="The dropper on its own, with three drops of serum falling" loading="lazy"><figcaption><b>Piece</b>The dropper, cut out for the falling scene.</figcaption></figure>
+        <figure class="ph ph--piece"><img src="../presentations/kyami/img/piece-bottle.jpg" width="928" height="1152" alt="The closed bottle tilted in mid-air on a white background" loading="lazy"><figcaption><b>Piece</b>The closed bottle, tilted.</figcaption></figure>
+        <figure class="ph ph--piece"><img src="../presentations/kyami/img/piece-open.jpg" width="928" height="1152" alt="The open bottle without its dropper, tilted in mid-air" loading="lazy"><figcaption><b>Piece</b>The open bottle, ready to fall.</figcaption></figure>
       </div>
     </div>
   </div></section>
@@ -306,7 +319,7 @@
     <div class="section-head"><h2 id="delivered-title" class="h-bar">What was delivered</h2></div>
     <div class="three">
       <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">kyami-launch.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A live launch page</h3><p>A scroll story: the hero opens out, a close-up, the 3D bottle, falling bottles, ingredients, results, the ritual and a shop block.</p><p style="margin-top:12px"><a href="../presentations/kyami/index.html" target="_blank" rel="noopener">Open the page ↗<span class="sr-only"> (opens in a new tab)</span></a></p></div>
-      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">image-set.zip</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>11 AI images</h3><p>Product, close-up, texture, ingredient, model and lifestyle shots, plus three cut-out pieces for the falling scene.</p></div>
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">image-set.zip</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>14 AI images</h3><p>Product, close-up, texture, ingredient, model and lifestyle shots, plus three cut-out pieces for the falling scene.</p></div>
       <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">bottle-3d.js</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A real-time 3D bottle</h3><p>Rendered in the browser with three.js, so the bottle stays identical from every angle.</p></div>
     </div>
   </div></section>
@@ -317,12 +330,12 @@
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">problem-solved.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="section-head">
         <h2 id="solved-title" class="h-bar">Problem solved</h2>
-        <p class="lead">A product that stays the same in every frame, a brand with its own world, and a page you scroll through like a launch.</p>
+        <p class="lead">A product that stays the same in every frame, a brand with its own world, and a page you scroll through.</p>
       </div>
       <div class="three">
-        <div class="tile tile--white"><span class="tag">Consistency</span><h3>The same bottle throughout</h3><p>A simple bottle, described the same way in every prompt, and a 3D model wherever it has to turn.</p></div>
-        <div class="tile tile--white"><span class="tag">Identity</span><h3>A brand with its own world</h3><p>Rice, sakura and a young, light palette, with Japanese characters as details instead of clichés.</p></div>
-        <div class="tile tile--white"><span class="tag">Motion</span><h3>A launch you scroll through</h3><p>Scenes open, turn and fall as you scroll, so the product carries the story.</p></div>
+        <div class="tile tile--white"><span class="tag">Consistency</span><h3>Recognisable elements</h3><p>A simple bottle, a single model, described the same way in every prompt.</p></div>
+        <div class="tile tile--white"><span class="tag">Identity</span><h3>A brand with its own world</h3><p>The ingredients evoke tradition, while the fresh and light palette brings youthfulness.</p></div>
+        <div class="tile tile--white"><span class="tag">Motion</span><h3>A scroll-driven launch page</h3><p>Scenes open, turn and fall as you scroll, so the product carries the story.</p></div>
       </div>
     </div>
   </div></section>
