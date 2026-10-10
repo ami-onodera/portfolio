@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Tenor+Sans&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
   /* Layout: one long scroll story. Pinned scenes scrub on scroll (hero opens to full bleed, the 3D bottle turns
      with spec lines, the texture shot unfolds), between quieter editorial sections.
@@ -79,7 +79,7 @@
   .hero__head h1 em{font-style:normal;color:var(--blush)}
   .hero__head .eyebrow{display:block;margin-bottom:14px}
   .hero__late{position:absolute;left:0;right:0;bottom:8vh;text-align:center;color:var(--beni);padding-inline:var(--gutter);opacity:calc((var(--p,0) - .72) * 4)}
-  .hero__late p{display:inline-block;font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:400;background:rgba(255,253,243,.8);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);border-radius:999px;padding:.38em 1.1em .45em;box-shadow:0 10px 40px -18px rgba(110,44,68,.45)}
+  .hero__late p{display:inline-block;font-family:var(--f-display);font-size:clamp(22px,3vw,38px);font-weight:400;background:rgba(255,253,243,.8);border-radius:999px;padding:.38em 1.1em .45em;box-shadow:0 10px 40px -18px rgba(110,44,68,.45)}
   .scroll-cue{position:absolute;bottom:3vh;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--mocha-soft);opacity:calc(1 - var(--p,0) * 5)}
 
   /* 3. the bottle turns upright, three drops */
@@ -127,9 +127,10 @@
   .fall{height:280vh}
   .fall .stage{background:var(--paper)}
   .fall__copy{position:absolute;left:var(--gutter);top:50%;transform:translateY(-50%);max-width:min(560px,42vw);z-index:2;display:grid;gap:clamp(14px,2.2vh,22px)}
-  .fall__copy h2{font-size:clamp(36px,5vw,74px)}
+  .fall__copy h2{font-size:clamp(36px,5vw,74px);width:max-content;max-width:min(80vw,1100px);position:relative;z-index:3}
   .fall__line{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,2vw,28px);line-height:1.3}
   .fall__line .jp{display:inline-block;width:1.6em;color:var(--beni);font-weight:800}
+  .fall__line:not(.fall__line--accent){font-family:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;font-weight:400;font-size:clamp(18px,1.6vw,22px);line-height:1.5}
   .fall__line--accent{color:var(--blush);font-size:clamp(26px,2.8vw,40px);font-weight:400}
   .motion .fall__copy > *{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .7s ease}
   .motion .fall__copy > .on{opacity:1;transform:none}
@@ -147,6 +148,8 @@
   /* editorial blocks */
   .block{padding-block:clamp(80px,13vw,160px)}
   .block__head{max-width:760px;margin-bottom:clamp(36px,6vw,72px)}
+  .block__head--wide{max-width:80%}
+  .block__head--wide h2{text-wrap:wrap}
   .block__head h2{font-size:clamp(34px,5vw,64px);margin-top:14px}
   .block__head p{margin-top:18px;font-size:18px;color:var(--mocha-soft);max-width:60ch}
   .motion .rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
@@ -282,7 +285,7 @@
         <span class="eyebrow">New · Spring 2027</span>
         <h1 id="hero-title">Rice <em>&amp;</em> Sakura<br>Glow Serum</h1>
       </div>
-      <div class="hero__late"><p>Tokyo spring, in a single drop.</p></div>
+      <div class="hero__late"><p>Tokyo spring in a little bottle.</p></div>
       <span class="scroll-cue" aria-hidden="true">Scroll</span>
     </div>
   </section>
@@ -328,7 +331,7 @@
   <!-- 4. ingredients -->
   <section class="block" id="ingredients" aria-labelledby="ingr-title">
     <div class="wrap">
-      <div class="block__head rv">
+      <div class="block__head block__head--wide rv">
         <span class="eyebrow">Ingredients</span>
         <h2 id="ingr-title">Two ingredients, a secret passed through centuries.</h2>
       </div>
@@ -434,7 +437,7 @@
   </section>
 
   <!-- 10. shop -->
-  <section class="block" id="shop" aria-labelledby="shop-title" style="padding-top:0">
+  <section class="block" id="shop" aria-labelledby="shop-title">
     <div class="wrap">
       <div class="shop__card rv">
         <div class="shop__pic"><img src="img/hero-bottle.jpg" width="1264" height="848" alt="The Kyami serum bottle on a glossy pink surface" loading="lazy"></div>
