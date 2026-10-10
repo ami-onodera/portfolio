@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kyami launch page | Camila Massa</title>
+<meta name="description" content="Case study: a scroll-driven launch page for Kyami, a fictional Japanese skincare brand, with AI-generated imagery and a real-time 3D bottle.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/img/favicon-256.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Baloo+2:wght@500;600;700;800&family=Quicksand:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&family=Tenor+Sans&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Shippori+Mincho+B1:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/cascade.css">
+<link rel="stylesheet" href="../assets/css/y2k.css">
+<style>
+  .section-head { margin-bottom: 26px; }
+  .section-head .lead { margin-top: 14px; font-family: var(--font-body); font-weight: 500; }
+  .live-frame { aspect-ratio: 16 / 10; }
+  .live-frame iframe { max-width: none; }
+  .hero-sky { position: relative; }
+  .hero-sky .wrap { position: relative; z-index: 1; }
+  .hero-sky .tile { background-color: var(--blue-soft); }
+
+  .three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); }
+  .three .tile h3 { font-size: 20px; margin: 10px 0 6px; }
+  .three .tile p { font-size: 16px; }
+  .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); }
+  .two .tile h3 { font-size: 20px; margin: 10px 0 6px; }
+  .two .tile p, .two .tile li { font-size: 16px; }
+  .two .tile ul { margin: 8px 0 0; padding-left: 20px; }
+  .two .tile li + li { margin-top: 4px; }
+
+  /* image sets */
+  .ph-grid { display: grid; gap: var(--gap); margin-top: 22px; }
+  .ph-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ph-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tile .ph-grid { gap: clamp(20px, 2.6vw, 32px); padding: 0 clamp(6px, 2.4vw, 30px) 6px; }
+  .tile .two > .lay { padding: 0 clamp(6px, 2.4vw, 30px) 6px; }
+  .tile .ai-note { padding: 0 clamp(6px, 2.4vw, 30px); }
+  .ph { margin: 0; background: #fff; border: 2px solid var(--indigo); box-shadow: 4px 4px 0 var(--indigo); display: flex; flex-direction: column; min-width: 0; }
+  .ph img { display: block; width: 100%; height: auto; border-bottom: 2px solid var(--indigo); }
+  .ph figcaption { padding: 10px 12px 12px; font-size: 16px; line-height: 1.45; color: var(--body); }
+  .ph figcaption b { font-family: var(--font-pixel); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .3px; color: var(--accent-ink); display: block; margin-bottom: 2px; }
+  .ai-note { margin: 22px 0 0; font-size: 16px; color: var(--body); }
+  .ai-note strong { font-family: var(--font-pixel); font-weight: 600; color: var(--indigo); }
+
+
+  /* hover magnifier (people and series) */
+  .ph--zoom { cursor: zoom-in; }
+  .ph--zoom:focus-visible { outline: 3px solid var(--pink); outline-offset: 4px; }
+  .zoom-pop { position: fixed; z-index: 9999; pointer-events: none; opacity: 0; transform: scale(.96); transition: opacity .15s ease, transform .15s ease; border: 2px solid var(--indigo); background: #fff; box-shadow: 8px 8px 0 var(--indigo), 0 18px 48px rgba(37, 40, 61, .35); }
+  .zoom-pop.is-on { opacity: 1; transform: scale(1); }
+  .zoom-pop img { display: block; width: 100%; height: auto; }
+  @media (prefers-reduced-motion: reduce) { .zoom-pop { transition: none; transform: none; } }
+
+  /* documentation */
+  .spec { margin: 12px 0 0; padding: 14px 16px; background: #fff; border: 2px solid var(--indigo); font-family: "IBM Plex Mono", monospace; font-size: 16px; line-height: 1.6; color: var(--ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .spec em { font-style: normal; background: var(--yellow); padding: 0 3px; }
+  .spec-key { margin: 10px 0 0; font-size: 16px; color: var(--body); }
+  .spec-key em { font-style: normal; background: var(--yellow); padding: 0 4px; border: 1px solid var(--indigo); }
+
+  /* design in use: layouts built in HTML and CSS from the generated images */
+  .lay { margin: 0; }
+  .lay__stage { position: relative; overflow: hidden; border: 2px solid var(--indigo); box-shadow: 4px 4px 0 var(--indigo); background-size: cover; background-position: center; }
+  .lay figcaption { margin-top: 12px; font-size: 16px; color: var(--body); }
+  .lay--post .lay__stage { aspect-ratio: 1 / 1; background-image: url("../assets/img/ai-food/food-garlic-chicken.jpg"); }
+  .lay--post .lay__panel { position: absolute; left: 6%; right: 6%; bottom: 6%; background: #fffdf6; border: 2px solid var(--indigo); padding: 14px 16px 16px; }
+  .lay--ad .lay__stage { aspect-ratio: 1 / 1; display: flex; flex-direction: column; background: #fffdf6; }
+  .lay--ad .lay__photo { flex: 0 0 58%; background: url("../assets/img/ai-food/life-cooking-with-child.jpg") center / cover no-repeat; border-bottom: 2px solid var(--indigo); }
+  .lay--ad .lay__panel { flex: 1; padding: 14px 18px 16px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 8px; }
+  .lay__brand { font-family: var(--font-pixel); font-size: 16px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: #000; }
+  .lay__head { font-family: var(--font-head); font-weight: 800; color: #418515; text-transform: uppercase; line-height: 1.1; font-size: clamp(20px, 3vw, 32px); margin: 0; }
+  .lay--ad .lay__head { font-size: clamp(18px, 2.4vw, 28px); }
+  .lay__btn { align-self: flex-start; font-family: var(--font-pixel); font-weight: 600; font-size: 16px; color: #fff; background: #057B45; border: 0; box-shadow: none; padding: 7px 14px; }
+
+  /* prev case study */
+  .next-card { display: grid; grid-template-columns: 2fr 3fr; align-items: stretch; text-decoration: none; color: inherit; }
+  .next-card .win-bar { grid-column: 1 / -1; margin: 0; }
+  .next-card .work-card__media { aspect-ratio: auto; height: 100%; min-height: 300px; border-bottom: 0; border-right: 2px solid var(--indigo); }
+  .next-card .work-card__media .live-frame { position: absolute; inset: 0; aspect-ratio: auto; }
+  .next-card .work-card__body { justify-content: center; padding: 30px 34px; }
+  .next-card .work-card__body h3 { font-size: 28px; margin: 6px 0 0; }
+  .next-card:hover .work-card__cta { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .three, .two, .next-card { grid-template-columns: 1fr; }
+    .ph-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .next-card .work-card__media { aspect-ratio: 16 / 10; height: auto; min-height: 0; border-right: 0; border-bottom: 2px solid var(--indigo); }
+  }
+  @media (max-width: 640px) {
+    .ph-grid--2, .ph-grid--3 { grid-template-columns: 1fr; }
+    .lay--ad .lay__stage { aspect-ratio: auto; }
+    .lay--ad .lay__photo { flex: none; aspect-ratio: 3 / 2; }
+  }
+
+  /* kyami: palette and type */
+  .swatches { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .sw { margin: 0; border: 2px solid var(--indigo); background: #fff; }
+  .sw i { display: block; height: 84px; border-bottom: 2px solid var(--indigo); }
+  .sw figcaption { padding: 8px 10px 10px; font-size: 16px; line-height: 1.35; }
+  .sw b { display: block; font-family: var(--font-pixel); font-size: 12px; font-weight: 600; letter-spacing: .3px; color: var(--accent-ink); }
+  .type { display: grid; gap: 14px; }
+  .type__row { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; align-items: baseline; border-bottom: 1px dashed rgba(37,40,61,.25); padding-bottom: 12px; }
+  .type__row b { font-family: var(--font-pixel); font-size: 12px; font-weight: 600; color: var(--accent-ink); text-transform: uppercase; letter-spacing: .3px; }
+  .type__row span { font-size: 16px; color: var(--body); }
+  .t-tenor { font-family: "Tenor Sans", "Gill Sans", Optima, sans-serif; font-size: clamp(28px, 3.4vw, 44px); color: #433633; line-height: 1.1; display: block; }
+  .t-dm { font-family: "DM Sans", system-ui, sans-serif; font-size: 20px; color: #433633; display: block; }
+  .t-kanji { font-family: "Shippori Mincho B1", "Hiragino Mincho ProN", serif; font-size: 40px; color: #A8213F; letter-spacing: .2em; display: block; }
+  .ph img { aspect-ratio: 4 / 3; object-fit: cover; height: auto; }
+  .ph img[src*="model-"] { object-position: 50% 25%; }
+  .live-actions { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; justify-content: space-between; padding-top: 18px; }
+  .live-actions figcaption { margin: 0; font-size: 16px; color: var(--body); max-width: 62ch; }
+  @media (max-width: 900px) { .swatches { grid-template-columns: repeat(2, minmax(0, 1fr)); } .type__row { grid-template-columns: 1fr; gap: 6px; } }
+</style>
+</head>
+<body>
+<!-- soft background clouds: fixed behind the content, drift slowly -->
+<div class="bg-clouds" aria-hidden="true">
+  <img class="bg-cloud" src="../assets/img/y2k/clouds/cloud-j-wide-purple.png" alt="" style="left:1vw; top:52vh; width:clamp(110px, 12vw, 210px); opacity:.9; animation-delay:-8s">
+  <img class="bg-cloud" src="../assets/img/y2k/clouds/cloud-b-wide-pink.png" alt="" style="left:82vw; top:34vh; width:clamp(100px, 11vw, 200px); opacity:.85; animation-delay:-5s">
+  <img class="bg-cloud" src="../assets/img/y2k/clouds/cloud-k-wide-white.png" alt="" style="left:78vw; top:83vh; width:clamp(100px, 11vw, 190px); opacity:.75; animation-delay:-3s">
+  <img class="bg-cloud bg-cloud--more" src="../assets/img/y2k/clouds/cloud-g-puff-pinkwhite.png" alt="" style="left:64vw; top:91vh; width:clamp(60px, 7vw, 120px); opacity:.9; animation-delay:-6s">
+  <img class="bg-cloud bg-cloud--more" src="../assets/img/y2k/clouds/cloud-f-med-palepink.png" alt="" style="left:45vw; top:95vh; width:clamp(70px, 8vw, 150px); opacity:.9; animation-delay:-10s">
+</div>
+<div class="bg-decor" aria-hidden="true">
+  <div class="grid-floor"></div>
+  <svg class="bgstar" style="top:6%; left:9%; width:13px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:14%; left:22%; width:7px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:9%; left:38%; width:9px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:5%; left:58%; width:15px; opacity:.9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:22%; left:6%; width:11px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:18%; left:82%; width:14px; opacity:.85" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:30%; left:93%; width:8px; opacity:.7" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:40%; left:4%; width:8px; opacity:.65" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:52%; left:91%; width:13px; opacity:.8" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:64%; left:8%; width:10px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:72%; left:96%; width:6px; opacity:.6" viewBox="0 0 10 10"><circle cx="5" cy="5" r="5" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:80%; left:14%; width:12px; opacity:.75" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <svg class="bgstar" style="top:88%; left:88%; width:9px; opacity:.7" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+</div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-nav">
+  <a class="brand nav-start" href="../index.html" title="Home" aria-label="Home">
+      <img src="../assets/img/y2k/shiba.png" alt="Camila's shiba icon">
+      <span class="nav-start-label">Home</span>
+    </a>
+    <div class="nav-divider"></div>
+    <div class="nav-right">
+      <a class="navbtn nav-util" href="../assets/Camila-Massa-CV.pdf" download title="Download CV">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="1" width="9" height="14" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="9" y="1" width="3" height="3" fill="#e3d4ff"/>
+          <rect x="5" y="6" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="8" width="5" height="1" fill="#c9a2ff"/>
+          <rect x="5" y="10" width="3" height="1" fill="#c9a2ff"/>
+        </svg>
+        curriculum.pdf
+      </a>
+      <a class="navbtn nav-util" href="https://www.linkedin.com/in/amionodera" title="Open LinkedIn" target="_blank" rel="noopener">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="2" y="2" width="12" height="12" fill="#fff2fb" stroke="#3a1660" stroke-width="1"/>
+          <rect x="5" y="4" width="2" height="8" fill="#5b2a86"/>
+          <rect x="9" y="4" width="2" height="5" fill="#5b2a86"/>
+          <rect x="4" y="10" width="2" height="2" fill="#ff6fd8"/>
+          <rect x="8" y="7" width="2" height="2" fill="#ff6fd8"/>
+        </svg>
+        linkedin.link
+      </a>
+      <div class="nav-divider"></div>
+      <div class="nav-tray">
+        <span class="navtray-icon navtray-icon--claude" data-tip="This portfolio was vibecoded with Claude" aria-label="This portfolio was vibecoded with Claude" tabindex="0">
+          <img src="../assets/img/y2k/nav-claude.png" alt="" width="13" height="13">
+        </span>
+        <span class="navtray-icon" title="Connected">
+          <img src="../assets/img/y2k/nav-wifi.png" alt="" width="13" height="10">
+        </span>
+      </div>
+      <div class="nav-clock" id="clock">
+        <svg width="13" height="13" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true">
+          <circle cx="8" cy="8" r="6" fill="#eaf6ff" stroke="#1c2a5e" stroke-width="1"/>
+          <rect x="7" y="4" width="2" height="5" fill="#1c2a5e"/>
+          <rect x="8" y="8" width="4" height="2" fill="#1c2a5e"/>
+        </svg>
+        <span id="clockText">10:26</span>
+      </div>
+    </div>
+</header>
+<main id="main">
+
+  <!-- Hero -->
+  <section class="cs-hero sky-decor hero-sky" aria-labelledby="ky-title">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-a-puff-pink.png" alt="" aria-hidden="true" style="top:-4px; left:1%; width:120px; opacity:.95">
+    <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-h-big-pink.png" alt="" aria-hidden="true" style="top:-14px; right:1%; width:140px">
+    <svg class="deco" aria-hidden="true" style="top:10px; left:46%; width:16px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+    <div class="wrap">
+      <div class="tile tile--sky cs-win">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">kyami-launch.case</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h1 id="ky-title">Kyami: from a skincare idea to a scroll-driven launch page</h1>
+        <p class="lead">A launch page for Kyami, a fictional Japanese skincare brand for people in their twenties, and its Rice &amp; Sakura Glow Serum. I art directed the brand and the AI imagery, then built the page with Claude: a scroll story with a 3D bottle that turns as you read.</p>
+        <dl class="facts">
+          <div class="fact"><dt>Role</dt><dd>Art direction, AI image creation, UI design and front-end build</dd></div>
+          <div class="fact"><dt>For</dt><dd>A fictional brand, made to show a product launch from first idea to live page</dd></div>
+          <div class="fact"><dt>Tools</dt><dd>Figma AI, Weave, Claude, HTML/CSS, three.js</dd></div>
+          <div class="fact"><dt>Output</dt><dd>A live launch page, 11 AI images and a real-time 3D bottle</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- The pain point -->
+  <section class="block" style="padding-top:24px" aria-labelledby="pain-title"><div class="wrap">
+    <div class="tile tile--lav-soft">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">the-pain-point.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head">
+        <h2 id="pain-title" class="h-bar">The pain point</h2>
+        <p class="lead"><strong>A beauty launch needs the same product in every frame</strong></p>
+      </div>
+      <div class="prose">
+        <p>Skincare sells on detail: the bottle, the texture, the skin. Generative AI can make each of those in seconds, but it redraws the product every time. And a page that only stacks images does not feel like a launch.</p>
+      </div>
+      <div class="three" style="margin-top:22px">
+        <div class="tile tile--white"><span class="tag">Consistency</span><h3>One bottle, every shot</h3><p>A bottle that changes shape from one image to the next breaks trust in the product straight away.</p></div>
+        <div class="tile tile--white"><span class="tag">Identity</span><h3>Japanese, not Korean, and young</h3><p>The brand needed its own world: rice and sakura, made light and fresh for people in their twenties.</p></div>
+        <div class="tile tile--white"><span class="tag">Motion</span><h3>A page that feels like a launch</h3><p>Big product moments and scroll-led scenes, the way premium launches are presented.</p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- The live page -->
+  <section class="block" style="padding-top:0" aria-labelledby="live-title"><div class="wrap">
+    <h2 id="live-title" class="sr-only">The live launch page</h2>
+    <figure class="shot tile tile--sky feature" style="margin:0">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">kyami-launch.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="frame">
+        <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>kyami · rice &amp; sakura glow serum</span></div>
+        <div class="live-frame"><iframe src="../presentations/kyami/index.html" title="Kyami launch page, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+      </div>
+      <div class="live-actions">
+        <figcaption>The opening of the page. Scroll the live version to see the close-up, the 3D bottle, the falling bottles, results and ritual.</figcaption>
+        <a class="btn btn--primary btn--big" href="../presentations/kyami/index.html" target="_blank" rel="noopener">Open the live page ↗<span class="sr-only"> (opens in a new tab)</span></a>
+      </div>
+      <p class="ai-note"><strong>Fictional brand.</strong> Kyami is not a real company. Every image on the page is AI-generated, and every figure in its results section is an example.</p>
+    </figure>
+  </div></section>
+
+  <!-- The look -->
+  <section class="block" style="padding-top:0" aria-labelledby="look-title"><div class="wrap">
+    <div class="tile tile--lav-soft">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">the-look.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head">
+        <h2 id="look-title" class="h-bar">The look</h2>
+        <p class="lead">Colours sampled from a real sakura branch: paper white, petal pinks, the crimson at the heart of each blossom, and a deep berry stage for the bottle.</p>
+      </div>
+      <div class="two">
+        <div class="swatches"><figure class="sw"><i style="background:#FFFDF3"></i><figcaption><b>Floral White</b>#FFFDF3 · Page</figcaption></figure><figure class="sw"><i style="background:#F4DCE4"></i><figcaption><b>Petal Frost</b>#F4DCE4 · Soft panels</figcaption></figure><figure class="sw"><i style="background:#E7A9BB"></i><figcaption><b>Sakura</b>#E7A9BB · Petals, charts</figcaption></figure><figure class="sw"><i style="background:#D2557E"></i><figcaption><b>Blush Rose</b>#D2557E · Accent, buttons</figcaption></figure><figure class="sw"><i style="background:#A8213F"></i><figcaption><b>Beni</b>#A8213F · Seal, kanji</figcaption></figure><figure class="sw"><i style="background:#6E2C44"></i><figcaption><b>Berry</b>#6E2C44 · 3D bottle stage</figcaption></figure><figure class="sw"><i style="background:#433633"></i><figcaption><b>Deep Mocha</b>#433633 · Text</figcaption></figure><figure class="sw"><i style="background:#F5CD93"></i><figcaption><b>Apricot Cream</b>#F5CD93 · Warmth of rice</figcaption></figure></div>
+        <div class="type">
+          <div class="type__row"><b>Headings</b><div><span class="t-tenor">Rice &amp; Sakura</span><span>Tenor Sans, a single light weight for every title</span></div></div>
+          <div class="type__row"><b>Body</b><div><span class="t-dm">Glow. A dewy finish that lasts all day.</span><span>DM Sans and Zen Kaku Gothic New</span></div></div>
+          <div class="type__row"><b>Kanji</b><div><span class="t-kanji">米 桜</span><span>Shippori Mincho, only for the Japanese characters</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- The imagery -->
+  <section class="block" style="padding-top:0" aria-labelledby="img-title"><div class="wrap">
+    <div class="tile tile--sky">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">the-imagery.jpg</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head">
+        <h2 id="img-title" class="h-bar">The imagery</h2>
+        <p class="lead">Product, texture, ingredients, a recurring model and lifestyle, all generated with AI and art directed as one campaign.</p>
+      </div>
+      <div class="ph-grid ph-grid--3" style="margin-top:0">
+        <figure class="ph"><img src="../presentations/kyami/img/hero-bottle.jpg" width="1264" height="848" alt="The Kyami serum bottle on a glossy pink surface with drops of serum and a cherry blossom branch" loading="lazy"><figcaption><b>Hero</b>The bottle on a reflective surface, with drops and a branch.</figcaption></figure>
+        <figure class="ph"><img src="../presentations/kyami/img/closeup-drop.jpg" width="1584" height="672" alt="Extreme close-up of a drop of pale pink serum at the tip of a glass pipette above the open bottle" loading="lazy"><figcaption><b>Close-up</b>Wide enough to fill the screen between two scenes.</figcaption></figure>
+        <figure class="ph"><img src="../presentations/kyami/img/rice-water.jpg" width="1264" height="848" alt="Milky rice water poured into a glass bowl with cherry blossoms floating on it" loading="lazy"><figcaption><b>Ingredient</b>Rice water, with a masu box of rice and blossoms.</figcaption></figure>
+        <figure class="ph"><img src="../presentations/kyami/img/model-blossom.jpg" width="1450" height="1800" alt="A young woman with her hair in a bun smiles with her eyes closed under a cherry blossom tree" loading="lazy"><figcaption><b>Model</b>The brand face, young and natural.</figcaption></figure>
+        <figure class="ph"><img src="../presentations/kyami/img/lifestyle-vanity.jpg" width="1264" height="848" alt="A young woman at a vanity by an open window, eyes closed, holding a cup of matcha, cherry blossoms outside" loading="lazy"><figcaption><b>Lifestyle</b>A spring morning, matcha in hand.</figcaption></figure>
+        <figure class="ph"><img src="../presentations/kyami/img/texture.jpg" width="1264" height="848" alt="A drop and a smeared swatch of clear pink serum on glass with two petals" loading="lazy"><figcaption><b>Texture</b>The serum, see-through and glossy.</figcaption></figure>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- How it came together -->
+  <section class="block" style="padding-top:0" aria-labelledby="how-title"><div class="wrap">
+    <div class="section-head">
+      <h2 id="how-title" class="h-bar">How it came together</h2>
+    </div>
+    <div class="two">
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">one-bottle.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>One bottle, kept simple</h3>
+        <p>The first faceted bottle came out slightly different in every AI image. I switched to a plain round bottle with no label and used the same written description in every prompt, so it stays recognisable across the set.</p>
+      </div>
+      <div class="tile tile--lilac">
+        <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">bottle-3d.js</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <h3>3D where photos fall short</h3>
+        <p>For the bottle that turns, I built a real-time 3D model with three.js: translucent serum, a ribbed dropper, a shadow cast on the page and spec lines that follow each part as it turns.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- What was delivered -->
+  <section class="block" style="padding-top:0" aria-labelledby="delivered-title"><div class="wrap">
+    <div class="section-head"><h2 id="delivered-title" class="h-bar">What was delivered</h2></div>
+    <div class="three">
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">kyami-launch.html</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A live launch page</h3><p>A scroll story: the hero opens out, a close-up, the 3D bottle, falling bottles, ingredients, results, the ritual and a shop block.</p><p style="margin-top:12px"><a href="../presentations/kyami/index.html" target="_blank" rel="noopener">Open the page ↗<span class="sr-only"> (opens in a new tab)</span></a></p></div>
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">image-set.zip</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>11 AI images</h3><p>Product, close-up, texture, ingredient, model and lifestyle shots, plus three cut-out pieces for the falling scene.</p></div>
+      <div class="tile tile--lilac"><div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">bottle-3d.js</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div><h3>A real-time 3D bottle</h3><p>Rendered in the browser with three.js, so the bottle stays identical from every angle.</p></div>
+    </div>
+  </div></section>
+
+  <!-- Problem solved -->
+  <section class="block" style="padding-top:0" aria-labelledby="solved-title"><div class="wrap">
+    <div class="tile tile--violet">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--star"></span><span class="title">problem-solved.txt</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="section-head">
+        <h2 id="solved-title" class="h-bar">Problem solved</h2>
+        <p class="lead">A product that stays the same in every frame, a brand with its own world, and a page you scroll through like a launch.</p>
+      </div>
+      <div class="three">
+        <div class="tile tile--white"><span class="tag">Consistency</span><h3>The same bottle throughout</h3><p>A simple bottle, described the same way in every prompt, and a 3D model wherever it has to turn.</p></div>
+        <div class="tile tile--white"><span class="tag">Identity</span><h3>A brand with its own world</h3><p>Rice, sakura and a young, light palette, with Japanese characters as details instead of clichés.</p></div>
+        <div class="tile tile--white"><span class="tag">Motion</span><h3>A launch you scroll through</h3><p>Scenes open, turn and fall as you scroll, so the product carries the story.</p></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- Previous case study -->
+  <section class="block" style="padding-top:0" aria-labelledby="prev-title"><div class="wrap">
+    <h2 id="prev-title" class="sr-only">Related case study</h2>
+    <a class="work-card next-card" href="ai-food-imagery.html">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">ai-food-imagery.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="work-card__media">
+        <img src="../assets/img/y2k/thumb-ai-food-imagery.jpg" width="960" height="600" alt="" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+      </div>
+      <div class="work-card__body">
+        <span class="tag">Related case study</span>
+        <h3>AI food photography</h3>
+        <p>From a written brief to a consistent campaign set: realistic AI food and lifestyle images, with the series bible behind them.</p>
+        <span class="work-card__cta">Read the case study →</span>
+      </div>
+    </a>
+      <p class="back-row"><a class="back-link" href="../selected-work.html"><span class="back-link__icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m11 6-6 6 6 6"/></svg></span>Back to all work</a></p>
+  </div></section>
+
+
+</main>
+<!-- contact band (every page, above footer) -->
+<section class="block sky-decor" id="contact">
+  <img class="pixel-cloud" src="../assets/img/y2k/clouds/cloud-n-twin-blue.png" style="bottom:-14px; left:3%; width:130px; z-index:0">
+  <svg class="deco" style="top:6px; right:18%; width:14px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0 L24 16 L40 20 L24 24 L20 40 L16 24 L0 20 L16 16 Z" fill="#fff"/></svg>
+  <div class="wrap">
+  <div class="contact-band">
+    <div class="tile tile--blue c-br contact-tmp">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">contact.tmp</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <h2 class="h-bar">All it takes is one good click.</h2>
+      <p class="contact-tmp__role">Digital Designer &amp; AI-powered Creative</p>
+      <p class="lead contact-tmp__where">I’m open to opportunities in Berlin, hybrid or remote.</p>
+    </div>
+    <div class="contact-cascade">
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--bottom" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me!</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front cascade-ghost cascade-clone cascade-clone--middle" aria-hidden="true" inert>
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me!</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal"><span class="btn btn--primary"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</span></div>
+            <span class="btn btn--soft"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</span>
+          </div>
+        </div>
+      </div>
+      <div class="tile tile--violet cascade-front">
+        <div class="win-bar"><span class="titlewrap"><svg width="14" height="14" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex:none"><path d="M17 3 L32 30 H2 Z" fill="var(--yellow)" stroke="var(--indigo)" stroke-width="2" stroke-linejoin="round"/><rect x="15.3" y="12" width="3.4" height="9" fill="var(--indigo)"/><rect x="15.3" y="23" width="3.4" height="3.4" fill="var(--indigo)"/></svg><span class="title">hire-me.lnk</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+        <div class="cascade-front__body">
+          <p class="cascade-front__msg">Contact Me!</p>
+          <div class="cascade-front__actions">
+            <div class="mail-reveal" data-mail-reveal data-u="alimac.aredono" data-d="moc.liamg">
+              <button class="btn btn--primary mail-reveal__btn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg>Show email</button>
+              <div class="mail-reveal__out" hidden>
+                <div class="mail-popup__bar"><span class="titlewrap"><span class="bar-icon bar-icon--about"></span><span class="title">mail.exe</span></span></div>
+                <div class="mail-popup__row">
+                  <button type="button" class="btn btn--soft mail-reveal__back">Back</button>
+                </div>
+              </div>
+              <p class="sr-only mail-reveal__status" aria-live="polite"></p>
+              <noscript><p>Email is shown with JavaScript. You can also find it in my CV.</p></noscript>
+            </div>
+            <a class="btn btn--soft" href="../assets/Camila-Massa-CV.pdf" download><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>Download CV</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+<footer class="site-footer"><div class="wrap">
+  <span>© 2026 Camila Massa · Berlin</span>
+</div></footer>
+<script>
+  function tick(){
+    var d = new Date();
+    var el = document.getElementById('clockText');
+    if (el) el.textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 15000);
+</script>
+<script>
+  (function () {
+    var frames = document.querySelectorAll('.live-frame');
+    function fit() {
+      frames.forEach(function (el) {
+        var f = el.querySelector('iframe');
+        if (f) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
+      });
+    }
+    fit();
+    window.addEventListener('resize', fit);
+    if ('ResizeObserver' in window) {
+      var ro = new ResizeObserver(fit);
+      frames.forEach(function (el) { ro.observe(el); });
+    }
+  })();
+</script>
+<script>
+  (function () {
+    var fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+    var pop = document.createElement('div');
+    pop.className = 'zoom-pop';
+    pop.setAttribute('aria-hidden', 'true');
+    var big = document.createElement('img');
+    big.alt = '';
+    pop.appendChild(big);
+    document.body.appendChild(pop);
+    function show(fig) {
+      if (!fine.matches) return;
+      var img = fig.querySelector('img');
+      if (!img) return;
+      var r = img.getBoundingClientRect();
+      var ratio = (img.naturalWidth || img.width) / (img.naturalHeight || img.height);
+      var vw = window.innerWidth, vh = window.innerHeight, m = 16;
+      var w = Math.min(860, vw - 2 * m, (vh - 2 * m) * ratio);
+      var h = w / ratio;
+      var left = Math.max(m, Math.min(vw - w - m, r.left + r.width / 2 - w / 2));
+      var top = Math.max(m, Math.min(vh - h - m, r.top + r.height / 2 - h / 2));
+      big.src = img.currentSrc || img.src;
+      pop.style.width = w + 'px';
+      pop.style.left = left + 'px';
+      pop.style.top = top + 'px';
+      pop.classList.add('is-on');
+    }
+    function hide() { pop.classList.remove('is-on'); }
+    document.querySelectorAll('.ph--zoom').forEach(function (fig) {
+      fig.addEventListener('mouseenter', function () { show(fig); });
+      fig.addEventListener('mouseleave', hide);
+      fig.addEventListener('focus', function () { show(fig); });
+      fig.addEventListener('blur', hide);
+    });
+    window.addEventListener('scroll', hide, { passive: true });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hide(); });
+  })();
+</script>
+<script src="../assets/js/contact.js" defer></script>
+<script src="../assets/js/cascade.js" defer></script>
+<script src="../assets/js/saori.js?v=4" defer></script>
+</body>
+</html>
