@@ -674,12 +674,12 @@
       var maxShift = Math.max(0, o.full * o.scale - o.el.clientHeight);
       o.f.style.transform = 'translateY(' + (-o.cur * maxShift).toFixed(1) + 'px) scale(' + o.scale + ')';
     }
-    // progress 0..1 while the preview travels through the viewport
+    // progress 0..1: starts once the preview reaches the middle of the screen
     function update() {
       var vh = window.innerHeight, moving = false;
       frames.forEach(function (o) {
         var r = o.el.getBoundingClientRect();
-        var p = (vh * 0.9 - r.top) / (vh * 0.8 + r.height * 0.4);
+        var p = (vh * 0.5 - r.top) / (r.height * 0.8); // hold on the hero until the preview is past mid-screen
         o.target = reduce ? 0 : Math.min(1, Math.max(0, p));
         if (Math.abs(o.target - o.cur) > 0.0005) moving = true;
       });

@@ -57,7 +57,7 @@
   .legal{font-size:12px;color:#7E879B;line-height:1.5;text-align:center;margin:0;}
   .legal.sm{margin-top:8px;} .legal a{color:#7E879B;text-decoration:underline;}
   .powered{text-align:center;margin-top:18px;font-size:12px;color:var(--place);} .powered b{color:var(--muted);font-weight:700;}
-  .sticker{position:absolute;right:-74px;top:-34px;z-index:3;width:128px;height:128px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 12px 26px rgba(0,0,0,.22);}
+  .sticker{position:absolute;right:-88px;top:-34px;z-index:3;width:128px;height:128px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 12px 26px rgba(0,0,0,.22);}
   .sticker small{font-size:12px;font-weight:500;line-height:1.2;} .sticker b{font-size:34px;font-weight:800;line-height:1;margin:2px 0;}
 
   /* Sections */
@@ -212,22 +212,20 @@
     <div class="card">
       <div class="sticker"><small>up to</small><b>&euro;40</b><small>credit each</small></div>
       <div id="referForm">
-        <h2 class="card-title">Refer and earn up to &euro;40</h2>
-        <p class="card-sub">Bring a friend into orbit. When they join any Orbeo SIM plan, you both get up to &euro;40 off your bill.</p>
+        <h2 class="card-title">Launch a friend, earn up to &euro;40</h2>
+        <p class="card-sub">Send your link, they pick an Orbeo SIM plan, and you both get up to &euro;40 off your bill. Zero gravity, zero hassle.</p>
         <div class="field">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A1B3" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
           <input id="email" type="email" placeholder="Enter your email address" />
         </div>
         <button class="btn" onclick="refer()">Get your unique link</button>
         <hr class="card-divider">
-        <p class="legal">The referral scheme is managed by Orbeo Mobile&rsquo;s partner, Aklamio.</p>
-        <p class="legal sm">By continuing I confirm I have read and agreed with Aklamio&rsquo;s <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Accessibility Statement</a>.</p>
-        <div class="powered">powered by <b>aklamio</b></div>
+        <p class="legal">By continuing I confirm I have read and agreed with the <a href="#">Terms</a>, <a href="#">Privacy Policy</a> and <a href="#">Accessibility Statement</a>.</p>
       </div>
       <div class="success" id="successState">
         <div class="check">&#10003;</div>
-        <h3>You&rsquo;re all set!</h3>
-        <p>Share your unique link: you both get up to &euro;40 when your friend joins Orbeo Mobile.</p>
+        <h3>Link locked in!</h3>
+        <p>Drop it in the group chat. When your friend&rsquo;s SIM is active, you both get your credit.</p>
         <div class="sharelink"><span id="link">https://orbeo.link/r/AK7F2Q9</span><button onclick="copyLink(this)">Copy</button></div>
       </div>
     </div>
@@ -324,7 +322,7 @@
 
 <!-- FOOTER -->
 <footer><div class="wrap foot">
-  <div class="pw">&copy; Orbeo Mobile &middot; Referral programme powered by <b>Aklamio</b></div>
+  <div class="pw">&copy; Orbeo Mobile &middot; Referral programme</div>
   <div class="foot-links"><a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a><a href="#">Help</a></div>
 </div></footer>
 
