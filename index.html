@@ -144,9 +144,9 @@
      otherwise permanently defeat it, which is exactly the bug this replaces — windows
      that couldn't be dragged at MacBook Pro / compact widths. Must stay before the
      responsive tiers below so their overrides win at the matching widths. */
-  .win[data-window="about"]{ top:148px; left:272px }
-  .win[data-window="work"]{ top:355px; left:603px }
-  .win[data-window="early"]{ top:655px; left:1187px }
+  .win[data-window="about"]{ top:132px; left:272px }
+  .win[data-window="work"]{ top:378px; left:603px }
+  .win[data-window="early"]{ top:630px; left:1187px }
   .win[data-window="mines"]{ top:193px; left:1130px }
 
   /* base/default widths for the same three windows, moved out of their old
@@ -159,10 +159,9 @@
 
   .notice-stack{ width:360px }
   .case-item{ min-width:0 }
-  .case-name{ font-family:var(--font-head); font-weight:700; font-size:14px; line-height:1.3; color:var(--indigo); margin-top:10px }
-  .case-tag{ display:inline-block; margin-top:8px; font-family:var(--font-pixel); font-size:11px; color:var(--indigo); background:var(--purple); border:1.5px solid var(--indigo); padding:3px 8px }
   .cta-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:14px }
   .cta-row .modal-cta{ margin-top:0 }
+  .cta-row .cv-mobile{ display:none } /* desktop: CV lives in the nav + notice, shown again in the mobile layout */
   .modal-cta.modal-cta--ghost{ background:#fff; color:var(--indigo) }
 
   /* ================= RESPONSIVE TIERS =================
@@ -254,7 +253,6 @@
   @media (max-width:1535px) and (min-width:1024px){
     #desktop{ height:100vh; min-height:740px }
     #stage{ height:100%; min-height:740px }
-    .case-name, .case-tag{ display:none }
     .icons{ top:76px; left:20px; gap:18px }
     .icon{ width:64px; padding:4px }
     .icon .glyph{ width:45px; height:45px }
@@ -326,7 +324,7 @@
   .about-photo svg{width:78%}
   .about-photo img{width:100%; height:100%; object-fit:cover; object-position:center top; display:block}
   .about-text h1{font-family:var(--font-head); font-weight:800; font-size:25px; color:var(--indigo); line-height:1.1}
-  .about-text p{font-size:14px; margin-top:10px; line-height:1.55}
+  .about-text p{font-size:16px; margin-top:10px; line-height:1.55}
   .chip-row{margin-top:14px; display:flex; gap:8px; flex-wrap:wrap}
   .chip{font-family:var(--font-pixel); font-size:12px; color:var(--indigo); background:var(--yellow); border:1.5px solid var(--indigo); padding:5px 9px; border-radius:0}
   .chip--pink{background:var(--pink); color:#fff}
@@ -343,6 +341,9 @@
 
   /* selected-work: the biggest window on the desktop, 3 live case-study previews */
   .case-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:12px}
+  a.case-thumb{display:block; transition:box-shadow .1s ease, translate .1s ease}
+  a.case-thumb:hover, a.case-thumb:focus-visible{box-shadow:3px 3px 0 var(--indigo); translate:-1px -1px; outline:none}
+  a.case-thumb:focus-visible{outline:2px solid var(--pink); outline-offset:2px}
   .case-thumb{aspect-ratio:4/3; border:2px solid var(--indigo); position:relative; overflow:hidden; background:var(--purple-soft)}
   .case-thumb--soon{background:repeating-linear-gradient(45deg,var(--purple-soft),var(--purple-soft) 8px,#fff 8px,#fff 16px); border-style:dashed; display:flex; align-items:center; justify-content:center}
   .case-thumb--soon span{position:static; background:rgba(37,40,61,.7); text-align:center}
@@ -354,7 +355,7 @@
   .early-thumb{aspect-ratio:4/3; border:2px solid var(--indigo); position:relative; overflow:hidden; background:var(--blue-soft)}
   .early-thumb img{width:100%; height:100%; object-fit:cover; display:block}
 
-  .modal-note{margin-top:16px; font-size:12.5px; line-height:1.6}
+  .modal-note{margin-top:16px; font-size:16px; line-height:1.6}
   .modal-cta{
     margin-top:14px; display:inline-block; font-family:var(--font-pixel); font-size:16px; color:#fff;
     background:var(--pink); border:2px solid var(--indigo); border-radius:0; padding:9px 14px;
@@ -363,10 +364,12 @@
 
   .win--dialog{ position:fixed; width:290px; z-index:110 }
   .win--dialog .body{ text-align:center; padding:22px 20px }
-  .win--dialog p{font-family:var(--font-head); font-weight:600; font-size:14.5px; color:var(--indigo); line-height:1.5}
+  .win--dialog p{font-family:var(--font-head); font-weight:600; font-size:16px; color:var(--indigo); line-height:1.5}
   .win--dialog .row{display:flex; gap:10px; justify-content:center; margin-top:18px}
   .dbtn{font-family:var(--font-pixel); font-size:9px; color:var(--indigo); background:var(--chrome); border:2px solid var(--indigo); border-radius:0; padding:8px 16px; box-shadow:2px 2px 0 rgba(37,40,61,.3); cursor:pointer; text-decoration:none; display:inline-block; transition:box-shadow .1s ease, background-color .1s ease}
   .dbtn:hover{ background:#fff; box-shadow:none; }
+  .win[data-window="notice"] p{ font-family:var(--font-pixel); font-weight:400; font-size:16px; line-height:1.5 }
+  .win[data-window="notice"] .dbtn{ font-size:16px; padding:9px 14px; box-shadow:3px 3px 0 var(--indigo) } /* same size as .modal-cta in the other windows */
   .dbtn--yes{background:var(--pink); color:#fff}
   .dbtn--yes:hover{ background:var(--pink-dark); color:#fff; box-shadow:none; }
 
@@ -397,10 +400,10 @@
   .mcell[data-n="1"]{ color:#4f86c9 } .mcell[data-n="2"]{ color:#5b3fb0 } .mcell[data-n="3"]{ color:var(--pink-dark) }
   .mcell[data-n="4"]{ color:#3a4aa0 } .mcell[data-n="5"]{ color:#b0482e } .mcell[data-n="6"], .mcell[data-n="7"], .mcell[data-n="8"]{ color:var(--indigo) }
   .mcell:disabled{ opacity:1 }
-  .mines-hint{ margin:8px 0 0; text-align:center; font:600 11px var(--font-pixel); color:var(--indigo); opacity:.7 }
+  .mines-hint{ margin:8px 0 0; text-align:center; font:600 16px/1.4 var(--font-pixel); color:var(--indigo); opacity:.7 }
   /* ---- trash ---- */
   .bin-list{ list-style:none; margin:0; padding:8px; background:#fff; border-bottom:2px solid var(--indigo); max-height:300px; overflow:auto }
-  .bin-file{ display:flex; align-items:center; gap:10px; width:100%; padding:7px 8px; background:none; border:0; text-align:left; cursor:pointer; font:600 14px var(--font-body); color:var(--indigo); transition:opacity .35s ease, translate .35s ease }
+  .bin-file{ display:flex; align-items:center; gap:10px; width:100%; padding:7px 8px; background:none; border:0; text-align:left; cursor:pointer; font:600 16px var(--font-body); color:var(--indigo); transition:opacity .35s ease, translate .35s ease }
   .bin-file:hover, .bin-file:focus-visible{ background:var(--blue-soft, #dfe9ff); outline:none }
   .bin-file.sel{ background:var(--indigo); color:#fff }
   .bin-ico{ flex:none; width:16px; height:20px; border:2px solid var(--indigo); background:linear-gradient(180deg,#fff,var(--purple-soft, #eadcff)) }
@@ -412,7 +415,7 @@
   @keyframes binShake{ 0%,100%{ transform:rotate(0) } 20%{ transform:rotate(-9deg) } 45%{ transform:rotate(7deg) } 70%{ transform:rotate(-4deg) } }
   @media (prefers-reduced-motion:reduce){ .bin-shake{ animation:none } }
   .bin-file.gone{ opacity:0; translate:0 -6px; pointer-events:none }
-  .bin-status{ margin:0; padding:10px 12px; min-height:44px; font:600 14px/1.4 var(--font-body); color:var(--indigo); background:var(--chrome) }
+  .bin-status{ margin:0; padding:10px 12px; min-height:44px; font:600 16px/1.4 var(--font-body); color:var(--indigo); background:var(--chrome) }
   .ctx-menu{ position:fixed; z-index:200; min-width:190px; padding:4px; background:var(--chrome); border:2px solid var(--indigo); box-shadow:4px 4px 0 rgba(37,40,61,.25) }
   .ctx-menu[hidden]{ display:none }
   .ctx-menu button{ display:block; width:100%; text-align:left; padding:7px 12px; background:none; border:0; cursor:pointer; font:600 14px var(--font-pixel); color:var(--indigo) }
@@ -424,7 +427,7 @@
   .notice-stack.notice-pop{ animation:noticePop .32s var(--pd,0ms) cubic-bezier(.2,1.4,.4,1) both }
   @keyframes noticePop{ from{ opacity:0; scale:.85 } to{ opacity:1; scale:1 } }
   @media (prefers-reduced-motion:reduce){ .notice-stack.notice-pop{ animation:none } }
-  .win--notice p{font-family:var(--font-head); font-weight:600; font-size:13.5px; color:var(--indigo); line-height:1.5}
+  .win--notice p{font-family:var(--font-head); font-weight:600; font-size:16px; color:var(--indigo); line-height:1.5}
 
   /* decorative title-bar-only "ghosts" behind the notice popup, purely visual (not part of the .win system, so they can't be dragged or closed) */
   .ghost-bar{
@@ -520,6 +523,7 @@
             display:flex; flex-direction:column; gap:22px; padding:18px 14px 30px; }
     .icons, .trash-icon, .deco, .pixel-cloud, .bg-extra, .desktop-only{ display:none !important; }
     .mobile-only{ display:block; }
+    .cta-row .cv-mobile{ display:inline-block; }
     .stage .win{ position:relative !important; top:auto !important; left:auto !important; z-index:auto !important;
                  transform:none !important; width:auto !important; max-width:100%; scroll-margin-top:110px; }
     .stage .contact-cascade .cascade-front{ z-index:3 !important; }
@@ -722,14 +726,14 @@
     <div class="about-photo"><img src="assets/img/y2k/avatar-camila.jpg" alt="Camila's avatar"></div>
     <div class="about-text">
       <h1>Hello world! I'm Ami</h1>
-      <p>I design and build web experiences. Have a poke around, every window opens!</p>
+      <p>I use AI as a creative tool to make the digital feel more human. Click around, every window opens!</p>
       <div class="chip-row">
         <span class="chip chip--blue">DESIGN</span>
         <span class="chip">CSS/HTML</span>
         <span class="chip chip--purple">FIGMA</span>
-        <span class="chip chip--blue">CMS</span>
+        <span class="chip chip--blue">GenAI</span>
       </div>
-      <div class="cta-row"><a class="modal-cta" href="about.html">See more →</a><a class="modal-cta modal-cta--ghost" href="assets/Camila-Massa-CV.pdf" download>Download CV</a></div>
+      <div class="cta-row"><a class="modal-cta" href="about.html">See more →</a><a class="modal-cta modal-cta--ghost cv-mobile" href="assets/Camila-Massa-CV.pdf" download>Download CV</a></div>
     </div>
   </div>
 </div>
@@ -742,22 +746,16 @@
   <div class="body">
     <div class="case-grid">
       <div class="case-item">
-        <div class="case-thumb"><img src="assets/img/y2k/thumb-this-portfolio.jpg" alt="This portfolio as a pastel Y2K desktop, from the designing this portfolio case study"></div>
-        <p class="case-name">Designing this portfolio</p>
-        <span class="case-tag">CASE STUDY</span>
+        <a class="case-thumb" href="work/designing-this-portfolio.html"><img src="assets/img/y2k/thumb-this-portfolio.jpg" alt="This portfolio as a pastel Y2K desktop, from the designing this portfolio case study"></a>
       </div>
       <div class="case-item">
-        <div class="case-thumb"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" alt="Nimbelo Fibre referral portal, from the one template, many brands case study"></div>
-        <p class="case-name">One template, many brands</p>
-        <span class="case-tag">CASE STUDY</span>
+        <a class="case-thumb" href="work/one-template-many-brands.html"><img src="assets/img/y2k/thumb-nimbelo-fibre.jpg" alt="Nimbelo Fibre referral portal, from the one template, many brands case study"></a>
       </div>
       <div class="case-item">
-        <div class="case-thumb"><img src="assets/img/y2k/thumb-seo-landing-pages.jpg" alt="The SEO road, an interactive presentation on hosted landing pages"></div>
-        <p class="case-name">The SEO road: hosted landing pages</p>
-        <span class="case-tag">PRESENTATION</span>
+        <a class="case-thumb" href="presentations/seo-optimised-pages.html" target="_blank" rel="noopener"><img src="assets/img/y2k/thumb-seo-landing-pages.jpg" alt="The SEO road, an interactive presentation on hosted landing pages"></a>
       </div>
     </div>
-    <p class="modal-note">I design it, I build it, I wire it to the CMS, and I check it works. These are the projects I'd show you over coffee!</p>
+    <p class="modal-note">From the first sketch to the final click, I design, code, and bring digital experiences to life. These are the projects I'd show you over coffee.</p>
     <a class="modal-cta" href="selected-work.html">See portfolio →</a>
   </div>
 </div>
@@ -780,10 +778,10 @@
 </div>
 
 <!-- ============ PERMANENT DESKTOP FIXTURE: a stack of "error-like" popups nagging about the content model. Always open, can't really be dismissed (the joke is that it's stuck) ============ -->
-<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="z-index:14; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--back" data-trail-behind="notice" data-trail-index="2" style="z-index:14; height:184px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
-<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="z-index:15; height:143px">
+<div class="ghost-bar desktop-only notice-stack notice-stack--mid" data-trail-behind="notice" data-trail-index="1" style="z-index:15; height:184px">
   <div class="bar"><span class="titlewrap"><span class="bar-icon bar-icon--warn"></span><span class="title">notice.exe</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
 </div>
 <div class="win win--notice open desktop-only notice-stack notice-stack--front" data-window="notice" style="z-index:16">
@@ -1130,7 +1128,7 @@
     var front = document.querySelector('.win[data-window="notice"]');
     if (!front) return;
     var stack = Array.prototype.slice.call(document.querySelectorAll('.notice-stack'));
-    var REAPPEAR_MS = 6000, gone = false;
+    var REAPPEAR_MS = 3000, gone = false;
     var btns = front.querySelectorAll('.btns i');
     function vanish(e){
       e.stopPropagation();
