@@ -110,8 +110,12 @@
   .next-card .work-card__body { justify-content: center; padding: 30px 34px; }
 
   /* brand portals: gallery window, one big preview + two thumbnails, description follows the big one */
-  .gal__body { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: stretch; padding: 20px; gap: 0; }
-  .gal__stage { display: flex; flex-direction: column; gap: 18px; padding-right: clamp(18px, 3vw, 36px); min-width: 0; }
+  .gal__body { display: flex; flex-direction: column; gap: 34px; padding: 20px; }
+  .gal__row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: center; gap: 0; }
+  .gal__row + .gal__row { border-top: 2px dashed rgba(37,40,61,.45); padding-top: 34px; }
+  .gal__shot { padding-right: clamp(18px, 3vw, 36px); min-width: 0; }
+  .scroll-frame { aspect-ratio: 4 / 3; }
+  .scroll-frame iframe { will-change: transform; }
   .gal__shot { margin: 0; }
   .gal__shot .frame { overflow: hidden; background: #fff; border: 3px solid var(--indigo); box-shadow: 6px 8px 0 rgba(37,40,61,.2); }
   /* behind the scenes: cropped model map preview */
@@ -126,13 +130,6 @@
   .feature__foot figcaption { margin: 0; font-size: 15px; color: var(--body); flex: 1 1 320px; }
   .btn--big { font-size: 16px; padding: 14px 22px 15px; }
   @media (max-width: 640px) { .map-crop__view { aspect-ratio: 16 / 9; } .feature__foot .btn { width: 100%; } }
-  /* browser tabs: sit on top of the browser frame, the active one merges into it */
-  .gal__tabs { display: flex; align-items: flex-end; gap: 4px; padding: 0 10px; margin-bottom: -18px; position: relative; z-index: 2; }
-  .gal__tab { flex: 0 1 190px; min-width: 0; display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #d8d2f0; border: 3px solid var(--indigo); border-bottom: 0; cursor: pointer; font-family: var(--font-pixel); font-weight: 600; font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .gal__tab:hover { background: var(--yellow); color: var(--indigo); }
-  .gal__tab[aria-selected="true"] { background: #f3f1fb; color: var(--indigo); position: relative; top: 3px; padding-top: 11px; padding-bottom: 11px; }
-  .gal__tab:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
-  .gal__tab .gal__sw { margin: 0; flex: none; }
   .gal__info { border-left: 2px solid var(--indigo); padding-left: clamp(18px, 3vw, 36px); display: flex; flex-direction: column; justify-content: center; min-width: 0; }
   .gal__desc { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; width: 100%; }
   .gal__desc[hidden], .gal__shot[hidden] { display: none; }
@@ -148,8 +145,9 @@
   .proj__specs dt { color: var(--muted); text-transform: uppercase; letter-spacing: .06em; font-size: 12px; font-weight: 600; }
   .proj__specs dd { margin: 0; color: var(--indigo); font-weight: 600; }
   @media (max-width: 900px) {
-    .gal__body { grid-template-columns: minmax(0, 1fr); padding: 14px; }
-    .gal__stage { padding-right: 0; }
+    .gal__body { padding: 14px; }
+    .gal__row { grid-template-columns: minmax(0, 1fr); }
+    .gal__shot { padding-right: 0; }
     .gal__info { border-left: 0; padding-left: 0; padding-top: 22px; }
   }
 
@@ -286,73 +284,74 @@
     <div class="tile tile--lilac gal" id="gallery">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">brand-portals/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="gal__body">
-        <div class="gal__stage">
-          <div class="gal__tabs" role="tablist" aria-label="Choose a brand portal">
-            <button type="button" role="tab" class="gal__tab" data-id="nimbelo" aria-selected="true"><i class="gal__sw" style="background:#0B7285"></i>Nimbelo Fibre</button>
-            <button type="button" role="tab" class="gal__tab" data-id="voltwell" aria-selected="false" tabindex="-1"><i class="gal__sw" style="background:#1F6F43"></i>Voltwell Energy</button>
-            <button type="button" role="tab" class="gal__tab" data-id="orbeo" aria-selected="false" tabindex="-1"><i class="gal__sw" style="background:#5B2EFF"></i>Orbeo Mobile</button>
-          </div>
-          <div class="gal__main">
-          <figure class="gal__shot" data-id="nimbelo">
+        <article class="gal__row" data-id="nimbelo">
+          <figure class="gal__shot">
             <div class="frame">
               <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>nimbelo.link/refer</span></div>
-              <div class="live-frame"><iframe src="../demos/nimbelo-fibre/index.html" title="Nimbelo Fibre referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+              <div class="live-frame scroll-frame"><iframe src="../demos/nimbelo-fibre/index.html" title="Nimbelo Fibre referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
             </div>
           </figure>
-          <figure class="gal__shot" data-id="voltwell" hidden>
+          <div class="gal__info">
+            <div class="gal__desc">
+              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>nimbelo-fibre/</span></p>
+              <h3>Nimbelo Fibre</h3>
+              <dl class="proj__specs">
+                <div><dt>Industry</dt><dd>Full-fibre broadband</dd></div>
+                <div><dt>Heading</dt><dd>Outfit 700</dd></div>
+                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#0B7285"></i>#0B7285</dd></div>
+                <div><dt>Radius</dt><dd>Card 28px, button 999px</dd></div>
+              </dl>
+              <p>Rounded and bright, with a lime sticker that pulls the eye to the reward.</p>
+              <a class="btn btn--primary" href="../demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Nimbelo Fibre, opens in a new tab)</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="gal__row" data-id="voltwell">
+          <figure class="gal__shot">
             <div class="frame">
               <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>voltwell.link/refer</span></div>
-              <div class="live-frame"><iframe src="../demos/voltwell-energy/index.html" title="Voltwell Energy referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+              <div class="live-frame scroll-frame"><iframe src="../demos/voltwell-energy/index.html" title="Voltwell Energy referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
             </div>
           </figure>
-          <figure class="gal__shot" data-id="orbeo" hidden>
+          <div class="gal__info">
+            <div class="gal__desc">
+              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>voltwell-energy/</span></p>
+              <h3>Voltwell Energy</h3>
+              <dl class="proj__specs">
+                <div><dt>Industry</dt><dd>Renewable electricity and gas</dd></div>
+                <div><dt>Heading</dt><dd>Fraunces 600</dd></div>
+                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#1F6F43"></i>#1F6F43</dd></div>
+                <div><dt>Radius</dt><dd>Card 16px, button 12px</dd></div>
+              </dl>
+              <p>A calm green and a serif heading, for an energy brand that wants to feel trustworthy.</p>
+              <a class="btn btn--primary" href="../demos/voltwell-energy/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Voltwell Energy, opens in a new tab)</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="gal__row" data-id="orbeo">
+          <figure class="gal__shot">
             <div class="frame">
               <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>orbeo.link/refer</span></div>
-              <div class="live-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Orbeo Mobile referral portal, scaled preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+              <div class="live-frame scroll-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Orbeo Mobile referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
             </div>
           </figure>
+          <div class="gal__info">
+            <div class="gal__desc">
+              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>orbeo-mobile/</span></p>
+              <h3>Orbeo Mobile</h3>
+              <dl class="proj__specs">
+                <div><dt>Industry</dt><dd>SIM-only mobile</dd></div>
+                <div><dt>Heading</dt><dd>Space Grotesk 700</dd></div>
+                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#5B2EFF"></i>#5B2EFF</dd></div>
+                <div><dt>Radius</dt><dd>Card 6px, button 6px</dd></div>
+              </dl>
+              <p>Sharp corners and a deep violet, tuned for a tech-forward mobile offer.</p>
+              <a class="btn btn--primary" href="../demos/orbeo-mobile/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Orbeo Mobile, opens in a new tab)</span></a>
+            </div>
           </div>
-        </div>
-        <div class="gal__info" aria-live="polite">
-          <div class="gal__desc" data-id="nimbelo">
-            <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>nimbelo-fibre/</span></p>
-            <h3>Nimbelo Fibre</h3>
-            <dl class="proj__specs">
-              <div><dt>Industry</dt><dd>Full-fibre broadband</dd></div>
-              <div><dt>Heading</dt><dd>Outfit 700</dd></div>
-              <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#0B7285"></i>#0B7285</dd></div>
-              <div><dt>Radius</dt><dd>Card 28px, button 999px</dd></div>
-            </dl>
-            <p>Rounded and bright, with a lime sticker that pulls the eye to the reward.</p>
-            <a class="btn btn--primary" href="../demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Nimbelo Fibre, opens in a new tab)</span></a>
-          </div>
-          <div class="gal__desc" data-id="voltwell" hidden>
-            <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>voltwell-energy/</span></p>
-            <h3>Voltwell Energy</h3>
-            <dl class="proj__specs">
-              <div><dt>Industry</dt><dd>Renewable electricity and gas</dd></div>
-              <div><dt>Heading</dt><dd>Fraunces 600</dd></div>
-              <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#1F6F43"></i>#1F6F43</dd></div>
-              <div><dt>Radius</dt><dd>Card 16px, button 12px</dd></div>
-            </dl>
-            <p>A calm green and a serif heading, for an energy brand that wants to feel trustworthy.</p>
-            <a class="btn btn--primary" href="../demos/voltwell-energy/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Voltwell Energy, opens in a new tab)</span></a>
-          </div>
-          <div class="gal__desc" data-id="orbeo" hidden>
-            <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>orbeo-mobile/</span></p>
-            <h3>Orbeo Mobile</h3>
-            <dl class="proj__specs">
-              <div><dt>Industry</dt><dd>SIM-only mobile</dd></div>
-              <div><dt>Heading</dt><dd>Space Grotesk 700</dd></div>
-              <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#5B2EFF"></i>#5B2EFF</dd></div>
-              <div><dt>Radius</dt><dd>Card 6px, button 6px</dd></div>
-            </dl>
-            <p>Sharp corners and a deep violet, tuned for a tech-forward mobile offer.</p>
-            <a class="btn btn--primary" href="../demos/orbeo-mobile/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Orbeo Mobile, opens in a new tab)</span></a>
-          </div>
-        </div>
+        </article>
       </div>
-      <p class="gal__cap">Three fictional brands, one template. Pick a tab to preview a portal, then open the live demo to scroll the full page. Visual assets made with AI for illustrative purposes.</p>
+      <p class="gal__cap">Three fictional brands, one template. Each preview scrolls as you scroll this page. Open the live demo to explore the full portal. Visual assets made with AI for illustrative purposes.</p>
     </div>
   </div></section>
 
@@ -644,41 +643,70 @@
 <script>
   (function () {
     var g = document.getElementById('gallery'); if (!g) return;
-    function fit() {
-      document.querySelectorAll('.live-frame').forEach(function (el) {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var frames = Array.prototype.slice.call(g.querySelectorAll('.scroll-frame')).map(function (el) {
+      return { el: el, f: el.querySelector('iframe'), full: 3000, cur: 0, target: 0, scale: 1 };
+    });
+    function measure(o) {
+      try {
+        o.f.style.height = '900px'; // measure at viewport height, otherwise scrollHeight just echoes our own height
+        var d = o.f.contentDocument;
+        var h = d && d.documentElement ? Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0) : 0;
+        if (h > 0) o.full = Math.max(h, 900);
+      } catch (e) {}
+      o.f.style.height = o.full + 'px';
+    }
+    var others = Array.prototype.slice.call(document.querySelectorAll('.live-frame:not(.scroll-frame)'));
+    function layout() {
+      others.forEach(function (el) {
         var f = el.querySelector('iframe');
         if (f && el.clientWidth) f.style.transform = 'scale(' + (el.clientWidth / 1440) + ')';
       });
+      frames.forEach(function (o) {
+        if (!o.el.clientWidth) return;
+        o.scale = o.el.clientWidth / 1440;
+        o.f.style.height = o.full + 'px';
+        place(o);
+      });
+      update();
     }
-    function show(id) {
-      ['.gal__shot', '.gal__desc'].forEach(function (sel) {
-        g.querySelectorAll(sel).forEach(function (el) {
-          el.hidden = el.getAttribute('data-id') !== id;
-        });
-      });
-      g.querySelectorAll('.gal__tab').forEach(function (el) {
-        var on = el.getAttribute('data-id') === id;
-        el.setAttribute('aria-selected', on ? 'true' : 'false');
-        el.tabIndex = on ? 0 : -1;
-      });
-      fit();
+    function place(o) {
+      var maxShift = Math.max(0, o.full * o.scale - o.el.clientHeight);
+      o.f.style.transform = 'translateY(' + (-o.cur * maxShift).toFixed(1) + 'px) scale(' + o.scale + ')';
     }
-    var tabs = Array.prototype.slice.call(g.querySelectorAll('.gal__tab'));
-    tabs.forEach(function (b, i) {
-      b.addEventListener('click', function () { show(b.getAttribute('data-id')); });
-      b.addEventListener('keydown', function (e) {
-        var n = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : null;
-        if (n === null) return;
-        n = (n + tabs.length) % tabs.length; e.preventDefault();
-        tabs[n].focus(); show(tabs[n].getAttribute('data-id'));
+    // progress 0..1 while the preview travels through the viewport
+    function update() {
+      var vh = window.innerHeight, moving = false;
+      frames.forEach(function (o) {
+        var r = o.el.getBoundingClientRect();
+        var p = (vh * 0.9 - r.top) / (vh * 0.8 + r.height * 0.4);
+        o.target = reduce ? 0 : Math.min(1, Math.max(0, p));
+        if (Math.abs(o.target - o.cur) > 0.0005) moving = true;
       });
+      if (moving && !raf) raf = requestAnimationFrame(tick);
+    }
+    var raf = 0;
+    function tick() {
+      raf = 0; var again = false;
+      frames.forEach(function (o) {
+        o.cur += (o.target - o.cur) * 0.14;
+        if (Math.abs(o.target - o.cur) < 0.0005) o.cur = o.target; else again = true;
+        place(o);
+      });
+      if (again) raf = requestAnimationFrame(tick);
+    }
+    frames.forEach(function (o) {
+      measure(o);
+      o.f.addEventListener('load', function () { measure(o); layout(); });
     });
-    fit();
-    window.addEventListener('resize', fit);
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', layout);
     if ('ResizeObserver' in window) {
-      var ro = new ResizeObserver(fit);
-      document.querySelectorAll('.live-frame').forEach(function (el) { ro.observe(el); });
+      var ro = new ResizeObserver(layout);
+      frames.forEach(function (o) { ro.observe(o.el); });
+      others.forEach(function (el) { ro.observe(el); });
     }
+    layout();
   })();
 </script>
 <script src="../assets/js/contact.js" defer></script>
