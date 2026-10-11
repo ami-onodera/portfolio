@@ -130,6 +130,14 @@
   .feature__foot figcaption { margin: 0; font-size: 15px; color: var(--body); flex: 1 1 320px; }
   .btn--big { font-size: 16px; padding: 14px 22px 15px; }
   @media (max-width: 640px) { .map-crop__view { aspect-ratio: 16 / 9; } .feature__foot .btn { width: 100%; } }
+  /* invite to the Figma + imagery page */
+  .figma-banner { display: grid; grid-template-columns: 5fr 6fr; align-items: center; gap: 28px; padding: 26px 30px; }
+  .figma-banner h3 { margin: 8px 0 6px; font-size: 24px; }
+  .figma-banner p { margin: 0 0 16px; }
+  .figma-banner__preview { position: relative; aspect-ratio: 16 / 10; border: 2px solid var(--indigo); background: var(--blue-soft); overflow: hidden; box-shadow: 4px 4px 0 rgba(37,40,61,.25); }
+  .figma-banner__preview iframe { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; border: 0; pointer-events: none; }
+  .figma-banner__link { position: absolute; inset: 0; display: block; }
+  @media (max-width: 760px) { .figma-banner { grid-template-columns: 1fr; } }
   .gal__info { border-left: 2px solid var(--indigo); padding-left: clamp(18px, 3vw, 36px); display: flex; flex-direction: column; justify-content: center; min-width: 0; }
   .gal__desc { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; width: 100%; }
   .gal__desc[hidden], .gal__shot[hidden] { display: none; }
@@ -278,90 +286,13 @@
     </div>
   </div></section>
 
-  <!-- Three portals: gallery window -->
-  <section class="block" style="padding-top:24px" aria-labelledby="portals-title"><div class="wrap">
-    <h2 id="portals-title" class="sr-only">The three brand portals</h2>
-    <div class="tile tile--lilac gal" id="gallery">
-      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">brand-portals/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
-      <div class="gal__body">
-        <article class="gal__row" data-id="nimbelo">
-          <figure class="gal__shot">
-            <div class="frame">
-              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>nimbelo.link/refer</span></div>
-              <div class="live-frame scroll-frame"><iframe src="../demos/nimbelo-fibre/index.html" title="Nimbelo Fibre referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
-            </div>
-          </figure>
-          <div class="gal__info">
-            <div class="gal__desc">
-              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>nimbelo-fibre/</span></p>
-              <h3>Nimbelo Fibre</h3>
-              <dl class="proj__specs">
-                <div><dt>Industry</dt><dd>Full-fibre broadband</dd></div>
-                <div><dt>Heading</dt><dd>Outfit 700</dd></div>
-                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#0B7285"></i>#0B7285</dd></div>
-                <div><dt>Radius</dt><dd>Card 28px, button 999px</dd></div>
-              </dl>
-              <p>Rounded and bright, with a lime sticker that pulls the eye to the reward.</p>
-              <a class="btn btn--primary" href="../demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Nimbelo Fibre, opens in a new tab)</span></a>
-            </div>
-          </div>
-        </article>
-        <article class="gal__row" data-id="voltwell">
-          <figure class="gal__shot">
-            <div class="frame">
-              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>voltwell.link/refer</span></div>
-              <div class="live-frame scroll-frame"><iframe src="../demos/voltwell-energy/index.html" title="Voltwell Energy referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
-            </div>
-          </figure>
-          <div class="gal__info">
-            <div class="gal__desc">
-              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>voltwell-energy/</span></p>
-              <h3>Voltwell Energy</h3>
-              <dl class="proj__specs">
-                <div><dt>Industry</dt><dd>Renewable electricity and gas</dd></div>
-                <div><dt>Heading</dt><dd>Fraunces 600</dd></div>
-                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#1F6F43"></i>#1F6F43</dd></div>
-                <div><dt>Radius</dt><dd>Card 16px, button 12px</dd></div>
-              </dl>
-              <p>A calm green and a serif heading, for an energy brand that wants to feel trustworthy.</p>
-              <a class="btn btn--primary" href="../demos/voltwell-energy/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Voltwell Energy, opens in a new tab)</span></a>
-            </div>
-          </div>
-        </article>
-        <article class="gal__row" data-id="orbeo">
-          <figure class="gal__shot">
-            <div class="frame">
-              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>orbeo.link/refer</span></div>
-              <div class="live-frame scroll-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Orbeo Mobile referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
-            </div>
-          </figure>
-          <div class="gal__info">
-            <div class="gal__desc">
-              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>orbeo-mobile/</span></p>
-              <h3>Orbeo Mobile</h3>
-              <dl class="proj__specs">
-                <div><dt>Industry</dt><dd>SIM-only mobile</dd></div>
-                <div><dt>Heading</dt><dd>Space Grotesk 700</dd></div>
-                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#5B2EFF"></i>#5B2EFF</dd></div>
-                <div><dt>Radius</dt><dd>Card 6px, button 6px</dd></div>
-              </dl>
-              <p>Sharp corners and a deep violet, tuned for a tech-forward mobile offer.</p>
-              <a class="btn btn--primary" href="../demos/orbeo-mobile/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Orbeo Mobile, opens in a new tab)</span></a>
-            </div>
-          </div>
-        </article>
-      </div>
-      <p class="gal__cap">Three fictional brands, one template. Each preview scrolls as you scroll this page. Open the live demo to explore the full portal. Visual assets made with AI for illustrative purposes.</p>
-    </div>
-  </div></section>
-
   <!-- Approach -->
   <section class="block" style="padding-top:0" aria-labelledby="approach-title"><div class="wrap">
     <div class="tile tile--sky approach-win">
       <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">approach.log</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
       <div class="prose" style="max-width:none">
       <h2 id="approach-title" class="h-bar">The approach</h2>
-      <p>I treat a brand as a set of design decisions, not a set of pages. Clients send very different amounts of material, so I boil each brand down to a few style elements: colours, fonts, weights and border radius. The layout, components and interactions are designed once, in Figma and CSS. Each brand only brings its own values, set in a Material UI theme in production. The shared template reads them and renders the portal, with no new markup and no new components.</p>
+      <p>A brand is a set of design decisions, not a set of pages. Clients send very different amounts of material, so I boil each brand down to a few style elements: colours, fonts, weights and border radius. The layout, components and interactions are designed once, in Figma and CSS. Each brand only brings its own copy and assets, set in a Material UI theme in production. The shared template reads them and renders the portal: different for every client, but with the same structure for all.</p>
       </div>
     </div>
 
@@ -467,6 +398,100 @@
     </div>
   </div></section>
 
+  <!-- Three portals: gallery window -->
+  <section class="block" style="padding-top:24px" aria-labelledby="portals-title"><div class="wrap">
+    <h2 id="portals-title" class="sr-only">The three brand portals</h2>
+    <div class="tile tile--lilac gal" id="gallery">
+      <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">brand-portals/</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
+      <div class="gal__body">
+        <article class="gal__row" data-id="nimbelo">
+          <figure class="gal__shot">
+            <div class="frame">
+              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>nimbelo.link/refer</span></div>
+              <div class="live-frame scroll-frame"><iframe src="../demos/nimbelo-fibre/index.html" title="Nimbelo Fibre referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+            </div>
+          </figure>
+          <div class="gal__info">
+            <div class="gal__desc">
+              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>nimbelo-fibre/</span></p>
+              <h3>Nimbelo Fibre</h3>
+              <dl class="proj__specs">
+                <div><dt>Industry</dt><dd>Full-fibre broadband</dd></div>
+                <div><dt>Heading</dt><dd>Outfit 700</dd></div>
+                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#0B7285"></i>#0B7285</dd></div>
+                <div><dt>Radius</dt><dd>Card 28px, button 999px</dd></div>
+              </dl>
+              <p>Rounded and bright, with a lime sticker that pulls the eye to the reward.</p>
+              <a class="btn btn--primary" href="../demos/nimbelo-fibre/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Nimbelo Fibre, opens in a new tab)</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="gal__row" data-id="voltwell">
+          <figure class="gal__shot">
+            <div class="frame">
+              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>voltwell.link/refer</span></div>
+              <div class="live-frame scroll-frame"><iframe src="../demos/voltwell-energy/index.html" title="Voltwell Energy referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+            </div>
+          </figure>
+          <div class="gal__info">
+            <div class="gal__desc">
+              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>voltwell-energy/</span></p>
+              <h3>Voltwell Energy</h3>
+              <dl class="proj__specs">
+                <div><dt>Industry</dt><dd>Renewable electricity and gas</dd></div>
+                <div><dt>Heading</dt><dd>Fraunces 600</dd></div>
+                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#1F6F43"></i>#1F6F43</dd></div>
+                <div><dt>Radius</dt><dd>Card 16px, button 12px</dd></div>
+              </dl>
+              <p>A calm green and a serif heading, for an energy brand that wants to feel trustworthy.</p>
+              <a class="btn btn--primary" href="../demos/voltwell-energy/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Voltwell Energy, opens in a new tab)</span></a>
+            </div>
+          </div>
+        </article>
+        <article class="gal__row" data-id="orbeo">
+          <figure class="gal__shot">
+            <div class="frame">
+              <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i><span>orbeo.link/refer</span></div>
+              <div class="live-frame scroll-frame"><iframe src="../demos/orbeo-mobile/index.html" title="Orbeo Mobile referral portal, scrolling preview" loading="lazy" tabindex="-1" scrolling="no"></iframe></div>
+            </div>
+          </figure>
+          <div class="gal__info">
+            <div class="gal__desc">
+              <p class="gal__folder"><img class="bar-folder" src="../assets/img/y2k/early-work.png" alt="" width="28" height="28"><span>orbeo-mobile/</span></p>
+              <h3>Orbeo Mobile</h3>
+              <dl class="proj__specs">
+                <div><dt>Industry</dt><dd>SIM-only mobile</dd></div>
+                <div><dt>Heading</dt><dd>Space Grotesk 700</dd></div>
+                <div><dt>Brand</dt><dd><i class="gal__sw" style="background:#5B2EFF"></i>#5B2EFF</dd></div>
+                <div><dt>Radius</dt><dd>Card 6px, button 6px</dd></div>
+              </dl>
+              <p>Sharp corners and a deep violet, tuned for a tech-forward mobile offer.</p>
+              <a class="btn btn--primary" href="../demos/orbeo-mobile/index.html" target="_blank" rel="noopener">Open live demo ↗<span class="sr-only"> (Orbeo Mobile, opens in a new tab)</span></a>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p class="gal__cap">Three fictional brands, one template. Each preview scrolls as you scroll this page. Open the live demo to explore the full portal. Visual assets made with AI for illustrative purposes.</p>
+    </div>
+  </div></section>
+
+  <!-- Figma and imagery banner -->
+  <section class="block" style="padding-top:0" id="figma-banner" aria-label="The portals in Figma, and their imagery"><div class="wrap">
+    <div class="tile tile--lav-soft figma-banner">
+      <div class="figma-banner__text">
+        <span class="tag">Behind the scenes</span>
+        <h3>Want to see the Figma file and the imagery?</h3>
+        <p>The three portals were designed in Figma first, and each header image started as a written prompt to an AI. Come and have a look at both.</p>
+        <a class="btn btn--primary" href="referral-portal-figma.html">See Figma and imagery →</a>
+      </div>
+      <div class="figma-banner__preview">
+        <iframe title="Preview of the Figma file for the referral portals" loading="lazy" tabindex="-1" aria-hidden="true"
+          src="https://embed.figma.com/design/b97XdJ5ayuLc2QPIGDQVHR/One-template--many-brands--referral-portals?node-id=0-1&amp;embed-host=portfolio"></iframe>
+        <a class="figma-banner__link" href="referral-portal-figma.html" aria-label="See Figma and imagery"></a>
+      </div>
+    </div>
+  </div></section>
+
   <!-- Fixed vs changes -->
   <section class="block" style="padding-top:0" aria-labelledby="fixed-title"><div class="wrap">
     <div class="section-head"><h2 id="fixed-title" class="h-bar">What stays fixed, what changes</h2></div>
@@ -478,7 +503,7 @@
         <ul class="checklist">
           <li>Page layout</li>
           <li>Section designs: hero, how it works, products, rewards</li>
-          <li>Components: header, footer, steppers, product tiles and carousel, rewards table</li>
+          <li>Components: header, footer, steppers, product tiles and carousel, rewards table, FAQ accordion</li>
           <li>Accessibility: headings, labels, focus states</li>
           <li>Main interaction: CTAs open a referral widget, where users add their email and get their personal link, plus copy link</li>
         </ul>
@@ -488,10 +513,10 @@
         <span class="tag">Per brand</span>
         <h3>Changes</h3>
         <ul class="checklist checklist--swap">
+          <li>Copy and reward values</li>
           <li>Colours</li>
           <li>Typefaces and weights</li>
           <li>Border radius and CTA style</li>
-          <li>Copy and reward values</li>
           <li>Order of page sections, interchangeable per brand</li>
           <li>Logo</li>
           <li>Assets</li>
@@ -643,19 +668,20 @@
 <script>
   (function () {
     var g = document.getElementById('gallery'); if (!g) return;
+    var TALL = 6000;
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var frames = Array.prototype.slice.call(g.querySelectorAll('.scroll-frame')).map(function (el) {
-      return { el: el, f: el.querySelector('iframe'), full: 3000, cur: 0, target: 0, scale: 1 };
+      return { el: el, f: el.querySelector('iframe'), full: 2400, cur: 0, target: 0, scale: 1 };
     });
-    function measure(o) {
+    // iframe is made tall; the real content height is read live (fonts and images change it after load)
+    function content(o) {
       try {
-        o.f.style.height = '900px'; // measure at viewport height, otherwise scrollHeight just echoes our own height
-        var d = o.f.contentDocument;
-        var h = d && d.documentElement ? Math.max(d.documentElement.scrollHeight, d.body ? d.body.scrollHeight : 0) : 0;
-        if (h > 0) o.full = Math.max(h, 900);
+        var d = o.f.contentDocument, h = d && d.body ? d.body.getBoundingClientRect().height : 0;
+        if (h > 300) return Math.ceil(h);
       } catch (e) {}
-      o.f.style.height = o.full + 'px';
+      return o.full;
     }
+    function measure(o) { o.f.style.height = TALL + 'px'; o.full = content(o); }
     var others = Array.prototype.slice.call(document.querySelectorAll('.live-frame:not(.scroll-frame)'));
     function layout() {
       others.forEach(function (el) {
@@ -665,12 +691,12 @@
       frames.forEach(function (o) {
         if (!o.el.clientWidth) return;
         o.scale = o.el.clientWidth / 1440;
-        o.f.style.height = o.full + 'px';
         place(o);
       });
       update();
     }
     function place(o) {
+      o.full = content(o);
       var maxShift = Math.max(0, o.full * o.scale - o.el.clientHeight);
       o.f.style.transform = 'translateY(' + (-o.cur * maxShift).toFixed(1) + 'px) scale(' + o.scale + ')';
     }
@@ -697,7 +723,11 @@
     }
     frames.forEach(function (o) {
       measure(o);
-      o.f.addEventListener('load', function () { measure(o); layout(); });
+      o.f.addEventListener('load', function () {
+        measure(o); layout();
+        try { o.f.contentDocument.fonts.ready.then(layout); } catch (e) {}
+        setTimeout(layout, 1200);
+      });
     });
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', layout);
