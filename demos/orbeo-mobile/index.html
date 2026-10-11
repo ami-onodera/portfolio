@@ -45,7 +45,7 @@
   .hero-art{position:absolute;inset:0;z-index:0;} .hero-art svg{width:100%;height:100%;display:block;}
   .hero .scrim{position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,var(--scrim) 0%,transparent 60%);}
   .hero-inner{position:relative;z-index:2;display:flex;align-items:center;min-height:520px;padding:56px 48px;}
-  .card{width:450px;max-width:100%;background:#fff;border-radius:var(--r-card);padding:40px;box-shadow:0 22px 60px rgba(8,12,30,.30);}
+  .card{position:relative;width:450px;max-width:100%;background:#fff;border-radius:var(--r-card);padding:40px;box-shadow:0 22px 60px rgba(8,12,30,.30);}
   .card-title{font-size:32px;font-weight:var(--head-weight);color:var(--brand);line-height:1.12;letter-spacing:var(--head-track);margin-bottom:16px;}
   .card-sub{font-size:16px;font-weight:500;color:var(--ink);line-height:1.45;margin-bottom:28px;}
   .field{display:flex;align-items:center;gap:10px;border:1.5px solid var(--border);border-radius:var(--r-ui);padding:15px 20px;margin-bottom:14px;}
@@ -57,7 +57,7 @@
   .legal{font-size:12px;color:#7E879B;line-height:1.5;text-align:center;margin:0;}
   .legal.sm{margin-top:8px;} .legal a{color:#7E879B;text-decoration:underline;}
   .powered{text-align:center;margin-top:18px;font-size:12px;color:var(--place);} .powered b{color:var(--muted);font-weight:700;}
-  .sticker{position:absolute;right:40px;top:40px;z-index:3;width:128px;height:128px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 12px 26px rgba(0,0,0,.22);}
+  .sticker{position:absolute;right:-74px;top:-34px;z-index:3;width:128px;height:128px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transform:rotate(-8deg);box-shadow:0 12px 26px rgba(0,0,0,.22);}
   .sticker small{font-size:12px;font-weight:500;line-height:1.2;} .sticker b{font-size:34px;font-weight:800;line-height:1;margin:2px 0;}
 
   /* Sections */
@@ -75,7 +75,17 @@
 
   /* Products */
   .products{background:var(--grey-bg);}
-  .prod-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;max-width:760px;margin:0 auto;}
+  .carousel{position:relative;max-width:1180px;margin:0 auto;padding:0 64px;--vis:3;--gap:28px;}
+  .carousel-view{overflow:hidden;padding:6px 0 10px;margin:-6px 0 -10px;}
+  .prod-grid{display:flex;gap:var(--gap);transition:transform .45s cubic-bezier(.4,0,.2,1);will-change:transform;}
+  .prod-grid .prod{flex:0 0 calc((100% - (var(--vis) - 1) * var(--gap)) / var(--vis));min-width:0;}
+  .car-btn{position:absolute;top:50%;translate:0 -50%;width:48px;height:48px;border-radius:var(--r-ui);border:1.5px solid var(--border);background:#fff;color:var(--brand);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 16px rgba(20,11,51,.10);transition:background .2s,color .2s,opacity .2s;}
+  .car-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+  .car-btn:hover:not(:disabled){background:var(--brand);color:var(--on-brand);}
+  .car-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}
+  .car-btn:disabled{opacity:.35;cursor:default;}
+  .car-prev{left:0;} .car-next{right:0;}
+  @media (prefers-reduced-motion:reduce){.prod-grid{transition:none;}}
   .prod{background:#fff;border-radius:var(--r-tile);border:1px solid var(--border);overflow:hidden;position:relative;}
   .prod .thumb{height:180px;background:var(--hero-bg);position:relative;overflow:hidden;}
   .prod .thumb svg{position:absolute;inset:0;width:100%;height:100%;display:block;}
@@ -115,7 +125,7 @@
   @media (max-width:880px){
     .wrap{padding:0 22px;}
     .hero-inner{min-height:0;padding:40px 22px;} .card{width:100%;}
-    .steps{grid-template-columns:1fr;gap:36px;} .prod-grid{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr;gap:36px;} .carousel{--vis:1;padding:0 52px;} .car-btn{width:40px;height:40px;}
     .sec-head h2{font-size:27px;} .sticker{display:none;}
   }
 </style>
@@ -198,12 +208,12 @@
 </g>
 </svg></div>
   <div class="scrim"></div>
-  <div class="sticker"><small>up to</small><b>&euro;30</b><small>credit each</small></div>
   <div class="wrap hero-inner">
     <div class="card">
+      <div class="sticker"><small>up to</small><b>&euro;40</b><small>credit each</small></div>
       <div id="referForm">
-        <h2 class="card-title">Refer and earn up to &euro;30</h2>
-        <p class="card-sub">Bring a friend into orbit. When they join any Orbeo SIM plan, you both get &euro;30 off your bill.</p>
+        <h2 class="card-title">Refer and earn up to &euro;40</h2>
+        <p class="card-sub">Bring a friend into orbit. When they join any Orbeo SIM plan, you both get up to &euro;40 off your bill.</p>
         <div class="field">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#98A1B3" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
           <input id="email" type="email" placeholder="Enter your email address" />
@@ -217,7 +227,7 @@
       <div class="success" id="successState">
         <div class="check">&#10003;</div>
         <h3>You&rsquo;re all set!</h3>
-        <p>Share your unique link: you both get &euro;30 when your friend joins Orbeo Mobile.</p>
+        <p>Share your unique link: you both get up to &euro;40 when your friend joins Orbeo Mobile.</p>
         <div class="sharelink"><span id="link">https://orbeo.link/r/AK7F2Q9</span><button onclick="copyLink(this)">Copy</button></div>
       </div>
     </div>
@@ -230,34 +240,17 @@
   <div class="steps">
     <div class="step"><div class="num">1</div><h4>Grab your link</h4><p>Enter your email and get a personal link in seconds. No app download needed.</p></div>
     <div class="step"><div class="num">2</div><h4>Send it anywhere</h4><p>Share it by WhatsApp, text or socials. Every friend who joins counts.</p></div>
-    <div class="step"><div class="num">3</div><h4>Both get &euro;30</h4><p>Once your friend&rsquo;s SIM is active, &euro;30 credit lands on both your bills.</p></div>
+    <div class="step"><div class="num">3</div><h4>Both get up to &euro;40</h4><p>Once your friend&rsquo;s SIM is active, the credit lands on both your bills.</p></div>
   </div>
 </div></section>
 
 <!-- PRODUCTS -->
 <section class="products"><div class="wrap">
   <div class="sec-head"><h2>Plans your friends will love</h2><p>SIM only, no contract, 5G included. Cancel any month.</p></div>
-  <div class="prod-grid">
-    <div class="prod"><div class="thumb a"><svg viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Infinity symbol made of orbit rings">
-<defs>
-<linearGradient id="p1Bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B2EFF"/><stop offset=".6" stop-color="#3517B0"/><stop offset="1" stop-color="#1A0C4A"/></linearGradient>
-<radialGradient id="p1Glow" cx="178" cy="92" r="170" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FF6B4A" stop-opacity=".45"/><stop offset="1" stop-color="#FF6B4A" stop-opacity="0"/></radialGradient>
-<linearGradient id="p1Ring" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C9B9FF"/><stop offset=".5" stop-color="#FF8A6B"/><stop offset="1" stop-color="#FFD9CC"/></linearGradient>
-<radialGradient id="p1Dot" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#FFC29E"/><stop offset="1" stop-color="#FF6B4A"/></radialGradient>
-</defs>
-<rect width="380" height="180" fill="url(#p1Bg)"/>
-<circle cx="178" cy="92" r="170" fill="url(#p1Glow)"/>
-<circle cx="-20" cy="200" r="90" fill="#FFFFFF" opacity=".06"/>
-<circle cx="302.4" cy="174.1" r="0.8" fill="#FFFFFF" opacity="0.36"/><circle cx="188.2" cy="146.9" r="1.7" fill="#FFFFFF" opacity="0.84"/><circle cx="89.9" cy="38.8" r="1" fill="#FFFFFF" opacity="0.55"/><circle cx="133.6" cy="14.2" r="1" fill="#FFFFFF" opacity="0.36"/><circle cx="236.4" cy="154.6" r="1.7" fill="#FFFFFF" opacity="0.43"/><circle cx="36.3" cy="148" r="1.3" fill="#FFFFFF" opacity="0.65"/><circle cx="261.3" cy="12.7" r="1" fill="#FFFFFF" opacity="0.43"/><circle cx="360.9" cy="170.3" r="1.3" fill="#FFFFFF" opacity="0.47"/><circle cx="136.9" cy="5.2" r="1.7" fill="#FFFFFF" opacity="0.39"/><circle cx="38.6" cy="143.9" r="1" fill="#FFFFFF" opacity="0.55"/><circle cx="20.4" cy="8.8" r="1.3" fill="#FFFFFF" opacity="0.66"/><circle cx="36.3" cy="167.8" r="1" fill="#FFFFFF" opacity="0.68"/><circle cx="269.9" cy="154.4" r="1.7" fill="#FFFFFF" opacity="0.73"/>
-<g fill="none" transform="rotate(-8 178 92)">
-<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="#FFFFFF" stroke-width="1.5" opacity=".35" stroke-dasharray="3 6" transform="translate(178 92) scale(1.22) translate(-178 -92)" vector-effect="non-scaling-stroke"/>
-<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="url(#p1Ring)" stroke-width="11" stroke-linejoin="round"/>
-<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="#FFFFFF" stroke-width="2" opacity=".8" transform="translate(178 92) scale(.8) translate(-178 -92)" vector-effect="non-scaling-stroke"/>
-<circle cx="270" cy="92" r="9" fill="url(#p1Dot)" stroke="#FFFFFF" stroke-width="2"/>
-<circle cx="116" cy="59" r="5" fill="#FFFFFF"/>
-<circle cx="138" cy="122" r="3.5" fill="#FFD2C2"/>
-</g>
-</svg><div class="glow"></div><div class="pstick">&euro;30</div></div><div class="body"><h4>Orbeo Unlimited</h4><p>Endless 5G data, calls and texts, plus free EU roaming. &euro;25 a month.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+  <div class="carousel" id="carousel">
+  <button class="car-btn car-prev" type="button" aria-label="Previous plans" id="carPrev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+  <div class="carousel-view"><div class="prod-grid" id="carTrack" aria-live="polite">
+    <div class="prod"><div class="thumb c"><svg viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data gauge at 20 GB with a small moon"><defs><linearGradient id="p0Bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1EC"/><stop offset="1" stop-color="#FFCFC0"/></linearGradient><linearGradient id="p0Arc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5B2EFF"/><stop offset="1" stop-color="#FF6B4A"/></linearGradient></defs><rect width="380" height="180" fill="url(#p0Bg)"/><circle cx="158" cy="150" r="150" fill="#FFFFFF" opacity=".5"/><circle cx="350" cy="30" r="64" fill="#FF6B4A" opacity=".10"/><ellipse cx="300" cy="120" rx="110" ry="30" fill="none" stroke="#5B2EFF" stroke-opacity=".18" stroke-width="1.5" stroke-dasharray="3 6" transform="rotate(-16 300 120)"/><path d="M66 150 A92 92 0 0 1 250 150" fill="none" stroke="#F3C4B6" stroke-width="18"/><path d="M66 150 A92 92 0 0 1 92.9 84.9" fill="none" stroke="url(#p0Arc)" stroke-width="18"/><circle cx="92.9" cy="84.9" r="7" fill="#FFFFFF" stroke="#5B2EFF" stroke-width="3"/><text x="158" y="134" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="38" letter-spacing="-1.2" fill="#140B33">20<tspan font-size="20" dx="4" fill="#5B2EFF">GB</tspan></text><text x="158" y="148" text-anchor="middle" font-family="'Manrope',sans-serif" font-weight="600" font-size="11" letter-spacing="1.2" fill="#5A5475">5G DATA</text><circle cx="312" cy="104" r="17" fill="#FFFFFF" stroke="#140B33" stroke-width="2.5"/><circle cx="305" cy="99" r="3.5" fill="#E4DFF5"/><circle cx="318" cy="110" r="2.5" fill="#E4DFF5"/><circle cx="312" cy="104" r="26" fill="none" stroke="#5B2EFF" stroke-width="2" opacity=".35"/></svg><div class="glow"></div><div class="pstick">&euro;15</div></div><div class="body"><h4>Orbeo 20 GB</h4><p>20 GB of 5G data for everyday scrolling, plus free EU roaming. &euro;10 a month.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
     <div class="prod"><div class="thumb b"><svg viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data gauge at 50 GB with a small satellite">
 <defs>
 <linearGradient id="p2Bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F1EDFF"/><stop offset="1" stop-color="#D6CAFF"/></linearGradient>
@@ -286,7 +279,30 @@
 <path d="M0 -10 V-16" stroke="#140B33" stroke-width="2"/>
 <circle cx="0" cy="-18" r="3" fill="#FF6B4A"/>
 </g>
-</svg><div class="glow"></div><div class="pstick">&euro;30</div></div><div class="body"><h4>Orbeo 50 GB</h4><p>50 GB of 5G data, and unused gigabytes roll over. &euro;15 a month.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+</svg><div class="glow"></div><div class="pstick">&euro;25</div></div><div class="body"><h4>Orbeo 50 GB</h4><p>50 GB of 5G data, and unused gigabytes roll over. &euro;15 a month.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+    <div class="prod"><div class="thumb a"><svg viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Infinity symbol made of orbit rings">
+<defs>
+<linearGradient id="p1Bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5B2EFF"/><stop offset=".6" stop-color="#3517B0"/><stop offset="1" stop-color="#1A0C4A"/></linearGradient>
+<radialGradient id="p1Glow" cx="178" cy="92" r="170" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FF6B4A" stop-opacity=".45"/><stop offset="1" stop-color="#FF6B4A" stop-opacity="0"/></radialGradient>
+<linearGradient id="p1Ring" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#C9B9FF"/><stop offset=".5" stop-color="#FF8A6B"/><stop offset="1" stop-color="#FFD9CC"/></linearGradient>
+<radialGradient id="p1Dot" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#FFC29E"/><stop offset="1" stop-color="#FF6B4A"/></radialGradient>
+</defs>
+<rect width="380" height="180" fill="url(#p1Bg)"/>
+<circle cx="178" cy="92" r="170" fill="url(#p1Glow)"/>
+<circle cx="-20" cy="200" r="90" fill="#FFFFFF" opacity=".06"/>
+<circle cx="302.4" cy="174.1" r="0.8" fill="#FFFFFF" opacity="0.36"/><circle cx="188.2" cy="146.9" r="1.7" fill="#FFFFFF" opacity="0.84"/><circle cx="89.9" cy="38.8" r="1" fill="#FFFFFF" opacity="0.55"/><circle cx="133.6" cy="14.2" r="1" fill="#FFFFFF" opacity="0.36"/><circle cx="236.4" cy="154.6" r="1.7" fill="#FFFFFF" opacity="0.43"/><circle cx="36.3" cy="148" r="1.3" fill="#FFFFFF" opacity="0.65"/><circle cx="261.3" cy="12.7" r="1" fill="#FFFFFF" opacity="0.43"/><circle cx="360.9" cy="170.3" r="1.3" fill="#FFFFFF" opacity="0.47"/><circle cx="136.9" cy="5.2" r="1.7" fill="#FFFFFF" opacity="0.39"/><circle cx="38.6" cy="143.9" r="1" fill="#FFFFFF" opacity="0.55"/><circle cx="20.4" cy="8.8" r="1.3" fill="#FFFFFF" opacity="0.66"/><circle cx="36.3" cy="167.8" r="1" fill="#FFFFFF" opacity="0.68"/><circle cx="269.9" cy="154.4" r="1.7" fill="#FFFFFF" opacity="0.73"/>
+<g fill="none" transform="rotate(-8 178 92)">
+<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="#FFFFFF" stroke-width="1.5" opacity=".35" stroke-dasharray="3 6" transform="translate(178 92) scale(1.22) translate(-178 -92)" vector-effect="non-scaling-stroke"/>
+<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="url(#p1Ring)" stroke-width="11" stroke-linejoin="round"/>
+<path d="M178 92 C204 48 270 48 270 92 C270 136 204 136 178 92 C152 48 86 48 86 92 C86 136 152 136 178 92Z" stroke="#FFFFFF" stroke-width="2" opacity=".8" transform="translate(178 92) scale(.8) translate(-178 -92)" vector-effect="non-scaling-stroke"/>
+<circle cx="270" cy="92" r="9" fill="url(#p1Dot)" stroke="#FFFFFF" stroke-width="2"/>
+<circle cx="116" cy="59" r="5" fill="#FFFFFF"/>
+<circle cx="138" cy="122" r="3.5" fill="#FFD2C2"/>
+</g>
+</svg><div class="glow"></div><div class="pstick">&euro;30</div></div><div class="body"><h4>Orbeo Unlimited</h4><p>Endless 5G data, calls and texts, plus free EU roaming. &euro;25 a month.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+    <div class="prod"><div class="thumb d"><svg viewBox="0 0 380 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Smartwatch with an orbit ring and the eSIM label"><defs><linearGradient id="p4Bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF6B4A"/><stop offset=".45" stop-color="#C13A9A"/><stop offset="1" stop-color="#2A1391"/></linearGradient><linearGradient id="p4Band" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E9E2FF"/><stop offset="1" stop-color="#B9A8FF"/></linearGradient></defs><rect width="380" height="180" fill="url(#p4Bg)"/><circle cx="-10" cy="190" r="100" fill="#FFFFFF" opacity=".07"/><circle cx="342" cy="22" r="1.6" fill="#FFFFFF" opacity=".8"/><circle cx="60" cy="30" r="1.3" fill="#FFFFFF" opacity=".7"/><circle cx="330" cy="150" r="1.1" fill="#FFFFFF" opacity=".6"/><circle cx="40" cy="140" r="1.7" fill="#FFFFFF" opacity=".5"/><ellipse cx="190" cy="92" rx="150" ry="36" fill="none" stroke="#FFFFFF" stroke-opacity=".4" stroke-width="1.5" stroke-dasharray="3 6" transform="rotate(-14 190 92)"/><rect x="162" y="-6" width="56" height="192" rx="14" fill="url(#p4Band)"/><rect x="146" y="40" width="88" height="100" rx="26" fill="#140B33" stroke="#FFFFFF" stroke-width="3"/><rect x="154" y="48" width="72" height="84" rx="19" fill="#1F1250"/><path d="M164 86C172 70 186 70 190 86C194 102 208 102 216 86C208 70 194 70 190 86C186 102 172 102 164 86Z" fill="none" stroke="#FF8A6B" stroke-width="5" stroke-linejoin="round"/><text x="190" y="120" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="13" letter-spacing="1.5" fill="#FFFFFF">eSIM</text><rect x="234" y="76" width="7" height="22" rx="3" fill="#C9B9FF"/><circle cx="300" cy="56" r="8" fill="#FFC29E" stroke="#FFFFFF" stroke-width="2"/><circle cx="84" cy="124" r="5" fill="#FFFFFF"/></svg><div class="glow"></div><div class="pstick">&euro;40</div></div><div class="body"><h4>Orbeo Unlimited + eSIM</h4><p>Unlimited 5G for you and your watch, on one number. &euro;30 a month.</p><button class="btn" onclick="topCard()">Refer now</button></div></div>
+  </div></div>
+  <button class="car-btn car-next" type="button" aria-label="Next plans" id="carNext"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
   </div>
 </div></section>
 
@@ -296,10 +312,10 @@
   <div class="table-wrap"><table>
     <thead><tr><th>What your friend joins</th><th>Reward for you and your friend</th></tr></thead>
     <tbody id="rtbody">
-      <tr><td>Orbeo 20 GB</td><td>&euro;30 each</td></tr>
-      <tr><td>Orbeo 50 GB</td><td>&euro;30 each</td></tr>
+      <tr><td>Orbeo 20 GB</td><td>&euro;15 each</td></tr>
+      <tr><td>Orbeo 50 GB</td><td>&euro;25 each</td></tr>
       <tr><td>Orbeo Unlimited</td><td>&euro;30 each</td></tr>
-      <tr class="extra"><td>Orbeo Unlimited + eSIM for watch</td><td>&euro;30 each</td></tr>
+      <tr class="extra"><td>Orbeo Unlimited + eSIM for watch</td><td>&euro;40 each</td></tr>
     </tbody>
   </table></div>
   <button class="showmore" id="showmore" onclick="toggleRows()">Show more</button>
@@ -316,6 +332,11 @@
   function refer(){var e=document.getElementById('email').value.trim();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)){var i=document.getElementById('email');i.focus();i.parentElement.style.borderColor='var(--accent)';return;}document.getElementById('referForm').style.display='none';document.getElementById('successState').classList.add('show');}
   function copyLink(b){try{navigator.clipboard.writeText(document.getElementById('link').textContent);}catch(e){}b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},1600);}
   function toggleRows(){var r=document.querySelectorAll('#rtbody .extra'),b=document.getElementById('showmore'),s=r[0].classList.contains('show');r.forEach(function(x){x.classList.toggle('show',!s);});b.textContent=s?'Show more':'Show less';}
+  (function(){var t=document.getElementById('carTrack'),pv=document.getElementById('carPrev'),nx=document.getElementById('carNext'),c=document.getElementById('carousel');if(!t)return;var i=0;
+    function vis(){return parseInt(getComputedStyle(c).getPropertyValue('--vis'))||3;}
+    function max(){return Math.max(0,t.children.length-vis());}
+    function go(n){i=Math.min(max(),Math.max(0,n));var w=t.children[0].getBoundingClientRect().width,g=parseFloat(getComputedStyle(t).columnGap)||0;t.style.transform='translateX('+(-i*(w+g))+'px)';pv.disabled=i<=0;nx.disabled=i>=max();Array.prototype.forEach.call(t.children,function(el,k){var on=k>=i&&k<i+vis();el.setAttribute('aria-hidden',on?'false':'true');el.querySelector('button').tabIndex=on?0:-1;});}
+    pv.addEventListener('click',function(){go(i-1);});nx.addEventListener('click',function(){go(i+1);});window.addEventListener('resize',function(){go(i);});go(0);})();
   function topCard(){window.scrollTo({top:0,behavior:'smooth'});document.getElementById('email').focus();}
 </script>
 
