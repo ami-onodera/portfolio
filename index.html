@@ -1153,6 +1153,16 @@
 
   /* network.exe: a modal-style alert. Opens centred over a darker, blurred backdrop;
      closes with x, _, BACK, a click on the backdrop, or Escape. */
+  /* minesweeper opens in the middle of the screen */
+  var minesWin = document.querySelector('.win[data-window="mines"]');
+  var minesIcon = document.querySelector('[data-open="mines"]');
+  if (minesWin && minesIcon){
+    minesIcon.addEventListener('click', function(){
+      var d = document.getElementById('desktop'), r = d.getBoundingClientRect();
+      minesWin.style.left = Math.max(10, Math.round((window.innerWidth - minesWin.offsetWidth) / 2)) + 'px';
+      minesWin.style.top = Math.max(10, Math.round((window.innerHeight - minesWin.offsetHeight) / 2 - r.top)) + 'px';
+    });
+  }
   var netWin = document.querySelector('.win[data-window="network"]');
   var netIcon = document.querySelector('[data-open="network"]');
   function netClose(){
@@ -1331,6 +1341,6 @@
   tick(); setInterval(tick, 15000);
 </script>
 <script src="assets/js/saori.js?v=4" defer></script>
-<script src="assets/js/mines.js?v=4" defer></script>
+<script src="assets/js/mines.js?v=5" defer></script>
 </body>
 </html>
