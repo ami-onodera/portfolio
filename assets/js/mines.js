@@ -188,14 +188,6 @@
     o.querySelector('.sun-polaroid__shot').style.backgroundImage = 'url("' + base + 'assets/img/y2k/sunset-inspiration.jpg")';
     document.body.appendChild(o);
     o.querySelector('.sun-polaroid__x').focus();
-    /* DEBUG (sunset branch): print the measured sizes under the card */
-    setTimeout(function(){
-      var im = o.querySelector('.sun-polaroid__shot img'), sh = o.querySelector('.sun-polaroid__shot'), cd = o.querySelector('.sun-polaroid__card');
-      var d = document.createElement('p');
-      d.style.cssText = 'margin:8px 0 0;font:11px/1.4 monospace;color:#25283d;max-width:100%;word-break:break-all';
-      d.textContent = 'dbg img ' + im.offsetWidth + 'x' + im.offsetHeight + ' (nat ' + im.naturalWidth + ') shot ' + sh.offsetWidth + 'x' + sh.offsetHeight + ' card ' + cd.offsetWidth + ' win ' + innerWidth + 'x' + innerHeight + ' dpr ' + devicePixelRatio + ' w=' + getComputedStyle(cd).getPropertyValue('--w').trim() + ' fit ' + getComputedStyle(im).objectFit + ' ' + navigator.userAgent.slice(-40);
-      cd.appendChild(d);
-    }, 300);
     if (window.saori && window.saori.say) window.saori.say('That is the sunset that colours this whole site. 💜', 7000);
   }
 
