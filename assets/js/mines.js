@@ -151,9 +151,8 @@
 
 
   /* easter egg: winning develops a polaroid of the sunset that inspired the palette */
-  function polaroid(force){
-    if (document.querySelector('.sun-polaroid')) return;
-    if (force !== true && (state !== 'over' || !root.classList.contains('is-won'))) return;
+  function polaroid(){
+    if (document.querySelector('.sun-polaroid') || state !== 'over' || !root.classList.contains('is-won')) return;
     if (!document.getElementById('sun-polaroid-css')){
       var st = document.createElement('style'); st.id = 'sun-polaroid-css';
       st.textContent =
@@ -221,8 +220,6 @@
     })(t0);
   }
 
-  /* DEBUG (sunset branch): open the polaroid on load so it can be inspected without playing */
-  window.addEventListener('load', function(){ setTimeout(function(){ polaroid(true); }, 400); });
   (new Image()).src = base + 'assets/img/y2k/sunset-inspiration.jpg';
   build();
 })();
