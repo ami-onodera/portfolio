@@ -19,12 +19,6 @@
   .section-win{ transform:none; }
   .live-frame{ aspect-ratio:16 / 10; }
   .live-frame--live iframe, .live-frame--scroll iframe, .live-frame--desk iframe, #c-frame{ pointer-events:auto; }
-  .sunset-egg{ margin:22px 0 0; display:flex; flex-direction:column; align-items:flex-start; gap:10px; position:relative; width:min(100%,230px); }
-  .sunset-egg .tag{ position:absolute; left:-8px; bottom:56px; z-index:2; background:var(--purple); color:var(--indigo); transform:rotate(-1.6deg); box-shadow:2px 2px 0 rgba(37,40,61,.3); max-width:210px; line-height:1.3; }
-  .sunset-egg img{ display:block; width:min(100%,230px); height:auto; border:2px solid var(--indigo); box-shadow:4px 4px 0 rgba(37,40,61,.25); background:#fff; padding:6px; transform:rotate(-1.6deg); transition:transform .25s ease; }
-  .sunset-egg:hover img, .sunset-egg:focus-within img{ transform:rotate(0) scale(1.03); }
-  .sunset-egg figcaption{ font-family:var(--font-pixel); font-size:13px; color:var(--muted); max-width:230px; }
-  @media (prefers-reduced-motion:reduce){ .sunset-egg img{ transition:none; } }
   .small-note{ margin-top:12px; font-size:14px; color:var(--muted); }
 
   /* numbers */
@@ -400,11 +394,6 @@
         </ul>
         <div class="sky-strip" aria-hidden="true"></div>
         <p class="small-note">The page background is a five-stop sky, from morning blue to peach, with a grid floor fading in at the bottom.</p>
-        <figure class="sunset-egg">
-          <img src="../assets/img/y2k/sunset-inspiration.jpg" width="720" height="1279" loading="lazy" alt="A purple, pink and orange sunset seen through a balcony door among autumn trees, with a black and tan shiba inu standing in the foreground">
-          <span class="tag">the sunset, the window, and the shiba</span>
-          <figcaption>the moment that inspired the whole design</figcaption>
-        </figure>
       </div>
       <div class="tile tile--blue c-tl c-br type-win">
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">fonts.ttf</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
@@ -460,7 +449,7 @@
       <div class="eggs">
         <details class="egg"><summary><img src="../assets/img/y2k/shiba.png" alt="" width="28" height="28"><span class="egg-name">saori.exe</span><span class="egg-hint">Every page</span></summary><p>Saori says hello when you land on the desktop, nudges you if the screen goes quiet, welcomes you back on a second visit and woofs if you click her. Each page has its own lines.</p></details>
         <details class="egg"><summary><img src="../assets/img/y2k/trash.png" alt="" width="28" height="28"><span class="egg-name">Trash</span><span class="egg-hint">Home desktop</span></summary><p>Click the bin to open it and click the files: each one has a story, like <code>border-radius-everything.css</code>. Right-click the bin for “Empty Trash” and watch everything come back (Saori: “Nice try.”). The best file in there, <code>zumzumzum.mp4</code>, plays a short video of her.</p></details>
-        <details class="egg"><summary><img src="../assets/img/y2k/mine-dark.png" alt="" width="28" height="28"><span class="egg-name">minesweeper.exe</span><span class="egg-hint">Home desktop</span></summary><p>A real, simplified game on one fixed 8 by 8 map, so the smiley button replays the same board. Right-click to flag. Clear every safe square and confetti falls.</p></details>
+        <details class="egg"><summary><img src="../assets/img/y2k/mine-dark.png" alt="" width="28" height="28"><span class="egg-name">minesweeper.exe</span><span class="egg-hint">Home desktop</span></summary><p>A real, simplified game on one fixed 8 by 8 map, so the smiley button replays the same board. Right-click to flag. Clear every safe square and confetti falls, followed by a polaroid of the sunset, the window and the shiba that inspired the whole palette. Saori has a comment about it.</p></details>
         <details class="egg"><summary><img src="../assets/img/y2k/about.png" alt="" width="28" height="28"><span class="egg-name">skills_and_tools.bmp</span><span class="egg-hint">About</span></summary><p>The Paint window actually paints: brush, eraser, eyedropper, shapes and more. Click a colour in the palette and the skill pills repaint themselves.</p></details>
         <details class="egg"><summary><img src="../assets/img/y2k/selected-work.png" alt="" width="28" height="28"><span class="egg-name">experience.log</span><span class="egg-hint">About</span></summary><p>My experience is a chat window, and the message box at the bottom works. Send one message and you get a reply.</p></details>
         <details class="egg"><summary><img src="../assets/img/y2k/network.png" alt="" width="28" height="28"><span class="egg-name">network.exe</span><span class="egg-hint">Home desktop</span></summary><p>The network icon opens a dialog with my email. The address is never written in the page source: it is stored backwards and put together when you ask for it.</p></details>

@@ -110,6 +110,7 @@
     leftC.textContent = pad(0);
     if (window.saori && window.saori.say) window.saori.say('You did it! Not a single boom.', 7000);
     confetti();
+    setTimeout(polaroid, REDUCED ? 200 : 1100);
   }
 
   function reveal(r, c){
@@ -148,6 +149,45 @@
   document.addEventListener('mouseup', function(){ if (state !== 'over' && face.getAttribute('data-face') === 'ooh') setFace('smile'); });
   face.addEventListener('click', function(){ build(); });
 
+
+  /* easter egg: winning develops a polaroid of the sunset that inspired the palette */
+  function polaroid(){
+    if (document.querySelector('.sun-polaroid') || state !== 'over' || !root.classList.contains('is-won')) return;
+    if (!document.getElementById('sun-polaroid-css')){
+      var st = document.createElement('style'); st.id = 'sun-polaroid-css';
+      st.textContent =
+        '.sun-polaroid{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:rgba(37,40,61,.35);animation:sunFade .3s ease both}' +
+        '.sun-polaroid__card{position:relative;margin:16px;padding:12px 12px 16px;background:#fffdf7;border:2px solid #25283d;box-shadow:6px 6px 0 rgba(37,40,61,.35);transform:rotate(-3deg);animation:sunPop .6s cubic-bezier(.2,1.3,.4,1) both;max-width:calc(100vw - 32px)}' +
+        '.sun-polaroid__shot{position:relative;line-height:0;border:2px solid #25283d}' +
+        '.sun-polaroid__shot img{display:block;width:auto;height:auto;max-width:100%;max-height:min(58vh,440px);aspect-ratio:720/1279;object-fit:cover}' +
+        '.sun-polaroid__tag{position:absolute;left:-8px;bottom:14px;max-width:calc(100% - 4px);padding:3px 8px;font:600 11px/1.3 "Silkscreen","Quicksand",monospace;letter-spacing:.3px;text-transform:uppercase;color:#25283d;background:#d7bce8;border:1.5px solid #25283d;box-shadow:2px 2px 0 rgba(37,40,61,.3);transform:rotate(-1.6deg)}' +
+        '.sun-polaroid__cap{margin:12px 6px 0;max-width:230px;font:600 15px/1.35 "Quicksand",system-ui,sans-serif;color:#25283d;text-align:center}' +
+        '.sun-polaroid__x{position:absolute;top:-14px;right:-14px;width:30px;height:30px;display:grid;place-items:center;font:700 16px/1 monospace;color:#fff;background:#ef798a;border:2px solid #25283d;cursor:pointer;box-shadow:2px 2px 0 rgba(37,40,61,.3)}' +
+        '.sun-polaroid__x:focus-visible{outline:3px solid #8ab4ff;outline-offset:2px}' +
+        '@keyframes sunPop{from{opacity:0;transform:translateY(-60px) rotate(8deg) scale(.7)}to{opacity:1;transform:rotate(-3deg)}}' +
+        '@keyframes sunFade{from{opacity:0}to{opacity:1}}' +
+        '@media (prefers-reduced-motion:reduce){.sun-polaroid,.sun-polaroid__card{animation:none}}';
+      document.head.appendChild(st);
+    }
+    var o = document.createElement('div');
+    o.className = 'sun-polaroid'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-label', 'A polaroid of the sunset, the window and the shiba');
+    o.innerHTML =
+      '<div class="sun-polaroid__card">' +
+        '<button type="button" class="sun-polaroid__x" aria-label="Close the photo">x</button>' +
+        '<div class="sun-polaroid__shot"><img src="' + base + 'assets/img/y2k/sunset-inspiration.jpg" alt="A purple, pink and orange sunset seen through a balcony door among autumn trees, with a black and tan shiba inu in the foreground" draggable="false">' +
+        '<span class="sun-polaroid__tag">the sunset, the window, and the shiba</span></div>' +
+        '<p class="sun-polaroid__cap">the moment that inspired the whole design</p>' +
+      '</div>';
+    var prev = document.activeElement;
+    function close(){ document.removeEventListener('keydown', onKey); o.remove(); if (prev && prev.focus) try { prev.focus(); } catch (e) {} }
+    function onKey(e){ if (e.key === 'Escape') close(); }
+    o.addEventListener('click', function(e){ if (e.target === o || e.target.closest('.sun-polaroid__x')) close(); });
+    document.addEventListener('keydown', onKey);
+    document.body.appendChild(o);
+    o.querySelector('.sun-polaroid__x').focus();
+    if (window.saori && window.saori.say) window.saori.say('That is the sunset that colours this whole site. 💜', 7000);
+  }
+
   /* confetti: pastel pieces fall from the top of the screen for a few seconds */
   function confetti(){
     if (REDUCED) return;
@@ -178,5 +218,6 @@
     })(t0);
   }
 
+  (new Image()).src = base + 'assets/img/y2k/sunset-inspiration.jpg';
   build();
 })();
