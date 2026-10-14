@@ -158,7 +158,7 @@
       st.textContent =
         '.sun-polaroid{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:rgba(37,40,61,.35);animation:sunFade .3s ease both}' +
         '.sun-polaroid__card{position:relative;margin:16px;padding:12px 12px 16px;background:#fffdf7;border:2px solid #25283d;box-shadow:6px 6px 0 rgba(37,40,61,.35);transform:rotate(-3deg);animation:sunPop .6s cubic-bezier(.2,1.3,.4,1) both;max-width:calc(100vw - 32px)}' +
-        '.sun-polaroid__card{--w:min(260px,calc(58vh * 0.563),calc(100vw - 80px));box-sizing:content-box;width:calc(var(--w) + 4px)}' +
+        '.sun-polaroid__card{--w:min(260px,calc(58vh * 0.563),calc(100vw - 80px));box-sizing:content-box;width:var(--w)}' +
         '.sun-polaroid__shot{position:relative;line-height:0;border:2px solid #25283d;width:var(--w);overflow:hidden;background:#3a2a4a center/cover no-repeat}' +
         '.sun-polaroid__shot img{display:block;width:100%;height:auto;aspect-ratio:720/1279;object-fit:cover}' +
         '.sun-polaroid__tag{position:absolute;left:-8px;top:14px;max-width:calc(100% - 4px);padding:4px 9px;font:600 11px/1.3 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.2px;text-transform:uppercase;color:#25283d;background:rgba(215,188,232,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border:1.5px solid #25283d;box-shadow:2px 2px 0 rgba(37,40,61,.3);transform:rotate(-1.6deg)}' +
