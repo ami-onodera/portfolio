@@ -159,7 +159,7 @@
         '.sun-polaroid{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:rgba(37,40,61,.35);animation:sunFade .3s ease both}' +
         '.sun-polaroid__card{position:relative;margin:16px;padding:12px 12px 16px;background:#fffdf7;border:2px solid #25283d;box-shadow:6px 6px 0 rgba(37,40,61,.35);transform:rotate(-3deg);animation:sunPop .6s cubic-bezier(.2,1.3,.4,1) both;max-width:calc(100vw - 32px)}' +
         '.sun-polaroid__card{--w:min(260px,calc(58vh * 0.563),calc(100vw - 80px))}' +
-        '.sun-polaroid__shot{position:relative;line-height:0;border:2px solid #25283d;width:var(--w);overflow:hidden}' +
+        '.sun-polaroid__shot{position:relative;line-height:0;border:2px solid #25283d;width:var(--w);overflow:hidden;background:#3a2a4a center/cover no-repeat}' +
         '.sun-polaroid__shot img{display:block;width:100%;height:auto;aspect-ratio:720/1279;object-fit:cover}' +
         '.sun-polaroid__tag{position:absolute;left:-8px;top:14px;max-width:calc(100% - 4px);padding:4px 9px;font:600 11px/1.3 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.2px;text-transform:uppercase;color:#25283d;background:rgba(215,188,232,.5);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border:1.5px solid #25283d;box-shadow:2px 2px 0 rgba(37,40,61,.3);transform:rotate(-1.6deg)}' +
         '.sun-polaroid__cap{margin:12px 6px 0;max-width:var(--w);font:600 15px/1.35 "Quicksand",system-ui,sans-serif;color:#25283d;text-align:center}' +
@@ -184,6 +184,7 @@
     function onKey(e){ if (e.key === 'Escape') close(); }
     o.addEventListener('click', function(e){ if (e.target === o || e.target.closest('.sun-polaroid__x')) close(); });
     document.addEventListener('keydown', onKey);
+    o.querySelector('.sun-polaroid__shot').style.backgroundImage = 'url("' + base + 'assets/img/y2k/sunset-inspiration.jpg")';
     document.body.appendChild(o);
     o.querySelector('.sun-polaroid__x').focus();
     if (window.saori && window.saori.say) window.saori.say('That is the sunset that colours this whole site. 💜', 7000);
