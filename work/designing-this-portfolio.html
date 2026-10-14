@@ -19,6 +19,11 @@
   .section-win{ transform:none; }
   .live-frame{ aspect-ratio:16 / 10; }
   .live-frame--live iframe, .live-frame--scroll iframe, .live-frame--desk iframe, #c-frame{ pointer-events:auto; }
+  .sunset-egg{ margin:22px 0 0; display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
+  .sunset-egg img{ display:block; width:min(100%,230px); height:auto; border:2px solid var(--indigo); box-shadow:4px 4px 0 rgba(37,40,61,.25); background:#fff; padding:6px; transform:rotate(-1.6deg); transition:transform .25s ease; }
+  .sunset-egg:hover img, .sunset-egg:focus-within img{ transform:rotate(0) scale(1.03); }
+  .sunset-egg figcaption{ font-family:var(--font-pixel); font-size:13px; color:var(--muted); max-width:230px; }
+  @media (prefers-reduced-motion:reduce){ .sunset-egg img{ transition:none; } }
   .small-note{ margin-top:12px; font-size:14px; color:var(--muted); }
 
   /* numbers */
@@ -394,6 +399,11 @@
         </ul>
         <div class="sky-strip" aria-hidden="true"></div>
         <p class="small-note">The page background is a five-stop sky, from morning blue to peach, with a grid floor fading in at the bottom.</p>
+        <figure class="sunset-egg">
+          <span class="tag">the sunset, the window, and the shiba</span>
+          <img src="../assets/img/y2k/sunset-inspiration.jpg" width="720" height="1279" loading="lazy" alt="A purple, pink and orange sunset seen through a balcony door among autumn trees, with a black and tan shiba inu standing in the foreground">
+          <figcaption>the moment that inspired the whole design</figcaption>
+        </figure>
       </div>
       <div class="tile tile--blue c-tl c-br type-win">
         <div class="win-bar"><span class="titlewrap"><span class="bar-icon bar-icon--folder"></span><span class="title">fonts.ttf</span></span><span class="btns"><i>_</i><i>▢</i><i>x</i></span></div>
